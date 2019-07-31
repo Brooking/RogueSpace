@@ -1,6 +1,7 @@
 #ifndef _tile_h_
 #define _tile_h_
 
+#include <stdexcept>
 #include <vector>
 #include <assert.h>
 #include "../inc/uitokens.h"
@@ -21,7 +22,7 @@ public:
     // iThing
     virtual UIToken token() const { return this->token_; }
     virtual Tile* tile() const { return const_cast<Tile*>(this); }
-    virtual void set_tile(Tile*) { assert(false); }
+    virtual bool set_tile(Tile*) { throw std::domain_error("Can not set the tile of a tile"); }
 
     // utility
     Location where() { return location_; }
@@ -29,8 +30,8 @@ public:
     bool is_open() const { return true; }
 
     // thing management
-    void add(iThing* thing);
-    void remove(iThing* thing);
+    bool add(iThing* thing);
+    bool remove(iThing* thing);
     int num_things() const { return this->things_.size(); }
     const iThing* operator [] (int i) const { return const_cast<const iThing*>(this->things_[i]); }
 

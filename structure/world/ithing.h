@@ -10,9 +10,15 @@ class Tile;
 class iThing
 {
 public:
+    // How this thing should be displayed in the UI
     virtual UIToken token() const = 0;
+
+    // The tile that this thing is on
     virtual Tile* tile() const = 0;
-    virtual void set_tile(Tile* tile) = 0;
+
+    // Change this thing's tile 
+    // todo: this method does not check the current tile before working...
+    virtual bool set_tile(Tile* tile) = 0;
 };
 
 #endif // _ithing_h_

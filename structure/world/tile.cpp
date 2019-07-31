@@ -1,16 +1,25 @@
+#include <assert.h>
 #include "tile.h"
-#include "assert.h"
 
-void Tile::add(iThing* thing)
+bool Tile::add(iThing* thing)
 {
-    assert(thing->tile() == nullptr);
-    this->things_.push_back(thing);
-    thing->set_tile(this);
+    if (thing != nullptr && thing->tile() == nullptr)
+    {
+        this->things_.push_back(thing);
+        thing->set_tile(this);
+        return true;
+    }
+    
+    return false;
 }
 
-void Tile::remove(iThing* thing)
+bool Tile::remove(iThing* thing)
 {
-    assert(thing->tile() == this);
+    if (thing == nullptr || thing->tile() != this) 
+    {
+        return false;
+    }
+
     bool thing_found = false;
     for (size_t i = 0; i < this->things_.size(); i++) 
     {
@@ -23,6 +32,5 @@ void Tile::remove(iThing* thing)
         }
     }
 
-    // ensure we found the thing
-    assert(thing_found);
+    return thing_found;
 }

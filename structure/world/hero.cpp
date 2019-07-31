@@ -2,20 +2,23 @@
 #include "hero.h"
 #include "floor.h"
 
-void Hero::move(Direction direction)
+bool Hero::move(Direction direction)
 {
-    Location newLocation = apply_direction(this->where(), direction);
+    Location newLocation = this->where().apply_direction(direction);
     Floor* floor = const_cast<Floor*>(this->tile_->floor());
-    Tile* newTile = floor->tile(newLocation);
-    if (newTile->is_open()) 
+    Tile* newTile = floor->tile(newLocation);    
+    if (newTile != nullptr && newTile->is_open()) 
     {
         this->tile_->remove(this);
         newTile->add(this);
         this->tile_ = newTile;
+        return true;
     }
+
+    return false;
 }
 
-void Hero::move_to(Location location)
+bool Hero::move_to(Location location)
 {
-    assert(false);
+    throw std::domain_error("move_to not yet implemented on hero");
 }

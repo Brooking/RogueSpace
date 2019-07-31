@@ -19,12 +19,13 @@ public:
     // iThing
     virtual UIToken token() const { return this->token_; }
     virtual Tile* tile() const {return this->tile_;}
-    virtual Location where() const { return this->tile_->where(); }
-    virtual void set_tile(Tile* tile) { this->tile_ = tile; }
+    virtual bool set_tile(Tile* tile) { this->tile_ = tile; return true; }
+    
+    Location where() const { return (this->tile_ == nullptr) ? Location(-1,-1) : this->tile_->where(); }
 
     // command stuff
-    void move(Direction direction);
-    void move_to(Location location);
+    bool move(Direction direction);
+    bool move_to(Location location);
 
 private:
     UIToken token_;

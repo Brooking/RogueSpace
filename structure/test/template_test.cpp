@@ -3,9 +3,11 @@
 
 TEST_CASE("testcase", "[category]")
 {
-    // set up
+    // arrange
 
-    // test
+    // act
+
+    // assert
     INFO(1);
     REQUIRE(1 == 1);
 }

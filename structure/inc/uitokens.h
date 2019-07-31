@@ -4,6 +4,7 @@
 enum class UIToken
 {
     none = 0,
+    test,
     bare_floor,
     hero,
 };

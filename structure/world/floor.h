@@ -15,7 +15,7 @@ public:
 
     int height() { return tile_.size(); }
     int width() { return tile_[0].size(); }
-    Tile* tile(Location location) {return (&(this->tile_[location.row][location.cell])); }
+    Tile* tile(Location location);
 
 private:
     std::vector<std::vector<Tile>> tile_;
