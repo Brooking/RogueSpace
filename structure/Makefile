@@ -6,7 +6,7 @@ all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world
 lib_dir=-L$(CURDIR)/lib
 
 common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h
-world_includes=world/floor.h world/hero.h world/ithing.h world/tile.h
+world_includes=world/floor.h world/hero.h world/ithing.h world/tile.h world/wall.h
 ui_includes=ui/icon.h ui/icurses.h ui/realcurses.h ui/screen.h ui/viewport.h
 
 all: \
@@ -35,7 +35,8 @@ worldtests.out: \
 		test/ithing_mock.h \
 		test/location_test.cpp \
 		test/template_test.cpp \
-		test/tile_test.cpp
+		test/tile_test.cpp \
+		test/wall_test.cpp
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
 		$(lib_dir) \
@@ -45,6 +46,7 @@ worldtests.out: \
 		test/location_test.cpp \
 		test/template_test.cpp \
 		test/tile_test.cpp \
+		test/wall_test.cpp \
 		-lworld \
 		-o worldtests.out
 
@@ -58,10 +60,12 @@ lib/libworld.a : \
 		obj/tile.o
 
 lib/libui.a : \
+		obj/icon.o \
 		obj/realcurses.o \
 		obj/screen.o \
 		obj/viewport.o
 	ar crf lib/libui.a \
+		obj/icon.o \
 		obj/realcurses.o \
 		obj/screen.o \
 		obj/viewport.o
@@ -89,6 +93,14 @@ obj/tile.o : \
 	$(cc) $(cflags) $(common_include_dirs) \
 		-c world/tile.cpp \
 		-o obj/tile.o
+
+obj/icon.o : \
+		$(common_includes) \
+		$(ui_includes) \
+		ui/icon.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c ui/icon.cpp \
+		-o obj/icon.o
 
 obj/realcurses.o : \
 		$(common_includes) \

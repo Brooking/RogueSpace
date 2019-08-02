@@ -2,6 +2,7 @@
 #include <iostream>
 #include "hero.h"
 #include "floor.h"
+#include "ithing_mock.h"
 
 TEST_CASE("hero_withConstruction_shouldCreate", "[hero]")
 {
@@ -64,6 +65,22 @@ TEST_CASE("hero_withUpOffMove_shouldNotMove", "[hero]")
 
     // act
     bool moved = hero.move(Direction::North);
+
+    // assert
+    REQUIRE(moved == false);
+    REQUIRE(hero.tile() == floor.tile(Location(0,0)));
+}
+
+TEST_CASE("hero_withMoveIntoWall_shouldNotMove", "[hero]")
+{
+    // arrange
+    Floor floor(1,2);
+    Hero hero(floor.tile(Location(0,0)));
+    iThingMock wall(UIToken::test, floor.tile(Location(0,1)), /*fills*/true);
+    floor.tile(Location(0,1))->add(&wall);
+
+    // act
+    bool moved = hero.move(Direction::East);
 
     // assert
     REQUIRE(moved == false);

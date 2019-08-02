@@ -15,6 +15,9 @@ public:
 
     // The tile that this thing is on
     virtual Tile* tile() const = 0;
+
+    // This thing fills the tile
+    virtual bool fills_tile() const = 0;
 };
 
 #endif // _ithing_h_

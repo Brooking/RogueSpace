@@ -15,7 +15,7 @@ TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
     REQUIRE(tile.token() == UIToken::bare_floor);    
     REQUIRE(tile.where() == location);
     REQUIRE(tile.floor() == nullptr);
-    REQUIRE(tile.is_open() == true);
+    REQUIRE(tile.is_full() == false);
     REQUIRE(tile.num_things() == 0);
 }
 
@@ -23,7 +23,7 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(-1,2));
-    iThingMock thing(UIToken::none, /*tile*/nullptr);
+    iThingMock thing(UIToken::none, /*tile*/nullptr, /*fills*/false);
 
     // act
     bool addWorked = tile.add(&thing);
@@ -32,6 +32,59 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
     REQUIRE(addWorked == true);
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
+    REQUIRE(tile.is_full() == false);
+}
+
+TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
+{
+    // arrange
+    Tile tile(/*floor*/nullptr, Location(-1,2));
+    iThingMock thing1(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    tile.add(&thing1);
+    iThingMock thing2(UIToken::none, /*tile*/nullptr, /*fills*/true);
+
+    // act
+    bool addWorked = tile.add(&thing2);
+
+    // assert
+    REQUIRE(addWorked == false);
+    REQUIRE(tile.num_things() == 1);
+    REQUIRE(tile[0]->token() == UIToken::none);
+    REQUIRE(tile.is_full() == true);
+}
+
+TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
+{
+    // arrange
+    Tile tile(/*floor*/nullptr, Location(-1,2));
+    iThingMock thing1(UIToken::none, /*tile*/nullptr);
+    tile.add(&thing1);
+    iThingMock thing2(UIToken::none, /*tile*/nullptr, /*fills*/true);
+
+    // act
+    bool addWorked = tile.add(&thing2);
+
+    // assert
+    REQUIRE(addWorked == false);
+    REQUIRE(tile.num_things() == 1);
+    REQUIRE(tile[0]->token() == UIToken::none);
+    REQUIRE(tile.is_full() == false);
+}
+
+TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
+{
+    // arrange
+    Tile tile(/*floor*/nullptr, Location(-1,2));
+    iThingMock thing(UIToken::none, /*tile*/nullptr, /*fills*/true);
+
+    // act
+    bool addWorked = tile.add(&thing);
+
+    // assert
+    REQUIRE(addWorked == true);
+    REQUIRE(tile.num_things() == 1);
+    REQUIRE(tile[0]->token() == UIToken::none);
+    REQUIRE(tile.is_full() == true);
 }
 
 TEST_CASE("tile_withAddNull_shouldFail", "[tile]")
@@ -60,6 +113,23 @@ TEST_CASE("tile_withRemove_shouldRemoveThing", "[tile]")
     // assert
     REQUIRE(remove_worked == true);
     REQUIRE(tile.num_things() == 0);
+    REQUIRE(tile.is_full() == false);
+}
+
+TEST_CASE("tile_withFullRemove_shouldRemoveThing", "[tile]")
+{
+    // arrange
+    Tile tile(/*floor*/nullptr, Location(5,1));
+    iThingMock thing(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    tile.add(&thing);
+
+    // act
+    bool remove_worked = tile.remove(&thing);
+
+    // assert
+    REQUIRE(remove_worked == true);
+    REQUIRE(tile.num_things() == 0);
+    REQUIRE(tile.is_full() == false);
 }
 
 TEST_CASE("tile_withRemoveNull_shouldFailElegantly", "[tile]")
@@ -124,4 +194,3 @@ TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
 }
- 

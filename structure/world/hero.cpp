@@ -11,7 +11,7 @@ Hero::Hero(Tile* tile) :
 
 bool Hero::place(Tile* tile)
 {
-    if (tile != nullptr && tile->is_open())
+    if (tile != nullptr && !tile->is_full())
     {
         if (this->tile_ != nullptr)
         {
@@ -31,7 +31,7 @@ bool Hero::move(Direction direction)
     Location newLocation = this->where().apply_direction(direction);
     Floor* floor = const_cast<Floor*>(this->tile_->floor());
     Tile* newTile = floor->tile(newLocation);    
-    if (newTile != nullptr && newTile->is_open()) 
+    if (newTile != nullptr && !newTile->is_full()) 
     {
         this->tile_->remove(this);
         newTile->add(this);

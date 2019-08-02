@@ -6,6 +6,7 @@ enum class UIToken
     none = 0,
     test,
     bare_floor,
+    wall,
     hero,
     num_tokens
 };

@@ -22,6 +22,9 @@ public:
 
     // return the hero's current tile
     virtual Tile* tile() const {return this->tile_;}
+
+    // a hero does not fill the tile
+    virtual bool fills_tile() const { return false; }
     
     // where is this hero now
     Location where() const { return (this->tile_ == nullptr) ? Location(-1,-1) : this->tile_->where(); }

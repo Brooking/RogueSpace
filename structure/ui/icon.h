@@ -25,6 +25,7 @@ static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconLis
     IconData(UIToken::none, COLOR_PAIR(1), ' '),
     IconData(UIToken::test, COLOR_PAIR(1), '?'),
     IconData(UIToken::bare_floor, COLOR_PAIR(1), '.'),
+    IconData(UIToken::wall, COLOR_PAIR(1), '+'),
     IconData(UIToken::hero, COLOR_PAIR(1), '@')
 };
 
@@ -36,21 +37,15 @@ static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconLis
 class Icon
 {
 public:
-    Icon(UIToken token) : token_(token)
-    {
-        if ((long unsigned int)token >= (long unsigned int)UIToken::num_tokens)
-        {
-            throw std::invalid_argument("token too large");
-        }
-        this->color_pair_ = IconList[(long unsigned int)token].color_pair;
-        this->symbol_ = IconList[(long unsigned int)token].symbol;
-    }
+    Icon(UIToken token);
+    virtual ~Icon() {}
 
+    // the display color pair
     int color_pair() { return this->color_pair_; }
 
+    // the symbol to show
     char symbol() { return this->symbol_; }
 
-private:
 private:
     UIToken token_;
     int color_pair_;

@@ -4,6 +4,7 @@
 #include "../world/floor.h"
 #include "../world/hero.h"
 #include "../ui/viewport.h"
+#include "../world/wall.h"
 
 void game_loop(int ch, iCurses& curses, Viewport& viewport, Hero& hero);
 
@@ -24,6 +25,24 @@ int main()
     Location starting_spot(floor.height()/2, floor.width()/2);
     Tile* starting_tile = floor.tile(starting_spot);
     Hero hero(starting_tile);
+
+    // put walls around the outside
+    // todo, these will leak, they should be unique_ptr attached to tiles
+    for (int row = 0; row < floor.height(); row++)
+    {
+        if (row == 0 || row == floor.height()-1)
+        {
+            for (int cell = 0; cell < floor.width(); cell++)
+            {
+                new Wall(floor.tile(Location(row,cell)));
+            }
+        }
+        else
+        {
+            new Wall(floor.tile(Location(row,0)));
+            new Wall(floor.tile(Location(row,floor.width()-1)));
+        }
+    }
 
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(*curses, screen, floor, starting_spot);

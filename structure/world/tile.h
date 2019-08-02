@@ -16,17 +16,20 @@ class Floor;
 class Tile : public iThing
 {
 public:
-    Tile(Floor* floor, Location location) : floor_(floor), token_(UIToken::bare_floor), location_(location) {}
+    Tile(Floor* floor, Location location) : 
+        floor_(floor), token_(UIToken::bare_floor), location_(location), full_(false) 
+    {}
     ~Tile() {}
 
     // iThing
     virtual UIToken token() const;
     virtual Tile* tile() const { return const_cast<Tile*>(this); }
+    virtual bool fills_tile() const { return false; }
 
     // utility
     Location where() { return location_; }
     const Floor* floor() const { return this->floor_; }
-    bool is_open() const { return true; }
+    bool is_full() const { return this->full_; }
 
     // thing management
     bool add(iThing* thing);
@@ -42,6 +45,7 @@ private:
     UIToken token_;
     Location location_;
     std::vector<iThing*> things_;
+    bool full_;
 };
 
 #endif // _tile_h_
