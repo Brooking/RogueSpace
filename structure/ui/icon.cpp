@@ -22,6 +22,10 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
         // todo: this should be in a table, but the curses library macros screw it up        
         switch(adjacency)
         {
+            case /* none*/ 0:
+                this->symbol_ = '+';
+                break;
+
             case /* N   */ 1:
             case /* S   */ 4:
             case /* NS  */ 5:

@@ -55,6 +55,9 @@ int main()
         new Wall(floor.tile(Location(row, wall_cell)));
     }
 
+    // make a pillar
+    new Wall (floor.tile(Location(2,2)));
+
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(*curses, screen, floor, starting_spot);
     floor.register_update(&viewport);
