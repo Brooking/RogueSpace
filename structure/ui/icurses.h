@@ -51,7 +51,7 @@ public:
     virtual int attroff_m(int attributes) = 0;
 
     // add a character to specific spot in a window
-    virtual int mvwaddch_m(void* window, int y, int x, char ch) = 0;
+    virtual int mvwaddch_m(void* window, int y, int x, unsigned long ch) = 0;
 
     // get keyboard input
     virtual int getch_m() = 0;

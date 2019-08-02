@@ -44,6 +44,17 @@ int main()
         }
     }
 
+    // put a wall with a door through the center
+    int wall_cell = hero.where().cell()+1;
+    for (int row = 1; row < hero.where().row(); row++)
+    {
+        new Wall(floor.tile(Location(row, wall_cell)));
+    }
+    for (int row = hero.where().row()+1; row < floor.height()-1; row++)
+    {
+        new Wall(floor.tile(Location(row, wall_cell)));
+    }
+
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(*curses, screen, floor, starting_spot);
     floor.register_update(&viewport);

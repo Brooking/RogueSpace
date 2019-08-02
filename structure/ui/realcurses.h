@@ -25,7 +25,7 @@ public:
     virtual int init_pair(short index, short foreground, short background);
     virtual int attron_m(int attributes);
     virtual int attroff_m(int attributes);
-    virtual int mvwaddch_m(void* window, int y, int x, char ch);
+    virtual int mvwaddch_m(void* window, int y, int x, unsigned long ch);
     virtual int getch_m();
     virtual int printw(const char * message);
     virtual void* newwin(int nlines, int ncols, int begin_y, int begin_x);

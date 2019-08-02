@@ -69,7 +69,7 @@ int RealCurses::attroff_m(int attributes)
     return attroff(attributes);
 }
 
-int RealCurses::mvwaddch_m(void* window, int y, int x, char ch)
+int RealCurses::mvwaddch_m(void* window, int y, int x, unsigned long ch)
 {
     // call the macro
     return mvwaddch((WINDOW*)window, y, x, ch);

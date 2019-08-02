@@ -1,3 +1,4 @@
+#include <bitset>
 #include "viewport.h"
 #include "icon.h"
 
@@ -41,7 +42,15 @@ bool Viewport::full_update()
 bool Viewport::update(Location location)
 {
     UIToken token = this->floor_.token(location);
-    Icon icon(token);
+    std::bitset<8> adjacency;
+    if (token == UIToken::wall)
+    {
+        adjacency[AdjacentWallBits::North] = this->floor_.token(Location(location.row()-1, location.cell())) == UIToken::wall;
+        adjacency[AdjacentWallBits::East] = this->floor_.token(Location(location.row(), location.cell()+1)) == UIToken::wall;
+        adjacency[AdjacentWallBits::South] = this->floor_.token(Location(location.row()+1, location.cell())) == UIToken::wall;
+        adjacency[AdjacentWallBits::West] = this->floor_.token(Location(location.row(), location.cell()-1)) == UIToken::wall;
+    }
+    Icon icon(token, static_cast<int>(adjacency.to_ulong()));
     this->curses_.start_color();
     this->curses_.attron_m(icon.color_pair());
     this->curses_.mvwaddch_m(this->parent_window_, location.row(), location.cell(), icon.symbol());
