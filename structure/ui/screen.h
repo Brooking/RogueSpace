@@ -12,16 +12,16 @@ public:
     ~Screen();
 
     // Print a message to the screen
-    void Add(const char* Message);
+    void add(const char* Message);
 
     // accessors
-    int Width();
-    int Height();
+    int width();
+    int height();
 
 private:
     iCurses& curses_;
-    int _width;
-    int _height;
+    int width_;
+    int height_;
 };
 
 #endif // screen_h_

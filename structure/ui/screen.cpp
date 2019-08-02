@@ -21,11 +21,11 @@ Screen::Screen(iCurses& curses) : curses_(curses) {
     curses_.curs_set(0);
 
     // fetch the screen size
-    curses_.getmaxyx_m(curses_.stdscr_m(), this->_height, this->_width);
+    curses_.getmaxyx_m(curses_.stdscr_m(), this->height_, this->width_);
 
     // check for colors
     if (!curses_.has_colors()) {
-        this->Add("no colors");
+        this->add("no colors");
     }
 
     // enable colors
@@ -37,14 +37,14 @@ Screen::~Screen() {
     curses_.endwin();
 }
 
-void Screen::Add(const char* Message) {
+void Screen::add(const char* Message) {
     curses_.printw(Message);
 }
 
-int Screen::Height() {
-    return this->_height;
+int Screen::height() {
+    return this->height_;
 }
 
-int Screen::Width() {
-    return this->_width;
+int Screen::width() {
+    return this->width_;
 }

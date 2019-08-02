@@ -4,8 +4,8 @@
 #include <stdexcept>
 #include <vector>
 #include <assert.h>
-#include "../inc/uitokens.h"
-#include "../inc/location.h"
+#include "uitokens.h"
+#include "location.h"
 #include "ithing.h"
 
 class Floor;
@@ -20,9 +20,8 @@ public:
     ~Tile() {}
 
     // iThing
-    virtual UIToken token() const { return this->token_; }
+    virtual UIToken token() const;
     virtual Tile* tile() const { return const_cast<Tile*>(this); }
-    virtual bool set_tile(Tile*) { throw std::domain_error("Can not set the tile of a tile"); }
 
     // utility
     Location where() { return location_; }

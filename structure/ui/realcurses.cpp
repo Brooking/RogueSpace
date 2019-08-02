@@ -1,112 +1,156 @@
 #include <ncurses.h>
 #include "realcurses.h"
 
-void* Curses::initscr()
+void* RealCurses::initscr()
 {
     return ::initscr();
 }
 
-int Curses::endwin()
+int RealCurses::endwin()
 {
     return ::endwin();
 }
 
-int Curses::noecho()
+int RealCurses::noecho()
 {
     return ::noecho();
 }
 
-int Curses::cbreak()
+int RealCurses::cbreak()
 {
     return ::cbreak();
 }
 
-int Curses::keypad(void* window, bool enable_extended_single_value)
+int RealCurses::keypad(void* window, bool enable_extended_single_value)
 {
     return ::keypad((WINDOW*)window, enable_extended_single_value);
 }
 
-int Curses::clear()
+int RealCurses::clear()
 {
     return ::clear();
 }
 
-int Curses::curs_set(int visibility)
+int RealCurses::curs_set(int visibility)
 {
     return ::curs_set(visibility);
 }
 
-void Curses::getmaxyx_m(void* window, int& y, int& x)
+void RealCurses::getmaxyx_m(void* window, int& y, int& x)
 {
     // call the macro
     getmaxyx((WINDOW*)window, y, x);
 }
 
-bool Curses::has_colors()
+bool RealCurses::has_colors()
 {
     return ::has_colors();
 }
 
-int Curses::start_color()
+int RealCurses::start_color()
 {
     return ::start_color();
 }
 
-int Curses::init_pair(short index, short foreground, short background)
+int RealCurses::init_pair(short index, short foreground, short background)
 {
     return ::init_pair(index, foreground, background);
 }
 
-int Curses::attron_m(int attributes)
+int RealCurses::attron_m(int attributes)
 {
     // call the macro
     return attron(attributes);
 }
 
-int Curses::attroff_m(int attributes)
+int RealCurses::attroff_m(int attributes)
 {
     // call the macro
     return attroff(attributes);
 }
 
-int Curses::mvwaddch_m(void* window, int y, int x, char ch)
+int RealCurses::mvwaddch_m(void* window, int y, int x, char ch)
 {
     // call the macro
     return mvwaddch((WINDOW*)window, y, x, ch);
 }
 
-int Curses::getch_m()
+int RealCurses::getch_m()
 {
     return getch();
 }
 
-int Curses::printw(const char * message)
+int RealCurses::printw(const char * message)
 {
     return ::printw(message);
 }
 
-void* Curses::newwin(int nlines, int ncols, int begin_y, int begin_x)
+void* RealCurses::newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
     return (void*)::newwin(nlines, ncols, begin_y, begin_x);
 }
 
-void* Curses::derwin(void* orig, int nlines, int ncols, int begin_y, int begin_x)
+void* RealCurses::derwin(void* orig, int nlines, int ncols, int begin_y, int begin_x)
 {
     return (void*)::derwin((WINDOW*)orig, nlines, ncols, begin_y, begin_x);
 }
 
-int Curses::delwin(void* window)
+int RealCurses::delwin(void* window)
 {
     return ::delwin((WINDOW*)window);
 }
 
-int Curses::mvderwin(void* window, int y, int x)
+int RealCurses::mvderwin(void* window, int y, int x)
 {
     return ::mvderwin((WINDOW*)window, y, x);
 }
 
-// todo remove the _m
-void* Curses::stdscr_m()
+int RealCurses::wrefresh(void* window)
+{
+    return ::wrefresh((WINDOW*)window);
+}
+
+void* RealCurses::stdscr_m()
 {
     return ::stdscr;
+}
+
+int RealCurses::key_up()
+{
+    return KEY_UP;
+}
+
+int RealCurses::key_up_right()
+{
+    return KEY_A3;
+}
+
+int RealCurses::key_right()
+{
+    return KEY_RIGHT;
+}
+
+int RealCurses::key_down_right()
+{
+    return KEY_C3;
+}
+
+int RealCurses::key_down()
+{
+    return KEY_DOWN;
+}
+
+int RealCurses::key_down_left()
+{
+    return KEY_C1;
+}
+
+int RealCurses::key_left()
+{
+    return KEY_LEFT;
+}
+
+int RealCurses::key_up_left()
+{
+    return KEY_A1;    
 }

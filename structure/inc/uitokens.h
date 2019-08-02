@@ -7,6 +7,7 @@ enum class UIToken
     test,
     bare_floor,
     hero,
+    num_tokens
 };
 
 

@@ -33,7 +33,7 @@ public:
     virtual int curs_set(int visibility) = 0;
 
     // fetch the screen size
-    virtual void getmaxyx_m(void* window, int& y, int& x);
+    virtual void getmaxyx_m(void* window, int& y, int& x) = 0;
 
     // does this device support colors
     virtual bool has_colors() = 0;
@@ -71,8 +71,35 @@ public:
     // change the data origin of a derived window without changing its screen position
     virtual int mvderwin(void* window, int y, int x) = 0;
 
+    // redraw a window
+    virtual int wrefresh(void* window) = 0;
+
     // fetch the standard screen
     virtual void* stdscr_m() = 0;
+
+    // fetch the up key
+    virtual int key_up() = 0;
+
+    // fetch the up+right key
+    virtual int key_up_right() = 0;
+
+    // fetch the right key
+    virtual int key_right() = 0;
+
+    // fetch the down+right key
+    virtual int key_down_right() = 0;
+
+    // fetch the down key
+    virtual int key_down() = 0;
+
+    // fetch the down+left key
+    virtual int key_down_left() = 0;
+
+    // fetch the left key
+    virtual int key_left() = 0;
+
+    // fetch the left+up key
+    virtual int key_up_left() = 0;
 };
 
 #endif // _icurses_h_

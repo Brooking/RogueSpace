@@ -1,12 +1,29 @@
 #include <assert.h>
 #include "tile.h"
+#include "floor.h"
+
+UIToken Tile::token() const
+{ 
+    if (this->num_things() == 0)
+    {
+        // nothing on the tile, return the tile's own token
+        return this->token_; 
+    }
+
+    // return the token from the top of the stack
+    return this->things_.back()->token();
+}
+
 
 bool Tile::add(iThing* thing)
 {
-    if (thing != nullptr && thing->tile() == nullptr)
+    if (thing != nullptr)
     {
         this->things_.push_back(thing);
-        thing->set_tile(this);
+        if (this->floor_ != nullptr)
+        {
+            this->floor_->update(this->location_);
+        }
         return true;
     }
     
@@ -15,7 +32,7 @@ bool Tile::add(iThing* thing)
 
 bool Tile::remove(iThing* thing)
 {
-    if (thing == nullptr || thing->tile() != this) 
+    if (thing == nullptr) 
     {
         return false;
     }
@@ -27,7 +44,10 @@ bool Tile::remove(iThing* thing)
         {
             thing_found = true;
             this->things_.erase(this->things_.begin()+i);
-            thing->set_tile(nullptr);
+            if (this->floor_ != nullptr)
+            {
+                this->floor_->update(this->location_);
+            }
             break;
         }
     }

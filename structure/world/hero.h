@@ -1,9 +1,9 @@
 #ifndef _hero_h_
 #define _hero_h_
 
-#include "../inc/uitokens.h"
-#include "../inc/location.h"
-#include "../inc/direction.h"
+#include "uitokens.h"
+#include "location.h"
+#include "direction.h"
 #include "ithing.h"
 #include "tile.h"
 
@@ -13,18 +13,27 @@
 class Hero : public iThing
 {
 public:
-    Hero(Tile* tile) : token_(UIToken::hero), tile_(tile) {}
+    Hero(Tile* tile = nullptr);
     virtual ~Hero() {}
 
-    // iThing
+    // iThing...
+    // return the ui token for this hero
     virtual UIToken token() const { return this->token_; }
+
+    // return the hero's current tile
     virtual Tile* tile() const {return this->tile_;}
-    virtual bool set_tile(Tile* tile) { this->tile_ = tile; return true; }
     
+    // where is this hero now
     Location where() const { return (this->tile_ == nullptr) ? Location(-1,-1) : this->tile_->where(); }
 
-    // command stuff
+    // command stuff...
+    // put the hero here (regardless of where he was)
+    bool place(Tile* tile);
+
+    // move the hero this direction
     bool move(Direction direction);
+
+    // start moving the hero toward this location
     bool move_to(Location location);
 
 private:

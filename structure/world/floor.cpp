@@ -2,7 +2,7 @@
 #include <assert.h>
 #include "floor.h"
 
-Floor::Floor(int height, int width)
+Floor::Floor(int height, int width) : update_interface_(nullptr)
 {
     if (height < 1) {
         throw std::invalid_argument("height must be positive");
@@ -21,6 +21,24 @@ Floor::Floor(int height, int width)
     }
 }
 
+bool Floor::register_update(iUpdate* update_interface)
+{
+    this->update_interface_ = update_interface;
+    return true;
+}
+
+
+UIToken Floor::token(Location location)
+{
+    Tile* tile = this->tile(location);
+    if (tile == nullptr)
+    {
+        return UIToken::none;
+    }
+    return tile->token();
+}
+
+
 Tile* Floor::tile(Location location)
 {
     if (location.row() >= this->height() || location.row() < 0 ||
@@ -29,4 +47,15 @@ Tile* Floor::tile(Location location)
         return nullptr;
     }
     return (&(this->tile_[location.row()][location.cell()])); 
+}
+
+bool Floor::update(Location location)
+{
+    if (this->update_interface_ != nullptr)
+    {
+        this->update_interface_->update(location);
+        return true;
+    }
+
+    return false;
 }

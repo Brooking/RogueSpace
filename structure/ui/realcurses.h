@@ -6,11 +6,11 @@
 //
 // A class to wrap the actual ncurses implementation
 //
-class Curses : public iCurses
+class RealCurses : public iCurses
 {
 public:
-    Curses() {}
-    virtual ~Curses() {}
+    RealCurses() {}
+    virtual ~RealCurses() {}
 
     virtual void* initscr();
     virtual int endwin();
@@ -32,7 +32,16 @@ public:
     virtual void* derwin(void* orig, int nlines, int ncols, int begin_y, int begin_x);
     virtual int delwin(void* window);
     virtual int mvderwin(void* window, int y, int x);    
+    virtual int wrefresh(void* window);
     virtual void* stdscr_m();
+    virtual int key_up();
+    virtual int key_up_right();
+    virtual int key_right();
+    virtual int key_down_right();
+    virtual int key_down();
+    virtual int key_down_left();
+    virtual int key_left();
+    virtual int key_up_left();
 };
 
 #endif // _realcurses_h_

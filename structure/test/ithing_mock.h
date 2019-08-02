@@ -1,4 +1,4 @@
-#include "../world/ithing.h"
+#include "ithing.h"
 
 class iThingMock : public iThing
 {
@@ -8,7 +8,6 @@ public:
 
     virtual UIToken token() const { return this->token_; }
     virtual Tile* tile() const { return this->tile_; }
-    virtual bool set_tile(Tile* tile) { this->tile_ = tile; return true; }
 
 private:
     UIToken token_;

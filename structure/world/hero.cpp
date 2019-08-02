@@ -2,6 +2,30 @@
 #include "hero.h"
 #include "floor.h"
 
+Hero::Hero(Tile* tile) : 
+    token_(UIToken::hero), tile_(nullptr)
+{
+    this->place(tile);
+}
+
+
+bool Hero::place(Tile* tile)
+{
+    if (tile != nullptr && tile->is_open())
+    {
+        if (this->tile_ != nullptr)
+        {
+            this->tile_->remove(this);
+            this->tile_ = nullptr;
+        }
+        tile->add(this);
+        this->tile_ = tile;
+        return true;
+    }
+
+    return false;
+}
+
 bool Hero::move(Direction direction)
 {
     Location newLocation = this->where().apply_direction(direction);

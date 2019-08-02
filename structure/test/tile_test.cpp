@@ -1,6 +1,6 @@
 #include "catch.hpp"
 #include <iostream>
-#include "../world/tile.h"
+#include "tile.h"
 #include "ithing_mock.h"
 
 TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
@@ -32,22 +32,6 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
     REQUIRE(addWorked == true);
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
-}
-
-TEST_CASE("tile_withAddOfAlreadyPlacedThing_shouldFail", "[tile]")
-{
-    // arrange
-    Tile tile(/*floor*/nullptr, Location(1,1));
-    Tile anotherTile(/*floor*/nullptr, Location(2,2));
-    iThingMock thing(UIToken::none, &tile);
-    anotherTile.add(&thing);
-
-    // act
-    bool addWorked = tile.add(&thing);
-
-    // assert
-    REQUIRE(addWorked == false);
-    REQUIRE(tile.num_things() == 0);
 }
 
 TEST_CASE("tile_withAddNull_shouldFail", "[tile]")
@@ -140,29 +124,4 @@ TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
 }
-
-TEST_CASE("tile_withSetTile_shouldThrow", "[tile]")
-{
-    // arrange
-    Tile tile1(/*floor*/nullptr, Location(2,3));
-    Tile tile2(/*floor*/nullptr, Location(4,3));
-
-    // act
-    bool threw = false;
-    try
-    {
-        tile1.set_tile(&tile2);
-    }
-    catch(const std::domain_error& e)
-    {
-        INFO(e.what());
-        threw = true;
-    }
-    catch(const std::exception& e)
-    {
-        INFO(e.what());
-    }  
-
-    // assert
-    REQUIRE(threw == true);
-}
+ 

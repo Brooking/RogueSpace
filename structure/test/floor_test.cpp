@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include "catch.hpp"
 #include <iostream>
-#include "../world/floor.h"
+#include "floor.h"
 
 TEST_CASE("floor_withConstruction_shouldMakeFloor", "[floor]")
 {
