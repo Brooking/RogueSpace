@@ -24,17 +24,16 @@ public:
 
     virtual ~Wall() {}
 
-    // iThing...
-    // return the ui token
+    // iThing: return the ui token
     virtual UIToken token() const { return UIToken::wall; }
 
-    // return the current tile
+    // iThing: return the current tile
     virtual Tile* tile() const { return this->tile_; }
 
-    // a wall does fill a tile
+    // iThing: a wall does fill a tile
     virtual bool fills_tile() const { return true; }
 
-    // walls are not centers
+    // iThing: walls are not centers
     virtual bool is_center() const { return false; }
     
 private:

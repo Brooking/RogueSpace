@@ -16,17 +16,16 @@ public:
     Hero(Tile* tile = nullptr);
     virtual ~Hero() {}
 
-    // iThing...
-    // return the ui token for this hero
+    // iThing: return the ui token for this hero
     virtual UIToken token() const { return this->token_; }
 
-    // return the hero's current tile
+    // iThing: return the hero's current tile
     virtual Tile* tile() const {return this->tile_;}
 
-    // a hero does not fill the tile
+    // iThing: a hero does not fill the tile
     virtual bool fills_tile() const { return false; }
 
-    // hero always centers
+    // iThing: hero always centers
     virtual bool is_center() const { return true; }
     
     // where is this hero now

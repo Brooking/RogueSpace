@@ -15,17 +15,16 @@ public:
     Floor(int height, int width);
     virtual ~Floor() {}
 
-    // iFloor...
-    // the ui is giving us a callback
+    // iFloor: the ui is giving us a callback
     virtual bool register_update(iUpdate* update_interface);
 
-    // returns the height (number of rows)
+    // iFloor: returns the height (number of rows)
     virtual int height() { return tile_.size(); }
 
-    // returns the width (number of cells per row)
+    // iFloor: returns the width (number of cells per row)
     virtual int width() { return tile_[0].size(); }
 
-    // returns the ui token for a given location
+    // iFloor: returns the ui token for a given location
     virtual UIToken token(Location location);
 
     // returns the tile at a given location

@@ -16,7 +16,7 @@ public:
     Viewport(iCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center);
     virtual ~Viewport() {}
 
-    // an update notification from the world (via iUpdate)
+    // iUpdate: an update notification from the world
     virtual bool update(Location location, bool center = false);
 
     // time to implement all of the updates (normally called from the game)

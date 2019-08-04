@@ -8,6 +8,7 @@ public:
     {}
     virtual ~iThingMock() {}
 
+    // iThing
     virtual UIToken token() const { return this->token_; }
     virtual Tile* tile() const { return this->tile_; }
     virtual bool fills_tile() const { return this->fills_; }
