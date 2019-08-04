@@ -13,7 +13,7 @@ class Floor;
 //
 // A single spot on a floor
 //
-class Tile : public iThing
+class Tile
 {
 public:
     Tile(Floor* floor, Location location) : 
@@ -21,21 +21,28 @@ public:
     {}
     ~Tile() {}
 
-    // iThing
-    virtual UIToken token() const;
-    virtual Tile* tile() const { return const_cast<Tile*>(this); }
-    virtual bool fills_tile() const { return false; }
-    virtual bool is_center() const { return true; }
+    // Th UI token of the topmost thing on the tile
+    UIToken token() const;
 
-    // utility
+    // The floor location of this tile
     Location where() { return location_; }
+
+    // The floor this tile is in
     const Floor* floor() const { return this->floor_; }
+
+    // Does this tile contain a 'filling' thing (like a wall)
     bool is_full() const { return this->full_; }
 
-    // thing management
+    // add a thing to this tile
     bool add(iThing* thing);
+
+    // remove a thing from this tile
     bool remove(iThing* thing);
+
+    // how many thing are on this tile
     int num_things() const { return this->things_.size(); }
+
+    // array notation thing accessor
     const iThing* operator [] (int i) const { return const_cast<const iThing*>(this->things_[i]); }
 
 private:

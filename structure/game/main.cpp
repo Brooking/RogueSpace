@@ -32,8 +32,8 @@ int main()
     }
 
 
-    // create a floor twice the size of the view area
-    Floor floor(screen.height()*2, screen.width()*2);
+    // create a floor larger than the view area
+    Floor floor(screen.height()*1.5, screen.width()*1.5);
 
     // put our dude on the floor in the center
     Location starting_spot(floor.height()/2, floor.width()/2);
@@ -154,6 +154,10 @@ void game_loop(iCurses& curses, Viewport& viewport, Hero& hero)
         else if (ch == curses.key_up_left())
         {
             direction = Direction::NorthWest;
+        }
+        else if (ch == ' ')
+        {
+            // space is stand for a turn
         }
         else if (ch == 'Q' || ch == 'q')
         {
