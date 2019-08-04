@@ -3,7 +3,14 @@
 
 void* RealCurses::initscr()
 {
-    return ::initscr();
+    unsigned int before = ACS_VLINE;
+
+    ::initscr();
+    unsigned int after = ACS_VLINE;
+
+    if (before != after)
+    {
+    }
 }
 
 int RealCurses::endwin()

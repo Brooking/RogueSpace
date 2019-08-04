@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../ui/icurses.h"
 #include "../ui/realcurses.h"
 #include "../ui/screen.h"
@@ -6,7 +7,7 @@
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(int ch, iCurses& curses, Viewport& viewport, Hero& hero);
+void game_loop(iCurses& curses, Viewport& viewport, Hero& hero);
 
 int main()
 {
@@ -14,12 +15,25 @@ int main()
     iCurses* curses = new RealCurses();
     Screen screen(*curses);
 
+    std::string message;
+    message.append("screen: height: ");
+    message.append(std::to_string(screen.height()));
+    message.append(", width:");
+    message.append(std::to_string(screen.width()));
+    message.append("\n   ");
+    screen.add(message.c_str());
+
     // Print a welcome message and wait until the user presses a key
     screen.add("Welcome to the RR game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
     int ch = curses->getch_m();
+    if (ch == 'q' || ch == 'Q') 
+    {
+        return 0;
+    }
+
 
     // create a floor half the size of the view area
-    Floor floor(screen.height()/2, screen.width()/2);
+    Floor floor(screen.height(), screen.width());
 
     // put our dude on the floor in the center
     Location starting_spot(floor.height()/2, floor.width()/2);
@@ -56,28 +70,54 @@ int main()
     }
 
     // make a pillar
-    new Wall (floor.tile(Location(2,2)));
+    new Wall (floor.tile(Location(2,floor.width()-3)));
+
+    // diagonal walls
+    for (int row = 1; row < floor.height()-1; row++)
+    {
+        if (row == hero.where().row())
+        {
+            continue;
+        }
+
+        // thin
+        Tile* tile = floor.tile(Location(row,row));
+        if (tile->num_things() == 0)
+        {
+            new Wall(tile);
+        }
+
+        // thick
+        int cell = floor.width()/2 + row;
+        tile = floor.tile(Location(row, cell));
+        if (tile->num_things() == 0)
+        {
+            new Wall(tile);
+        }
+
+        tile = floor.tile(Location(row, cell+1));
+        if (tile->num_things() == 0)
+        {
+            new Wall(tile);
+        }
+    }
 
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(*curses, screen, floor, starting_spot);
     floor.register_update(&viewport);
 
     // start the game loop
-    game_loop(ch, *curses, viewport, hero);
+    game_loop(*curses, viewport, hero);
 
     return 0;
 }
 
-void game_loop(int ch, iCurses& curses, Viewport& viewport, Hero& hero)
+void game_loop(iCurses& curses, Viewport& viewport, Hero& hero)
 {
-    // check for quit
-    if (ch == 'q' || ch == 'Q') {
-        return;
-    }
-
+    int ch;
     bool done = false;
-    while(!done) {
-
+    while(!done) 
+    {
         // todo - diagonals are not working
 
         // get and decode input

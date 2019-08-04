@@ -10,7 +10,14 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
     this->color_pair_ = IconList[(long unsigned int)token].color_pair;
     if (token != UIToken::wall)
     {
-        this->symbol_ = IconList[(long unsigned int)token].symbol;
+        if (token == UIToken::bare_floor)
+        {
+            this->symbol_ = ACS_BULLET;
+        }
+        else
+        {
+            this->symbol_ = IconList[(long unsigned int)token].symbol;
+        }
     }
     else
     {
