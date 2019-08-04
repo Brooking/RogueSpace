@@ -3,14 +3,7 @@
 
 void* RealCurses::initscr()
 {
-    unsigned int before = ACS_VLINE;
-
-    ::initscr();
-    unsigned int after = ACS_VLINE;
-
-    if (before != after)
-    {
-    }
+    return ::initscr();
 }
 
 int RealCurses::endwin()
@@ -97,19 +90,9 @@ void* RealCurses::newwin(int nlines, int ncols, int begin_y, int begin_x)
     return (void*)::newwin(nlines, ncols, begin_y, begin_x);
 }
 
-void* RealCurses::derwin(void* orig, int nlines, int ncols, int begin_y, int begin_x)
-{
-    return (void*)::derwin((WINDOW*)orig, nlines, ncols, begin_y, begin_x);
-}
-
 int RealCurses::delwin(void* window)
 {
     return ::delwin((WINDOW*)window);
-}
-
-int RealCurses::mvderwin(void* window, int y, int x)
-{
-    return ::mvderwin((WINDOW*)window, y, x);
 }
 
 int RealCurses::wrefresh(void* window)

@@ -25,6 +25,9 @@ public:
 
     // a hero does not fill the tile
     virtual bool fills_tile() const { return false; }
+
+    // hero always centers
+    virtual bool is_center() const { return true; }
     
     // where is this hero now
     Location where() const { return (this->tile_ == nullptr) ? Location(-1,-1) : this->tile_->where(); }

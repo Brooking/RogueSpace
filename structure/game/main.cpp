@@ -32,8 +32,8 @@ int main()
     }
 
 
-    // create a floor half the size of the view area
-    Floor floor(screen.height(), screen.width());
+    // create a floor twice the size of the view area
+    Floor floor(screen.height()*2, screen.width()*2);
 
     // put our dude on the floor in the center
     Location starting_spot(floor.height()/2, floor.width()/2);
@@ -103,7 +103,7 @@ int main()
     }
 
     // create a viewport on that floor that is the full viewable area
-    Viewport viewport(*curses, screen, floor, starting_spot);
+    Viewport viewport(*curses, floor, screen.height(), screen.width(), starting_spot);
     floor.register_update(&viewport);
 
     // start the game loop

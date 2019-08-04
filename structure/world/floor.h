@@ -32,7 +32,7 @@ public:
     Tile* tile(Location location);
 
     // the spot our tiles call us when things change
-    bool update(Location location);
+    bool update(Location location, bool is_center = false);
 
 private:
     std::vector<std::vector<Tile>> tile_;

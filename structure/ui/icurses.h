@@ -62,14 +62,8 @@ public:
     // create a new topmost window
     virtual void* newwin(int nlines, int ncols, int begin_y, int begin_x) = 0;
 
-    // create a derived window
-    virtual void* derwin(void* orig, int nlines, int ncols, int begin_y, int begin_x) = 0;
-
     // destroy a window
     virtual int delwin(void* window) = 0;
-
-    // change the data origin of a derived window without changing its screen position
-    virtual int mvderwin(void* window, int y, int x) = 0;
 
     // redraw a window
     virtual int wrefresh(void* window) = 0;

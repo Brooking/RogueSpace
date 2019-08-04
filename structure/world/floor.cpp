@@ -49,11 +49,11 @@ Tile* Floor::tile(Location location)
     return (&(this->tile_[location.row()][location.cell()])); 
 }
 
-bool Floor::update(Location location)
+bool Floor::update(Location location, bool is_center)
 {
     if (this->update_interface_ != nullptr)
     {
-        this->update_interface_->update(location);
+        this->update_interface_->update(location, is_center);
         return true;
     }
 

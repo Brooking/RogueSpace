@@ -25,6 +25,7 @@ public:
     virtual UIToken token() const;
     virtual Tile* tile() const { return const_cast<Tile*>(this); }
     virtual bool fills_tile() const { return false; }
+    virtual bool is_center() const { return true; }
 
     // utility
     Location where() { return location_; }

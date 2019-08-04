@@ -27,7 +27,7 @@ bool Tile::add(iThing* thing)
                 this->full_ = thing->fills_tile();
                 if (this->floor_ != nullptr)
                 {
-                    this->floor_->update(this->location_);
+                    this->floor_->update(this->location_, thing->is_center());
                 }
                 return true;
             }

@@ -29,9 +29,7 @@ public:
     virtual int getch_m();
     virtual int printw(const char * message);
     virtual void* newwin(int nlines, int ncols, int begin_y, int begin_x);
-    virtual void* derwin(void* orig, int nlines, int ncols, int begin_y, int begin_x);
     virtual int delwin(void* window);
-    virtual int mvderwin(void* window, int y, int x);    
     virtual int wrefresh(void* window);
     virtual void* stdscr_m();
     virtual int key_up();
