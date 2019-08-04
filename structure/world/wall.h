@@ -33,6 +33,9 @@ public:
 
     // a wall does fill a tile
     virtual bool fills_tile() const { return true; }
+
+    // walls are not centers
+    virtual bool is_center() const { return false; }
     
 private:
     Tile* tile_;

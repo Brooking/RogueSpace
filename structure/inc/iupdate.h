@@ -9,6 +9,6 @@
 class iUpdate
 {
 public:
-    virtual bool update(Location location) = 0;
+    virtual bool update(Location location, bool center = false) = 0;
 };
 #endif // _iupdate_h_

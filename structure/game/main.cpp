@@ -18,8 +18,8 @@ int main()
     screen.add("Welcome to the RR game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
     int ch = curses->getch_m();
 
-    // create a floor half the size of the view area
-    Floor floor(screen.height()/2, screen.width()/2);
+    // create a floor twice the size of the view area
+    Floor floor(screen.height()*2, screen.width()*2);
 
     // put our dude on the floor in the center
     Location starting_spot(floor.height()/2, floor.width()/2);
@@ -59,7 +59,7 @@ int main()
     new Wall (floor.tile(Location(2,2)));
 
     // create a viewport on that floor that is the full viewable area
-    Viewport viewport(*curses, screen, floor, starting_spot);
+    Viewport viewport(*curses, floor, screen.height(), screen.width(), starting_spot);
     floor.register_update(&viewport);
 
     // start the game loop

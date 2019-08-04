@@ -1,7 +1,7 @@
 cc=g++
 cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
 
-common_include_dirs=-I$(CURDIR) -I$(CURDIR)/inc
+common_include_dirs=-I$(CURDIR)/inc
 all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world
 lib_dir=-L$(CURDIR)/lib
 

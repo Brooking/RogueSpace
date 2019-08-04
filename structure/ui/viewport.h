@@ -13,22 +13,34 @@
 class Viewport : public iUpdate
 {
 public:
-    Viewport(iCurses& curses, Screen& screen, iFloor& floor, Location center);
+    Viewport(iCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center);
     virtual ~Viewport() {}
 
-    bool full_update();
-    bool update_center(Location center);
-    
-    bool update(Location location);
+    // an update notification from the world (via iUpdate)
+    virtual bool update(Location location, bool center = false);
+
+    // time to implement all of the updates (normally called from the game)
     bool refresh();
 
 private:
+    // update all spots in the window
+    bool full_update();
+
+    // update a given spot in the window
+    bool update(unsigned int row, unsigned int cell);
+
+    // update the center (and if it moves update the whole window)
+    bool update_center(Location center);  
+
+private:
     iCurses& curses_;
-    Screen& screen_;
     iFloor& floor_;
-    Location anchor_;
-    void* parent_window_;
-    void* child_window_;
+
+    unsigned int height_;
+    unsigned int width_;
+    int window_origin_row_offset_from_floor_;
+    int window_origin_cell_offset_from_floor_;
+    void* window_;
 };
 
 #endif // _viewport_h_

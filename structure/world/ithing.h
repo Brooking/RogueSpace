@@ -18,6 +18,9 @@ public:
 
     // This thing fills the tile
     virtual bool fills_tile() const = 0;
+
+    // This thing is centered
+    virtual bool is_center() const = 0;
 };
 
 #endif // _ithing_h_
