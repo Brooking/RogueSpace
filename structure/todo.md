@@ -5,7 +5,7 @@
   - [x] run in normal terminal (local config)
 ### Input
 #### Keyboard
-  - [ ] add diagonal input
+  - [x] add diagonal input
 #### Mouse
   - [ ] show mouse cursor
   - [ ] implement hover info
