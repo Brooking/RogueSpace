@@ -2,7 +2,7 @@
 ## ___to do list___
 ### Bugs
   - [x] Surface vscode debugger not working
-  - [ ] run in normal terminal?
+  - [x] run in normal terminal (local config)
 ### Input
 #### Keyboard
   - [ ] add diagonal input
