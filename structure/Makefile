@@ -26,7 +26,7 @@ game.out: \
 		-lcurses \
 		-o game.out
 
-worldtests.out: \
+worldtests.out : \
 		lib/libworld.a \
 		test/catch.hpp \
 		test/main.cpp \

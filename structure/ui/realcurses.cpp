@@ -112,7 +112,7 @@ int RealCurses::key_up()
 
 int RealCurses::key_up_right()
 {
-    return KEY_A3;
+    return KEY_PPAGE;
 }
 
 int RealCurses::key_right()
@@ -122,7 +122,7 @@ int RealCurses::key_right()
 
 int RealCurses::key_down_right()
 {
-    return KEY_C3;
+    return KEY_NPAGE;
 }
 
 int RealCurses::key_down()
@@ -132,7 +132,7 @@ int RealCurses::key_down()
 
 int RealCurses::key_down_left()
 {
-    return KEY_C1;
+    return KEY_END;
 }
 
 int RealCurses::key_left()
@@ -142,5 +142,6 @@ int RealCurses::key_left()
 
 int RealCurses::key_up_left()
 {
-    return KEY_A1;    
+    return KEY_HOME;    
 }
+

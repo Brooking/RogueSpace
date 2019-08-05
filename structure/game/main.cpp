@@ -15,22 +15,13 @@ int main()
     iCurses* curses = new RealCurses();
     Screen screen(*curses);
 
-    std::string message;
-    message.append("screen: height: ");
-    message.append(std::to_string(screen.height()));
-    message.append(", width:");
-    message.append(std::to_string(screen.width()));
-    message.append("\n   ");
-    screen.add(message.c_str());
-
     // Print a welcome message and wait until the user presses a key
-    screen.add("Welcome to the RR game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
+    screen.add("Welcome to the RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
     int ch = curses->getch_m();
     if (ch == 'q' || ch == 'Q') 
     {
         return 0;
     }
-
 
     // create a floor larger than the view area
     Floor floor(screen.height()*1.5, screen.width()*1.5);
