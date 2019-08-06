@@ -1,16 +1,16 @@
-#ifndef _realcurses_h_
-#define _realcurses_h_
+#ifndef _rawcurses_h_
+#define _rawcurses_h_
 
 #include "icurses.h"
 
 //
 // A class to wrap the actual ncurses implementation
 //
-class RealCurses : public iCurses
+class RawCurses : public iCurses
 {
 public:
-    RealCurses() {}
-    virtual ~RealCurses() {}
+    RawCurses();
+    virtual ~RawCurses() {}
 
     virtual void* initscr();
     virtual int endwin();
@@ -40,6 +40,35 @@ public:
     virtual int key_down_left();
     virtual int key_left();
     virtual int key_up_left();
+
+/*static:*/
+
+    // keys
+    static int UP;
+    static int UP_RIGHT;
+    static int RIGHT;
+    static int DOWN_RIGHT;
+    static int DOWN;
+    static int DOWN_LEFT;
+    static int LEFT;
+    static int UP_LEFT;
+
+    // special characters
+    static int WALL_NS;
+    static int WALL_EW;
+    static int WALL_NE;
+    static int WALL_SE;
+    static int WALL_SW;
+    static int WALL_NW;
+    static int WALL_NSE;
+    static int WALL_NSW;
+    static int WALL_NEW;
+    static int WALL_SEW;
+    static int WALL_NSEW;
+
+private:
+    static void static_initialize();
+    static bool initialized;
 };
 
-#endif // _realcurses_h_
+#endif // _rawcurses_h_

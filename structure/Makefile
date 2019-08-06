@@ -7,7 +7,7 @@ lib_dir=-L$(CURDIR)/lib
 
 common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h
 world_includes=world/floor.h world/hero.h world/ithing.h world/tile.h world/wall.h
-ui_includes=ui/icon.h ui/icurses.h ui/realcurses.h ui/screen.h ui/viewport.h
+ui_includes=ui/icon.h ui/icurses.h ui/screen.h ui/viewport.h
 
 all: \
 		game.out \
@@ -16,6 +16,7 @@ all: \
 game.out: \
 		lib/libworld.a \
 		lib/libui.a \
+		lib/librcurses.a \
 		obj/main.o
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
@@ -23,6 +24,7 @@ game.out: \
 		obj/main.o \
 		-lworld \
 		-lui \
+		-lrcurses \
 		-lcurses \
 		-o game.out
 
@@ -61,14 +63,17 @@ lib/libworld.a : \
 
 lib/libui.a : \
 		obj/icon.o \
-		obj/realcurses.o \
 		obj/screen.o \
 		obj/viewport.o
 	ar crf lib/libui.a \
 		obj/icon.o \
-		obj/realcurses.o \
 		obj/screen.o \
 		obj/viewport.o
+
+lib/librcurses.a : \
+		obj/rawcurses.o
+	ar crf lib/librcurses.a \
+		obj/rawcurses.o
 
 obj/floor.o : \
 		$(common_includes) \
@@ -102,14 +107,6 @@ obj/icon.o : \
 		-c ui/icon.cpp \
 		-o obj/icon.o
 
-obj/realcurses.o : \
-		$(common_includes) \
-		$(ui_includes) \
-		ui/realcurses.cpp
-	$(cc) $(cflags) $(common_include_dirs) \
-		-c ui/realcurses.cpp \
-		-o obj/realcurses.o
-
 obj/screen.o : \
 		$(common_includes) \
 		$(ui_includes) \
@@ -134,6 +131,14 @@ obj/main.o : \
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c game/main.cpp \
 		-o obj/main.o
+
+obj/rawcurses.o : \
+		rcurses/rawcurses.cpp \
+		rcurses/rawcurses.h
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c rcurses/rawcurses.cpp \
+		-o obj/rawcurses.o
+
 
 clean:
 	rm -f *.out
