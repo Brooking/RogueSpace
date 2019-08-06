@@ -30,43 +30,36 @@ public:
     virtual int delwin(void* window);
     virtual int wrefresh(void* window);
     virtual void* stdscr_m();
-    virtual int key_up();
-    virtual int key_up_right();
-    virtual int key_right();
-    virtual int key_down_right();
-    virtual int key_down();
-    virtual int key_down_left();
-    virtual int key_left();
-    virtual int key_up_left();
 
 /*static:*/
 
     // keys
-    static int UP;
-    static int UP_RIGHT;
-    static int RIGHT;
-    static int DOWN_RIGHT;
-    static int DOWN;
-    static int DOWN_LEFT;
-    static int LEFT;
-    static int UP_LEFT;
+    static const unsigned long UP;
+    static const unsigned long UP_RIGHT;
+    static const unsigned long RIGHT;
+    static const unsigned long DOWN_RIGHT;
+    static const unsigned long DOWN;
+    static const unsigned long DOWN_LEFT;
+    static const unsigned long LEFT;
+    static const unsigned long UP_LEFT;
 
     // special characters
-    static int WALL_NS;
-    static int WALL_EW;
-    static int WALL_NE;
-    static int WALL_SE;
-    static int WALL_SW;
-    static int WALL_NW;
-    static int WALL_NSE;
-    static int WALL_NSW;
-    static int WALL_NEW;
-    static int WALL_SEW;
-    static int WALL_NSEW;
+    static const unsigned long WALL_NS;
+    static const unsigned long WALL_EW;
+    static const unsigned long WALL_NE;
+    static const unsigned long WALL_SE;
+    static const unsigned long WALL_SW;
+    static const unsigned long WALL_NW;
+    static const unsigned long WALL_NSE;
+    static const unsigned long WALL_NSW;
+    static const unsigned long WALL_NEW;
+    static const unsigned long WALL_SEW;
+    static const unsigned long WALL_NSEW;
+
+    static const unsigned long BULLET;
 
 private:
-    static void static_initialize();
-    static bool initialized;
+    static void validate_statics();
 };
 
 #endif // _rawcurses_h_

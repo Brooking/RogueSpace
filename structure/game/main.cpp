@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include "../rcurses/rawcurses.h"
 #include "../ui/screen.h"
 #include "../world/floor.h"
@@ -7,6 +8,19 @@
 #include "../world/wall.h"
 
 void game_loop(RawCurses& curses, Viewport& viewport, Hero& hero);
+
+// maps key inputs into useful directions
+std::map<unsigned int,Direction> KeyToDirection
+{
+    {RawCurses::UP, Direction::North},
+    {RawCurses::UP_RIGHT, Direction::NorthEast},
+    {RawCurses::RIGHT, Direction::East},
+    {RawCurses::DOWN_RIGHT, Direction::SouthEast},
+    {RawCurses::DOWN, Direction::South},
+    {RawCurses::DOWN_LEFT, Direction::SouthWest},
+    {RawCurses::LEFT, Direction::West},
+    {RawCurses::UP_LEFT, Direction::NorthWest},
+};
 
 int main()
 {
@@ -108,57 +122,32 @@ void game_loop(RawCurses& curses, Viewport& viewport, Hero& hero)
     bool done = false;
     while(!done) 
     {
-        // todo - diagonals are not working
-
         // get and decode input
         ch = curses.getch_m();
         Direction direction = Direction::none;
-        if (ch == curses.key_up())
+        if (KeyToDirection.count(ch) > 0)
         {
-            direction = Direction::North;
-        }
-        else if (ch == curses.key_up_right())
-        {
-            direction = Direction::NorthEast;
-        }
-        else if (ch == curses.key_right())
-        {
-            direction = Direction::East;
-        }
-        else if (ch == curses.key_down_right())
-        {
-            direction = Direction::SouthEast;
-        }
-        else if (ch == curses.key_down())
-        {
-            direction = Direction::South;
-        }
-        else if (ch == curses.key_down_left())
-        {
-            direction = Direction::SouthEast;
-        }
-        else if (ch == curses.key_left())
-        {
-            direction = Direction::West;
-        }
-        else if (ch == curses.key_up_left())
-        {
-            direction = Direction::NorthWest;
-        }
-        else if (ch == ' ')
-        {
-            // space is stand for a turn
-        }
-        else if (ch == 'Q' || ch == 'q')
-        {
-            done = true;
-            continue;
+            direction = KeyToDirection[ch];
         }
         else
         {
-            continue;            
+            switch(ch)
+            {
+                case 'q':
+                case 'Q':
+                    done = true;
+                    continue;
+
+                case ' ':
+                    // space is stand for a turn
+                    break;
+
+                default:
+                    // for anything else, we go back for more input
+                    continue;
+            }
         }
-        
+
         hero.move(direction);
         viewport.refresh();
     }

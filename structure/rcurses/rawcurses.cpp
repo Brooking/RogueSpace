@@ -1,13 +1,10 @@
 #include <ncurses.h>
+#include <assert.h>
 #include "rawcurses.h"
 
 RawCurses::RawCurses()
 {
-    if (!RawCurses::initialized)
-    {
-        RawCurses::static_initialize();
-        RawCurses::initialized = true;
-    }
+    RawCurses::validate_statics();
 }
 
 void* RawCurses::initscr()
@@ -114,97 +111,60 @@ void* RawCurses::stdscr_m()
     return ::stdscr;
 }
 
-int RawCurses::key_up()
-{
-    return RawCurses::UP;
-}
-
-int RawCurses::key_up_right()
-{
-    return RawCurses::UP_RIGHT;
-}
-
-int RawCurses::key_right()
-{
-    return RawCurses::RIGHT;
-}
-
-int RawCurses::key_down_right()
-{
-    return RawCurses::DOWN_RIGHT;
-}
-
-int RawCurses::key_down()
-{
-    return RawCurses::DOWN;
-}
-
-int RawCurses::key_down_left()
-{
-    return RawCurses::DOWN_LEFT;
-}
-
-int RawCurses::key_left()
-{
-    return RawCurses::LEFT;
-}
-
-int RawCurses::key_up_left()
-{
-    return RawCurses::UP_LEFT;    
-}
-
 // initialize static variables
-void RawCurses::static_initialize()
+void RawCurses::validate_statics()
 {
     // in order for the curses macros to be correct, we must call the curses initializer
     // but the class does not yet exist, so use the raw one
     ::initscr();    
 
     // set our local key statics
-    RawCurses::UP = KEY_UP;
-    RawCurses::UP_RIGHT = KEY_PPAGE;
-    RawCurses::RIGHT = KEY_RIGHT;
-    RawCurses::DOWN_RIGHT = KEY_NPAGE;
-    RawCurses::DOWN = KEY_DOWN;
-    RawCurses::DOWN_LEFT = KEY_END;
-    RawCurses::LEFT = KEY_LEFT;
-    RawCurses::UP_LEFT = KEY_HOME;
+    assert(RawCurses::UP == KEY_UP);
+    assert(RawCurses::UP_RIGHT == KEY_PPAGE);
+    assert(RawCurses::RIGHT == KEY_RIGHT);
+    assert(RawCurses::DOWN_RIGHT == KEY_NPAGE);
+    assert(RawCurses::DOWN == KEY_DOWN);
+    assert(RawCurses::DOWN_LEFT == KEY_END);
+    assert(RawCurses::LEFT == KEY_LEFT);
+    assert(RawCurses::UP_LEFT == KEY_HOME);
 
     // set our local character statics
-    RawCurses::WALL_NS = ACS_VLINE;
-    RawCurses::WALL_EW = ACS_HLINE;
-    RawCurses::WALL_NE = ACS_LLCORNER;
-    RawCurses::WALL_SE = ACS_ULCORNER;
-    RawCurses::WALL_SW = ACS_URCORNER;
-    RawCurses::WALL_NW = ACS_LRCORNER;
-    RawCurses::WALL_NSE = ACS_LTEE;
-    RawCurses::WALL_NSW = ACS_RTEE;
-    RawCurses::WALL_NEW = ACS_BTEE;
-    RawCurses::WALL_SEW = ACS_TTEE;
-    RawCurses::WALL_NSEW = ACS_PLUS;
+    assert(RawCurses::WALL_NS == ACS_VLINE);
+    assert(RawCurses::WALL_EW == ACS_HLINE);
+    assert(RawCurses::WALL_NE == ACS_LLCORNER);
+    assert(RawCurses::WALL_SE == ACS_ULCORNER);
+    assert(RawCurses::WALL_SW == ACS_URCORNER);
+    assert(RawCurses::WALL_NW == ACS_LRCORNER);
+    assert(RawCurses::WALL_NSE == ACS_LTEE);
+    assert(RawCurses::WALL_NSW == ACS_RTEE);
+    assert(RawCurses::WALL_NEW == ACS_BTEE);
+    assert(RawCurses::WALL_SEW == ACS_TTEE);
+    assert(RawCurses::WALL_NSEW == ACS_PLUS);
+
+    assert(RawCurses::BULLET == ACS_BULLET);
+
 
     ::endwin();
 };
 
-// static storage
-bool RawCurses::initialized = false;
-int RawCurses::UP = 0;
-int RawCurses::UP_RIGHT = 0;
-int RawCurses::RIGHT = 0;
-int RawCurses::DOWN_RIGHT = 0;
-int RawCurses::DOWN = 0;
-int RawCurses::DOWN_LEFT = 0;
-int RawCurses::LEFT = 0;
-int RawCurses::UP_LEFT = 0;
-int RawCurses::WALL_NS = 0;
-int RawCurses::WALL_EW = 0;
-int RawCurses::WALL_NE = 0;
-int RawCurses::WALL_SE = 0;
-int RawCurses::WALL_SW = 0;
-int RawCurses::WALL_NW = 0;
-int RawCurses::WALL_NSE = 0;
-int RawCurses::WALL_NSW = 0;
-int RawCurses::WALL_NEW = 0;
-int RawCurses::WALL_SEW = 0;
-int RawCurses::WALL_NSEW = 0;
+// static storage (note these are copied from ncurses)
+const unsigned long RawCurses::UP = 259;
+const unsigned long RawCurses::UP_RIGHT = 339;
+const unsigned long RawCurses::RIGHT = 261;
+const unsigned long RawCurses::DOWN_RIGHT = 338;
+const unsigned long RawCurses::DOWN = 258;
+const unsigned long RawCurses::DOWN_LEFT = 360;
+const unsigned long RawCurses::LEFT = 260;
+const unsigned long RawCurses::UP_LEFT = 262;
+const unsigned long RawCurses::WALL_NS = 4194424;
+const unsigned long RawCurses::WALL_EW = 4194417;
+const unsigned long RawCurses::WALL_NE = 4194413;
+const unsigned long RawCurses::WALL_SE = 4194412;
+const unsigned long RawCurses::WALL_SW = 4194411;
+const unsigned long RawCurses::WALL_NW = 4194410;
+const unsigned long RawCurses::WALL_NSE = 4194420;
+const unsigned long RawCurses::WALL_NSW = 4194421;
+const unsigned long RawCurses::WALL_NEW = 4194422;
+const unsigned long RawCurses::WALL_SEW = 4194423;
+const unsigned long RawCurses::WALL_NSEW = 4194414;
+const unsigned long RawCurses::BULLET = 4194430;

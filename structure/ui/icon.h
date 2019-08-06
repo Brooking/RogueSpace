@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <array>
 #include <ncurses.h>
+#include "rawcurses.h"
 #include "uitokens.h"
 
 //
@@ -24,7 +25,7 @@ static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconLis
 {
     IconData(UIToken::none, COLOR_PAIR(1), ' '),
     IconData(UIToken::test, COLOR_PAIR(1), '?'),
-    IconData(UIToken::bare_floor, COLOR_PAIR(1), '.'),
+    IconData(UIToken::bare_floor, COLOR_PAIR(1), RawCurses::BULLET),
     IconData(UIToken::wall, COLOR_PAIR(1), '+'),
     IconData(UIToken::hero, COLOR_PAIR(1), '@')
 };
@@ -41,6 +42,26 @@ enum AdjacentWallBits
 };
 
 static const std::array<unsigned long,16> AdjacentWallList
+{
+    /* 0:none*/'+',
+    /* 1:N   */RawCurses::WALL_NS,
+    /* 2:E   */RawCurses::WALL_EW,
+    /* 3:NE  */RawCurses::WALL_NE,
+    /* 4:S   */RawCurses::WALL_NS,
+    /* 5:NS  */RawCurses::WALL_NS,
+    /* 6:SE  */RawCurses::WALL_SE,
+    /* 7:NSE */RawCurses::WALL_NSE,
+    /* 8:W   */RawCurses::WALL_EW,
+    /* 9:NW  */RawCurses::WALL_NW,
+    /*10:EW  */RawCurses::WALL_EW,
+    /*11:NEW */RawCurses::WALL_NEW,
+    /*12:SW  */RawCurses::WALL_SW,
+    /*13:NSW */RawCurses::WALL_NSW,
+    /*14:SEW */RawCurses::WALL_SEW,
+    /*15:NSEW*/RawCurses::WALL_NSEW,
+};
+
+static const std::array<unsigned long,16> SimpleAdjacentWallList
 {
     /* 0:none*/'?',
     /* 1:N   */'|',
