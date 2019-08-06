@@ -1,12 +1,10 @@
 #ifndef _rawcurses_h_
 #define _rawcurses_h_
 
-#include "icurses.h"
-
 //
 // A class to wrap the actual ncurses implementation
 //
-class RawCurses : public iCurses
+class RawCurses
 {
 public:
     RawCurses();

@@ -1,7 +1,7 @@
 #ifndef _viewport_h_
 #define _viewport_h_
 
-#include "icurses.h"
+#include "rawcurses.h"
 #include "screen.h"
 #include "ifloor.h"
 #include "location.h"
@@ -13,7 +13,7 @@
 class Viewport : public iUpdate
 {
 public:
-    Viewport(iCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center);
+    Viewport(RawCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center);
     virtual ~Viewport() {}
 
     // iUpdate: an update notification from the world
@@ -33,7 +33,7 @@ private:
     bool update_center(Location center);  
 
 private:
-    iCurses& curses_;
+    RawCurses& curses_;
     iFloor& floor_;
 
     unsigned int height_;

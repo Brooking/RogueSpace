@@ -1,12 +1,12 @@
 #ifndef _screen_h_
 #define _screen_h_
 
-#include "icurses.h"
+#include "rawcurses.h"
 
 class Screen {
 public:
     // Initialize the screen
-    Screen(iCurses& curses);
+    Screen(RawCurses& curses);
 
     // tear down the screen
     ~Screen();
@@ -19,7 +19,7 @@ public:
     int height();
 
 private:
-    iCurses& curses_;
+    RawCurses& curses_;
     int width_;
     int height_;
 };

@@ -1,13 +1,13 @@
 cc=g++
 cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
 
-common_include_dirs=-I$(CURDIR)/inc
+common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/rcurses
 all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world
 lib_dir=-L$(CURDIR)/lib
 
-common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h
+common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h rcurses/rawcurses.h
 world_includes=world/floor.h world/hero.h world/ithing.h world/tile.h world/wall.h
-ui_includes=ui/icon.h ui/icurses.h ui/screen.h ui/viewport.h
+ui_includes=ui/icon.h ui/screen.h ui/viewport.h
 
 all: \
 		game.out \
@@ -111,7 +111,7 @@ obj/screen.o : \
 		$(common_includes) \
 		$(ui_includes) \
 		ui/screen.cpp
-	$(cc) $(cflags) $(include_dirs) \
+	$(cc) $(cflags) $(common_include_dirs) \
 		-c ui/screen.cpp \
 		-o obj/screen.o
 

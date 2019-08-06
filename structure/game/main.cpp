@@ -1,5 +1,4 @@
 #include <iostream>
-#include "../ui/icurses.h"
 #include "../rcurses/rawcurses.h"
 #include "../ui/screen.h"
 #include "../world/floor.h"
@@ -7,12 +6,12 @@
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(iCurses& curses, Viewport& viewport, Hero& hero);
+void game_loop(RawCurses& curses, Viewport& viewport, Hero& hero);
 
 int main()
 {
     // initialize the screen
-    iCurses* curses = new RawCurses();
+    RawCurses* curses = new RawCurses();
     Screen screen(*curses);
 
     // Print a welcome message and wait until the user presses a key
@@ -103,7 +102,7 @@ int main()
     return 0;
 }
 
-void game_loop(iCurses& curses, Viewport& viewport, Hero& hero)
+void game_loop(RawCurses& curses, Viewport& viewport, Hero& hero)
 {
     int ch;
     bool done = false;
