@@ -1,4 +1,58 @@
 #include "icon.h"
+#include <stdexcept>
+#include <array>
+#include <ncurses.h>
+#include "rawcurses.h"
+#include "io_constants.h"
+
+//
+// static container of character information
+//
+struct IconData
+{
+    constexpr IconData(UIToken token, int color_pair, unsigned long symbol) :
+        token(token), color_pair(color_pair), symbol(symbol)
+    {}
+
+    UIToken token;
+    int color_pair;
+    unsigned long symbol;
+};
+
+//
+// Table assigning display characters to tokens
+//
+static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconList 
+{
+    IconData(UIToken::none, COLOR_PAIR(1), ' '),
+    IconData(UIToken::test, COLOR_PAIR(1), '?'),
+    IconData(UIToken::bare_floor, COLOR_PAIR(1), io::Character::BULLET),
+    IconData(UIToken::wall, COLOR_PAIR(1), '+'),
+    IconData(UIToken::hero, COLOR_PAIR(1), '@')
+};
+
+//
+// Table giving wall shapes based on wall adjacencies
+//
+static const std::array<unsigned int,16> AdjacentWallList
+{
+    /* 0:none*/'+',
+    /* 1:N   */io::Character::WALL_NS,
+    /* 2:E   */io::Character::WALL_EW,
+    /* 3:NE  */io::Character::WALL_NE,
+    /* 4:S   */io::Character::WALL_NS,
+    /* 5:NS  */io::Character::WALL_NS,
+    /* 6:SE  */io::Character::WALL_SE,
+    /* 7:NSE */io::Character::WALL_NSE,
+    /* 8:W   */io::Character::WALL_EW,
+    /* 9:NW  */io::Character::WALL_NW,
+    /*10:EW  */io::Character::WALL_EW,
+    /*11:NEW */io::Character::WALL_NEW,
+    /*12:SW  */io::Character::WALL_SW,
+    /*13:NSW */io::Character::WALL_NSW,
+    /*14:SEW */io::Character::WALL_SEW,
+    /*15:NSEW*/io::Character::WALL_NSEW,
+};
 
 Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
 {

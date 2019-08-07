@@ -1,13 +1,14 @@
-#ifndef _rcurses_screen_h_
-#define _rcurses_screen_h_
+#ifndef _io_screen_h_
+#define _io_screen_h_
 
-#include "constants.h"
+#include "io_constants.h"
 
-namespace rcurses
+class RawCurses;
+
+namespace io
 {
 
 class Window;
-class RawCurses;
 
 //
 // A singleton representing the screen
@@ -53,6 +54,6 @@ private:
     static Screen* singleton;
 };
 
-} // namespace rcurses
+} // namespace io
 
-#endif // _rcurses_screen_h_
+#endif // _io_screen_h_

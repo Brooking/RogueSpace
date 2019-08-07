@@ -1,12 +1,15 @@
 #ifndef _screen_h_
 #define _screen_h_
 
-#include "rawcurses.h"
+namespace io
+{
+class RawCurses;
+}
 
 class Screen {
 public:
     // Initialize the screen
-    Screen(RawCurses& curses);
+    Screen(io::RawCurses& curses);
 
     // tear down the screen
     ~Screen();
@@ -19,7 +22,7 @@ public:
     int height();
 
 private:
-    RawCurses& curses_;
+    io::RawCurses& curses_;
     int width_;
     int height_;
 };

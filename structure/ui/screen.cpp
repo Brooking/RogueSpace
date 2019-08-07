@@ -1,6 +1,7 @@
 #include "screen.h"
+#include "rawcurses.h"
  
-Screen::Screen(RawCurses& curses) : curses_(curses) {
+Screen::Screen(io::RawCurses& curses) : curses_(curses) {
     // initialize the ncurses library
     curses_.initscr();
 

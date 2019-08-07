@@ -1,11 +1,12 @@
 cc=g++
 cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
 
-common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/rcurses
+common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/io
 all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world
 lib_dir=-L$(CURDIR)/lib
 
-common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h rcurses/rawcurses.h
+common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h
+io_includes= io/rawcurses.h io/io_constants.h io/screen.h io/window.h
 world_includes=world/floor.h world/hero.h world/ithing.h world/tile.h world/wall.h
 ui_includes=ui/icon.h ui/screen.h ui/viewport.h
 
@@ -16,7 +17,7 @@ all: \
 game.out: \
 		lib/libworld.a \
 		lib/libui.a \
-		lib/librcurses.a \
+		lib/libio.a \
 		obj/main.o
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
@@ -24,7 +25,7 @@ game.out: \
 		obj/main.o \
 		-lworld \
 		-lui \
-		-lrcurses \
+		-lio \
 		-lcurses \
 		-o game.out
 
@@ -70,11 +71,11 @@ lib/libui.a : \
 		obj/screen.o \
 		obj/viewport.o
 
-lib/librcurses.a : \
+lib/libio.a : \
 		obj/rawcurses.o \
 		obj/rscreen.o \
 		obj/window.o
-	ar crf lib/librcurses.a \
+	ar crf lib/libio.a \
 		obj/rawcurses.o \
 		obj/rscreen.o \
 		obj/window.o
@@ -137,24 +138,24 @@ obj/main.o : \
 		-o obj/main.o
 
 obj/rawcurses.o : \
-		$(rcurses_includes) \
-		rcurses/rawcurses.cpp
+		$(io_includes) \
+		io/rawcurses.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
-		-c rcurses/rawcurses.cpp \
+		-c io/rawcurses.cpp \
 		-o obj/rawcurses.o
 
 obj/rscreen.o : \
-		$(rcurses_includes) \
-		rcurses/screen.cpp
+		$(io_includes) \
+		io/screen.cpp
 	$(cc) $(cflags) $(common_include_dirs) \
-		-c rcurses/screen.cpp \
+		-c io/screen.cpp \
 		-o obj/rscreen.o
 	
 obj/window.o : \
-		$(rcurses_includes) \
-		rcurses/window.cpp
+		$(io_includes) \
+		io/window.cpp
 	$(cc) $(cflags) $(common_include_dirs) \
-		-c rcurses/window.cpp \
+		-c io/window.cpp \
 		-o obj/window.o
 	
 

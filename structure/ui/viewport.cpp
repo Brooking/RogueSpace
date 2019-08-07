@@ -3,7 +3,7 @@
 #include "viewport.h"
 #include "icon.h"
 
-Viewport::Viewport(RawCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center) : 
+Viewport::Viewport(io::RawCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center) : 
     curses_(curses), floor_(floor), 
     height_(height), width_(width), 
     window_origin_row_offset_from_floor_(0), window_origin_cell_offset_from_floor_(0),

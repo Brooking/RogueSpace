@@ -1,6 +1,6 @@
 #include "window.h"
 
-rcurses::Window::Window(rcurses::Screen& screen, 
+io::Window::Window(io::Screen& screen, 
                         RawCurses& curses,
                         unsigned int screen_row, 
                         unsigned int screen_cell, 
@@ -12,13 +12,13 @@ rcurses::Window::Window(rcurses::Screen& screen,
     this->window_ = this->curses_.newwin( num_rows, num_cells, screen_row, screen_cell);
 }
 
-rcurses::Window::~Window()
+io::Window::~Window()
 {
     this->curses_.delwin(this->window_);
     this->window_ = nullptr;
 }
 
-void rcurses::Window::place_character(unsigned int row,
+void io::Window::place_character(unsigned int row,
                                         unsigned int cell,
                                         unsigned int character,
                                         unsigned int color_pair)
@@ -32,7 +32,7 @@ void rcurses::Window::place_character(unsigned int row,
     this->curses_.attroff_m(color_pair);
 }
 
-void rcurses::Window::refresh()
+void io::Window::refresh()
 {
     this->curses_.wrefresh(this->window_);
 }

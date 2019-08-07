@@ -1,10 +1,10 @@
-#ifndef _rcurses_window_h_
-#define _rcurses_window_h_
+#ifndef _io_window_h_
+#define _io_window_h_
 
 #include "rawcurses.h"
 #include "screen.h"
 
-namespace rcurses
+namespace io
 {
 
 class Window 
@@ -40,6 +40,6 @@ private:
     void* window_;
 };
 
-} // namespace rcurses
+} // namespace io
 
-#endif // _rcurses_window_h_
+#endif // _io_window_h_

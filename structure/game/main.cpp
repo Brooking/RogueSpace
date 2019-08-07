@@ -1,31 +1,31 @@
 #include <iostream>
 #include <map>
-#include "../rcurses/rawcurses.h"
+#include "../io/rawcurses.h"
 #include "../ui/screen.h"
 #include "../world/floor.h"
 #include "../world/hero.h"
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(RawCurses& curses, Viewport& viewport, Hero& hero);
+void game_loop(io::RawCurses& curses, Viewport& viewport, Hero& hero);
 
 // maps key inputs into useful directions
 std::map<unsigned int,Direction> KeyToDirection
 {
-    {RawCurses::UP, Direction::North},
-    {RawCurses::UP_RIGHT, Direction::NorthEast},
-    {RawCurses::RIGHT, Direction::East},
-    {RawCurses::DOWN_RIGHT, Direction::SouthEast},
-    {RawCurses::DOWN, Direction::South},
-    {RawCurses::DOWN_LEFT, Direction::SouthWest},
-    {RawCurses::LEFT, Direction::West},
-    {RawCurses::UP_LEFT, Direction::NorthWest},
+    {io::Key::UP, Direction::North},
+    {io::Key::UP_RIGHT, Direction::NorthEast},
+    {io::Key::RIGHT, Direction::East},
+    {io::Key::DOWN_RIGHT, Direction::SouthEast},
+    {io::Key::DOWN, Direction::South},
+    {io::Key::DOWN_LEFT, Direction::SouthWest},
+    {io::Key::LEFT, Direction::West},
+    {io::Key::UP_LEFT, Direction::NorthWest},
 };
 
 int main()
 {
     // initialize the screen
-    RawCurses* curses = new RawCurses();
+    io::RawCurses* curses = new io::RawCurses();
     Screen screen(*curses);
 
     // Print a welcome message and wait until the user presses a key
@@ -116,7 +116,7 @@ int main()
     return 0;
 }
 
-void game_loop(RawCurses& curses, Viewport& viewport, Hero& hero)
+void game_loop(io::RawCurses& curses, Viewport& viewport, Hero& hero)
 {
     int ch;
     bool done = false;

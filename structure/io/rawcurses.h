@@ -1,6 +1,10 @@
 #ifndef _rawcurses_h_
 #define _rawcurses_h_
 
+
+namespace io
+{
+
 //
 // A class to wrap the actual ncurses implementation
 //
@@ -31,35 +35,10 @@ public:
     virtual int wrefresh(void* window);
     virtual void* stdscr_m();
 
-/*static:*/
-
-    // keys
-    static const unsigned long UP;
-    static const unsigned long UP_RIGHT;
-    static const unsigned long RIGHT;
-    static const unsigned long DOWN_RIGHT;
-    static const unsigned long DOWN;
-    static const unsigned long DOWN_LEFT;
-    static const unsigned long LEFT;
-    static const unsigned long UP_LEFT;
-
-    // special characters
-    static const unsigned long WALL_NS;
-    static const unsigned long WALL_EW;
-    static const unsigned long WALL_NE;
-    static const unsigned long WALL_SE;
-    static const unsigned long WALL_SW;
-    static const unsigned long WALL_NW;
-    static const unsigned long WALL_NSE;
-    static const unsigned long WALL_NSW;
-    static const unsigned long WALL_NEW;
-    static const unsigned long WALL_SEW;
-    static const unsigned long WALL_NSEW;
-
-    static const unsigned long BULLET;
-
 private:
-    static void validate_statics();
+    static void validate_io_constants();
 };
+
+} // namespace io
 
 #endif // _rawcurses_h_

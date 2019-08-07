@@ -1,41 +1,42 @@
 #include <assert.h>
 #include "window.h" 
 #include "screen.h"
+#include "rawcurses.h"
 
 // static variables
-int rcurses::Screen::ref_count = 0;
-rcurses::Screen* rcurses::Screen::singleton = nullptr;
+int io::Screen::ref_count = 0;
+io::Screen* io::Screen::singleton = nullptr;
 
-rcurses::Screen* rcurses::Screen::open_screen(RawCurses& curses)
+io::Screen* io::Screen::open_screen(RawCurses& curses)
 {
-    if (rcurses::Screen::singleton == nullptr)
+    if (io::Screen::singleton == nullptr)
     {
-        assert(rcurses::Screen::ref_count == 0);
-        rcurses::Screen::singleton = new Screen(curses);
+        assert(io::Screen::ref_count == 0);
+        io::Screen::singleton = new Screen(curses);
     }
     else
     {
         // todo we should not be switching curses
-        // assert(curses == rcurses::Screen::singleton->curses_);
+        // assert(curses == io::Screen::singleton->curses_);
     }
 
-    rcurses::Screen::ref_count++;
-    return rcurses::Screen::singleton;
+    io::Screen::ref_count++;
+    return io::Screen::singleton;
 }
 
-void rcurses::Screen::close_screen(rcurses::Screen& screen)
+void io::Screen::close_screen(io::Screen& screen)
 {
-    assert(rcurses::Screen::singleton != nullptr);
-    assert(rcurses::Screen::ref_count > 0);
+    assert(io::Screen::singleton != nullptr);
+    assert(io::Screen::ref_count > 0);
 
-    if (--rcurses::Screen::ref_count == 0)
+    if (--io::Screen::ref_count == 0)
     {
-        delete rcurses::Screen::singleton;
-        rcurses::Screen::singleton = nullptr;
+        delete io::Screen::singleton;
+        io::Screen::singleton = nullptr;
     }
 }
 
-rcurses::Screen::Screen(RawCurses& curses) : curses_(curses)
+io::Screen::Screen(RawCurses& curses) : curses_(curses)
 {
     // initialize the ncurses library
     curses_.initscr();
@@ -69,36 +70,36 @@ rcurses::Screen::Screen(RawCurses& curses) : curses_(curses)
     curses_.start_color();
 }
 
-rcurses::Screen::~Screen()
+io::Screen::~Screen()
 {
     // close the curses library
     curses_.endwin();
 }
 
-void rcurses::Screen::add(const char* Message)
+void io::Screen::add(const char* Message)
 {
     curses_.printw(Message);
 }
 
-int rcurses::Screen::height()
+int io::Screen::height()
 {
     return this->height_;
 }
 
-int rcurses::Screen::width()
+int io::Screen::width()
 {
     return this->width_;
 }
 
-rcurses::Window* rcurses::Screen::create_window(unsigned int screen_row, 
+io::Window* io::Screen::create_window(unsigned int screen_row, 
                                                 unsigned int screen_cell, 
                                                 unsigned int num_rows, 
                                                 unsigned int num_cells)
 {
-    return new rcurses::Window(*this, this->curses_, screen_row, screen_cell, num_rows, num_cells);
+    return new io::Window(*this, this->curses_, screen_row, screen_cell, num_rows, num_cells);
 }                        
 
-unsigned int rcurses::Screen::get_key_input()
+unsigned int io::Screen::get_key_input()
 {
     return this->curses_.getch_m();
 }
