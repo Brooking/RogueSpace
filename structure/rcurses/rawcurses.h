@@ -14,7 +14,7 @@ public:
     virtual int endwin();
     virtual int noecho();
     virtual int cbreak();
-    virtual int keypad(void* window, bool enable_extended_single_value);
+    virtual int keypad(void* screen, bool enable_extended_single_value);
     virtual int clear();
     virtual int curs_set(int visibility);
     virtual void getmaxyx_m(void* screen, int& y, int& x);

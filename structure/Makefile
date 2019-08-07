@@ -71,9 +71,13 @@ lib/libui.a : \
 		obj/viewport.o
 
 lib/librcurses.a : \
-		obj/rawcurses.o
+		obj/rawcurses.o \
+		obj/rscreen.o \
+		obj/window.o
 	ar crf lib/librcurses.a \
-		obj/rawcurses.o
+		obj/rawcurses.o \
+		obj/rscreen.o \
+		obj/window.o
 
 obj/floor.o : \
 		$(common_includes) \
@@ -133,12 +137,26 @@ obj/main.o : \
 		-o obj/main.o
 
 obj/rawcurses.o : \
-		rcurses/rawcurses.cpp \
-		rcurses/rawcurses.h
+		$(rcurses_includes) \
+		rcurses/rawcurses.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c rcurses/rawcurses.cpp \
 		-o obj/rawcurses.o
 
+obj/rscreen.o : \
+		$(rcurses_includes) \
+		rcurses/screen.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c rcurses/screen.cpp \
+		-o obj/rscreen.o
+	
+obj/window.o : \
+		$(rcurses_includes) \
+		rcurses/window.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c rcurses/window.cpp \
+		-o obj/window.o
+	
 
 clean:
 	rm -f *.out

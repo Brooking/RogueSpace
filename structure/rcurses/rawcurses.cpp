@@ -27,9 +27,9 @@ int RawCurses::cbreak()
     return ::cbreak();
 }
 
-int RawCurses::keypad(void* window, bool enable_extended_single_value)
+int RawCurses::keypad(void* screen, bool enable_extended_single_value)
 {
-    return ::keypad((WINDOW*)window, enable_extended_single_value);
+    return ::keypad((WINDOW*)screen, enable_extended_single_value);
 }
 
 int RawCurses::clear()
