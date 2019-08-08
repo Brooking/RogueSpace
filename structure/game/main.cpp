@@ -1,13 +1,15 @@
 #include <iostream>
 #include <map>
+#include "../io/io_constants.h"
+#include "../io/screen.h"
 #include "../io/rawcurses.h"
-#include "../ui/screen.h"
 #include "../world/floor.h"
 #include "../world/hero.h"
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(io::RawCurses& curses, Viewport& viewport, Hero& hero);
+void game_loop(Viewport& viewport, Hero& hero);
+void fill_floor(Floor& floor, Hero& hero);
 
 // maps key inputs into useful directions
 std::map<unsigned int,Direction> KeyToDirection
@@ -26,24 +28,78 @@ int main()
 {
     // initialize the screen
     io::RawCurses* curses = new io::RawCurses();
-    Screen screen(*curses);
+    io::Screen* screen = io::Screen::open_screen(*curses);
 
     // Print a welcome message and wait until the user presses a key
-    screen.add("Welcome to the RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
-    int ch = curses->getch_m();
+    screen->add("Welcome to the RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
+    int ch = screen->get_key_input();
     if (ch == 'q' || ch == 'Q') 
     {
         return 0;
     }
 
     // create a floor larger than the view area
-    Floor floor(screen.height()*1.5, screen.width()*1.5);
+    Floor floor(screen->height()*1.5, screen->width()*1.5);
 
     // put our dude on the floor in the center
     Location starting_spot(floor.height()/2, floor.width()/2);
     Tile* starting_tile = floor.tile(starting_spot);
     Hero hero(starting_tile);
 
+    // fill in the walls
+    fill_floor(floor, hero);
+
+    // create a viewport on that floor that is the full viewable area
+    Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot);
+    floor.register_update(&viewport);
+
+    // start the game loop
+    game_loop(viewport, hero);
+
+    io::Screen::close_screen(*screen);
+    screen = nullptr;
+    return 0;
+}
+
+void game_loop(Viewport& viewport, Hero& hero)
+{
+    int ch;
+    bool done = false;
+    while(!done) 
+    {
+        // get and decode input
+        ch = viewport.screen()->get_key_input();
+        Direction direction = Direction::none;
+        if (KeyToDirection.count(ch) > 0)
+        {
+            direction = KeyToDirection[ch];
+        }
+        else
+        {
+            switch(ch)
+            {
+                case 'q':
+                case 'Q':
+                    done = true;
+                    continue;
+
+                case ' ':
+                    // space is stand for a turn
+                    break;
+
+                default:
+                    // for anything else, we go back for more input
+                    continue;
+            }
+        }
+
+        hero.move(direction);
+        viewport.refresh();
+    }
+}
+
+void fill_floor(Floor& floor, Hero& hero)
+{
     // put walls around the outside
     // todo, these will leak, they should be unique_ptr attached to tiles
     for (int row = 0; row < floor.height(); row++)
@@ -104,51 +160,5 @@ int main()
         {
             new Wall(tile);
         }
-    }
-
-    // create a viewport on that floor that is the full viewable area
-    Viewport viewport(*curses, floor, screen.height(), screen.width(), starting_spot);
-    floor.register_update(&viewport);
-
-    // start the game loop
-    game_loop(*curses, viewport, hero);
-
-    return 0;
-}
-
-void game_loop(io::RawCurses& curses, Viewport& viewport, Hero& hero)
-{
-    int ch;
-    bool done = false;
-    while(!done) 
-    {
-        // get and decode input
-        ch = curses.getch_m();
-        Direction direction = Direction::none;
-        if (KeyToDirection.count(ch) > 0)
-        {
-            direction = KeyToDirection[ch];
-        }
-        else
-        {
-            switch(ch)
-            {
-                case 'q':
-                case 'Q':
-                    done = true;
-                    continue;
-
-                case ' ':
-                    // space is stand for a turn
-                    break;
-
-                default:
-                    // for anything else, we go back for more input
-                    continue;
-            }
-        }
-
-        hero.move(direction);
-        viewport.refresh();
     }
 }

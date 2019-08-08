@@ -1,5 +1,7 @@
 #include "window.h"
 
+#include "ncurses.h" // for COLOR_PAIR()
+
 io::Window::Window(io::Screen& screen, 
                         RawCurses& curses,
                         unsigned int screen_row, 
@@ -21,15 +23,18 @@ io::Window::~Window()
 void io::Window::place_character(unsigned int row,
                                         unsigned int cell,
                                         unsigned int character,
-                                        unsigned int color_pair)
+                                        unsigned int color_pair_index)
 {
     // todo this should be in screen (and cached)
-    this->curses_.attron_m(color_pair);
+    this->curses_.start_color();
+
+    // todo this should be in screen (and cached)
+    this->curses_.attron_m(COLOR_PAIR(color_pair_index));
 
     this->curses_.mvwaddch_m(this->window_, row, cell, character);
 
     // todo this should be in screen (and cached)
-    this->curses_.attroff_m(color_pair);
+    this->curses_.attroff_m(COLOR_PAIR(color_pair_index));
 }
 
 void io::Window::refresh()

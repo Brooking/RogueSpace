@@ -25,7 +25,7 @@ public:
     void place_character(unsigned int row,
                          unsigned int cell,
                          unsigned int character,
-                         unsigned int color_pair);
+                         unsigned int color_pair_index = 1);
 
     // push all changes to the actual screen
     void refresh();

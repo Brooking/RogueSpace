@@ -24,14 +24,14 @@ public:
     virtual ~Icon() {}
 
     // the display color pair
-    int color_pair() { return this->color_pair_; }
+    int color_pair_index() { return this->color_pair_index_; }
 
     // the symbol to show
     unsigned long symbol() { return this->symbol_; }
 
 private:
     UIToken token_;
-    int color_pair_;
+    int color_pair_index_;
     unsigned long symbol_;
 };
 

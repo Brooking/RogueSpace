@@ -1,8 +1,6 @@
 #include "icon.h"
 #include <stdexcept>
 #include <array>
-#include <ncurses.h>
-#include "rawcurses.h"
 #include "io_constants.h"
 
 //
@@ -10,12 +8,12 @@
 //
 struct IconData
 {
-    constexpr IconData(UIToken token, int color_pair, unsigned long symbol) :
-        token(token), color_pair(color_pair), symbol(symbol)
+    constexpr IconData(UIToken token, int color_pair_index, unsigned long symbol) :
+        token(token), color_pair_index(color_pair_index), symbol(symbol)
     {}
 
     UIToken token;
-    int color_pair;
+    int color_pair_index;
     unsigned long symbol;
 };
 
@@ -24,11 +22,11 @@ struct IconData
 //
 static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconList 
 {
-    IconData(UIToken::none, COLOR_PAIR(1), ' '),
-    IconData(UIToken::test, COLOR_PAIR(1), '?'),
-    IconData(UIToken::bare_floor, COLOR_PAIR(1), io::Character::BULLET),
-    IconData(UIToken::wall, COLOR_PAIR(1), '+'),
-    IconData(UIToken::hero, COLOR_PAIR(1), '@')
+    IconData(UIToken::none, 1, ' '),
+    IconData(UIToken::test, 1, '?'),
+    IconData(UIToken::bare_floor, 1, io::Character::BULLET),
+    IconData(UIToken::wall, 1, '+'),
+    IconData(UIToken::hero, 1, '@')
 };
 
 //
@@ -61,7 +59,7 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
         throw std::invalid_argument("token too large");
     }
 
-    this->color_pair_ = IconList[(long unsigned int)token].color_pair;
+    this->color_pair_index_ = IconList[(long unsigned int)token].color_pair_index;
     if (token != UIToken::wall)
     {
         this->symbol_ = IconList[(long unsigned int)token].symbol;

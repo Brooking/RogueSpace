@@ -3,16 +3,16 @@
 #include "viewport.h"
 #include "icon.h"
 
-Viewport::Viewport(io::RawCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center) : 
-    curses_(curses), floor_(floor), 
+Viewport::Viewport(io::Screen* screen, iFloor& floor, unsigned int height, unsigned int width, 
+                   Location center) : 
+    screen_(screen), window_(nullptr), floor_(floor), 
     height_(height), width_(width), 
-    window_origin_row_offset_from_floor_(0), window_origin_cell_offset_from_floor_(0),
-    window_(nullptr)
+    window_origin_row_offset_from_floor_(0), window_origin_cell_offset_from_floor_(0)
 {
     // place the window on the screen
     unsigned int screen_y = 0;
     unsigned int screen_x = 0;
-    this->window_ = this->curses_.newwin(height, width, screen_y, screen_x);
+    this->window_ = this->screen_->create_window(screen_y, screen_x, height, width);
 
     // center (implies fill) and refresh
     this->update_center(center);
@@ -64,10 +64,7 @@ bool Viewport::update(unsigned int row, unsigned int cell)
         adjacency[AdjacentWallBits::West] = this->floor_.token(Location(location.row(), location.cell()-1)) == UIToken::wall;
     }
     Icon icon(token, static_cast<int>(adjacency.to_ulong()));
-    this->curses_.start_color();
-    this->curses_.attron_m(icon.color_pair());
-    this->curses_.mvwaddch_m(this->window_, row, cell, icon.symbol());
-    this->curses_.attroff_m(icon.color_pair());
+    this->window_->place_character(row, cell, icon.symbol());
     return true;
 }
 
@@ -85,7 +82,7 @@ bool Viewport::full_update()
     return true;
 }
 
-bool Viewport::refresh()
+void Viewport::refresh()
 {
-    return this->curses_.wrefresh(this->window_);
+    this->window_->refresh();
 }

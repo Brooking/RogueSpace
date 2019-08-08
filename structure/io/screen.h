@@ -3,12 +3,11 @@
 
 #include "io_constants.h"
 
-class RawCurses;
-
 namespace io
 {
 
 class Window;
+class RawCurses;
 
 //
 // A singleton representing the screen
@@ -17,10 +16,10 @@ class Screen
 {
 public:
     // creator
-    static Screen* open_screen(RawCurses& curses);
+    static io::Screen* open_screen(io::RawCurses& curses);
 
     // deleter
-    static void close_screen(Screen& screen);
+    static void close_screen(io::Screen& screen);
 
     // Print a message to the screen
     void add(const char* Message);
@@ -30,7 +29,7 @@ public:
     int height();
 
     // create a window
-    Window* create_window(unsigned int screen_row, 
+    io::Window* create_window(unsigned int screen_row, 
                           unsigned int screen_cell, 
                           unsigned int num_rows, 
                           unsigned int num_cells);
@@ -40,18 +39,18 @@ public:
 
 private:
     // Initialize the screen
-    Screen(RawCurses& curses);
+    Screen(io::RawCurses& curses);
 
     // tear down the screen
     ~Screen();
 
 private:
-    RawCurses& curses_;
+    io::RawCurses& curses_;
     int width_;
     int height_;
 
     static int ref_count;
-    static Screen* singleton;
+    static io::Screen* singleton;
 };
 
 } // namespace io

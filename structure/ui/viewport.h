@@ -1,9 +1,9 @@
 #ifndef _viewport_h_
 #define _viewport_h_
 
-#include "rawcurses.h"
 #include "io_constants.h"
 #include "screen.h"
+#include "window.h"
 #include "ifloor.h"
 #include "location.h"
 #include "iupdate.h"
@@ -14,14 +14,17 @@
 class Viewport : public iUpdate
 {
 public:
-    Viewport(io::RawCurses& curses, iFloor& floor, unsigned int height, unsigned int width, Location center);
+    Viewport(io::Screen* screen, iFloor& floor, unsigned int height, unsigned int width, Location center);
     virtual ~Viewport() {}
 
     // iUpdate: an update notification from the world
     virtual bool update(Location location, bool center = false);
 
     // time to implement all of the updates (normally called from the game)
-    bool refresh();
+    void refresh();
+
+    // get this viewport's parent screen
+    io::Screen* screen() { return this->screen_; }
 
 private:
     // update all spots in the window
@@ -34,14 +37,14 @@ private:
     bool update_center(Location center);  
 
 private:
-    io::RawCurses& curses_;
+    io::Screen* screen_;
+    io::Window* window_;
     iFloor& floor_;
 
     unsigned int height_;
     unsigned int width_;
     int window_origin_row_offset_from_floor_;
     int window_origin_cell_offset_from_floor_;
-    void* window_;
 };
 
 #endif // _viewport_h_
