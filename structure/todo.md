@@ -3,6 +3,7 @@
 ### Bugs
   - [x] Surface vscode debugger not working
   - [x] run in normal terminal (local config)
+  - [ ] smart pointers for all world objects
 ### Input
 #### Keyboard
   - [x] add diagonal input
@@ -12,12 +13,12 @@
   - [ ] implement click to move
 ### Output
 #### Curses
-  - [ ] static values on RealCurses
-  - [ ] object oriented interface for curses
-  - [ ] move curses wrapper to its own library
+  - [x] static values on RealCurses
+  - [x] object oriented interface for curses
+  - [x] move curses wrapper to its own library
 ### Text Screen
- - [x] auto-center the hero (with tests)
- - [x] directional walls (with tests)
+  - [x] auto-center the hero (with tests)
+  - [x] directional walls (with tests)
 ### Windows
   - [ ] implement panes
   - [ ] implement status pane for hero

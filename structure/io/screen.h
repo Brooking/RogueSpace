@@ -29,13 +29,17 @@ public:
     int height();
 
     // create a window
-    io::Window* create_window(unsigned int screen_row, 
-                          unsigned int screen_cell, 
-                          unsigned int num_rows, 
-                          unsigned int num_cells);
+    io::Window* create_window(
+        unsigned int screen_row, 
+        unsigned int screen_cell, 
+        unsigned int num_rows, 
+        unsigned int num_cells);
 
     // wait for a character
     unsigned int get_key_input();
+
+    // set the color pair index
+    void set_color_pair_index(unsigned int color_pair_index);
 
 private:
     // Initialize the screen
@@ -48,6 +52,7 @@ private:
     io::RawCurses& curses_;
     int width_;
     int height_;
+    unsigned int color_pair_index_;
 
     static int ref_count;
     static io::Screen* singleton;

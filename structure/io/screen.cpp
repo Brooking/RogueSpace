@@ -3,6 +3,8 @@
 #include "screen.h"
 #include "rawcurses.h"
 
+#include "ncurses.h" // for COLOR_PAIR()
+
 // static variables
 int io::Screen::ref_count = 0;
 io::Screen* io::Screen::singleton = nullptr;
@@ -36,7 +38,8 @@ void io::Screen::close_screen(io::Screen& screen)
     }
 }
 
-io::Screen::Screen(RawCurses& curses) : curses_(curses)
+io::Screen::Screen(RawCurses& curses) : 
+    curses_(curses), width_(0), height_(0), color_pair_index_(0)
 {
     // initialize the ncurses library
     curses_.initscr();
@@ -91,10 +94,11 @@ int io::Screen::width()
     return this->width_;
 }
 
-io::Window* io::Screen::create_window(unsigned int screen_row, 
-                                                unsigned int screen_cell, 
-                                                unsigned int num_rows, 
-                                                unsigned int num_cells)
+io::Window* io::Screen::create_window(
+    unsigned int screen_row, 
+    unsigned int screen_cell, 
+    unsigned int num_rows, 
+    unsigned int num_cells)
 {
     return new io::Window(*this, this->curses_, screen_row, screen_cell, num_rows, num_cells);
 }                        
@@ -102,4 +106,14 @@ io::Window* io::Screen::create_window(unsigned int screen_row,
 unsigned int io::Screen::get_key_input()
 {
     return this->curses_.getch_m();
+}
+
+void io::Screen::set_color_pair_index(unsigned int color_pair_index)
+{
+    this->curses_.start_color();
+    if (this->color_pair_index_ != color_pair_index)
+    {
+        this->color_pair_index_ = color_pair_index;
+        this->curses_.attron_m(COLOR_PAIR(color_pair_index));
+    }
 }

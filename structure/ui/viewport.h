@@ -14,7 +14,12 @@
 class Viewport : public iUpdate
 {
 public:
-    Viewport(io::Screen* screen, iFloor& floor, unsigned int height, unsigned int width, Location center);
+    Viewport(
+        io::Screen* screen, 
+        iFloor& floor, 
+        unsigned int height,
+        unsigned int width, 
+        Location center);
     virtual ~Viewport() {}
 
     // iUpdate: an update notification from the world

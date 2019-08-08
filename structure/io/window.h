@@ -11,21 +11,23 @@ class Window
 {
 public:
     // construct a window
-    Window(Screen& screen,
-           RawCurses& curses,
-           unsigned int screen_row, 
-           unsigned int screen_cell, 
-           unsigned int num_rows, 
-           unsigned int num_cells);
+    Window(
+        Screen& screen,
+        RawCurses& curses,
+        unsigned int screen_row, 
+        unsigned int screen_cell, 
+        unsigned int num_rows, 
+        unsigned int num_cells);
 
     // destructor
     virtual ~Window();
 
     // place a colored character at the given spot in the window
-    void place_character(unsigned int row,
-                         unsigned int cell,
-                         unsigned int character,
-                         unsigned int color_pair_index = 1);
+    void place_character(
+        unsigned int row,
+        unsigned int cell,
+        unsigned int character,
+        unsigned int color_pair_index = 1);
 
     // push all changes to the actual screen
     void refresh();
