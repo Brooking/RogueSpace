@@ -2,6 +2,7 @@
 #define _ithing_h_
 
 #include "uitokens.h"
+#include "content_size.h"
 class Tile;
 
 //
@@ -17,7 +18,7 @@ public:
     virtual Tile* tile() const = 0;
 
     // This thing fills the tile
-    virtual bool fills_tile() const = 0;
+    virtual ContentSize content_size() const = 0;
 
     // This thing is centered
     virtual bool is_center() const = 0;

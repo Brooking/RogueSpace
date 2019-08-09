@@ -7,6 +7,7 @@
 #include "uitokens.h"
 #include "location.h"
 #include "ithing.h"
+#include "content_size.h"
 
 class Floor;
 
@@ -17,7 +18,7 @@ class Tile
 {
 public:
     Tile(Floor* floor, Location location) : 
-        floor_(floor), token_(UIToken::bare_floor), location_(location), full_(false) 
+        floor_(floor), token_(UIToken::bare_floor), location_(location), fullness_(ContentSize::empty) 
     {}
     ~Tile() {}
 
@@ -30,8 +31,12 @@ public:
     // The floor this tile is in
     const Floor* floor() const { return this->floor_; }
 
-    // Does this tile contain a 'filling' thing (like a wall)
-    bool is_full() const { return this->full_; }
+    // How full is the tile
+    ContentSize how_full() const { return this->fullness_; }
+
+    // will this thing fit in the tile
+    bool there_is_room(iThing* thing);
+
 
     // add a thing to this tile
     bool add(iThing* thing);
@@ -47,13 +52,14 @@ public:
 
 private:
     Tile();
+    ContentSize calculate_fullness();
 
 private:
     Floor* floor_;
     UIToken token_;
     Location location_;
     std::vector<iThing*> things_;
-    bool full_;
+    ContentSize fullness_;
 };
 
 #endif // _tile_h_

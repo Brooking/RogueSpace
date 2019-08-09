@@ -12,13 +12,13 @@ public:
     Rat(Tile* tile) : MonsterBase(tile, UIToken::rat) {}
     virtual ~Rat() {}
 
-    // iThing: do its move
+    // iThing: do it's move
     virtual bool move()
     {
         Floor* floor = const_cast<Floor*>(this->tile_->floor());
 
         Tile* newTile = nullptr;
-        while (newTile == nullptr || newTile->is_full())
+        while (newTile == nullptr || !newTile->there_is_room(this))
         {
             // random movement
             int delta_row = (rand() % 3) - 1;

@@ -33,6 +33,7 @@ worldtests.out : \
 		lib/libworld.a \
 		test/catch.hpp \
 		test/main.cpp \
+		test/content_size_test.cpp \
 		test/floor_test.cpp \
 		test/hero_test.cpp \
 		test/ithing_mock.h \
@@ -44,6 +45,7 @@ worldtests.out : \
 		$(all_include_dirs) \
 		$(lib_dir) \
 		test/main.cpp \
+		test/content_size_test.cpp \
 		test/floor_test.cpp \
 		test/hero_test.cpp \
 		test/location_test.cpp \

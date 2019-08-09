@@ -31,7 +31,7 @@ public:
     virtual Tile* tile() const { return this->tile_; }
 
     // iThing: a wall does fill a tile
-    virtual bool fills_tile() const { return true; }
+    virtual ContentSize content_size() const { return ContentSize::full; }
 
     // iThing: walls are not centers
     virtual bool is_center() const { return false; }

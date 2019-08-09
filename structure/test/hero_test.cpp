@@ -76,7 +76,7 @@ TEST_CASE("hero_withMoveIntoWall_shouldNotMove", "[hero]")
     // arrange
     Floor floor(1,2);
     Hero hero(floor.tile(Location(0,0)));
-    iThingMock wall(UIToken::test, floor.tile(Location(0,1)), /*fills*/true);
+    iThingMock wall(UIToken::test, floor.tile(Location(0,1)), ContentSize::full);
     floor.tile(Location(0,1))->add(&wall);
 
     // act

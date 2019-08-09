@@ -15,7 +15,7 @@ TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
     REQUIRE(tile.token() == UIToken::bare_floor);    
     REQUIRE(tile.where() == location);
     REQUIRE(tile.floor() == nullptr);
-    REQUIRE(tile.is_full() == false);
+    REQUIRE(tile.how_full() == ContentSize::empty);
     REQUIRE(tile.num_things() == 0);
 }
 
@@ -23,7 +23,7 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(-1,2));
-    iThingMock thing(UIToken::none, /*tile*/nullptr, /*fills*/false);
+    iThingMock thing(UIToken::none, /*tile*/nullptr, ContentSize::small);
 
     // act
     bool addWorked = tile.add(&thing);
@@ -32,16 +32,16 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
     REQUIRE(addWorked == true);
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
-    REQUIRE(tile.is_full() == false);
+    REQUIRE(tile.how_full() == ContentSize::small);
 }
 
 TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(-1,2));
-    iThingMock thing1(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    iThingMock thing1(UIToken::none, /*tile*/nullptr, ContentSize::full);
     tile.add(&thing1);
-    iThingMock thing2(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    iThingMock thing2(UIToken::none, /*tile*/nullptr, ContentSize::full);
 
     // act
     bool addWorked = tile.add(&thing2);
@@ -50,16 +50,16 @@ TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
     REQUIRE(addWorked == false);
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
-    REQUIRE(tile.is_full() == true);
+    REQUIRE(tile.how_full() == ContentSize::full);
 }
 
 TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(-1,2));
-    iThingMock thing1(UIToken::none, /*tile*/nullptr);
+    iThingMock thing1(UIToken::none, /*tile*/nullptr, ContentSize::small);
     tile.add(&thing1);
-    iThingMock thing2(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    iThingMock thing2(UIToken::none, /*tile*/nullptr, ContentSize::full);
 
     // act
     bool addWorked = tile.add(&thing2);
@@ -68,14 +68,14 @@ TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
     REQUIRE(addWorked == false);
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
-    REQUIRE(tile.is_full() == false);
+    REQUIRE(tile.how_full() == ContentSize::small);
 }
 
 TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(-1,2));
-    iThingMock thing(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    iThingMock thing(UIToken::none, /*tile*/nullptr, ContentSize::full);
 
     // act
     bool addWorked = tile.add(&thing);
@@ -84,7 +84,7 @@ TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
     REQUIRE(addWorked == true);
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
-    REQUIRE(tile.is_full() == true);
+    REQUIRE(tile.how_full() == ContentSize::full);
 }
 
 TEST_CASE("tile_withAddNull_shouldFail", "[tile]")
@@ -113,14 +113,14 @@ TEST_CASE("tile_withRemove_shouldRemoveThing", "[tile]")
     // assert
     REQUIRE(remove_worked == true);
     REQUIRE(tile.num_things() == 0);
-    REQUIRE(tile.is_full() == false);
+    REQUIRE(tile.how_full() == ContentSize::empty);
 }
 
 TEST_CASE("tile_withFullRemove_shouldRemoveThing", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(5,1));
-    iThingMock thing(UIToken::none, /*tile*/nullptr, /*fills*/true);
+    iThingMock thing(UIToken::none, /*tile*/nullptr, ContentSize::full);
     tile.add(&thing);
 
     // act
@@ -129,7 +129,7 @@ TEST_CASE("tile_withFullRemove_shouldRemoveThing", "[tile]")
     // assert
     REQUIRE(remove_worked == true);
     REQUIRE(tile.num_things() == 0);
-    REQUIRE(tile.is_full() == false);
+    REQUIRE(tile.how_full() == ContentSize::empty);
 }
 
 TEST_CASE("tile_withRemoveNull_shouldFailElegantly", "[tile]")

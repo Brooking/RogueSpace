@@ -3,30 +3,12 @@
 
 #include "ithing.h"
 
-class MonsterBase : public iThing
+class MonsterBase : public ThingBase
 {
 public:
-    MonsterBase(Tile* tile, UIToken token) : tile_(tile), token_(token) {}
+    MonsterBase(Tile* tile, UIToken token) : 
+        ThingBase(tile, token, ContentSize::large, /*center*/false) {}
     virtual ~MonsterBase() {}
-
-    // iThing: return the ui token for this monster
-    virtual UIToken token() const { return this->token_; }
-
-    // iThing: return the monster's current tile
-    virtual Tile* tile() const { return this->tile_; }
-
-    // iThing: a monster does not fill the tile
-    virtual bool fills_tile() const { return false; }
-
-    // iThing: monster does not center
-    virtual bool is_center() const { return false; }
-
-    // iThing: do its move
-    virtual bool move() = 0;
-
-protected:
-    Tile* tile_;
-    UIToken token_;
 };
 
 

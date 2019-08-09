@@ -3,32 +3,12 @@
 #include "floor.h"
 
 Hero::Hero(Tile* tile) : 
-    token_(UIToken::hero), tile_(nullptr)
-{
-    this->place(tile);
-}
+    ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true)
+{}
 
 bool Hero::move()
 {
     throw std::domain_error("heroes do not move at random");
-}
-
-
-bool Hero::place(Tile* tile)
-{
-    if (tile != nullptr && !tile->is_full())
-    {
-        if (this->tile_ != nullptr)
-        {
-            this->tile_->remove(this);
-            this->tile_ = nullptr;
-        }
-        tile->add(this);
-        this->tile_ = tile;
-        return true;
-    }
-
-    return false;
 }
 
 bool Hero::move(Direction direction)
@@ -36,7 +16,7 @@ bool Hero::move(Direction direction)
     Location newLocation = this->where().apply_direction(direction);
     Floor* floor = const_cast<Floor*>(this->tile_->floor());
     Tile* newTile = floor->tile(newLocation);    
-    if (newTile != nullptr && !newTile->is_full()) 
+    if (newTile != nullptr && newTile->there_is_room(this)) 
     {
         this->tile_->remove(this);
         newTile->add(this);

@@ -19,7 +19,7 @@ Viewport::Viewport(
     unsigned int screen_x = 0;
     this->window_ = this->screen_->create_window(screen_y, screen_x, height, width);
 
-    // center (implies fill) and refresh
+    this->full_update();
     this->update_center(center);
     this->refresh();
 }

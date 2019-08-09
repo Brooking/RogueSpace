@@ -19,18 +19,15 @@ bool Tile::add(iThing* thing)
 {
     if (thing != nullptr)
     {
-        if (!this->full_)
+        if (this->there_is_room(thing))
         {
-            if (!thing->fills_tile() || this->num_things() == 0)
+            this->things_.push_back(thing);
+            this->fullness_ = this->calculate_fullness();
+            if (this->floor_ != nullptr)
             {
-                this->things_.push_back(thing);
-                this->full_ = thing->fills_tile();
-                if (this->floor_ != nullptr)
-                {
-                    this->floor_->update(this->location_, thing->is_center());
-                }
-                return true;
+                this->floor_->update(this->location_, thing->is_center());
             }
+            return true;
         }
     }
     
@@ -50,11 +47,8 @@ bool Tile::remove(iThing* thing)
         if (this->things_[i] == thing) 
         {
             thing_found = true;
-            if (this->things_[i]->fills_tile())
-            {
-                this->full_ = false;
-            }
             this->things_.erase(this->things_.begin()+i);
+            this->fullness_ = this->calculate_fullness();
             if (this->floor_ != nullptr)
             {
                 this->floor_->update(this->location_);
@@ -64,4 +58,41 @@ bool Tile::remove(iThing* thing)
     }
 
     return thing_found;
+}
+
+ContentSize Tile::calculate_fullness()
+{
+    ContentSize size = ContentSize::empty;
+    for (auto thing : this->things_)
+    {
+        if (static_cast<unsigned int>(thing->content_size()) > static_cast<unsigned int>(size))
+        {
+            size = thing->content_size();
+        }
+    }
+
+    return size;
+}
+
+bool Tile::there_is_room(iThing* thing)
+{
+    assert(thing->content_size() != ContentSize::empty);
+
+    if (this->fullness_ == ContentSize::empty)
+    {
+        return true;
+    }
+
+    if (this->fullness_ == ContentSize::small)
+    {
+        return thing->content_size() != ContentSize::full;
+    }
+
+    if (this->fullness_ == ContentSize::large)
+    {
+        return thing->content_size() == ContentSize::small;
+    }
+
+    assert(this->fullness_ == ContentSize::full);
+    return false;
 }
