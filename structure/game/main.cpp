@@ -5,10 +5,11 @@
 #include "../io/rawcurses.h"
 #include "../world/floor.h"
 #include "../world/hero.h"
+#include "../world/rat.h"
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(Viewport& viewport, Hero& hero);
+void game_loop(Viewport& viewport, Hero& hero, std::vector<iThing*> monsters);
 void fill_floor(Floor& floor, Hero& hero);
 
 // maps key inputs into useful directions
@@ -49,19 +50,24 @@ int main()
     // fill in the walls
     fill_floor(floor, hero);
 
+    // add the monster
+    std::vector<iThing*> monsters;
+    Rat rat(floor.tile(Location(floor.height()/4, floor.width()/4)));
+    monsters.push_back(&rat);
+
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot);
     floor.register_update(&viewport);
 
     // start the game loop
-    game_loop(viewport, hero);
+    game_loop(viewport, hero, monsters);
 
     io::Screen::close_screen(*screen);
     screen = nullptr;
     return 0;
 }
 
-void game_loop(Viewport& viewport, Hero& hero)
+void game_loop(Viewport& viewport, Hero& hero, std::vector<iThing*> monsters)
 {
     int ch;
     bool done = false;
@@ -94,6 +100,10 @@ void game_loop(Viewport& viewport, Hero& hero)
         }
 
         hero.move(direction);
+        for (auto& monster : monsters)
+        {
+            monster->move();
+        }
         viewport.refresh();
     }
 }

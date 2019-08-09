@@ -27,6 +27,9 @@ public:
 
     // iThing: hero always centers
     virtual bool is_center() const { return true; }
+
+    // iThing: heroes do not move of their own volition
+    virtual bool move();
     
     // where is this hero now
     Location where() const { return (this->tile_ == nullptr) ? Location(-1,-1) : this->tile_->where(); }

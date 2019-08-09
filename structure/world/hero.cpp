@@ -8,6 +8,11 @@ Hero::Hero(Tile* tile) :
     this->place(tile);
 }
 
+bool Hero::move()
+{
+    throw std::domain_error("heroes do not move at random");
+}
+
 
 bool Hero::place(Tile* tile)
 {

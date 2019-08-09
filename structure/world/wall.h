@@ -36,6 +36,9 @@ public:
     // iThing: walls are not centers
     virtual bool is_center() const { return false; }
     
+    // iThing: walls don't move
+    virtual bool move() { return false; }
+    
 private:
     Tile* tile_;
 };

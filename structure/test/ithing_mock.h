@@ -13,6 +13,7 @@ public:
     virtual Tile* tile() const { return this->tile_; }
     virtual bool fills_tile() const { return this->fills_; }
     virtual bool is_center() const { return this->center_; }
+    virtual bool move() { return true; }
 
 private:
     UIToken token_;

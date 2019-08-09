@@ -21,6 +21,9 @@ public:
 
     // This thing is centered
     virtual bool is_center() const = 0;
+
+    // Move this thing
+    virtual bool move() = 0;
 };
 
 #endif // _ithing_h_

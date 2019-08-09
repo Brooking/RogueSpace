@@ -8,6 +8,7 @@ enum class UIToken
     bare_floor,
     wall,
     hero,
+    rat,
     num_tokens
 };
 
