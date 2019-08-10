@@ -7,7 +7,8 @@ lib_dir=-L$(CURDIR)/lib
 
 common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h
 io_includes= io/rawcurses.h io/io_constants.h io/screen.h io/window.h
-world_includes=world/floor.h world/hero.h world/ithing.h world/rat.h world/tile.h world/wall.h world/monster_base.h
+world_includes=world/euclid.h world/floor.h world/hero.h world/ithing.h world/rat.h \
+	world/tile.h world/wall.h world/monster_base.h
 ui_includes=ui/icon.h ui/viewport.h
 
 all: \
@@ -34,6 +35,7 @@ worldtests.out : \
 		test/catch.hpp \
 		test/main.cpp \
 		test/content_size_test.cpp \
+		test/euclid_test.cpp \
 		test/floor_test.cpp \
 		test/hero_test.cpp \
 		test/ithing_mock.h \
@@ -46,6 +48,7 @@ worldtests.out : \
 		$(lib_dir) \
 		test/main.cpp \
 		test/content_size_test.cpp \
+		test/euclid_test.cpp \
 		test/floor_test.cpp \
 		test/hero_test.cpp \
 		test/location_test.cpp \
@@ -56,10 +59,12 @@ worldtests.out : \
 		-o worldtests.out
 
 lib/libworld.a : \
+		obj/euclid.o \
 		obj/floor.o \
 		obj/hero.o \
 		obj/tile.o
 	ar crf lib/libworld.a \
+		obj/euclid.o \
 		obj/floor.o \
 		obj/hero.o \
 		obj/tile.o
@@ -79,6 +84,14 @@ lib/libio.a : \
 		obj/rawcurses.o \
 		obj/screen.o \
 		obj/window.o
+
+obj/euclid.o : \
+		$(common_includes) \
+		$(world_includes) \
+		world/euclid.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c world/euclid.cpp \
+		-o obj/euclid.o
 
 obj/floor.o : \
 		$(common_includes) \

@@ -4,7 +4,17 @@
 
 Hero::Hero(Tile* tile) : 
     ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true)
-{}
+{
+    Tile* hero_tile = this->tile();
+    if (hero_tile != nullptr)
+    {
+        Floor* hero_floor = hero_tile->floor();
+        if (hero_floor != nullptr)
+        {
+            hero_floor->add_hero(this);
+        }
+    }
+}
 
 bool Hero::move()
 {

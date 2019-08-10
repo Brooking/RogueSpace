@@ -4,6 +4,7 @@
 #include <vector>
 #include "tile.h"
 #include "location.h"
+#include "hero.h"
 #include "ifloor.h"
 
 //
@@ -33,9 +34,16 @@ public:
     // the spot our tiles call us when things change
     bool update(Location location, bool is_center = false);
 
+    // a pointer to our hero
+    // todo...it is odd that the floor knows where the hero is
+    Hero* hero() { return this->hero_; }
+    void add_hero(Hero* hero) { this->hero_ = hero; }
+
+
 private:
     std::vector<std::vector<Tile>> tile_;
     iUpdate* update_interface_;
+    Hero* hero_;
 };
 
 #endif //_floor_h_

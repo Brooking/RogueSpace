@@ -29,7 +29,7 @@ public:
     Location where() { return location_; }
 
     // The floor this tile is in
-    const Floor* floor() const { return this->floor_; }
+    Floor* floor() const { return this->floor_; }
 
     // How full is the tile
     ContentSize how_full() const { return this->fullness_; }

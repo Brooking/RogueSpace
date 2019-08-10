@@ -2,6 +2,7 @@
 #define _rat_h_
 
 #include "monster_base.h"
+#include "euclid.h"
 
 //#include <cstdlib> // for rand()
 #include "floor.h" // should be ifloor.h
@@ -16,22 +17,32 @@ public:
     virtual bool move()
     {
         Floor* floor = const_cast<Floor*>(this->tile_->floor());
-
+        Location hero_location = floor->hero()->where();
         Tile* newTile = nullptr;
-        while (newTile == nullptr || !newTile->there_is_room(this))
+
+        // move closer or stand still
+        std::vector<Location> closer_locations = 
+            euclid::closer_adjacent_locations(hero_location, this->tile_->where());
+        while (closer_locations.size() > 0)
         {
-            // random movement
-            int delta_row = (rand() % 3) - 1;
-            int delta_cell = (rand() % 3) - 1;
-            Location location(
-                this->tile_->where().row() + delta_row, 
-                this->tile_->where().cell() + delta_cell);
-            newTile = floor->tile(location);
+            int index = rand() % closer_locations.size();
+            newTile = floor->tile(closer_locations[index]);
+            if (newTile->there_is_room(this))
+            {
+                // we can move here
+                break;
+            }
+            closer_locations.erase(closer_locations.begin()+index);
+            newTile = nullptr;
         }
 
-        this->tile_->remove(this);
-        newTile->add(this);
-        this->tile_ = newTile;
+        // for now, freeze if you cant advance
+        if (newTile == nullptr)
+        {
+            return false;
+        }
+
+        this->place(newTile);
         return true;
     }
 };
