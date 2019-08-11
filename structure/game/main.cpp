@@ -6,6 +6,7 @@
 #include "../world/floor.h"
 #include "../world/hero.h"
 #include "../world/rat.h"
+#include "../world/dog.h"
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
@@ -54,6 +55,10 @@ int main()
     std::vector<iThing*> monsters;
     Rat rat(floor.tile(Location(floor.height()/4, floor.width()/4)));
     monsters.push_back(&rat);
+
+    // add a dog
+    Dog dog(floor.tile(Location(starting_spot.row(), starting_spot.cell()+1)));
+    monsters.push_back(&dog);
 
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot);

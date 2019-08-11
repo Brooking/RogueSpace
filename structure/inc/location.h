@@ -1,6 +1,8 @@
 #ifndef _location_h_
 #define _location_h_
 
+#include <cmath> // for sqrt
+#include <vector>
 #include "direction.h"
 
 class Location
@@ -51,6 +53,43 @@ public:
             default:
                 return *this;
         }
+    }
+
+    virtual std::vector<Location> all_adjacent_locations()
+    {
+        std::vector<Location> result;
+        for (int delta_row = -1; delta_row <= 1; delta_row++)
+        {
+            for (int delta_cell = -1; delta_cell <= 1; delta_cell++)
+            {
+                result.push_back(Location(this->row()+delta_row, this->cell()+delta_cell));
+            }
+        }
+
+        return result;
+    }
+
+    int distance(Location that)
+    {
+        int delta_y = this->row() - that.row();
+        int delta_x = this->cell() - that.cell();
+        return static_cast<int>(sqrt(delta_y * delta_y + delta_x * delta_x));
+    }
+
+    std::vector<Location> closer_adjacent_locations(Location target)
+    {
+        std::vector<Location> result = this->all_adjacent_locations();
+        int distance = this->distance(target);
+        for (unsigned int i = 0; i < result.size(); i++)
+        {
+            if (result[i].distance(target) >= distance)
+            {
+                result.erase(result.begin()+i);
+                i--;
+            }
+        }
+
+        return result;
     }
 
 private:

@@ -26,6 +26,7 @@ public:
     // This thing is centered
     virtual bool is_center() const { return this->center_; }
 
+//protected:
     // put the thing on the tile
     virtual bool place(Tile* tile)
     {

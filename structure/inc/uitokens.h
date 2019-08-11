@@ -9,6 +9,7 @@ enum class UIToken
     wall,
     hero,
     rat,
+    dog,
     num_tokens
 };
 

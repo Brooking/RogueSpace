@@ -2,7 +2,6 @@
 #define _rat_h_
 
 #include "monster_base.h"
-#include "euclid.h"
 
 //#include <cstdlib> // for rand()
 #include "floor.h" // should be ifloor.h
@@ -13,7 +12,7 @@ public:
     Rat(Tile* tile) : MonsterBase(tile, UIToken::rat) {}
     virtual ~Rat() {}
 
-    // iThing: do it's move
+    // iThing: do its move
     virtual bool move()
     {
         Floor* floor = const_cast<Floor*>(this->tile_->floor());
@@ -22,7 +21,7 @@ public:
 
         // move closer or stand still
         std::vector<Location> closer_locations = 
-            euclid::closer_adjacent_locations(hero_location, this->tile_->where());
+            this->tile_->where().closer_adjacent_locations(hero_location);
         while (closer_locations.size() > 0)
         {
             int index = rand() % closer_locations.size();
