@@ -5,7 +5,6 @@
 #include "screen.h"
 #include "window.h"
 #include "ifloor.h"
-#include "location.h"
 #include "iupdate.h"
 
 //
@@ -19,11 +18,12 @@ public:
         iFloor& floor, 
         unsigned int height,
         unsigned int width, 
-        Location center);
+        int center_row,
+        int center_cell);
     virtual ~Viewport() {}
 
     // iUpdate: an update notification from the world
-    virtual bool update(Location location, bool center = false);
+    virtual bool update(int row, int cell, bool center = false);
 
     // time to implement all of the updates (normally called from the game)
     void refresh();
@@ -36,10 +36,10 @@ private:
     bool full_update();
 
     // update a given spot in the window
-    bool update(unsigned int row, unsigned int cell);
+    bool update_worker(unsigned int row, unsigned int cell);
 
     // update the center (and if it moves update the whole window)
-    bool update_center(Location center);  
+    bool update_center(int center_row, int center_cell);  
 
 private:
     io::Screen* screen_;

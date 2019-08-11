@@ -61,7 +61,7 @@ int main()
     monsters.push_back(&dog);
 
     // create a viewport on that floor that is the full viewable area
-    Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot);
+    Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot.row(), starting_spot.cell());
     floor.register_update(&viewport);
 
     // start the game loop

@@ -26,7 +26,7 @@ public:
     virtual int width() { return tile_[0].size(); }
 
     // iFloor: returns the ui token for a given location
-    virtual UIToken token(Location location);
+    virtual UIToken token(int row, int cell);
 
     // returns the tile at a given location
     Tile* tile(Location location);

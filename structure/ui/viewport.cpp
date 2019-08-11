@@ -8,7 +8,8 @@ Viewport::Viewport(
     iFloor& floor, 
     unsigned int height, 
     unsigned int width, 
-    Location center)
+    int center_row,
+    int center_cell)
     : 
     screen_(screen), window_(nullptr), floor_(floor), 
     height_(height), width_(width), 
@@ -20,17 +21,18 @@ Viewport::Viewport(
     this->window_ = this->screen_->create_window(screen_y, screen_x, height, width);
 
     this->full_update();
-    this->update_center(center);
+    this->update_center(center_row, center_cell);
     this->refresh();
 }
 
-bool Viewport::update_center(Location center)
+bool Viewport::update_center(int center_row, int center_cell)
 {
-    Location corner(center.row() - this->height_/2, center.cell() - this->width_/2);
-    bool center_moved = corner.row() != this->window_origin_row_offset_from_floor_ ||
-                        corner.cell() != this->window_origin_cell_offset_from_floor_;
-    this->window_origin_row_offset_from_floor_ = corner.row();
-    this->window_origin_cell_offset_from_floor_ = corner.cell();
+    int corner_row = center_row - this->height_/2;
+    int corner_cell = center_cell - this->width_/2;
+    bool center_moved = corner_row != this->window_origin_row_offset_from_floor_ ||
+                        corner_cell != this->window_origin_cell_offset_from_floor_;
+    this->window_origin_row_offset_from_floor_ = corner_row;
+    this->window_origin_cell_offset_from_floor_ = corner_cell;
     if (center_moved)
     {
         return this->full_update();
@@ -40,33 +42,32 @@ bool Viewport::update_center(Location center)
 
 // this is an update request from the world
 // location is in floor coordinates
-bool Viewport::update(Location location, bool center)
+bool Viewport::update(int row, int cell, bool center)
 {
     if (center)
     {
-        this->update_center(location);
+        this->update_center(row, cell);
     }
 
-    return this->update(location.row() - this->window_origin_row_offset_from_floor_, 
-                        location.cell() - this->window_origin_cell_offset_from_floor_);
+    return this->update_worker(row - this->window_origin_row_offset_from_floor_, 
+                        cell - this->window_origin_cell_offset_from_floor_);
 }
 
 // this is an internal update
 // row and cell are in window coordinates
-bool Viewport::update(unsigned int row, unsigned int cell)
+bool Viewport::update_worker(unsigned int row, unsigned int cell)
 {
-    // location is in floor coordinates
-    Location location(row + this->window_origin_row_offset_from_floor_, 
-                      cell + this->window_origin_cell_offset_from_floor_);
+    int floor_row = row + this->window_origin_row_offset_from_floor_;
+    int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
 
-    UIToken token = this->floor_.token(location);
+    UIToken token = this->floor_.token(floor_row, floor_cell);
     std::bitset<8> adjacency;
     if (token == UIToken::wall)
     {
-        adjacency[AdjacentWallBits::North] = this->floor_.token(Location(location.row()-1, location.cell())) == UIToken::wall;
-        adjacency[AdjacentWallBits::East] = this->floor_.token(Location(location.row(), location.cell()+1)) == UIToken::wall;
-        adjacency[AdjacentWallBits::South] = this->floor_.token(Location(location.row()+1, location.cell())) == UIToken::wall;
-        adjacency[AdjacentWallBits::West] = this->floor_.token(Location(location.row(), location.cell()-1)) == UIToken::wall;
+        adjacency[AdjacentWallBits::North] = this->floor_.token(floor_row-1, floor_cell) == UIToken::wall;
+        adjacency[AdjacentWallBits::East] = this->floor_.token(floor_row, floor_cell+1) == UIToken::wall;
+        adjacency[AdjacentWallBits::South] = this->floor_.token(floor_row+1, floor_cell) == UIToken::wall;
+        adjacency[AdjacentWallBits::West] = this->floor_.token(floor_row, floor_cell-1) == UIToken::wall;
     }
     Icon icon(token, static_cast<int>(adjacency.to_ulong()));
     this->window_->place_character(row, cell, icon.symbol());
@@ -80,7 +81,7 @@ bool Viewport::full_update()
     {
         for (unsigned int cell = 0; cell < this->width_; cell++)
         {
-            this->update(row,cell);
+            this->update_worker(row,cell);
         }
     }
 

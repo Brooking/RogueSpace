@@ -1,8 +1,6 @@
 #ifndef _direction_h_
 #define _direction_h_
 
-#include "location.h"
-
 enum class Direction
 {
     none = 0,

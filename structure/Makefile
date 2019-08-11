@@ -5,10 +5,10 @@ common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/io
 all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world
 lib_dir=-L$(CURDIR)/lib
 
-common_includes=inc/direction.h inc/location.h inc/uitokens.h inc/ifloor.h
+common_includes=inc/direction.h inc/uitokens.h inc/ifloor.h
 io_includes= io/rawcurses.h io/io_constants.h io/screen.h io/window.h
 world_includes=world/dog.h world/floor.h world/hero.h world/ithing.h world/rat.h \
-	world/tile.h world/wall.h world/monster_base.h
+	world/tile.h world/wall.h world/monster_base.h world/location.h
 ui_includes=ui/icon.h ui/viewport.h
 
 all: \
@@ -58,10 +58,12 @@ worldtests.out : \
 
 lib/libworld.a : \
 		obj/floor.o \
+		obj/location.o \
 		obj/hero.o \
 		obj/tile.o
 	ar crf lib/libworld.a \
 		obj/floor.o \
+		obj/location.o \
 		obj/hero.o \
 		obj/tile.o
 
@@ -88,6 +90,14 @@ obj/floor.o : \
 	$(cc) $(cflags) $(common_include_dirs) \
 		-c world/floor.cpp \
 		-o obj/floor.o
+
+obj/location.o : \
+		$(common_includes) \
+		$(world_includes) \
+		world/location.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c world/location.cpp \
+		-o obj/location.o
 
 obj/hero.o : \
 		$(common_includes) \

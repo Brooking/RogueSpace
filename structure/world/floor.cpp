@@ -28,8 +28,9 @@ bool Floor::register_update(iUpdate* update_interface)
 }
 
 
-UIToken Floor::token(Location location)
+UIToken Floor::token(int row, int cell)
 {
+    Location location(row, cell);
     Tile* tile = this->tile(location);
     if (tile == nullptr)
     {
@@ -53,7 +54,7 @@ bool Floor::update(Location location, bool is_center)
 {
     if (this->update_interface_ != nullptr)
     {
-        this->update_interface_->update(location, is_center);
+        this->update_interface_->update(location.row(), location.cell(), is_center);
         return true;
     }
 

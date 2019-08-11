@@ -2,7 +2,6 @@
 #define _ifloor_h_
 
 #include "uitokens.h"
-#include "location.h"
 #include "iupdate.h"
 
 //
@@ -21,7 +20,7 @@ public:
     virtual int width() = 0;
 
     // the current ui token at the given location
-    virtual UIToken token(Location location) = 0;
+    virtual UIToken token(int row, int cell) = 0;
 };
 
 #endif // _ifloor_h_

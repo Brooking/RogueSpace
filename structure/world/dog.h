@@ -14,7 +14,6 @@ public:
     {
         Floor* floor = this->tile_->floor();
         Location hero_location = floor->hero()->where();
-        Tile* newTile = nullptr;
 
         int distance = this->tile_->where().distance(hero_location);
         std::vector<Location> locations;
@@ -29,27 +28,15 @@ public:
             locations = this->tile()->where().all_adjacent_locations();
         }
         
-        while (locations.size() > 0)
+        Location current = this->tile_->where();
+        Location new_location = current.chose_random(locations, *floor, this);
+        if (new_location != current)
         {
-            int index = rand() % locations.size();
-            newTile = floor->tile(locations[index]);
-            if (newTile->there_is_room(this))
-            {
-                // we can move here
-                break;
-            }
-            locations.erase(locations.begin()+index);
-            newTile = nullptr;
+            this->place(floor->tile(new_location));
+            return true;
         }
 
-        // for now, freeze if you can't advance
-        if (newTile == nullptr)
-        {
-            return false;
-        }
-
-        this->place(newTile);
-        return true;
+        return false;
     }
 };
 

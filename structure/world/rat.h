@@ -17,32 +17,19 @@ public:
     {
         Floor* floor = const_cast<Floor*>(this->tile_->floor());
         Location hero_location = floor->hero()->where();
-        Tile* newTile = nullptr;
 
         // move closer or stand still
+        Location current = this->tile_->where();
         std::vector<Location> closer_locations = 
-            this->tile_->where().closer_adjacent_locations(hero_location);
-        while (closer_locations.size() > 0)
+            current.closer_adjacent_locations(hero_location);
+        Location new_location = current.chose_random(closer_locations, *floor, this);
+        if (new_location != current)
         {
-            int index = rand() % closer_locations.size();
-            newTile = floor->tile(closer_locations[index]);
-            if (newTile->there_is_room(this))
-            {
-                // we can move here
-                break;
-            }
-            closer_locations.erase(closer_locations.begin()+index);
-            newTile = nullptr;
+            this->place(floor->tile(new_location));
+            return true;
         }
 
-        // for now, freeze if you cant advance
-        if (newTile == nullptr)
-        {
-            return false;
-        }
-
-        this->place(newTile);
-        return true;
+        return false;
     }
 };
 
