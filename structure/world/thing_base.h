@@ -4,6 +4,10 @@
 #include "ithing.h"
 #include "tile.h"
 
+#ifndef PROTECTED_ACCESS
+#define PROTECTED_ACCESS protected
+#endif
+
 class ThingBase : public iThing
 {
 public:
@@ -26,7 +30,7 @@ public:
     // This thing is centered
     virtual bool is_center() const { return this->center_; }
 
-//protected:
+PROTECTED_ACCESS:
     // put the thing on the tile
     virtual bool place(Tile* tile)
     {

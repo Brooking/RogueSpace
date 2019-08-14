@@ -11,6 +11,10 @@
 
 class Floor;
 
+#ifndef PROTECTED_ACCESS
+#define PROTECTED_ACCESS protected
+#endif
+
 //
 // A single spot on a floor
 //
@@ -26,7 +30,7 @@ public:
     UIToken token() const;
 
     // The floor location of this tile
-    Location where() { return location_; }
+    Location where() const { return location_; }
 
     // The floor this tile is in
     Floor* floor() const { return this->floor_; }
@@ -50,15 +54,28 @@ public:
     // array notation thing accessor
     const iThing* operator [] (int i) const { return const_cast<const iThing*>(this->things_[i]); }
 
-private:
-    Tile();
+PROTECTED_ACCESS:
+    // calculate fullness based on contents
     ContentSize calculate_fullness();
 
 private:
+    // prohibit parameterless construction
+    Tile();
+
+private:
+    // The floor that this tile is in
     Floor* floor_;
+
+    // the current token
     UIToken token_;
+
+    // the location of this tile
     Location location_;
+
+    // the list of things on this tile
     std::vector<iThing*> things_;
+
+    // the current fullness of the tile
     ContentSize fullness_;
 };
 

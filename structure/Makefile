@@ -2,7 +2,7 @@ cc=g++
 cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
 
 common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/io
-all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world
+all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world -I$(CURDIR)/visibility
 lib_dir=-L$(CURDIR)/lib
 
 common_includes=inc/direction.h inc/uitokens.h inc/ifloor.h
@@ -13,7 +13,13 @@ ui_includes=ui/icon.h ui/viewport.h
 
 all: \
 		game.out \
-		worldtests.out
+		worldtests.out \
+		vistests.out
+
+clean:
+	rm -f *.out
+	rm -f lib/*.a
+	rm -f obj/*.o
 
 game.out: \
 		lib/libworld.a \
@@ -45,6 +51,7 @@ worldtests.out : \
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
 		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
 		test/main.cpp \
 		test/content_size_test.cpp \
 		test/floor_test.cpp \
@@ -55,6 +62,23 @@ worldtests.out : \
 		test/wall_test.cpp \
 		-lworld \
 		-o worldtests.out
+
+vistests.out : \
+		lib/libvisibility.a \
+		test/catch.hpp \
+		test/main.cpp \
+		test/original_shadow_cast_test.cpp \
+		test/los_test.cpp
+	$(cc) $(cflags) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		test/main.cpp \
+		test/original_shadow_cast_test.cpp \
+		test/los_test.cpp \
+		-lvisibility \
+		-lworld \
+		-o vistests.out
 
 lib/libworld.a : \
 		obj/floor.o \
@@ -82,6 +106,15 @@ lib/libio.a : \
 		obj/rawcurses.o \
 		obj/screen.o \
 		obj/window.o
+
+lib/libvisibility.a : \
+		obj/original_shadow_cast.o \
+		obj/map_for_casting.o \
+		obj/los.o
+	ar crf lib/libvisibility.a \
+		obj/original_shadow_cast.o \
+		obj/map_for_casting.o \
+		obj/los.o
 
 obj/floor.o : \
 		$(common_includes) \
@@ -161,7 +194,23 @@ obj/window.o : \
 		-c io/window.cpp \
 		-o obj/window.o
 
-clean:
-	rm -f *.out
-	rm -f lib/*.a
-	rm -f obj/*.o
+obj/original_shadow_cast.o : \
+		$(common_includes) \
+		visibility/original_shadow_cast.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c visibility/original_shadow_cast.cpp \
+		-o obj/original_shadow_cast.o
+
+obj/map_for_casting.o : \
+		$(common_includes) \
+		visibility/map_for_casting.cpp
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c visibility/map_for_casting.cpp \
+		-o obj/map_for_casting.o
+
+obj/los.o : \
+		$(common_includes) \
+		visibility/los.cpp
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c visibility/los.cpp \
+		-o obj/los.o

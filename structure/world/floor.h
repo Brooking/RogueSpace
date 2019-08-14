@@ -39,10 +39,15 @@ public:
     Hero* hero() { return this->hero_; }
     void add_hero(Hero* hero) { this->hero_ = hero; }
 
-
 private:
+    // all of the tiles on this floor
     std::vector<std::vector<Tile>> tile_;
+
+    // the interface to call when something changes
     iUpdate* update_interface_;
+
+    // The hero on the floor
+    // TODO: is this the right spot for it?
     Hero* hero_;
 };
 
