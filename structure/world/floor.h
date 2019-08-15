@@ -28,6 +28,9 @@ public:
     // iFloor: returns the ui token for a given location
     virtual UIToken token(int row, int cell);
 
+    // iFloor: the visibility of the given location
+    virtual bool is_visible(int row, int cell);
+
     // returns the tile at a given location
     Tile* tile(Location location);
 

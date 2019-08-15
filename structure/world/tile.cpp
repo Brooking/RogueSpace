@@ -96,3 +96,19 @@ bool Tile::there_is_room(iThing* thing)
     assert(this->fullness_ == ContentSize::full);
     return false;
 }
+
+void Tile::add_visible(Location location)
+{
+    this->visible_.insert(location);
+}
+
+bool Tile::is_visible(Location location) const
+{
+    return this->visible_.count(location) > 0;
+}
+
+bool Tile::visibility_has_been_calculated() const
+{
+    return this->visible_.size() > 0;
+}
+

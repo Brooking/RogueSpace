@@ -7,6 +7,8 @@ void MapForCasting::set_visible(uint x, uint y, bool visible)
     if (visible)
     {
         this->tile_->add_visible(Location(y,x));
+        Tile* tile = this->tile_->floor()->tile(Location(y,x));
+        tile->set_has_been_seen(true);
     }
 }
 

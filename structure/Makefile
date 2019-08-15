@@ -25,6 +25,7 @@ game.out: \
 		lib/libworld.a \
 		lib/libui.a \
 		lib/libio.a \
+		lib/libvisibility.a \
 		obj/main.o
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
@@ -33,11 +34,13 @@ game.out: \
 		-lworld \
 		-lui \
 		-lio \
+		-lvisibility \
 		-lcurses \
 		-o game.out
 
 worldtests.out : \
 		lib/libworld.a \
+		lib/libvisibility.a \
 		test/catch.hpp \
 		test/main.cpp \
 		test/content_size_test.cpp \
@@ -61,6 +64,7 @@ worldtests.out : \
 		test/tile_test.cpp \
 		test/wall_test.cpp \
 		-lworld \
+		-lvisibility \
 		-o worldtests.out
 
 vistests.out : \
@@ -81,11 +85,13 @@ vistests.out : \
 		-o vistests.out
 
 lib/libworld.a : \
+		obj/map_for_casting.o \
 		obj/floor.o \
 		obj/location.o \
 		obj/hero.o \
 		obj/tile.o
 	ar crf lib/libworld.a \
+		obj/map_for_casting.o \
 		obj/floor.o \
 		obj/location.o \
 		obj/hero.o \
@@ -109,11 +115,9 @@ lib/libio.a : \
 
 lib/libvisibility.a : \
 		obj/original_shadow_cast.o \
-		obj/map_for_casting.o \
 		obj/los.o
 	ar crf lib/libvisibility.a \
 		obj/original_shadow_cast.o \
-		obj/map_for_casting.o \
 		obj/los.o
 
 obj/floor.o : \
@@ -203,9 +207,9 @@ obj/original_shadow_cast.o : \
 
 obj/map_for_casting.o : \
 		$(common_includes) \
-		visibility/map_for_casting.cpp
+		world/map_for_casting.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
-		-c visibility/map_for_casting.cpp \
+		-c world/map_for_casting.cpp \
 		-o obj/map_for_casting.o
 
 obj/los.o : \

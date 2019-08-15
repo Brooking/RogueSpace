@@ -194,3 +194,29 @@ TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
     REQUIRE(tile.num_things() == 1);
     REQUIRE(tile[0]->token() == UIToken::none);
 }
+
+TEST_CASE("tile_withNoVisibiltySet_shouldSaySo", "[tile]")
+{
+    // arrange
+    Tile tile(/*floor*/nullptr, Location(10,12));
+
+    // act
+    bool visibility_set = tile.visibility_has_been_calculated();
+
+    // assert
+    REQUIRE(visibility_set == false);
+}
+
+TEST_CASE("tile_withVisibiltySet_shouldReturnVisibility", "[tile]")
+{
+    // arrange
+    Tile tile(/*floor*/nullptr, Location(10,12));
+
+    // act
+    tile.add_visible(Location(11,12));
+
+    // assert
+    REQUIRE(tile.visibility_has_been_calculated() == true);
+    REQUIRE(tile.is_visible(Location(11,12)) == true);
+    REQUIRE(tile.is_visible(Location(10,12)) == false);
+}
