@@ -4,6 +4,7 @@
   - [x] Surface vscode debugger not working
   - [x] run in normal terminal (local config)
   - [ ] smart pointers for all world objects
+  - [ ] Rectify hero being known to the floor(?)
 ### Input
 #### Keyboard
   - [x] add diagonal input
@@ -28,4 +29,12 @@
   - [ ] implement health
 ### Features
 #### Monster
-  - [ ] add a monster to move around
+  - [x] add a monster to move around
+  - [ ] limit monster's reaction to hero/dog in field of view
+  - [ ] give monster stateful AI : wandering/seeking, beeline, beeline-to-last-seen, wandering back, etc
+#### Lighting
+  - [x] Add visibility to hero
+  - [x] Persist seen walls
+  - [ ] differentiate between "in FOV+lit" and "in FOV+in sight"
+  - [ ] may need to store range with FOV entries
+
