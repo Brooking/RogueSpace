@@ -63,7 +63,7 @@ TEST_CASE("originalShadowCast_withSmallMap_shouldShowAll", "[original_shadow_cas
     REQUIRE(map.is_visible(0,1) == true);
     REQUIRE(map.is_visible(0,2) == true);
     REQUIRE(map.is_visible(1,0) == true);
-    //REQUIRE(map.is_visible(1,1) == true); // origin
+    REQUIRE(map.is_visible(1,1) == true);
     REQUIRE(map.is_visible(1,2) == true);
     REQUIRE(map.is_visible(2,0) == true);
     REQUIRE(map.is_visible(2,1) == true);
@@ -112,7 +112,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[origina
     do_fov(map, /*x*/0, /*y*/0, /*radius*/10);
 
     // assert
-    //REQUIRE(map.is_visible(0,0) == true); // origin
+    REQUIRE(map.is_visible(0,0) == true);
     REQUIRE(map.is_visible(0,1) == true);
     REQUIRE(map.is_visible(0,2) == true);
     REQUIRE(map.is_visible(0,3) == true);
@@ -152,7 +152,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnOrthogonal_shouldShowSome", "[origi
 
     // assert
     REQUIRE(map.is_visible(0,0) == true);
-    //REQUIRE(map.is_visible(0,1) == true); // origin
+    REQUIRE(map.is_visible(0,1) == true);
     REQUIRE(map.is_visible(0,2) == true);
 
     REQUIRE(map.is_visible(1,0) == true);
@@ -186,7 +186,7 @@ TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[origi
     do_fov(map, /*x*/0, /*y*/0, /*radius*/10);
 
     // assert
-    //REQUIRE(map.is_visible(0,0) == true); // origin
+    REQUIRE(map.is_visible(0,0) == true);
     REQUIRE(map.is_visible(0,1) == true);
     REQUIRE(map.is_visible(0,2) == true);
 
@@ -214,7 +214,7 @@ TEST_CASE("originalShadowCast_withClosePillarOnOrthogonal_shouldShowSome", "[ori
 
     // assert
     REQUIRE(map.is_visible(0,0) == true);
-    //REQUIRE(map.is_visible(0,1) == true); // origin
+    REQUIRE(map.is_visible(0,1) == true);
     REQUIRE(map.is_visible(0,2) == true);
 
     REQUIRE(map.is_visible(1,0) == true);
