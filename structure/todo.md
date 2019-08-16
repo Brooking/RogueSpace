@@ -3,6 +3,8 @@
 ### Bugs
   - [x] Surface vscode debugger not working
   - [x] run in normal terminal (local config)
+  - [ ] not showing @ on start
+  - [ ] blank spot follows @
   - [ ] smart pointers for all world objects
   - [ ] Rectify hero being known to the floor(?)
 ### Input
@@ -35,6 +37,7 @@
 #### Lighting
   - [x] Add visibility to hero
   - [x] Persist seen walls
+  - [x] add lights
   - [ ] differentiate between "in FOV+lit" and "in FOV+in sight"
   - [ ] may need to store range with FOV entries
 
