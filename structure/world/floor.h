@@ -42,6 +42,9 @@ public:
     Hero* hero() { return this->hero_; }
     void add_hero(Hero* hero) { this->hero_ = hero; }
 
+    // add a light
+    bool add_light(int row, int cell, int radius);
+
 private:
     // all of the tiles on this floor
     std::vector<std::vector<Tile>> tile_;
@@ -52,6 +55,9 @@ private:
     // The hero on the floor
     // TODO: is this the right spot for it?
     Hero* hero_;
+
+    // all of the lights
+    std::vector<Tile*> lights_;
 };
 
 #endif //_floor_h_

@@ -48,7 +48,7 @@ int main()
     Tile* starting_tile = floor.tile(starting_spot);
     Hero hero(starting_tile);
 
-    // fill in the walls
+    // fill in the walls and lights
     fill_floor(floor, hero);
 
     // add the monster
@@ -176,4 +176,8 @@ void fill_floor(Floor& floor, Hero& hero)
             new Wall(tile);
         }
     }
+
+    // add a lights in the upper and lower right corner
+    floor.add_light(1, floor.width()-2, 10);
+    floor.add_light(floor.height()-2, floor.width()-2, 10);
 }

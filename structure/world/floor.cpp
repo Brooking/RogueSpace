@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <assert.h>
 #include "floor.h"
-#include "../visibility/map_for_casting.h"
+#include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
 Floor::Floor(int height, int width) : update_interface_(nullptr)
@@ -57,7 +57,7 @@ bool Floor::update(Location location, bool is_center)
     Tile* tile = this->tile(location);
     if (is_center && !tile->visibility_has_been_calculated())
     {
-        MapForCasting map(tile);
+        MapForCasting map(tile, CastingScan::visibility);
         do_fov(map, location.cell(), location.row(), 10);
     }
 
@@ -80,9 +80,27 @@ bool Floor::is_visible(int row, int cell)
     }
 
     Tile* tile = this->tile(location);
-    if (tile != nullptr && tile->token() == UIToken::wall && tile->has_been_seen())
+    if (tile != nullptr)
     {
-        return true;
+        if (tile->token() == UIToken::wall && tile->has_been_seen())
+        {
+            return true;
+        }
+        if (tile->is_lit())
+        {
+            return true;
+        }
     }
+
     return false;
+}
+
+bool Floor::add_light(int row, int cell, int radius)
+{
+    Tile* tile = this->tile(Location(row, cell));
+    tile->set_is_lit(true);
+    
+    MapForCasting map(tile, CastingScan::illumination);
+    do_fov(map, cell, row, radius);
+    return true;
 }

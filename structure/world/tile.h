@@ -24,7 +24,7 @@ class Tile
 public:
     Tile(Floor* floor, Location location) : 
         floor_(floor), token_(UIToken::bare_floor), location_(location), fullness_(ContentSize::empty),
-        has_been_seen_(false)
+        has_been_seen_(false), is_lit_(false)
     {}
     ~Tile() {}
 
@@ -71,6 +71,13 @@ public:
     // see this tile
     void set_has_been_seen(bool seen) { this->has_been_seen_ = seen; }
 
+    // set this tile as lit
+    void set_is_lit(bool lit) { this->is_lit_ = lit; }
+
+    // returns wether this tile is lit
+    bool is_lit() { return this->is_lit_; }
+
+
 PROTECTED_ACCESS:
     // calculate fullness based on contents
     ContentSize calculate_fullness();
@@ -100,6 +107,9 @@ private:
 
     // has this tile been seen
     bool has_been_seen_;
+
+    // is this tile lit
+    bool is_lit_;
 };
 
 #endif // _tile_h_

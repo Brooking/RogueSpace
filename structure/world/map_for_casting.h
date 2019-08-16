@@ -1,13 +1,19 @@
 #ifndef _map_for_casting_h_
 #define _map_for_casting_h_
 
-#include "original_shadow_cast.h"
+#include "../visibility/original_shadow_cast.h"
 #include "tile.h"
+
+enum CastingScan
+{
+    visibility,
+    illumination
+};
 
 class MapForCasting : public iMap
 {
 public:
-    MapForCasting(Tile* tile) : tile_(tile) {}
+    MapForCasting(Tile* tile, CastingScan scan) : tile_(tile), floor_(tile->floor()), scan_(scan) {}
     virtual ~MapForCasting() {}
 
     // iMap: Set the visibility of the cell at the given position.
@@ -24,6 +30,8 @@ public:
 
 private:
     Tile* tile_;
+    Floor* floor_;
+    CastingScan scan_;
 };
 
 #endif // _map_for_casting_h_
