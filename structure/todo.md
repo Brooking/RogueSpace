@@ -3,8 +3,8 @@
 ### Bugs
   - [x] Surface vscode debugger not working
   - [x] run in normal terminal (local config)
-  - [ ] not showing @ on start
-  - [ ] blank spot follows @
+  - [x] not showing @ on start
+  - [x] blank spot follows @
   - [ ] smart pointers for all world objects
   - [ ] Rectify hero being known to the floor(?)
 ### Input
