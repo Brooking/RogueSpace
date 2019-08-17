@@ -2,8 +2,9 @@
 #include "hero.h"
 #include "floor.h"
 
-Hero::Hero(Tile* tile) : 
-    ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true)
+Hero::Hero(Tile* tile, int sight_range) : 
+    ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true),
+    sight_range_(sight_range)
 {
     Tile* hero_tile = this->tile();
     if (hero_tile != nullptr)
@@ -12,6 +13,7 @@ Hero::Hero(Tile* tile) :
         if (hero_floor != nullptr)
         {
             hero_floor->add_hero(this);
+            hero_floor->update(hero_tile->where(),/*is_center*/true);
         }
     }
 }
@@ -29,8 +31,8 @@ bool Hero::move(Direction direction)
     if (newTile != nullptr && newTile->there_is_room(this)) 
     {
         this->tile_->remove(this);
-        newTile->add(this);
         this->tile_ = newTile;
+        newTile->add(this);
         return true;
     }
 

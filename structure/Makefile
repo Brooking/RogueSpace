@@ -13,6 +13,7 @@ ui_includes=ui/icon.h ui/viewport.h
 
 all: \
 		game.out \
+		mini.out \
 		worldtests.out \
 		vistests.out
 
@@ -37,6 +38,23 @@ game.out: \
 		-lvisibility \
 		-lcurses \
 		-o game.out
+
+mini.out: \
+		lib/libworld.a \
+		lib/libui.a \
+		lib/libio.a \
+		lib/libvisibility.a \
+		obj/mini.o
+	$(cc) $(cflags) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		obj/mini.o \
+		-lworld \
+		-lui \
+		-lio \
+		-lvisibility \
+		-lcurses \
+		-o mini.out
 
 worldtests.out : \
 		lib/libworld.a \
@@ -176,6 +194,15 @@ obj/main.o : \
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c game/main.cpp \
 		-o obj/main.o
+
+obj/mini.o : \
+		$(common_includes) \
+		$(ui_includes) \
+		$(world_includes) \
+		game/mini.cpp
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c game/mini.cpp \
+		-o obj/mini.o
 
 obj/rawcurses.o : \
 		$(io_includes) \

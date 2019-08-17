@@ -4,7 +4,7 @@
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
-Floor::Floor(int height, int width) : update_interface_(nullptr)
+Floor::Floor(int height, int width) : update_interface_(nullptr), hero_(nullptr)
 {
     if (height < 1) {
         throw std::invalid_argument("height must be positive");
@@ -55,14 +55,15 @@ Tile* Floor::tile(Location location)
 bool Floor::update(Location location, bool is_center)
 {
     Tile* tile = this->tile(location);
-    if (is_center && !tile->visibility_has_been_calculated())
+    if (is_center && !tile->visibility_has_been_calculated() && this->hero_ != nullptr)
     {
         MapForCasting map(tile, CastingScan::visibility);
-        do_fov(map, location.cell(), location.row(), 10);
+        do_fov(map, location.cell(), location.row(), this->hero_->sight_range());
     }
 
     if (this->update_interface_ != nullptr)
     {
+        // tell the ui something changed
         this->update_interface_->update(location.row(), location.cell(), is_center);
         return true;
     }
@@ -99,7 +100,7 @@ bool Floor::add_light(int row, int cell, int radius)
 {
     Tile* tile = this->tile(Location(row, cell));
     tile->set_is_lit(true);
-    
+
     MapForCasting map(tile, CastingScan::illumination);
     do_fov(map, cell, row, radius);
     return true;

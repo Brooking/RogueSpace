@@ -33,38 +33,29 @@ int main()
     io::Screen* screen = io::Screen::open_screen(*curses);
 
     // Print a welcome message and wait until the user presses a key
-    screen->add("Welcome to the RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
+    screen->add("Welcome to the mini RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
     int ch = screen->get_key_input();
     if (ch == 'q' || ch == 'Q') 
     {
         return 0;
     }
 
-    // create a floor larger than the view area
-    Floor floor(screen->height()*1.5, screen->width()*1.5);
+    // create a floor
+    Floor floor(7, 7);
 
     // put our dude on the floor in the center
     Location starting_spot(floor.height()/2, floor.width()/2);
     Tile* starting_tile = floor.tile(starting_spot);
-    Hero hero(starting_tile, /*sight_range*/5);
+    Hero hero(starting_tile, /*sight_range*/2);
 
-    // fill in the walls and lights
     fill_floor(floor, hero);
-
-    // add the monster
-    std::vector<iThing*> monsters;
-    Rat rat(floor.tile(Location(floor.height()/4, floor.width()/4)));
-    monsters.push_back(&rat);
-
-    // add a dog
-    Dog dog(floor.tile(Location(starting_spot.row(), starting_spot.cell()+1)));
-    monsters.push_back(&dog);
 
     // create a viewport on that floor that is the full viewable area
     Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot.row(), starting_spot.cell());
     floor.register_update(&viewport);
 
     // start the game loop
+    std::vector<iThing*> monsters;
     game_loop(viewport, hero, monsters);
 
     io::Screen::close_screen(*screen);
@@ -132,6 +123,7 @@ void fill_floor(Floor& floor, Hero& hero)
             new Wall(floor.tile(Location(row,floor.width()-1)));
         }
     }
+    return;
 
     // put a wall with a door through the center
     int wall_cell = hero.where().cell()+1;
@@ -178,9 +170,6 @@ void fill_floor(Floor& floor, Hero& hero)
     }
 
     // add a lights in the upper and lower right corner
-    floor.add_light(1, floor.width()-2, 10);
-    floor.add_light(floor.height()-2, floor.width()-2, 10);
-
-    // and the left wall
-    floor.add_light(floor.height()/2-1, 1, 15);
+    floor.add_light(1, floor.width()-2, 20);
+    floor.add_light(floor.height()-2, floor.width()-2, 20);
 }

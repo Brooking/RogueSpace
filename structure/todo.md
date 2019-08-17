@@ -5,6 +5,7 @@
   - [x] run in normal terminal (local config)
   - [x] not showing @ on start
   - [x] blank spot follows @
+  - [x] in-sight circle lags behind hero
   - [ ] smart pointers for all world objects
   - [ ] Rectify hero being known to the floor(?)
 ### Input
@@ -22,6 +23,7 @@
 ### Text Screen
   - [x] auto-center the hero (with tests)
   - [x] directional walls (with tests)
+  - [ ] add horizontal spacing to square things up
 ### Windows
   - [ ] implement panes
   - [ ] implement status pane for hero
@@ -40,4 +42,5 @@
   - [x] add lights
   - [ ] differentiate between "in FOV+lit" and "in FOV+in sight"
   - [ ] may need to store range with FOV entries
-
+#### Hero
+  - [x] Add sight distance

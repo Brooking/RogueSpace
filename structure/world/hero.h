@@ -13,7 +13,7 @@
 class Hero : public ThingBase
 {
 public:
-    Hero(Tile* tile = nullptr);
+    Hero(Tile* tile = nullptr, int sight_range = 5);
     virtual ~Hero() {}
 
     // iThing: move (not used for heroes)
@@ -27,6 +27,12 @@ public:
 
     // start moving the hero toward this location
     bool move_to(Location location);
+
+    // how far can the hero see
+    int sight_range() { return this->sight_range_; }
+
+private:
+    int sight_range_;
 };
 
 #endif // _hero_h_
