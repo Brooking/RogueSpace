@@ -2,7 +2,7 @@
 ## ___to do list___
 ### Bugs
   - [x] Surface vscode debugger not working
-  - [x] run in normal terminal (local config)
+  - [ ] run in normal terminal (local config)
   - [x] not showing @ on start
   - [x] blank spot follows @
   - [x] in-sight circle lags behind hero
@@ -15,15 +15,19 @@
   - [ ] show mouse cursor
   - [ ] implement hover info
   - [ ] implement click to move
+#### Time Management
+  - [ ] implement time-tic based speed differentiation
 ### Output
 #### Curses
   - [x] static values on RealCurses
   - [x] object oriented interface for curses
   - [x] move curses wrapper to its own library
+  - [ ] solve ncurses on wsl bash
 ### Text Screen
   - [x] auto-center the hero (with tests)
   - [x] directional walls (with tests)
   - [ ] add horizontal spacing to square things up
+  - [ ] implement colors
 ### Windows
   - [ ] implement panes
   - [ ] implement status pane for hero
@@ -35,7 +39,10 @@
 #### Monster
   - [x] add a monster to move around
   - [ ] limit monster's reaction to hero/dog in field of view
+  - [ ] add monster smelling
+  - [ ] add monster hearing
   - [ ] give monster stateful AI : wandering/seeking, beeline, beeline-to-last-seen, wandering back, etc
+  - [ ] add pathfinding
 #### Lighting
   - [x] Add visibility to hero
   - [x] Persist seen walls
