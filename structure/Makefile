@@ -90,7 +90,8 @@ vistests.out : \
 		test/catch.hpp \
 		test/main.cpp \
 		test/original_shadow_cast_test.cpp \
-		test/los_test.cpp
+		test/los_test.cpp \
+		test/pathfinder_test.cpp
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
 		$(lib_dir) \
@@ -98,6 +99,7 @@ vistests.out : \
 		test/main.cpp \
 		test/original_shadow_cast_test.cpp \
 		test/los_test.cpp \
+		test/pathfinder_test.cpp \
 		-lvisibility \
 		-lworld \
 		-o vistests.out
@@ -133,10 +135,12 @@ lib/libio.a : \
 
 lib/libvisibility.a : \
 		obj/original_shadow_cast.o \
-		obj/los.o
+		obj/los.o \
+		obj/pathfinder.o
 	ar crf lib/libvisibility.a \
 		obj/original_shadow_cast.o \
-		obj/los.o
+		obj/los.o \
+		obj/pathfinder.o
 
 obj/floor.o : \
 		$(common_includes) \
@@ -245,3 +249,10 @@ obj/los.o : \
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c visibility/los.cpp \
 		-o obj/los.o
+
+obj/pathfinder.o : \
+		$(common_includes) \
+		visibility/pathfinder.cpp
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c visibility/pathfinder.cpp \
+		-o obj/pathfinder.o

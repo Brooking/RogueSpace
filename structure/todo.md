@@ -43,6 +43,9 @@
   - [ ] add monster hearing
   - [ ] give monster stateful AI : wandering/seeking, beeline, beeline-to-last-seen, wandering back, etc
   - [ ] add pathfinding
+    - [ ] separate djystra
+    - [ ] pathing
+    - [ ] tests
 #### Lighting
   - [x] Add visibility to hero
   - [x] Persist seen walls
