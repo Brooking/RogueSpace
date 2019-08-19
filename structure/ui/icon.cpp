@@ -28,6 +28,7 @@ static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconLis
     IconData(UIToken::wall, 1, '+'),
     IconData(UIToken::hero, 1, '@'),
     IconData(UIToken::rat, 1, 'r'),
+    IconData(UIToken::bee, 1, 'b'),
     IconData(UIToken::dog, 1, 'd')
 };
 

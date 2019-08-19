@@ -38,14 +38,15 @@
 ### Features
 #### Monster
   - [x] add a monster to move around
-  - [ ] limit monster's reaction to hero/dog in field of view
+  - [x] limit monster's reaction to hero/dog in field of view
   - [ ] add monster smelling
   - [ ] add monster hearing
   - [ ] give monster stateful AI : wandering/seeking, beeline, beeline-to-last-seen, wandering back, etc
-  - [ ] add pathfinding
+  - [x] add pathfinding
     - [ ] separate djystra
     - [ ] pathing
     - [ ] tests
+  - [x] add bee and rat
 #### Lighting
   - [x] Add visibility to hero
   - [x] Persist seen walls
@@ -54,3 +55,8 @@
   - [ ] may need to store range with FOV entries
 #### Hero
   - [x] Add sight distance
+#### Visibility
+  - [x] Line of sight
+  - [x] Field of view
+  - [ ] Djykstra map
+  - [x] Pathing

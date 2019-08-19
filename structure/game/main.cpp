@@ -6,6 +6,7 @@
 #include "../world/floor.h"
 #include "../world/hero.h"
 #include "../world/rat.h"
+#include "../world/bee.h"
 #include "../world/dog.h"
 #include "../ui/viewport.h"
 #include "../world/wall.h"
@@ -51,10 +52,13 @@ int main()
     // fill in the walls and lights
     fill_floor(floor, hero);
 
-    // add the monster
+    // add monsters
     std::vector<iThing*> monsters;
     Rat rat(floor.tile(Location(floor.height()/4, floor.width()/4)));
     monsters.push_back(&rat);
+
+    Bee bee(floor.tile(Location(3 * floor.height()/4, floor.width()/4)));
+    monsters.push_back(&bee);
 
     // add a dog
     Dog dog(floor.tile(Location(starting_spot.row(), starting_spot.cell()+1)));

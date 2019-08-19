@@ -8,7 +8,7 @@ lib_dir=-L$(CURDIR)/lib
 common_includes=inc/direction.h inc/uitokens.h inc/ifloor.h
 io_includes= io/rawcurses.h io/io_constants.h io/screen.h io/window.h
 world_includes=world/dog.h world/floor.h world/hero.h world/ithing.h world/rat.h \
-	world/tile.h world/wall.h world/monster_base.h world/location.h
+	world/tile.h world/wall.h world/monster_base.h world/location.h world/bee.h
 ui_includes=ui/icon.h ui/viewport.h
 
 all: \
