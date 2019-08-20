@@ -23,7 +23,7 @@ class Tile
 {
 public:
     Tile(Floor* floor, Location location) : 
-        floor_(floor), token_(UIToken::bare_floor), location_(location), fullness_(ContentSize::empty),
+        floor_(floor), location_(location), fullness_(ContentSize::empty),
         has_been_seen_(false), is_lit_(false)
     {}
     ~Tile() {}
@@ -56,14 +56,14 @@ public:
     // array notation thing accessor
     const iThing* operator [] (int i) const { return const_cast<const iThing*>(this->things_[i]); }
 
-    // add a spot that is visible from this tile
-    void add_visible(Location location);
+    // add a spot that has los from this tile
+    void add_los(Location location);
 
-    // ask whether a spot is visible from this tile
-    bool is_visible(Location location) const;
+    // ask whether a spot has los from this tile
+    bool has_los(Location location) const;
 
-    // Has visibility been calculated for this tile
-    bool visibility_has_been_calculated() const;
+    // Has los been calculated for this tile
+    bool los_has_been_calculated() const;
 
     // this tile has been seen
     bool has_been_seen() { return this->has_been_seen_; }
@@ -74,7 +74,7 @@ public:
     // set this tile as lit
     void set_is_lit(bool lit) { this->is_lit_ = lit; }
 
-    // returns wether this tile is lit
+    // returns whether this tile is lit
     bool is_lit() { return this->is_lit_; }
 
 
@@ -90,9 +90,6 @@ private:
     // The floor that this tile is in
     Floor* floor_;
 
-    // the current token
-    UIToken token_;
-
     // the location of this tile
     Location location_;
 
@@ -102,8 +99,8 @@ private:
     // the current fullness of the tile
     ContentSize fullness_;
 
-    // all of the spots visible from this tile
-    std::set<Location> visible_;
+    // all of the spots with los from this tile
+    std::set<Location> los_;
 
     // has this tile been seen
     bool has_been_seen_;

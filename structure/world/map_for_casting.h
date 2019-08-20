@@ -17,7 +17,7 @@ public:
     virtual ~MapForCasting() {}
 
     // iMap: Set the visibility of the cell at the given position.
-    virtual void set_visible(uint x, uint y, bool visible);
+    virtual void set_los(uint x, uint y, bool visible);
 
     // iMap: Return the width of the map.
     virtual uint get_width() const;

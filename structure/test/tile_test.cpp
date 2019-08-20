@@ -12,7 +12,7 @@ TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
     Tile tile(/*floor*/nullptr, location);
 
     // assert
-    REQUIRE(tile.token() == UIToken::bare_floor);    
+    REQUIRE(tile.token() == UIToken::none);    
     REQUIRE(tile.where() == location);
     REQUIRE(tile.floor() == nullptr);
     REQUIRE(tile.how_full() == ContentSize::empty);
@@ -195,28 +195,28 @@ TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
     REQUIRE(tile[0]->token() == UIToken::none);
 }
 
-TEST_CASE("tile_withNoVisibiltySet_shouldSaySo", "[tile]")
+TEST_CASE("tile_withNoLosSet_shouldSaySo", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(10,12));
 
     // act
-    bool visibility_set = tile.visibility_has_been_calculated();
+    bool los_set = tile.los_has_been_calculated();
 
     // assert
-    REQUIRE(visibility_set == false);
+    REQUIRE(los_set == false);
 }
 
-TEST_CASE("tile_withVisibiltySet_shouldReturnVisibility", "[tile]")
+TEST_CASE("tile_withLosSet_shouldReturnLos", "[tile]")
 {
     // arrange
     Tile tile(/*floor*/nullptr, Location(10,12));
 
     // act
-    tile.add_visible(Location(11,12));
+    tile.add_los(Location(11,12));
 
     // assert
-    REQUIRE(tile.visibility_has_been_calculated() == true);
-    REQUIRE(tile.is_visible(Location(11,12)) == true);
-    REQUIRE(tile.is_visible(Location(10,12)) == false);
+    REQUIRE(tile.los_has_been_calculated() == true);
+    REQUIRE(tile.has_los(Location(11,12)) == true);
+    REQUIRE(tile.has_los(Location(10,12)) == false);
 }

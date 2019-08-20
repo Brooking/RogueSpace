@@ -37,7 +37,7 @@ public:
         {
             changed = false;
 
-            if (hero->tile()->is_visible(here))
+            if (hero->can_see(here))
             {
                 // I see the hero
                 if (this->ai_state_ != AiState::Beelining || here == this->target_)

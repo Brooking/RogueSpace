@@ -54,43 +54,11 @@ Tile* Floor::tile(Location location)
 
 bool Floor::update(Location location, bool is_center)
 {
-    Tile* tile = this->tile(location);
-    if (is_center && !tile->visibility_has_been_calculated() && this->hero_ != nullptr)
-    {
-        MapForCasting map(tile, CastingScan::visibility);
-        do_fov(map, location.cell(), location.row(), this->hero_->sight_range());
-    }
-
     if (this->update_interface_ != nullptr)
     {
         // tell the ui something changed
         this->update_interface_->update(location.row(), location.cell(), is_center);
         return true;
-    }
-
-    return false;
-}
-
-bool Floor::is_visible(int row, int cell)
-{
-    assert(this->hero_->tile()->visibility_has_been_calculated());
-    Location location(row,cell);
-    if (this->hero_->tile()->is_visible(Location(row,cell)))
-    {
-        return true;
-    }
-
-    Tile* tile = this->tile(location);
-    if (tile != nullptr)
-    {
-        if (tile->token() == UIToken::wall && tile->has_been_seen())
-        {
-            return true;
-        }
-        if (tile->is_lit())
-        {
-            return true;
-        }
     }
 
     return false;

@@ -60,20 +60,16 @@ bool Viewport::update_worker(unsigned int row, unsigned int cell)
     int floor_row = row + this->window_origin_row_offset_from_floor_;
     int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
 
-    UIToken token = UIToken::none;
     std::bitset<8> adjacency;
-    if (this->floor_.is_visible(floor_row, floor_cell))
+    UIToken token = this->floor_.token(floor_row, floor_cell);
+    if (is_wall(token))
     {
-        token = this->floor_.token(floor_row, floor_cell);
-        if (token == UIToken::wall)
-        {
-            adjacency[AdjacentWallBits::North] = this->floor_.token(floor_row-1, floor_cell) == UIToken::wall;
-            adjacency[AdjacentWallBits::East] = this->floor_.token(floor_row, floor_cell+1) == UIToken::wall;
-            adjacency[AdjacentWallBits::South] = this->floor_.token(floor_row+1, floor_cell) == UIToken::wall;
-            adjacency[AdjacentWallBits::West] = this->floor_.token(floor_row, floor_cell-1) == UIToken::wall;
-        }
+        adjacency[AdjacentWallBits::North] = is_wall(this->floor_.token(floor_row-1, floor_cell));
+        adjacency[AdjacentWallBits::East] = is_wall(this->floor_.token(floor_row, floor_cell+1));
+        adjacency[AdjacentWallBits::South] = is_wall(this->floor_.token(floor_row+1, floor_cell));
+        adjacency[AdjacentWallBits::West] = is_wall(this->floor_.token(floor_row, floor_cell-1));
     }
-    Icon icon(token, static_cast<int>(adjacency.to_ulong()));
+   Icon icon(token, static_cast<int>(adjacency.to_ulong()));
     this->window_->place_character(row, cell, icon.symbol(), icon.foreground_color(), icon.background_color());
     return true;
 }

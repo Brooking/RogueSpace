@@ -7,6 +7,10 @@
 #include "thing_base.h"
 #include "tile.h"
 
+#ifndef PROTECTED_ACCESS
+#define PROTECTED_ACCESS protected
+#endif
+
 //
 // Holds the player's avatar
 //
@@ -25,11 +29,13 @@ public:
     // move the hero this direction
     bool move(Direction direction);
 
-    // start moving the hero toward this location
-    bool move_to(Location location);
+    // can the hero see this spot
+    bool can_see(Location location);
 
-    // how far can the hero see
-    int sight_range() { return this->sight_range_; }
+    // can the hero see this tile
+    bool can_see(const Tile* tile);
+
+PROTECTED_ACCESS:
 
 private:
     int sight_range_;

@@ -11,10 +11,10 @@ class iMapMock : public iMap
 private:
     struct MapEntry
     {
-        MapEntry() : visible(false), opaque(false) {}
+        MapEntry() : los(false), opaque(false) {}
         ~MapEntry() {}
 
-        bool visible;
+        bool los;
         bool opaque;
     };
 
@@ -24,11 +24,11 @@ public:
     {}
     virtual ~iMapMock() {}
 
-    // Set the visibility of the cell at the given position.
-    virtual void set_visible(uint cell, uint row, bool visible) { this->map[row][cell].visible = visible; }
+    // Set the los of the cell at the given position.
+    virtual void set_los(uint cell, uint row, bool visible) { this->map[row][cell].los = visible; }
 
-    // Return whether the given position is visible
-    bool is_visible(uint cell, uint row) { return this->map[row][cell].visible; }
+    // Return whether the given position is in los
+    bool has_los(uint cell, uint row) { return this->map[row][cell].los; }
     
     // iMap: Return the width of the map.
     virtual uint get_width() const { return this->map[0].size(); }

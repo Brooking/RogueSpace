@@ -28,9 +28,11 @@ struct IconData
 static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconList 
 {
     IconData(UIToken::none, io::Color::BLACK, ' '),
-    IconData(UIToken::test, io::Color::BRIGHT_MAGENTA, '?'),
-    IconData(UIToken::bare_floor, io::Color::BRIGHT_BLACK, io::Character::BULLET),
-    IconData(UIToken::wall, io::Color::BRIGHT_BLACK, '+'),
+    IconData(UIToken::test, io::Color::BRIGHT_YELLOW, '?'),
+    IconData(UIToken::visible_floor, io::Color::WHITE, io::Character::BULLET),
+    IconData(UIToken::seen_floor, io::Color::BRIGHT_BLACK, io::Character::BULLET),
+    IconData(UIToken::visible_wall, io::Color::WHITE, '+'),
+    IconData(UIToken::seen_wall, io::Color::BRIGHT_BLACK, '+'),
     IconData(UIToken::hero, io::Color::BRIGHT_CYAN, '@'),
     IconData(UIToken::rat, io::Color::BRIGHT_RED, 'r'),
     IconData(UIToken::bee, io::Color::BRIGHT_RED, 'b'),
@@ -69,17 +71,17 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
 
     this->foreground_color_ = IconList[(long unsigned int)token].foreground_;
     this->background_color_ = IconList[(long unsigned int)token].background_;
-    if (token != UIToken::wall)
-    {
-        this->symbol_ = IconList[(long unsigned int)token].symbol;
-    }
-    else
-    {
+    if (is_wall(token))
+     {
         // walls' shapes rely on adjacent walls
         if (adjacency >= 16) 
         {
             throw std::invalid_argument("adjacency too large");
         }
         this->symbol_ = AdjacentWallList[adjacency];
+    }
+    else
+    {
+        this->symbol_ = IconList[(long unsigned int)token].symbol;
     }
 }

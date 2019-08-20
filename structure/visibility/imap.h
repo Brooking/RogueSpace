@@ -5,8 +5,8 @@ typedef unsigned int uint;
 
 class iMap {
     public:
-        // Set the visibility of the cell at the given position.
-        virtual void set_visible(uint x, uint y, bool visible) = 0;
+        // Set the los of the cell at the given position.
+        virtual void set_los(uint x, uint y, bool visible) = 0;
 
         // Return the width of the map.
         virtual uint get_width() const = 0;

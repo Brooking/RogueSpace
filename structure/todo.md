@@ -28,7 +28,7 @@
   - [x] directional walls (with tests)
   - [ ] add horizontal spacing to square things up
   - [x] implement colors
-  - [ ] show white visible stuff & grey 'seen' stuff
+  - [x] show white visible stuff & grey 'seen' stuff
 ### Windows
   - [ ] implement panes
   - [ ] implement status pane for hero
@@ -61,3 +61,5 @@
   - [x] Field of view
   - [ ] Djykstra map
   - [x] Pathing
+  - [x] Change api semantics to hero.can_see()
+  - [ ] Make lighted tiles visible only if in los

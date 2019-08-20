@@ -21,9 +21,6 @@ public:
 
     // the current ui token at the given location
     virtual UIToken token(int row, int cell) = 0;
-
-    // the visibility of the given location
-    virtual bool is_visible(int row, int cell) = 0;
 };
 
 #endif // _ifloor_h_

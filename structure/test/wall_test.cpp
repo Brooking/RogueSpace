@@ -13,7 +13,7 @@ TEST_CASE("wall_withConstruction_shouldBeCreated", "[wall]")
     Wall wall(&tile);
 
     // assert
-    REQUIRE(wall.token() == UIToken::wall);
+    REQUIRE(wall.token() == UIToken::visible_wall);
     REQUIRE(wall.tile() == &tile);
 }
 

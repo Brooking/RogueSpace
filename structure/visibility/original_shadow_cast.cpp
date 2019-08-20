@@ -40,7 +40,7 @@ void cast_light(iMap& map, uint x, uint y, uint radius, uint row,
 
             uint radius2 = radius * radius;
             if ((uint)(dx * dx + dy * dy) < radius2) {
-                map.set_visible(ax, ay, true);
+                map.set_los(ax, ay, true);
             }
 
             if (blocked) {
@@ -66,7 +66,7 @@ void cast_light(iMap& map, uint x, uint y, uint radius, uint row,
 
 void do_fov(iMap& map, uint x, uint y, uint radius) {
 
-    map.set_visible(x, y, true);
+    map.set_los(x, y, true);
 
     for (uint i = 0; i < 8; i++) {
         cast_light(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i],

@@ -1,6 +1,8 @@
 #include <assert.h>
 #include "hero.h"
 #include "floor.h"
+#include "map_for_casting.h"
+#include "../visibility/original_shadow_cast.h"
 
 Hero::Hero(Tile* tile, int sight_range) : 
     ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true),
@@ -39,7 +41,18 @@ bool Hero::move(Direction direction)
     return false;
 }
 
-bool Hero::move_to(Location location)
+bool Hero::can_see(Location location)
 {
-    throw std::domain_error("move_to not yet implemented on hero");
+    Tile* tile = this->tile_;
+    if (!tile->los_has_been_calculated())
+    {
+        MapForCasting map(tile, CastingScan::visibility);
+        do_fov(map, tile->where().cell(), tile->where().row(), this->sight_range_);
+    }
+    return tile->has_los(location);
+}
+
+bool Hero::can_see(const Tile* tile)
+{
+    return this->can_see(tile->where());
 }

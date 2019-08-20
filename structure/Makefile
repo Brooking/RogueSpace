@@ -1,16 +1,3 @@
-cc=g++
-cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
-
-common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/io
-all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world -I$(CURDIR)/visibility
-lib_dir=-L$(CURDIR)/lib
-
-common_includes=inc/direction.h inc/uitokens.h inc/ifloor.h
-io_includes= io/rawcurses.h io/io_constants.h io/screen.h io/window.h
-world_includes=world/dog.h world/floor.h world/hero.h world/ithing.h world/rat.h \
-	world/tile.h world/wall.h world/monster_base.h world/location.h world/bee.h
-ui_includes=ui/icon.h ui/viewport.h
-
 all: \
 		game.out \
 		mini.out \
@@ -22,6 +9,48 @@ clean:
 	rm -f lib/*.a
 	rm -f obj/*.o
 
+# definitions	
+cc=g++
+cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
+
+# directories (for compiling and linking)
+common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/io
+all_include_dirs=$(common_include_dirs) -I$(CURDIR)/ui -I$(CURDIR)/world -I$(CURDIR)/visibility
+lib_dir=-L$(CURDIR)/lib
+
+# header file lists (for setting dependencies)
+common_includes= \
+	inc/content_size.h \
+	inc/direction.h \
+	inc/ifloor.h \
+	inc/iupdate.h \
+	inc/uitokens.h
+io_includes= \
+	io/io_constants.h \
+	io/rawcurses.h \
+	io/screen.h \
+	io/window.h
+world_includes= \
+	world/bee.h \
+	world/dog.h \
+	world/floor.h \
+	world/hero.h \
+	world/ithing.h \
+	world/location.h \
+	world/map_for_casting.h \
+	world/monster_base.h \
+	world/rat.h \
+	world/thing_base.h \
+	world/tile.h \
+	world/wall.h
+ui_includes=ui/icon.h ui/viewport.h
+vis_includes= \
+	visibility/imap.h \
+	visibility/los.h \
+	visibility/original_shadow_cast.h \
+	visibility/pathfinder.h
+
+# executables
 game.out: \
 		lib/libworld.a \
 		lib/libui.a \
@@ -56,6 +85,25 @@ mini.out: \
 		-lcurses \
 		-o mini.out
 
+vistests.out : \
+		lib/libvisibility.a \
+		test/catch.hpp \
+		test/main.cpp \
+		test/original_shadow_cast_test.cpp \
+		test/los_test.cpp \
+		test/pathfinder_test.cpp
+	$(cc) $(cflags) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		test/main.cpp \
+		test/original_shadow_cast_test.cpp \
+		test/los_test.cpp \
+		test/pathfinder_test.cpp \
+		-lvisibility \
+		-lworld \
+		-o vistests.out
+
 worldtests.out : \
 		lib/libworld.a \
 		lib/libvisibility.a \
@@ -85,24 +133,31 @@ worldtests.out : \
 		-lvisibility \
 		-o worldtests.out
 
-vistests.out : \
-		lib/libvisibility.a \
-		test/catch.hpp \
-		test/main.cpp \
-		test/original_shadow_cast_test.cpp \
-		test/los_test.cpp \
-		test/pathfinder_test.cpp
-	$(cc) $(cflags) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
-		test/original_shadow_cast_test.cpp \
-		test/los_test.cpp \
-		test/pathfinder_test.cpp \
-		-lvisibility \
-		-lworld \
-		-o vistests.out
+# Libraries
+lib/libio.a : \
+		obj/rawcurses.o \
+		obj/screen.o \
+		obj/window.o
+	ar crf lib/libio.a \
+		obj/rawcurses.o \
+		obj/screen.o \
+		obj/window.o
+
+lib/libui.a : \
+		obj/icon.o \
+		obj/viewport.o
+	ar crf lib/libui.a \
+		obj/icon.o \
+		obj/viewport.o
+
+lib/libvisibility.a : \
+		obj/original_shadow_cast.o \
+		obj/los.o \
+		obj/pathfinder.o
+	ar crf lib/libvisibility.a \
+		obj/original_shadow_cast.o \
+		obj/los.o \
+		obj/pathfinder.o
 
 lib/libworld.a : \
 		obj/map_for_casting.o \
@@ -117,31 +172,7 @@ lib/libworld.a : \
 		obj/hero.o \
 		obj/tile.o
 
-lib/libui.a : \
-		obj/icon.o \
-		obj/viewport.o
-	ar crf lib/libui.a \
-		obj/icon.o \
-		obj/viewport.o
-
-lib/libio.a : \
-		obj/rawcurses.o \
-		obj/screen.o \
-		obj/window.o
-	ar crf lib/libio.a \
-		obj/rawcurses.o \
-		obj/screen.o \
-		obj/window.o
-
-lib/libvisibility.a : \
-		obj/original_shadow_cast.o \
-		obj/los.o \
-		obj/pathfinder.o
-	ar crf lib/libvisibility.a \
-		obj/original_shadow_cast.o \
-		obj/los.o \
-		obj/pathfinder.o
-
+# world objects
 obj/floor.o : \
 		$(common_includes) \
 		$(world_includes) \
@@ -149,14 +180,6 @@ obj/floor.o : \
 	$(cc) $(cflags) $(common_include_dirs) \
 		-c world/floor.cpp \
 		-o obj/floor.o
-
-obj/location.o : \
-		$(common_includes) \
-		$(world_includes) \
-		world/location.cpp
-	$(cc) $(cflags) $(common_include_dirs) \
-		-c world/location.cpp \
-		-o obj/location.o
 
 obj/hero.o : \
 		$(common_includes) \
@@ -166,6 +189,23 @@ obj/hero.o : \
 		-c world/hero.cpp \
 		-o obj/hero.o
 
+obj/location.o : \
+		$(common_includes) \
+		$(world_includes) \
+		world/location.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c world/location.cpp \
+		-o obj/location.o
+
+obj/map_for_casting.o : \
+		$(common_includes) \
+		$(vis_includes) \
+		$(world_includes) \
+		world/map_for_casting.cpp
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c world/map_for_casting.cpp \
+		-o obj/map_for_casting.o
+
 obj/tile.o : \
 		$(common_includes) \
 		$(world_includes) \
@@ -174,6 +214,7 @@ obj/tile.o : \
 		-c world/tile.cpp \
 		-o obj/tile.o
 
+# UI objects
 obj/icon.o : \
 		$(common_includes) \
 		$(ui_includes) \
@@ -190,6 +231,7 @@ obj/viewport.o : \
 		-c ui/viewport.cpp \
 		-o obj/viewport.o
 
+# game objects
 obj/main.o : \
 		$(common_includes) \
 		$(ui_includes) \
@@ -208,6 +250,7 @@ obj/mini.o : \
 		-c game/mini.cpp \
 		-o obj/mini.o
 
+# io objects
 obj/rawcurses.o : \
 		$(io_includes) \
 		io/rawcurses.cpp
@@ -229,29 +272,26 @@ obj/window.o : \
 		-c io/window.cpp \
 		-o obj/window.o
 
-obj/original_shadow_cast.o : \
-		$(common_includes) \
-		visibility/original_shadow_cast.cpp
-	$(cc) $(cflags) $(common_include_dirs) \
-		-c visibility/original_shadow_cast.cpp \
-		-o obj/original_shadow_cast.o
-
-obj/map_for_casting.o : \
-		$(common_includes) \
-		world/map_for_casting.cpp
-	$(cc) $(cflags) $(all_include_dirs) \
-		-c world/map_for_casting.cpp \
-		-o obj/map_for_casting.o
-
+# visibility objects
 obj/los.o : \
 		$(common_includes) \
+		$(vis_includes) \
 		visibility/los.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c visibility/los.cpp \
 		-o obj/los.o
 
+obj/original_shadow_cast.o : \
+		$(common_includes) \
+		$(vis_includes) \
+		visibility/original_shadow_cast.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c visibility/original_shadow_cast.cpp \
+		-o obj/original_shadow_cast.o
+
 obj/pathfinder.o : \
 		$(common_includes) \
+		$(vis_includes) \
 		visibility/pathfinder.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c visibility/pathfinder.cpp \

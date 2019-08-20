@@ -3,15 +3,58 @@
 #include "floor.h"
 
 UIToken Tile::token() const
-{ 
-    if (this->num_things() == 0)
+{
+    Floor* floor = this->floor();
+    if (floor == nullptr)
     {
-        // nothing on the tile, return the tile's own token
-        return this->token_; 
+        return UIToken::none;
     }
 
-    // return the token from the top of the stack
-    return this->things_.back()->token();
+    Hero* hero = floor->hero();
+    if (hero == nullptr)
+    {
+        return UIToken::none;
+    }
+
+    UIToken result = UIToken::none;
+    if (this->num_things() == 0)
+    {
+        // nothing on the tile, start with a floor
+        result = UIToken::visible_floor; 
+    }
+    else
+    {
+        // start with the token from the top of the stack
+        result = this->things_.back()->token();
+    }
+
+    if (floor->hero()->can_see(this) || this->is_lit_)
+    {
+        // if the hero can see this tile or the tile is lit, 
+        // just return it
+    }
+    else if (this->has_been_seen_)
+    {
+        if (result == UIToken::visible_floor)
+        {
+            result = UIToken::seen_floor;
+        }
+        else if (result == UIToken::visible_wall)
+        {
+            result = UIToken::seen_wall;
+        }
+        else
+        {
+            result = UIToken::seen_floor;
+        }
+    }
+    else
+    {
+        // can't see and has never been seen
+        result = UIToken::none;
+    }
+
+    return result;
 }
 
 
@@ -97,18 +140,18 @@ bool Tile::there_is_room(iThing* thing)
     return false;
 }
 
-void Tile::add_visible(Location location)
+void Tile::add_los(Location location)
 {
-    this->visible_.insert(location);
+    this->los_.insert(location);
 }
 
-bool Tile::is_visible(Location location) const
+bool Tile::has_los(Location location) const
 {
-    return this->visible_.count(location) > 0;
+    return this->los_.count(location) > 0;
 }
 
-bool Tile::visibility_has_been_calculated() const
+bool Tile::los_has_been_calculated() const
 {
-    return this->visible_.size() > 0;
+    return this->los_.size() > 0;
 }
 
