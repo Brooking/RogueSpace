@@ -38,6 +38,30 @@ enum Key : unsigned int
     UP_LEFT = 262,
 };
 
+//
+// colors (from ncurses)
+//
+const unsigned int bright = 8;
+enum Color : unsigned int
+{
+    BLACK = 0,
+    RED = 1,
+    GREEN = 2,
+    YELLOW = 3,
+    BLUE = 4,
+    MAGENTA = 5,
+    CYAN = 6,
+    WHITE = 7,
+    BRIGHT_BLACK = bright + Color::BLACK,
+    BRIGHT_RED = bright + Color::RED,
+    BRIGHT_GREEN = bright + Color::GREEN,
+    BRIGHT_YELLOW = bright + Color::YELLOW,
+    BRIGHT_BLUE = bright + Color::BLUE,
+    BRIGHT_MAGENTA = bright + Color::MAGENTA,
+    BRIGHT_CYAN = bright + Color::CYAN,
+    BRIGHT_WHITE = bright + Color::WHITE,
+};
+
 } // namespace io
 
 #endif // _io_constants_h_

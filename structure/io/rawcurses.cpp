@@ -144,6 +144,14 @@ void io::RawCurses::validate_io_constants()
 
     assert(io::Character::BULLET == static_cast<unsigned int>(ACS_BULLET));
 
+    assert(io::Color::BLACK == static_cast<unsigned int>(COLOR_BLACK));
+    assert(io::Color::RED == static_cast<unsigned int>(COLOR_RED));
+    assert(io::Color::GREEN == static_cast<unsigned int>(COLOR_GREEN));
+    assert(io::Color::YELLOW == static_cast<unsigned int>(COLOR_YELLOW));
+    assert(io::Color::BLUE == static_cast<unsigned int>(COLOR_BLUE));
+    assert(io::Color::MAGENTA == static_cast<unsigned int>(COLOR_MAGENTA));
+    assert(io::Color::CYAN == static_cast<unsigned int>(COLOR_CYAN));
+    assert(io::Color::WHITE == static_cast<unsigned int>(COLOR_WHITE));
 
     ::endwin();
 };

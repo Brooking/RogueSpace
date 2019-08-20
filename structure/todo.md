@@ -27,7 +27,8 @@
   - [x] auto-center the hero (with tests)
   - [x] directional walls (with tests)
   - [ ] add horizontal spacing to square things up
-  - [ ] implement colors
+  - [x] implement colors
+  - [ ] show white visible stuff & grey 'seen' stuff
 ### Windows
   - [ ] implement panes
   - [ ] implement status pane for hero

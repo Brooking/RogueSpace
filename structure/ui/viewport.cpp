@@ -74,7 +74,7 @@ bool Viewport::update_worker(unsigned int row, unsigned int cell)
         }
     }
     Icon icon(token, static_cast<int>(adjacency.to_ulong()));
-    this->window_->place_character(row, cell, icon.symbol());
+    this->window_->place_character(row, cell, icon.symbol(), icon.foreground_color(), icon.background_color());
     return true;
 }
 

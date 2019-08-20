@@ -38,6 +38,8 @@ int main()
     int ch = screen->get_key_input();
     if (ch == 'q' || ch == 'Q') 
     {
+        io::Screen::close_screen(*screen);
+        screen = nullptr;
         return 0;
     }
 

@@ -2,6 +2,7 @@
 #define _icon_h_
 
 #include "uitokens.h"
+#include "io_constants.h"
 
 //
 // Adjacency informaion (used in drawing walls)
@@ -23,15 +24,19 @@ public:
     Icon(UIToken token, unsigned int adjacency = 0);
     virtual ~Icon() {}
 
-    // the display color pair
-    int color_pair_index() { return this->color_pair_index_; }
+    // the foregound color
+    io::Color foreground_color() { return this->foreground_color_; }
+
+    // the foregound color
+    io::Color background_color() { return this->background_color_; }
 
     // the symbol to show
     unsigned long symbol() { return this->symbol_; }
 
 private:
     UIToken token_;
-    int color_pair_index_;
+    io::Color foreground_color_;
+    io::Color background_color_;
     unsigned long symbol_;
 };
 

@@ -39,7 +39,7 @@ void io::Screen::close_screen(io::Screen& screen)
 }
 
 io::Screen::Screen(RawCurses& curses) : 
-    curses_(curses), width_(0), height_(0), color_pair_index_(0)
+    curses_(curses), width_(0), height_(0), color_pair_index_(0), next_color_pair_index_(1)
 {
     // initialize the ncurses library
     curses_.initscr();
@@ -79,6 +79,14 @@ io::Screen::~Screen()
     curses_.endwin();
 }
 
+void io::Screen::add(const char* Message, io::Color foreground, io::Color background)
+{
+    unsigned int color_pair_index = this->get_colorpair_index(foreground, background);
+    curses_.attron_m(COLOR_PAIR(color_pair_index));
+    add(Message);
+    curses_.attroff_m(COLOR_PAIR(color_pair_index));
+}
+
 void io::Screen::add(const char* Message)
 {
     curses_.printw(Message);
@@ -108,12 +116,30 @@ unsigned int io::Screen::get_key_input()
     return this->curses_.getch_m();
 }
 
-void io::Screen::set_color_pair_index(unsigned int color_pair_index)
+unsigned int io::Screen::get_color_character(unsigned int character, io::Color foreground, io::Color background)
 {
-    this->curses_.start_color();
-    if (this->color_pair_index_ != color_pair_index)
+    unsigned int colorpair_index = this->get_colorpair_index(foreground, background);
+    return character | COLOR_PAIR(colorpair_index);
+}
+
+
+unsigned int io::Screen::get_colorpair_index(io::Color foreground, io::Color background)
+{
+    assert(background >= io::Color::BLACK && background <= io::Color::WHITE);
+    unsigned int color_pair_index = 0;
+    std::pair<io::Color,io::Color> color_pair(foreground, background);
+    if (this->color_pairs_.count(color_pair) == 0)
     {
-        this->color_pair_index_ = color_pair_index;
-        this->curses_.attron_m(COLOR_PAIR(color_pair_index));
+        // new pair to us
+        this->curses_.init_pair(this->next_color_pair_index_, foreground, background);
+        color_pair_index = this->next_color_pair_index_;
+        this->color_pairs_.insert(std::pair<std::pair<io::Color,io::Color>,int>(color_pair, color_pair_index));
+        this->next_color_pair_index_++;
     }
+    else
+    {
+        color_pair_index = this->color_pairs_[color_pair];
+    }
+
+    return color_pair_index;
 }

@@ -1,6 +1,7 @@
 #ifndef _io_screen_h_
 #define _io_screen_h_
 
+#include <map>
 #include "io_constants.h"
 
 namespace io
@@ -21,6 +22,10 @@ public:
     // deleter
     static void close_screen(io::Screen& screen);
 
+    // Print a colored message to the screen
+    void add(const char* Message, io::Color foreground, 
+        io::Color background = io::Color::BLACK);
+
     // Print a message to the screen
     void add(const char* Message);
 
@@ -38,8 +43,8 @@ public:
     // wait for a character
     unsigned int get_key_input();
 
-    // set the color pair index
-    void set_color_pair_index(unsigned int color_pair_index);
+    // get a colored character
+    unsigned int get_color_character(unsigned int character, io::Color foreground, io::Color background);
 
 private:
     // Initialize the screen
@@ -47,6 +52,9 @@ private:
 
     // tear down the screen
     ~Screen();
+
+    // fetch and cache a color pair index for these colors
+    unsigned int get_colorpair_index(io::Color foreground, io::Color background);
 
 private:
     io::RawCurses& curses_;
@@ -56,6 +64,10 @@ private:
 
     static int ref_count;
     static io::Screen* singleton;
+
+    // index is pair<foreground,background>, value is index
+    std::map<std::pair<io::Color,io::Color>,int> color_pairs_;
+    int next_color_pair_index_;
 };
 
 } // namespace io

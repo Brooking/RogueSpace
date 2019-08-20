@@ -27,7 +27,8 @@ public:
         unsigned int row,
         unsigned int cell,
         unsigned int character,
-        unsigned int color_pair_index = 1);
+        io::Color foreground,
+        io::Color background);
 
     // push all changes to the actual screen
     void refresh();

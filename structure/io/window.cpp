@@ -24,10 +24,11 @@ void io::Window::place_character(
     unsigned int row,
     unsigned int cell,
     unsigned int character,
-    unsigned int color_pair_index)
+    io::Color foreground,
+    io::Color background)
 {
-    this->screen_.set_color_pair_index(color_pair_index);
-    this->curses_.mvwaddch_m(this->window_, row, cell, character);
+    unsigned int colored_character = this->screen_.get_color_character(character, foreground, background);
+    this->curses_.mvwaddch_m(this->window_, row, cell, colored_character);
 }
 
 void io::Window::refresh()

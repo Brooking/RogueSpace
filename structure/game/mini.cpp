@@ -33,10 +33,39 @@ int main()
     io::Screen* screen = io::Screen::open_screen(*curses);
 
     // Print a welcome message and wait until the user presses a key
-    screen->add("Welcome to the mini RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"");
+    screen->add("Welcome to the mini RogueSpace(tm) game.\nPress any key to start.\nIf you want to quit, press \"Q\"\n\n",
+        io::Color::YELLOW, io::Color::BLACK);
+
+    screen->add("BLACK ", io::Color::BLACK, io::Color::WHITE);
+    screen->add("RED ", io::Color::RED);
+    screen->add("GREEN ", io::Color::GREEN);
+    screen->add("YELLOW ", io::Color::YELLOW);
+    screen->add("BLUE ", io::Color::BLUE);
+    screen->add("MAGENTA ", io::Color::MAGENTA);
+    screen->add("CYAN ", io::Color::CYAN);
+    screen->add("WHITE\n", io::Color::WHITE);
+    screen->add("BRIGHT_BLACK ", io::Color::BRIGHT_BLACK, io::Color::WHITE);
+    screen->add("BRIGHT_RED ", io::Color::BRIGHT_RED);
+    screen->add("BRIGHT_GREEN ", io::Color::BRIGHT_GREEN);
+    screen->add("BRIGHT_YELLOW ", io::Color::BRIGHT_YELLOW);
+    screen->add("BRIGHT_BLUE ", io::Color::BRIGHT_BLUE);
+    screen->add("BRIGHT_MAGENTA ", io::Color::BRIGHT_MAGENTA);
+    screen->add("BRIGHT_CYAN ", io::Color::BRIGHT_CYAN);
+    screen->add("BRIGHT_WHITE\n", io::Color::BRIGHT_WHITE);
+    screen->add("BRIGHT_BLACK ", io::Color::BRIGHT_BLACK, io::Color::BLACK);
+    screen->add("BRIGHT_RED ", io::Color::BRIGHT_RED, io::Color::RED);
+    screen->add("BRIGHT_GREEN ", io::Color::BRIGHT_GREEN, io::Color::GREEN);
+    screen->add("BRIGHT_YELLOW ", io::Color::BRIGHT_YELLOW, io::Color::YELLOW);
+    screen->add("BRIGHT_BLUE ", io::Color::BRIGHT_BLUE, io::Color::BLUE);
+    screen->add("BRIGHT_MAGENTA ", io::Color::BRIGHT_MAGENTA, io::Color::MAGENTA);
+    screen->add("BRIGHT_CYAN ", io::Color::BRIGHT_CYAN, io::Color::CYAN);
+    screen->add("BRIGHT_WHITE\n", io::Color::BRIGHT_WHITE, io::Color::WHITE);
+
     int ch = screen->get_key_input();
     if (ch == 'q' || ch == 'Q') 
     {
+        io::Screen::close_screen(*screen);
+        screen = nullptr;
         return 0;
     }
 

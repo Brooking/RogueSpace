@@ -8,12 +8,17 @@
 //
 struct IconData
 {
-    constexpr IconData(UIToken token, int color_pair_index, unsigned long symbol) :
-        token(token), color_pair_index(color_pair_index), symbol(symbol)
+    constexpr IconData(UIToken token, io::Color foreground, io::Color background, unsigned long symbol) :
+        token(token), foreground_(foreground), background_(background), symbol(symbol)
+    {}
+
+    constexpr IconData(UIToken token, io::Color foreground, unsigned long symbol) :
+        IconData(token, foreground, io::Color::BLACK, symbol)
     {}
 
     UIToken token;
-    int color_pair_index;
+    io::Color foreground_;
+    io::Color background_;
     unsigned long symbol;
 };
 
@@ -22,14 +27,14 @@ struct IconData
 //
 static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconList 
 {
-    IconData(UIToken::none, 1, ' '),
-    IconData(UIToken::test, 1, '?'),
-    IconData(UIToken::bare_floor, 1, io::Character::BULLET),
-    IconData(UIToken::wall, 1, '+'),
-    IconData(UIToken::hero, 1, '@'),
-    IconData(UIToken::rat, 1, 'r'),
-    IconData(UIToken::bee, 1, 'b'),
-    IconData(UIToken::dog, 1, 'd')
+    IconData(UIToken::none, io::Color::BLACK, ' '),
+    IconData(UIToken::test, io::Color::BRIGHT_MAGENTA, '?'),
+    IconData(UIToken::bare_floor, io::Color::BRIGHT_BLACK, io::Character::BULLET),
+    IconData(UIToken::wall, io::Color::BRIGHT_BLACK, '+'),
+    IconData(UIToken::hero, io::Color::BRIGHT_CYAN, '@'),
+    IconData(UIToken::rat, io::Color::BRIGHT_RED, 'r'),
+    IconData(UIToken::bee, io::Color::BRIGHT_RED, 'b'),
+    IconData(UIToken::dog, io::Color::BRIGHT_CYAN, 'd')
 };
 
 //
@@ -62,7 +67,8 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
         throw std::invalid_argument("token too large");
     }
 
-    this->color_pair_index_ = IconList[(long unsigned int)token].color_pair_index;
+    this->foreground_color_ = IconList[(long unsigned int)token].foreground_;
+    this->background_color_ = IconList[(long unsigned int)token].background_;
     if (token != UIToken::wall)
     {
         this->symbol_ = IconList[(long unsigned int)token].symbol;
