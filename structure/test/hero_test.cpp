@@ -32,14 +32,14 @@ TEST_CASE("hero_withLocatedConstruction_shouldCreateInPlace", "[hero]")
 {
     // arrange
     Location location(100,101);
-    Tile tile(/*floor*/nullptr, location);
+    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, location));
 
     // act
-    Hero hero(&tile);
+    Hero hero(tile);
 
     // assert
     REQUIRE(hero.token() == UIToken::hero);
-    REQUIRE(hero.tile() == &tile);
+    REQUIRE(hero.tile() == tile);
     REQUIRE(hero.where() == location);
 }
 

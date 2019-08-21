@@ -9,7 +9,7 @@
 class Wall : public iThing 
 {
 public:
-    Wall(Tile* tile) : tile_(tile) 
+    Wall(std::shared_ptr<Tile> tile) : tile_(tile) 
     {
         if (this->tile_ == nullptr)
         {
@@ -31,7 +31,7 @@ public:
     }
 
     // iThing: return the current tile
-    virtual Tile* tile() const { return this->tile_; }
+    virtual std::shared_ptr<Tile> tile() const { return this->tile_; }
 
     // iThing: a wall does fill a tile
     virtual ContentSize content_size() const { return ContentSize::full; }
@@ -43,7 +43,7 @@ public:
     virtual bool move() { return false; }
     
 private:
-    Tile* tile_;
+    std::shared_ptr<Tile> tile_;
 };
 
 #endif // _wall.h_

@@ -4,11 +4,11 @@
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
-Hero::Hero(Tile* tile, int sight_range) : 
+Hero::Hero(std::shared_ptr<Tile> tile, int sight_range) : 
     ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true),
     sight_range_(sight_range)
 {
-    Tile* hero_tile = this->tile();
+    std::shared_ptr<Tile> hero_tile = this->tile();
     if (hero_tile != nullptr)
     {
         Floor* hero_floor = hero_tile->floor();
@@ -29,7 +29,7 @@ bool Hero::move(Direction direction)
 {
     Location newLocation = this->where().apply_direction(direction);
     Floor* floor = const_cast<Floor*>(this->tile_->floor());
-    Tile* newTile = floor->tile(newLocation);    
+    std::shared_ptr<Tile> newTile = floor->tile(newLocation);    
     if (newTile != nullptr && newTile->there_is_room(this)) 
     {
         this->tile_->remove(this);
@@ -43,7 +43,7 @@ bool Hero::move(Direction direction)
 
 bool Hero::can_see(Location location)
 {
-    Tile* tile = this->tile_;
+    std::shared_ptr<Tile> tile = this->tile_;
     if (!tile->los_has_been_calculated())
     {
         MapForCasting map(tile, CastingScan::visibility);
@@ -52,6 +52,7 @@ bool Hero::can_see(Location location)
     return tile->has_los(location);
 }
 
+// todo - why can this not be a shared_ptr?
 bool Hero::can_see(const Tile* tile)
 {
     return this->can_see(tile->where());

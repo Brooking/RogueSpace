@@ -66,6 +66,8 @@ int main()
     int ch = screen->get_key_input();
     if (ch == 'q' || ch == 'Q') 
     {
+        // todo this should be done by screen destructor
+        curses->endwin();
         return 0;
     }
 
@@ -74,7 +76,7 @@ int main()
 
     // put our dude on the floor in upper left
     Location starting_spot(1,1);
-    Tile* starting_tile = floor->tile(starting_spot);
+    std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
     Hero hero(starting_tile, /*sight_range*/2);
 
     fill_floor(floor, hero);
@@ -88,6 +90,8 @@ int main()
     std::vector<iThing*> monsters;
     game_loop(viewport, hero, monsters);
 
+    // todo this should be done by screen destructor
+    curses->endwin();
     return 0;
 }
 
@@ -179,7 +183,7 @@ void fill_floor(std::shared_ptr<Floor> floor, Hero& hero)
         }
 
         // thin
-        Tile* tile = floor->tile(Location(row,row));
+        std::shared_ptr<Tile> tile = floor->tile(Location(row,row));
         if (tile->num_things() == 0)
         {
             new Wall(tile);

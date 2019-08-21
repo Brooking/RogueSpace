@@ -30,7 +30,7 @@ public:
     virtual UIToken token(int row, int cell);
 
     // returns the tile at a given location
-    Tile* tile(Location location);
+    std::shared_ptr<Tile> tile(Location location);
 
     // the spot our tiles call us when things change
     bool update(Location location, bool is_center = false);
@@ -45,7 +45,7 @@ public:
 
 private:
     // all of the tiles on this floor
-    std::vector<std::vector<Tile>> tile_;
+    std::vector<std::vector<std::shared_ptr<Tile>>> tile_;
 
     // the interface to call when something changes
     std::shared_ptr<iUpdate> update_interface_;
@@ -55,7 +55,7 @@ private:
     Hero* hero_;
 
     // all of the lights
-    std::vector<Tile*> lights_;
+    std::vector<std::shared_ptr<Tile>> lights_;
 };
 
 #endif //_floor_h_

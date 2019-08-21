@@ -17,7 +17,7 @@
 class Hero : public ThingBase
 {
 public:
-    Hero(Tile* tile = nullptr, int sight_range = 5);
+    Hero(std::shared_ptr<Tile> tile = nullptr, int sight_range = 5);
     virtual ~Hero() {}
 
     // iThing: move (not used for heroes)

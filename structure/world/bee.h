@@ -11,7 +11,7 @@
 class Bee : public MonsterBase
 {
 public:
-    Bee(Tile* tile) : MonsterBase(tile, UIToken::bee) {}
+    Bee(std::shared_ptr<Tile> tile) : MonsterBase(tile, UIToken::bee) {}
     virtual ~Bee() {}
 
     // iThing: do its move

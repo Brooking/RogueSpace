@@ -43,7 +43,6 @@ public:
     // will this thing fit in the tile
     bool there_is_room(iThing* thing);
 
-
     // add a thing to this tile
     bool add(iThing* thing);
 
@@ -54,7 +53,7 @@ public:
     int num_things() const { return this->things_.size(); }
 
     // array notation thing accessor
-    const iThing* operator [] (int i) const { return const_cast<const iThing*>(this->things_[i]); }
+    const iThing* thing(int i) const { return const_cast<const iThing*>(this->things_[i]); }
 
     // add a spot that has los from this tile
     void add_los(Location location);

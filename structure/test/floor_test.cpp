@@ -114,7 +114,7 @@ TEST_CASE("floor_withInvalidTileFetch_shouldReturnNull", "[floor]")
     Floor floor(1,1);
 
     // act
-    Tile* tile = floor.tile(Location(1,1));
+    std::shared_ptr<Tile> tile = floor.tile(Location(1,1));
 
     // assert
     REQUIRE(tile == nullptr);
@@ -126,7 +126,7 @@ TEST_CASE("floor_withNegativeTileFetch_shouldReturnNull", "[floor]")
     Floor floor(1,1);
 
     // act
-    Tile* tile = floor.tile(Location(-1,-1));
+    std::shared_ptr<Tile> tile = floor.tile(Location(-1,-1));
 
     // assert
     REQUIRE(tile == nullptr);

@@ -19,7 +19,7 @@ const int HomeRange = 5;
 class Rat : public MonsterBase
 {
 public:
-    Rat(Tile* tile) : 
+    Rat(std::shared_ptr<Tile> tile) : 
         MonsterBase(tile, UIToken::rat), ai_state_(AiState::Wandering), 
         home_(this->tile_->where()), target_() {}
     virtual ~Rat() {}

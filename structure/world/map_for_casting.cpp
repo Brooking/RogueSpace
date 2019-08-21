@@ -6,7 +6,7 @@ void MapForCasting::set_los(uint x, uint y, bool visible)
 {
     if (visible)
     {
-        Tile* tile = this->floor_->tile(Location(y,x));
+        std::shared_ptr<Tile> tile = this->floor_->tile(Location(y,x));
         if (this->scan_ == CastingScan::visibility)
         {
             this->tile_->add_los(Location(y,x));

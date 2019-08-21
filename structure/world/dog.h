@@ -6,7 +6,7 @@
 class Dog : public MonsterBase
 {
 public:
-    Dog(Tile* tile) : MonsterBase(tile, UIToken::dog) {}
+    Dog(std::shared_ptr<Tile> tile) : MonsterBase(tile, UIToken::dog) {}
     virtual ~Dog() {}
 
     // iThing: do its move

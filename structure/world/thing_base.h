@@ -11,7 +11,7 @@
 class ThingBase : public iThing
 {
 public:
-    ThingBase(Tile* tile, UIToken token, ContentSize content_size, bool center) : 
+    ThingBase(std::shared_ptr<Tile> tile, UIToken token, ContentSize content_size, bool center) : 
         tile_(tile), token_(token), content_size_(content_size), center_(center)
     {
         this->place(this->tile_);
@@ -19,7 +19,7 @@ public:
     virtual ~ThingBase() {}
 
     // The tile that this thing is on
-    virtual Tile* tile() const { return this->tile_; }
+    virtual std::shared_ptr<Tile> tile() const { return this->tile_; }
 
     // How this thing should be displayed in the UI
     virtual UIToken token() const { return this->token_; }
@@ -32,7 +32,7 @@ public:
 
 PROTECTED_ACCESS:
     // put the thing on the tile
-    virtual bool place(Tile* tile)
+    virtual bool place(std::shared_ptr<Tile> tile)
     {
         if (tile != nullptr && tile->there_is_room(this))
         {
@@ -50,7 +50,7 @@ PROTECTED_ACCESS:
     }
 
 protected:
-    Tile* tile_;
+    std::shared_ptr<Tile> tile_;
     UIToken token_;
     ContentSize content_size_;
     bool center_;    

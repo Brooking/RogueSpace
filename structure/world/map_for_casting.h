@@ -1,6 +1,7 @@
 #ifndef _map_for_casting_h_
 #define _map_for_casting_h_
 
+#include <memory>
 #include "../visibility/original_shadow_cast.h"
 #include "tile.h"
 
@@ -13,7 +14,7 @@ enum CastingScan
 class MapForCasting : public iMap
 {
 public:
-    MapForCasting(Tile* tile, CastingScan scan) : tile_(tile), floor_(tile->floor()), scan_(scan) {}
+    MapForCasting(std::shared_ptr<Tile> tile, CastingScan scan) : tile_(tile), floor_(tile->floor()), scan_(scan) {}
     virtual ~MapForCasting() {}
 
     // iMap: Set the visibility of the cell at the given position.
@@ -29,7 +30,7 @@ public:
     virtual bool is_opaque(uint x, uint y) const;
 
 private:
-    Tile* tile_;
+    std::shared_ptr<Tile> tile_;
     Floor* floor_;
     CastingScan scan_;
 };

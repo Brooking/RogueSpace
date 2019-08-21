@@ -1,6 +1,7 @@
 #ifndef _ithing_h_
 #define _ithing_h_
 
+#include <memory>
 #include "uitokens.h"
 #include "content_size.h"
 class Tile;
@@ -15,7 +16,7 @@ public:
     virtual UIToken token() const = 0;
 
     // The tile that this thing is on
-    virtual Tile* tile() const = 0;
+    virtual std::shared_ptr<Tile> tile() const = 0;
 
     // This thing fills the tile
     virtual ContentSize content_size() const = 0;

@@ -14,10 +14,10 @@ Floor::Floor(int height, int width) : update_interface_(nullptr), hero_(nullptr)
     }
     for (int row = 0; row < height; row++)
     {
-        this->tile_.push_back(std::vector<Tile>());
+        this->tile_.push_back(std::vector<std::shared_ptr<Tile>>());
         for (int cell = 0; cell < width; cell++)
         {
-            Tile tile(this, Location(row, cell));
+            std::shared_ptr<Tile> tile(new Tile(this, Location(row, cell)));
             this->tile_[row].push_back(tile);
         }
     }
@@ -33,7 +33,7 @@ bool Floor::register_update(std::shared_ptr<iUpdate> update_interface)
 UIToken Floor::token(int row, int cell)
 {
     Location location(row, cell);
-    Tile* tile = this->tile(location);
+    std::shared_ptr<Tile> tile = this->tile(location);
     if (tile == nullptr)
     {
         return UIToken::none;
@@ -42,14 +42,14 @@ UIToken Floor::token(int row, int cell)
 }
 
 
-Tile* Floor::tile(Location location)
+std::shared_ptr<Tile> Floor::tile(Location location)
 {
     if (location.row() >= this->height() || location.row() < 0 ||
         location.cell() >= this->width() || location.cell() < 0 )
     {
         return nullptr;
     }
-    return (&(this->tile_[location.row()][location.cell()])); 
+    return (this->tile_[location.row()][location.cell()]); 
 }
 
 bool Floor::update(Location location, bool is_center)
@@ -66,7 +66,7 @@ bool Floor::update(Location location, bool is_center)
 
 bool Floor::add_light(int row, int cell, int radius)
 {
-    Tile* tile = this->tile(Location(row, cell));
+    std::shared_ptr<Tile> tile = this->tile(Location(row, cell));
     tile->set_is_lit(true);
 
     MapForCasting map(tile, CastingScan::illumination);
