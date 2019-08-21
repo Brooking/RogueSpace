@@ -5,8 +5,10 @@ enum class UIToken
 {
     none = 0,
     test,
+    lit_floor,
     visible_floor,
     seen_floor,
+    lit_wall,
     visible_wall,
     seen_wall,
     hero,
@@ -18,7 +20,9 @@ enum class UIToken
 
 inline bool is_wall(UIToken token)
 { 
-    return token == UIToken::visible_wall || token == UIToken::seen_wall;
+    return token == UIToken::lit_wall || 
+           token == UIToken::visible_wall || 
+           token == UIToken::seen_wall;
 }
 
 

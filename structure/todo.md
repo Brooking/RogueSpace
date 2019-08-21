@@ -8,6 +8,7 @@
   - [x] in-sight circle lags behind hero
   - [ ] smart pointers for all world objects
   - [ ] Rectify hero being known to the floor(?)
+  - [ ] Move everything up one directory
 ### Input
 #### Keyboard
   - [x] add diagonal input
@@ -52,6 +53,7 @@
   - [x] Add visibility to hero
   - [x] Persist seen walls
   - [x] add lights
+  - [x] lights color structures yellow
   - [ ] differentiate between "in FOV+lit" and "in FOV+in sight"
   - [ ] may need to store range with FOV entries
 #### Hero

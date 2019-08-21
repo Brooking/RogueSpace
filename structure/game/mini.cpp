@@ -154,6 +154,9 @@ void fill_floor(Floor& floor, Hero& hero)
             new Wall(floor.tile(Location(row,floor.width()-1)));
         }
     }
+
+    // add a light in the  lower right corner
+    floor.add_light(floor.height()-2, floor.width()-2, 2);
     return;
 
     // put a wall with a door through the center

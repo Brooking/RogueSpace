@@ -25,7 +25,10 @@ public:
     virtual ~Wall() {}
 
     // iThing: return the ui token
-    virtual UIToken token() const { return UIToken::visible_wall; }
+    virtual UIToken token() const 
+    { 
+        return this->tile_->is_lit() ? UIToken::lit_wall :UIToken::visible_wall;
+    }
 
     // iThing: return the current tile
     virtual Tile* tile() const { return this->tile_; }

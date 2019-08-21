@@ -29,8 +29,10 @@ static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconLis
 {
     IconData(UIToken::none, io::Color::BLACK, ' '),
     IconData(UIToken::test, io::Color::BRIGHT_YELLOW, '?'),
+    IconData(UIToken::lit_floor, io::Color::YELLOW, io::Character::BULLET),
     IconData(UIToken::visible_floor, io::Color::WHITE, io::Character::BULLET),
     IconData(UIToken::seen_floor, io::Color::BRIGHT_BLACK, io::Character::BULLET),
+    IconData(UIToken::lit_wall, io::Color::YELLOW, '+'),
     IconData(UIToken::visible_wall, io::Color::WHITE, '+'),
     IconData(UIToken::seen_wall, io::Color::BRIGHT_BLACK, '+'),
     IconData(UIToken::hero, io::Color::BRIGHT_CYAN, '@'),

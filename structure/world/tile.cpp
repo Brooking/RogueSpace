@@ -20,7 +20,9 @@ UIToken Tile::token() const
     if (this->num_things() == 0)
     {
         // nothing on the tile, start with a floor
-        result = UIToken::visible_floor; 
+        result = this->is_lit_ ? 
+                    UIToken::lit_floor : 
+                    UIToken::visible_floor; 
     }
     else
     {
@@ -35,11 +37,7 @@ UIToken Tile::token() const
     }
     else if (this->has_been_seen_)
     {
-        if (result == UIToken::visible_floor)
-        {
-            result = UIToken::seen_floor;
-        }
-        else if (result == UIToken::visible_wall)
+        if (is_wall(result))
         {
             result = UIToken::seen_wall;
         }
