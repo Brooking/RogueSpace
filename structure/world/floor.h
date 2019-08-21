@@ -1,6 +1,7 @@
 #ifndef _floor_h_
 #define _floor_h_
 
+#include <memory>
 #include <vector>
 #include "tile.h"
 #include "location.h"
@@ -17,7 +18,7 @@ public:
     virtual ~Floor() {}
 
     // iFloor: the ui is giving us a callback
-    virtual bool register_update(iUpdate* update_interface);
+    virtual bool register_update(std::shared_ptr<iUpdate> update_interface);
 
     // iFloor: returns the height (number of rows)
     virtual int height() { return tile_.size(); }
@@ -47,7 +48,7 @@ private:
     std::vector<std::vector<Tile>> tile_;
 
     // the interface to call when something changes
-    iUpdate* update_interface_;
+    std::shared_ptr<iUpdate> update_interface_;
 
     // The hero on the floor
     // TODO: is this the right spot for it?

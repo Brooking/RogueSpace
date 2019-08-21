@@ -1,6 +1,7 @@
 #ifndef _io_screen_h_
 #define _io_screen_h_
 
+#include <memory>
 #include <map>
 #include "io_constants.h"
 
@@ -17,10 +18,10 @@ class Screen
 {
 public:
     // creator
-    static io::Screen* open_screen(io::RawCurses& curses);
+    static std::shared_ptr<io::Screen> open_screen(std::shared_ptr<io::RawCurses> curses);
 
-    // deleter
-    static void close_screen(io::Screen& screen);
+    // deleter (todo: should no longer be called)
+    static void close_screen(std::shared_ptr<io::Screen> screen);
 
     // Print a colored message to the screen
     void add(const char* Message, io::Color foreground, 
@@ -48,7 +49,7 @@ public:
 
 private:
     // Initialize the screen
-    Screen(io::RawCurses& curses);
+    Screen(std::shared_ptr<io::RawCurses> curses);
 
     // tear down the screen
     ~Screen();
@@ -57,7 +58,7 @@ private:
     unsigned int get_colorpair_index(io::Color foreground, io::Color background);
 
 private:
-    io::RawCurses& curses_;
+    std::shared_ptr<io::RawCurses> curses_;
     int width_;
     int height_;
     unsigned int color_pair_index_;

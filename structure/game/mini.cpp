@@ -10,8 +10,8 @@
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(Viewport& viewport, Hero& hero, std::vector<iThing*> monsters);
-void fill_floor(Floor& floor, Hero& hero);
+void game_loop(std::shared_ptr<Viewport> viewport, Hero& hero, std::vector<iThing*> monsters);
+void fill_floor(std::shared_ptr<Floor> floor, Hero& hero);
 
 // maps key inputs into useful directions
 std::map<unsigned int,Direction> KeyToDirection
@@ -29,8 +29,8 @@ std::map<unsigned int,Direction> KeyToDirection
 int main()
 {
     // initialize the screen
-    io::RawCurses* curses = new io::RawCurses();
-    io::Screen* screen = io::Screen::open_screen(*curses);
+    std::shared_ptr<io::RawCurses> curses(new io::RawCurses());
+    io::Screen* screen = io::Screen::open_screen(curses);
 
     // Print a welcome message and wait until the user presses a key
     screen->add("Welcome to the ", io::Color::YELLOW, io::Color::BLACK);
@@ -72,18 +72,19 @@ int main()
     }
 
     // create a floor
-    Floor floor(7, 7);
+    std::shared_ptr<Floor> floor(new Floor(7, 7));
 
-    // put our dude on the floor in the center
-    Location starting_spot(floor.height()/2, floor.width()/2);
-    Tile* starting_tile = floor.tile(starting_spot);
+    // put our dude on the floor in upper left
+    Location starting_spot(1,1);
+    Tile* starting_tile = floor->tile(starting_spot);
     Hero hero(starting_tile, /*sight_range*/2);
 
     fill_floor(floor, hero);
 
     // create a viewport on that floor that is the full viewable area
-    Viewport viewport(screen, floor, screen->height(), screen->width(), starting_spot.row(), starting_spot.cell());
-    floor.register_update(&viewport);
+    std::shared_ptr<Viewport> viewport(
+        new Viewport(screen, floor, screen->height(), screen->width(), starting_spot.row(), starting_spot.cell()));
+    floor->register_update(viewport);
 
     // start the game loop
     std::vector<iThing*> monsters;
@@ -94,14 +95,14 @@ int main()
     return 0;
 }
 
-void game_loop(Viewport& viewport, Hero& hero, std::vector<iThing*> monsters)
+void game_loop(std::shared_ptr<Viewport> viewport, Hero& hero, std::vector<iThing*> monsters)
 {
     int ch;
     bool done = false;
     while(!done) 
     {
         // get and decode input
-        ch = viewport.screen()->get_key_input();
+        ch = viewport->screen()->get_key_input();
         Direction direction = Direction::none;
         if (KeyToDirection.count(ch) > 0)
         {
@@ -131,50 +132,50 @@ void game_loop(Viewport& viewport, Hero& hero, std::vector<iThing*> monsters)
         {
             monster->move();
         }
-        viewport.refresh();
+        viewport->refresh();
     }
 }
 
-void fill_floor(Floor& floor, Hero& hero)
+void fill_floor(std::shared_ptr<Floor> floor, Hero& hero)
 {
     // put walls around the outside
     // todo, these will leak, they should be unique_ptr attached to tiles
-    for (int row = 0; row < floor.height(); row++)
+    for (int row = 0; row < floor->height(); row++)
     {
-        if (row == 0 || row == floor.height()-1)
+        if (row == 0 || row == floor->height()-1)
         {
-            for (int cell = 0; cell < floor.width(); cell++)
+            for (int cell = 0; cell < floor->width(); cell++)
             {
-                new Wall(floor.tile(Location(row,cell)));
+                new Wall(floor->tile(Location(row,cell)));
             }
         }
         else
         {
-            new Wall(floor.tile(Location(row,0)));
-            new Wall(floor.tile(Location(row,floor.width()-1)));
+            new Wall(floor->tile(Location(row,0)));
+            new Wall(floor->tile(Location(row,floor->width()-1)));
         }
     }
 
     // add a light in the  lower right corner
-    floor.add_light(floor.height()-2, floor.width()-2, 2);
+    floor->add_light(floor->height()-2, floor->width()-2, 2);
     return;
 
     // put a wall with a door through the center
     int wall_cell = hero.where().cell()+1;
     for (int row = 1; row < hero.where().row(); row++)
     {
-        new Wall(floor.tile(Location(row, wall_cell)));
+        new Wall(floor->tile(Location(row, wall_cell)));
     }
-    for (int row = hero.where().row()+1; row < floor.height()-1; row++)
+    for (int row = hero.where().row()+1; row < floor->height()-1; row++)
     {
-        new Wall(floor.tile(Location(row, wall_cell)));
+        new Wall(floor->tile(Location(row, wall_cell)));
     }
 
     // make a pillar
-    new Wall (floor.tile(Location(2,floor.width()-3)));
+    new Wall (floor->tile(Location(2,floor->width()-3)));
 
     // diagonal walls
-    for (int row = 1; row < floor.height()-1; row++)
+    for (int row = 1; row < floor->height()-1; row++)
     {
         if (row == hero.where().row())
         {
@@ -182,21 +183,21 @@ void fill_floor(Floor& floor, Hero& hero)
         }
 
         // thin
-        Tile* tile = floor.tile(Location(row,row));
+        Tile* tile = floor->tile(Location(row,row));
         if (tile->num_things() == 0)
         {
             new Wall(tile);
         }
 
         // thick
-        int cell = floor.width()/2 + row;
-        tile = floor.tile(Location(row, cell));
+        int cell = floor->width()/2 + row;
+        tile = floor->tile(Location(row, cell));
         if (tile->num_things() == 0)
         {
             new Wall(tile);
         }
 
-        tile = floor.tile(Location(row, cell+1));
+        tile = floor->tile(Location(row, cell+1));
         if (tile->num_things() == 0)
         {
             new Wall(tile);
@@ -204,6 +205,6 @@ void fill_floor(Floor& floor, Hero& hero)
     }
 
     // add a lights in the upper and lower right corner
-    floor.add_light(1, floor.width()-2, 20);
-    floor.add_light(floor.height()-2, floor.width()-2, 20);
+    floor->add_light(1, floor->width()-2, 20);
+    floor->add_light(floor->height()-2, floor->width()-2, 20);
 }

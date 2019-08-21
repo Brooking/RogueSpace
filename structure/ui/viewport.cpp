@@ -5,7 +5,7 @@
 
 Viewport::Viewport(
     io::Screen* screen, 
-    iFloor& floor, 
+    std::shared_ptr<iFloor> floor, 
     unsigned int height, 
     unsigned int width, 
     int center_row,
@@ -61,13 +61,13 @@ bool Viewport::update_worker(unsigned int row, unsigned int cell)
     int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
 
     std::bitset<8> adjacency;
-    UIToken token = this->floor_.token(floor_row, floor_cell);
+    UIToken token = this->floor_->token(floor_row, floor_cell);
     if (is_wall(token))
     {
-        adjacency[AdjacentWallBits::North] = is_wall(this->floor_.token(floor_row-1, floor_cell));
-        adjacency[AdjacentWallBits::East] = is_wall(this->floor_.token(floor_row, floor_cell+1));
-        adjacency[AdjacentWallBits::South] = is_wall(this->floor_.token(floor_row+1, floor_cell));
-        adjacency[AdjacentWallBits::West] = is_wall(this->floor_.token(floor_row, floor_cell-1));
+        adjacency[AdjacentWallBits::North] = is_wall(this->floor_->token(floor_row-1, floor_cell));
+        adjacency[AdjacentWallBits::East] = is_wall(this->floor_->token(floor_row, floor_cell+1));
+        adjacency[AdjacentWallBits::South] = is_wall(this->floor_->token(floor_row+1, floor_cell));
+        adjacency[AdjacentWallBits::West] = is_wall(this->floor_->token(floor_row, floor_cell-1));
     }
    Icon icon(token, static_cast<int>(adjacency.to_ulong()));
     this->window_->place_character(row, cell, icon.symbol(), icon.foreground_color(), icon.background_color());

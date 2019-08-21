@@ -15,7 +15,7 @@ class Viewport : public iUpdate
 public:
     Viewport(
         io::Screen* screen, 
-        iFloor& floor, 
+        std::shared_ptr<iFloor> floor, 
         unsigned int height,
         unsigned int width, 
         int center_row,
@@ -44,7 +44,7 @@ private:
 private:
     io::Screen* screen_;
     io::Window* window_;
-    iFloor& floor_;
+    std::shared_ptr<iFloor> floor_;
 
     unsigned int height_;
     unsigned int width_;

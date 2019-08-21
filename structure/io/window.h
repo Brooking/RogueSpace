@@ -13,7 +13,7 @@ public:
     // construct a window
     Window(
         Screen& screen,
-        RawCurses& curses,
+        std::shared_ptr<RawCurses> curses,
         unsigned int screen_row, 
         unsigned int screen_cell, 
         unsigned int num_rows, 
@@ -35,7 +35,7 @@ public:
 
 private:
     Screen& screen_;
-    RawCurses& curses_;
+    std::shared_ptr<RawCurses> curses_;
     unsigned int screen_row_;
     unsigned int screen_cell_;
     unsigned int height_;

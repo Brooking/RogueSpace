@@ -9,7 +9,7 @@
 int io::Screen::ref_count = 0;
 io::Screen* io::Screen::singleton = nullptr;
 
-io::Screen* io::Screen::open_screen(RawCurses& curses)
+io::Screen* io::Screen::open_screen(std::shared_ptr<RawCurses> curses)
 {
     if (io::Screen::singleton == nullptr)
     {
@@ -38,58 +38,58 @@ void io::Screen::close_screen(io::Screen& screen)
     }
 }
 
-io::Screen::Screen(RawCurses& curses) : 
+io::Screen::Screen(std::shared_ptr<RawCurses> curses) : 
     curses_(curses), width_(0), height_(0), color_pair_index_(0), next_color_pair_index_(1)
 {
     // initialize the ncurses library
-    curses_.initscr();
+    curses_->initscr();
 
     // do not echo keyboard input to the screen
-    curses_.noecho();
+    curses_->noecho();
 
     // pass keys directly to the program (without buffering)
     // convert ctrl-z, interrupt, and ctlr-c into signals
-    curses_.cbreak();
+    curses_->cbreak();
 
     // enable reading F1-F12 and arrow keys
-    curses_.keypad(curses_.stdscr_m(), true);
+    curses_->keypad(curses_->stdscr_m(), true);
 
     // clear the screen
-    curses_.clear();
+    curses_->clear();
 
     // set the cursor to invisible
-    curses_.curs_set(0);
+    curses_->curs_set(0);
 
     // fetch the screen size
-    curses_.getmaxyx_m(curses_.stdscr_m(), this->height_, this->width_);
+    curses_->getmaxyx_m(curses_->stdscr_m(), this->height_, this->width_);
 
     // check for colors
-    if (!curses_.has_colors())
+    if (!curses_->has_colors())
     {
         this->add("no colors");
     }
 
     // enable colors
-    curses_.start_color();
+    curses_->start_color();
 }
 
 io::Screen::~Screen()
 {
     // close the curses library
-    curses_.endwin();
+    curses_->endwin();
 }
 
 void io::Screen::add(const char* Message, io::Color foreground, io::Color background)
 {
     unsigned int color_pair_index = this->get_colorpair_index(foreground, background);
-    curses_.attron_m(COLOR_PAIR(color_pair_index));
+    curses_->attron_m(COLOR_PAIR(color_pair_index));
     add(Message);
-    curses_.attroff_m(COLOR_PAIR(color_pair_index));
+    curses_->attroff_m(COLOR_PAIR(color_pair_index));
 }
 
 void io::Screen::add(const char* Message)
 {
-    curses_.printw(Message);
+    curses_->printw(Message);
 }
 
 int io::Screen::height()
@@ -113,7 +113,7 @@ io::Window* io::Screen::create_window(
 
 unsigned int io::Screen::get_key_input()
 {
-    return this->curses_.getch_m();
+    return this->curses_->getch_m();
 }
 
 unsigned int io::Screen::get_color_character(unsigned int character, io::Color foreground, io::Color background)
@@ -131,7 +131,7 @@ unsigned int io::Screen::get_colorpair_index(io::Color foreground, io::Color bac
     if (this->color_pairs_.count(color_pair) == 0)
     {
         // new pair to us
-        this->curses_.init_pair(this->next_color_pair_index_, foreground, background);
+        this->curses_->init_pair(this->next_color_pair_index_, foreground, background);
         color_pair_index = this->next_color_pair_index_;
         this->color_pairs_.insert(std::pair<std::pair<io::Color,io::Color>,int>(color_pair, color_pair_index));
         this->next_color_pair_index_++;

@@ -23,7 +23,7 @@ Floor::Floor(int height, int width) : update_interface_(nullptr), hero_(nullptr)
     }
 }
 
-bool Floor::register_update(iUpdate* update_interface)
+bool Floor::register_update(std::shared_ptr<iUpdate> update_interface)
 {
     this->update_interface_ = update_interface;
     return true;

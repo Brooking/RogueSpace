@@ -1,6 +1,7 @@
 #ifndef _ifloor_h_
 #define _ifloor_h_
 
+#include <memory>
 #include "uitokens.h"
 #include "iupdate.h"
 
@@ -11,7 +12,7 @@ class iFloor
 {
 public:
     // register an update callback
-    virtual bool register_update(iUpdate* update_interface) = 0;
+    virtual bool register_update(std::shared_ptr<iUpdate> update_interface) = 0;
 
     // the height of the floor (number of rows)
     virtual int height() = 0;
