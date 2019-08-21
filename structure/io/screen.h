@@ -18,10 +18,10 @@ class Screen
 {
 public:
     // creator
-    static std::shared_ptr<io::Screen> open_screen(std::shared_ptr<io::RawCurses> curses);
+    static io::Screen* open_screen(std::shared_ptr<io::RawCurses> curses);
 
-    // deleter (todo: should no longer be called)
-    static void close_screen(std::shared_ptr<io::Screen> screen);
+    // deleter
+    static void close_screen(io::Screen& screen);
 
     // Print a colored message to the screen
     void add(const char* Message, io::Color foreground, 
