@@ -18,10 +18,8 @@ class Screen
 {
 public:
     // creator
-    static io::Screen* open_screen(std::shared_ptr<io::RawCurses> curses);
-
-    // deleter
-    static void close_screen(io::Screen& screen);
+    static std::shared_ptr<io::Screen> open_screen(std::shared_ptr<io::RawCurses> curses);
+    virtual ~Screen();
 
     // Print a colored message to the screen
     void add(const char* Message, io::Color foreground, 
@@ -51,9 +49,6 @@ private:
     // Initialize the screen
     Screen(std::shared_ptr<io::RawCurses> curses);
 
-    // tear down the screen
-    ~Screen();
-
     // fetch and cache a color pair index for these colors
     unsigned int get_colorpair_index(io::Color foreground, io::Color background);
 
@@ -64,7 +59,7 @@ private:
     unsigned int color_pair_index_;
 
     static int ref_count;
-    static io::Screen* singleton;
+    static std::shared_ptr<io::Screen> singleton;
 
     // index is pair<foreground,background>, value is index
     std::map<std::pair<io::Color,io::Color>,int> color_pairs_;

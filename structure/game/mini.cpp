@@ -30,7 +30,7 @@ int main()
 {
     // initialize the screen
     std::shared_ptr<io::RawCurses> curses(new io::RawCurses());
-    io::Screen* screen = io::Screen::open_screen(curses);
+    std::shared_ptr<io::Screen> screen = io::Screen::open_screen(curses);
 
     // Print a welcome message and wait until the user presses a key
     screen->add("Welcome to the ", io::Color::YELLOW, io::Color::BLACK);
@@ -66,8 +66,6 @@ int main()
     int ch = screen->get_key_input();
     if (ch == 'q' || ch == 'Q') 
     {
-        io::Screen::close_screen(*screen);
-        screen = nullptr;
         return 0;
     }
 
@@ -90,8 +88,6 @@ int main()
     std::vector<iThing*> monsters;
     game_loop(viewport, hero, monsters);
 
-    io::Screen::close_screen(*screen);
-    screen = nullptr;
     return 0;
 }
 

@@ -7,14 +7,14 @@
 
 // static variables
 int io::Screen::ref_count = 0;
-io::Screen* io::Screen::singleton = nullptr;
+std::shared_ptr<io::Screen> io::Screen::singleton = nullptr;
 
-io::Screen* io::Screen::open_screen(std::shared_ptr<RawCurses> curses)
+std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<RawCurses> curses)
 {
     if (io::Screen::singleton == nullptr)
     {
         assert(io::Screen::ref_count == 0);
-        io::Screen::singleton = new Screen(curses);
+        io::Screen::singleton = std::shared_ptr<io::Screen>(new Screen(curses));
     }
     else
     {
@@ -24,18 +24,6 @@ io::Screen* io::Screen::open_screen(std::shared_ptr<RawCurses> curses)
 
     io::Screen::ref_count++;
     return io::Screen::singleton;
-}
-
-void io::Screen::close_screen(io::Screen& screen)
-{
-    assert(io::Screen::singleton != nullptr);
-    assert(io::Screen::ref_count > 0);
-
-    if (--io::Screen::ref_count == 0)
-    {
-        delete io::Screen::singleton;
-        io::Screen::singleton = nullptr;
-    }
 }
 
 io::Screen::Screen(std::shared_ptr<RawCurses> curses) : 

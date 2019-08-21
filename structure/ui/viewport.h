@@ -14,7 +14,7 @@ class Viewport : public iUpdate
 {
 public:
     Viewport(
-        io::Screen* screen, 
+        std::shared_ptr<io::Screen> screen, 
         std::shared_ptr<iFloor> floor, 
         unsigned int height,
         unsigned int width, 
@@ -29,7 +29,7 @@ public:
     void refresh();
 
     // get this viewport's parent screen
-    io::Screen* screen() { return this->screen_; }
+    std::shared_ptr<io::Screen> screen() { return this->screen_; }
 
 private:
     // update all spots in the window
@@ -42,7 +42,7 @@ private:
     bool update_center(int center_row, int center_cell);  
 
 private:
-    io::Screen* screen_;
+    std::shared_ptr<io::Screen> screen_;
     io::Window* window_;
     std::shared_ptr<iFloor> floor_;
 

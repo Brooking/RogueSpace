@@ -4,7 +4,7 @@
 #include "icon.h"
 
 Viewport::Viewport(
-    io::Screen* screen, 
+    std::shared_ptr<io::Screen> screen, 
     std::shared_ptr<iFloor> floor, 
     unsigned int height, 
     unsigned int width, 
