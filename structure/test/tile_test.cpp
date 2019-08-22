@@ -9,7 +9,7 @@ TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
     Location location(1,1);
 
     // act
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, location));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, location);
 
     // assert
     REQUIRE(tile->token() == UIToken::none);    
@@ -22,7 +22,7 @@ TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
 TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(-1,2)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
     iThingMock thing(UIToken::none, /*tile*/nullptr, ContentSize::small);
 
     // act
@@ -38,7 +38,7 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
 TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(-1,2)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
     iThingMock thing1(UIToken::none, /*tile*/nullptr, ContentSize::full);
     tile->add(&thing1);
     iThingMock thing2(UIToken::none, /*tile*/nullptr, ContentSize::full);
@@ -56,7 +56,7 @@ TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
 TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(-1,2)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
     iThingMock thing1(UIToken::none, /*tile*/nullptr, ContentSize::small);
     tile->add(&thing1);
     iThingMock thing2(UIToken::none, /*tile*/nullptr, ContentSize::full);
@@ -74,7 +74,7 @@ TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
 TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(-1,2)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
     iThingMock thing(UIToken::none, /*tile*/nullptr, ContentSize::full);
 
     // act
@@ -90,7 +90,7 @@ TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
 TEST_CASE("tile_withAddNull_shouldFail", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(2,4)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(2,4));
 
     // act
     bool addWorked = tile->add(nullptr);
@@ -103,7 +103,7 @@ TEST_CASE("tile_withAddNull_shouldFail", "[tile]")
 TEST_CASE("tile_withRemove_shouldRemoveThing", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(5,1)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(5,1));
     iThingMock thing(UIToken::none, /*tile*/nullptr);
     tile->add(&thing);
 
@@ -119,7 +119,7 @@ TEST_CASE("tile_withRemove_shouldRemoveThing", "[tile]")
 TEST_CASE("tile_withFullRemove_shouldRemoveThing", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(5,1)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(5,1));
     iThingMock thing(UIToken::none, /*tile*/nullptr, ContentSize::full);
     tile->add(&thing);
 
@@ -135,7 +135,7 @@ TEST_CASE("tile_withFullRemove_shouldRemoveThing", "[tile]")
 TEST_CASE("tile_withRemoveNull_shouldFailElegantly", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(7,25)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(7,25));
 
     // act
     bool removeWorked = tile->remove(nullptr);
@@ -148,7 +148,7 @@ TEST_CASE("tile_withRemoveNull_shouldFailElegantly", "[tile]")
 TEST_CASE("tile_withRemoveInvalid_shouldFailElegantly", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(-10,12)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-10,12));
     iThingMock thing(UIToken::none, /*tile*/nullptr);
 
     // act
@@ -162,7 +162,7 @@ TEST_CASE("tile_withRemoveInvalid_shouldFailElegantly", "[tile]")
 TEST_CASE("tile_withRemoveFirst_shouldRemove", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(10,-12)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,-12));
     iThingMock thing1(UIToken::none, /*tile*/nullptr);
     iThingMock thing2(UIToken::test, /*tile*/nullptr);
     tile->add(&thing1);
@@ -180,7 +180,7 @@ TEST_CASE("tile_withRemoveFirst_shouldRemove", "[tile]")
 TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(10,-12)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,-12));
     iThingMock thing1(UIToken::none, /*tile*/nullptr);
     iThingMock thing2(UIToken::test, /*tile*/nullptr);
     tile->add(&thing1);
@@ -198,7 +198,7 @@ TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
 TEST_CASE("tile_withNoLosSet_shouldSaySo", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(10,12)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,12));
 
     // act
     bool los_set = tile->los_has_been_calculated();
@@ -210,7 +210,7 @@ TEST_CASE("tile_withNoLosSet_shouldSaySo", "[tile]")
 TEST_CASE("tile_withLosSet_shouldReturnLos", "[tile]")
 {
     // arrange
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, Location(10,12)));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,12));
 
     // act
     tile->add_los(Location(11,12));

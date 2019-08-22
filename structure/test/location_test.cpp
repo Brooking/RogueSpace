@@ -1,3 +1,4 @@
+#include <memory>
 #include "catch.hpp"
 #include <iostream>
 #include "location.h"
@@ -7,6 +8,17 @@ TEST_CASE("location_withDefaultHeapConstructor_shouldMakeNegativeOnes", "[locati
     // arrange
     // act
     Location* location = new Location();
+
+    // assert
+    REQUIRE(location->row() == -1);
+    REQUIRE(location->cell() == -1);
+}
+
+TEST_CASE("location_withDefaultSharedConstructor_shouldMakeNegativeOnes", "[location]")
+{
+    // arrange
+    // act
+    std::shared_ptr<Location> location = std::make_shared<Location>();
 
     // assert
     REQUIRE(location->row() == -1);

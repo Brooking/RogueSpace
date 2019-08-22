@@ -17,7 +17,7 @@ Floor::Floor(int height, int width) : update_interface_(nullptr), hero_(nullptr)
         this->tile_.push_back(std::vector<std::shared_ptr<Tile>>());
         for (int cell = 0; cell < width; cell++)
         {
-            std::shared_ptr<Tile> tile(new Tile(this, Location(row, cell)));
+            std::shared_ptr<Tile> tile = std::make_shared<Tile>(this, Location(row, cell));
             this->tile_[row].push_back(tile);
         }
     }

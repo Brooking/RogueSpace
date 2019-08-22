@@ -31,7 +31,7 @@ std::map<unsigned int,Direction> KeyToDirection
 int main()
 {
     // initialize the screen
-    std::shared_ptr<io::RawCurses> curses(new io::RawCurses());
+    std::shared_ptr<io::RawCurses> curses = std::make_shared<io::RawCurses>();
     std::shared_ptr<io::Screen> screen = io::Screen::open_screen(curses);
 
     // Print a welcome message and wait until the user presses a key
@@ -45,7 +45,7 @@ int main()
     }
 
     // create a floor larger than the view area
-    std::shared_ptr<Floor> floor(new Floor(screen->height()*1.5, screen->width()*1.5));
+    std::shared_ptr<Floor> floor = std::make_shared<Floor>(screen->height()*1.5, screen->width()*1.5);
 
     // put our dude on the floor in the center
     Location starting_spot(floor->height()/2, floor->width()/2);
@@ -68,8 +68,8 @@ int main()
     monsters.push_back(&dog);
 
     // create a viewport on that floor that is the full viewable area
-    std::shared_ptr<Viewport> viewport(
-        new Viewport(screen, floor, screen->height(), screen->width(), starting_spot.row(), starting_spot.cell()));
+    std::shared_ptr<Viewport> viewport = 
+        std::make_shared<Viewport>(screen, floor, screen->height(), screen->width(), starting_spot.row(), starting_spot.cell());
     floor->register_update(viewport);
 
     // start the game loop

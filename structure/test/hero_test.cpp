@@ -32,7 +32,7 @@ TEST_CASE("hero_withLocatedConstruction_shouldCreateInPlace", "[hero]")
 {
     // arrange
     Location location(100,101);
-    std::shared_ptr<Tile> tile(new Tile(/*floor*/nullptr, location));
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, location);
 
     // act
     Hero hero(tile);
