@@ -1,6 +1,7 @@
 #ifndef _hero_h_
 #define _hero_h_
 
+#include <memory>
 #include "uitokens.h"
 #include "location.h"
 #include "direction.h"
@@ -33,7 +34,7 @@ public:
     bool can_see(Location location);
 
     // can the hero see this tile
-    bool can_see(const Tile* tile);
+    bool can_see(const std::shared_ptr<Tile> tile);
 
 PROTECTED_ACCESS:
 

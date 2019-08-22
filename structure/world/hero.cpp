@@ -53,7 +53,7 @@ bool Hero::can_see(Location location)
 }
 
 // todo - why can this not be a shared_ptr?
-bool Hero::can_see(const Tile* tile)
+bool Hero::can_see(const std::shared_ptr<Tile> tile)
 {
     return this->can_see(tile->where());
 }

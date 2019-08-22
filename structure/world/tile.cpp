@@ -30,7 +30,7 @@ UIToken Tile::token() const
         result = this->things_.back()->token();
     }
 
-    if (floor->hero()->can_see(this) || this->is_lit_)
+    if (floor->hero()->can_see(this->where()) || this->is_lit_)
     {
         // if the hero can see this tile or the tile is lit, 
         // just return it

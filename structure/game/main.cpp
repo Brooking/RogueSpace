@@ -12,8 +12,8 @@
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(std::shared_ptr<Viewport> viewport, Hero& hero, std::vector<iThing*> monsters);
-void fill_floor(std::shared_ptr<Floor> floor, Hero& hero);
+void game_loop(std::shared_ptr<Viewport> viewport, Hero* hero, std::vector<std::shared_ptr<iThing>> monsters);
+void fill_floor(std::shared_ptr<Floor> floor, Hero* hero);
 
 // maps key inputs into useful directions
 std::map<unsigned int,Direction> KeyToDirection
@@ -50,22 +50,22 @@ int main()
     // put our dude on the floor in the center
     Location starting_spot(floor->height()/2, floor->width()/2);
     std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
-    Hero hero(starting_tile, /*sight_range*/5);
+    Hero* hero = new Hero(starting_tile, /*sight_range*/5);
 
     // fill in the walls and lights
     fill_floor(floor, hero);
 
     // add monsters
-    std::vector<iThing*> monsters;
-    Rat rat(floor->tile(Location(floor->height()/4, floor->width()/4)));
-    monsters.push_back(&rat);
+    std::vector<std::shared_ptr<iThing>> monsters;
+    std::shared_ptr<Rat> rat = std::make_shared<Rat>(floor->tile(Location(floor->height()/4, floor->width()/4)));
+    monsters.push_back(rat);
 
-    Bee bee(floor->tile(Location(3 * floor->height()/4, floor->width()/4)));
-    monsters.push_back(&bee);
+    std::shared_ptr<Bee> bee = std::make_shared<Bee>(floor->tile(Location(3 * floor->height()/4, floor->width()/4)));
+    monsters.push_back(bee);
 
     // add a dog
-    Dog dog(floor->tile(Location(starting_spot.row(), starting_spot.cell()+1)));
-    monsters.push_back(&dog);
+    std::shared_ptr<Dog> dog = std::make_shared<Dog>(floor->tile(Location(starting_spot.row(), starting_spot.cell()+1)));
+    monsters.push_back(dog);
 
     // create a viewport on that floor that is the full viewable area
     std::shared_ptr<Viewport> viewport = 
@@ -80,7 +80,7 @@ int main()
     return 0;
 }
 
-void game_loop(std::shared_ptr<Viewport> viewport, Hero& hero, std::vector<iThing*> monsters)
+void game_loop(std::shared_ptr<Viewport> viewport, Hero* hero, std::vector<std::shared_ptr<iThing>> monsters)
 {
     int ch;
     bool done = false;
@@ -112,7 +112,7 @@ void game_loop(std::shared_ptr<Viewport> viewport, Hero& hero, std::vector<iThin
             }
         }
 
-        hero.move(direction);
+        hero->move(direction);
         for (auto& monster : monsters)
         {
             monster->move();
@@ -121,7 +121,7 @@ void game_loop(std::shared_ptr<Viewport> viewport, Hero& hero, std::vector<iThin
     }
 }
 
-void fill_floor(std::shared_ptr<Floor> floor, Hero& hero)
+void fill_floor(std::shared_ptr<Floor> floor, Hero* hero)
 {
     // put walls around the outside
     // todo, these will leak, they should be unique_ptr attached to tiles
@@ -142,12 +142,12 @@ void fill_floor(std::shared_ptr<Floor> floor, Hero& hero)
     }
 
     // put a wall with a door through the center
-    int wall_cell = hero.where().cell()+1;
-    for (int row = 1; row < hero.where().row(); row++)
+    int wall_cell = hero->where().cell()+1;
+    for (int row = 1; row < hero->where().row(); row++)
     {
         new Wall(floor->tile(Location(row, wall_cell)));
     }
-    for (int row = hero.where().row()+1; row < floor->height()-1; row++)
+    for (int row = hero->where().row()+1; row < floor->height()-1; row++)
     {
         new Wall(floor->tile(Location(row, wall_cell)));
     }
@@ -158,7 +158,7 @@ void fill_floor(std::shared_ptr<Floor> floor, Hero& hero)
     // diagonal walls
     for (int row = 1; row < floor->height()-1; row++)
     {
-        if (row == hero.where().row())
+        if (row == hero->where().row())
         {
             continue;
         }
