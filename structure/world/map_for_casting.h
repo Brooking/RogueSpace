@@ -31,7 +31,7 @@ public:
 
 private:
     std::shared_ptr<Tile> tile_;
-    Floor* floor_;
+    std::shared_ptr<Floor> floor_;
     CastingScan scan_;
 };
 

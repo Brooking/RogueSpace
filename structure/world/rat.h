@@ -28,7 +28,7 @@ public:
     virtual bool move()
     {
         Location here = this->tile_->where();
-        Floor* floor = const_cast<Floor*>(this->tile_->floor());
+        std::shared_ptr<Floor> floor = this->tile_->floor();
         std::shared_ptr<Hero> hero = floor->hero();
 
         // handle state transitions
@@ -74,19 +74,19 @@ public:
         {
         case AiState::Wandering:
             // just wander around
-            new_location = here.chose_random(here.all_adjacent_locations(), *floor, shared_this);
+            new_location = here.chose_random(here.all_adjacent_locations(), floor, shared_this);
             break;
 
         case AiState::Beelining:
             // head toward where the hero was
             // todo - replace with pathfinder
-            new_location = here.chose_random(here.closer_adjacent_locations(this->target_), *floor, shared_this);
+            new_location = here.chose_random(here.closer_adjacent_locations(this->target_), floor, shared_this);
             break;
 
         case AiState::Homing:
             // head toward home
             // todo - replace with pathfinder
-            new_location = here.chose_random(here.closer_adjacent_locations(this->home_), *floor, shared_this);
+            new_location = here.chose_random(here.closer_adjacent_locations(this->home_), floor, shared_this);
             break;
         }
 

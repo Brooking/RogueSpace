@@ -91,7 +91,7 @@ public:
     std::vector<Location> closer_adjacent_locations(Location target);
 
     // given a list of locations, return a random one
-    Location chose_random(std::vector<Location> locations, Floor& floor, std::shared_ptr<iThing> thing);
+    Location chose_random(std::vector<Location> locations, std::shared_ptr<Floor> floor, std::shared_ptr<iThing> thing);
 
 private:
     // the row of the location

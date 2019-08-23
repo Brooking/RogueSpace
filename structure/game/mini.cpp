@@ -72,7 +72,7 @@ int main()
     }
 
     // create a floor
-    std::shared_ptr<Floor> floor = std::make_shared<Floor>(7, 7);
+    std::shared_ptr<Floor> floor = Floor::create(7, 7);
 
     // put our dude on the floor in upper left
     Location starting_spot(1,1);

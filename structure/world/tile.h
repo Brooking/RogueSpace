@@ -22,7 +22,7 @@ class Floor;
 class Tile
 {
 public:
-    Tile(Floor* floor, Location location) : 
+    Tile(std::shared_ptr<Floor> floor, Location location) : 
         floor_(floor), location_(location), fullness_(ContentSize::empty),
         has_been_seen_(false), is_lit_(false)
     {}
@@ -35,7 +35,7 @@ public:
     Location where() const { return location_; }
 
     // The floor this tile is in
-    Floor* floor() const { return this->floor_; }
+    std::shared_ptr<Floor> floor() const { return this->floor_; }
 
     // How full is the tile
     ContentSize how_full() const { return this->fullness_; }
@@ -87,7 +87,7 @@ private:
 
 private:
     // The floor that this tile is in
-    Floor* floor_;
+    std::shared_ptr<Floor> floor_;
 
     // the location of this tile
     Location location_;

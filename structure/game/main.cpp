@@ -45,7 +45,7 @@ int main()
     }
 
     // create a floor larger than the view area
-    std::shared_ptr<Floor> floor = std::make_shared<Floor>(screen->height()*1.5, screen->width()*1.5);
+    std::shared_ptr<Floor> floor = Floor::create(screen->height()*1.5, screen->width()*1.5);
 
     // put our dude on the floor in the center
     Location starting_spot(floor->height()/2, floor->width()/2);

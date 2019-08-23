@@ -66,12 +66,12 @@ std::vector<Location> Location::closer_adjacent_locations(Location target)
     return result;
 }
 
-Location Location::chose_random(std::vector<Location> locations, Floor& floor, std::shared_ptr<iThing> thing)
+Location Location::chose_random(std::vector<Location> locations, std::shared_ptr<Floor> floor, std::shared_ptr<iThing> thing)
 {
     while (locations.size() > 0)
     {
         int index = rand() % locations.size();
-        if (floor.tile(locations[index])->there_is_room(thing))
+        if (floor->tile(locations[index])->there_is_room(thing))
         {
             // we can move here
             return locations[index];

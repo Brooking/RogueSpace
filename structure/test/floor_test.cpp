@@ -7,13 +7,13 @@ TEST_CASE("floor_withConstruction_shouldMakeFloor", "[floor]")
 {
     // arrange
     // act
-    Floor floor(1,2);
+    std::shared_ptr<Floor> floor = Floor::create(1,2);
 
     // assert
-    REQUIRE(floor.height() == 1);
-    REQUIRE(floor.width() == 2);
-    REQUIRE(floor.tile(Location(0,0))->where() == Location(0,0));
-    REQUIRE(floor.tile(Location(0,1))->where() == Location(0,1));
+    REQUIRE(floor->height() == 1);
+    REQUIRE(floor->width() == 2);
+    REQUIRE(floor->tile(Location(0,0))->where() == Location(0,0));
+    REQUIRE(floor->tile(Location(0,1))->where() == Location(0,1));
 }
 
 TEST_CASE("floor_withZeroHeightConstruction_shouldThrow", "[floor]")
@@ -23,7 +23,7 @@ TEST_CASE("floor_withZeroHeightConstruction_shouldThrow", "[floor]")
     bool threw = false;
     try
     {
-        Floor floor(0,1);
+        std::shared_ptr<Floor> floor = Floor::create(0,1);
     }
     catch(const std::invalid_argument& e)
     {
@@ -46,7 +46,7 @@ TEST_CASE("floor_withZeroWidthConstruction_shouldThrow", "[floor]")
     bool threw = false;
     try
     {
-        Floor floor(10,0);
+        std::shared_ptr<Floor> floor = Floor::create(10,0);
     }
     catch(const std::invalid_argument& e)
     {
@@ -69,7 +69,7 @@ TEST_CASE("floor_withNegativeHeightConstruction_shouldThrow", "[floor]")
     bool threw = false;
     try
     {
-        Floor floor(-10,1);
+        std::shared_ptr<Floor> floor = Floor::create(-10,1);
     }
     catch(const std::invalid_argument& e)
     {
@@ -92,7 +92,7 @@ TEST_CASE("floor_withNegativeWidthConstruction_shouldThrow", "[floor]")
     bool threw = false;
     try
     {
-        Floor floor(10,-1);
+        std::shared_ptr<Floor> floor = Floor::create(10,-1);
     }
     catch(const std::invalid_argument& e)
     {
@@ -111,10 +111,10 @@ TEST_CASE("floor_withNegativeWidthConstruction_shouldThrow", "[floor]")
 TEST_CASE("floor_withInvalidTileFetch_shouldReturnNull", "[floor]")
 {
     // arrange
-    Floor floor(1,1);
+    std::shared_ptr<Floor> floor = Floor::create(1,1);
 
     // act
-    std::shared_ptr<Tile> tile = floor.tile(Location(1,1));
+    std::shared_ptr<Tile> tile = floor->tile(Location(1,1));
 
     // assert
     REQUIRE(tile == nullptr);
@@ -123,10 +123,10 @@ TEST_CASE("floor_withInvalidTileFetch_shouldReturnNull", "[floor]")
 TEST_CASE("floor_withNegativeTileFetch_shouldReturnNull", "[floor]")
 {
     // arrange
-    Floor floor(1,1);
+    std::shared_ptr<Floor> floor = Floor::create(1,1);
 
     // act
-    std::shared_ptr<Tile> tile = floor.tile(Location(-1,-1));
+    std::shared_ptr<Tile> tile = floor->tile(Location(-1,-1));
 
     // assert
     REQUIRE(tile == nullptr);

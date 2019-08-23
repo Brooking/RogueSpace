@@ -4,7 +4,15 @@
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
-Floor::Floor(int height, int width) : update_interface_(nullptr), hero_(nullptr)
+std::shared_ptr<Floor> Floor::create(int height, int width)
+{
+    // can not use "std::make_shared<Floor>();" here because that requires a public c'tor
+    std::shared_ptr<Floor> floor = std::shared_ptr<Floor>(new Floor());
+    floor->init(height, width);
+    return floor;
+}
+
+void Floor::init(int height, int width)
 {
     if (height < 1) {
         throw std::invalid_argument("height must be positive");
@@ -17,11 +25,13 @@ Floor::Floor(int height, int width) : update_interface_(nullptr), hero_(nullptr)
         this->tile_.push_back(std::vector<std::shared_ptr<Tile>>());
         for (int cell = 0; cell < width; cell++)
         {
-            std::shared_ptr<Tile> tile = std::make_shared<Tile>(this, Location(row, cell));
+            std::shared_ptr<Tile> tile = std::make_shared<Tile>(this->shared_from_this(), Location(row, cell));
             this->tile_[row].push_back(tile);
         }
     }
 }
+
+
 
 bool Floor::register_update(std::shared_ptr<iUpdate> update_interface)
 {

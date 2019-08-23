@@ -17,7 +17,7 @@ bool Hero::move()
 bool Hero::move(Direction direction)
 {
     Location newLocation = this->where().apply_direction(direction);
-    Floor* floor = const_cast<Floor*>(this->tile_->floor());
+    std::shared_ptr<Floor> floor = this->tile_->floor();
     std::shared_ptr<Tile> newTile = floor->tile(newLocation);   
     std::shared_ptr shared_this = this->shared_from_this();
     if (newTile != nullptr && newTile->there_is_room(shared_this)) 
@@ -52,13 +52,9 @@ bool Hero::place(std::shared_ptr<Tile> tile)
     bool result = ThingBase::place(tile);
     if (tile != nullptr)
     {
-        Floor* hero_floor = tile->floor();
+        std::shared_ptr<Floor> hero_floor = tile->floor();
         if (hero_floor != nullptr)
         {
-            // trick to ensure there is at least one shared pointer to this object
-            // (not needed if this is no longer in the constructor)
-            //const auto trickDontRemove = std::shared_ptr<Hero>( this, [](Hero*){} );
-
             hero_floor->add_hero(this->derived_shared_from_this<Hero>());
             hero_floor->update(tile->where(),/*is_center*/true);
         }

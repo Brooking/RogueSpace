@@ -12,7 +12,7 @@ public:
     // iThing: do its move
     virtual bool move()
     {
-        Floor* floor = this->tile_->floor();
+        std::shared_ptr<Floor> floor = this->tile_->floor();
         Location hero_location = floor->hero()->where();
 
         int distance = this->tile_->where().distance(hero_location);
@@ -29,7 +29,7 @@ public:
         }
         
         Location current = this->tile_->where();
-        Location new_location = current.chose_random(locations, *floor, this->shared_from_this());
+        Location new_location = current.chose_random(locations, floor, this->shared_from_this());
         if (new_location != current)
         {
             this->place(floor->tile(new_location));

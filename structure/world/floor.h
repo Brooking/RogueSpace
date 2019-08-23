@@ -11,10 +11,10 @@
 //
 // Holds a single floor
 //
-class Floor : public iFloor
+class Floor : public iFloor, public std::enable_shared_from_this<Floor>
 {
 public:
-    Floor(int height, int width);
+    static std::shared_ptr<Floor> create(int height, int width);
     virtual ~Floor() {}
 
     // iFloor: the ui is giving us a callback
@@ -42,6 +42,13 @@ public:
 
     // add a light
     bool add_light(int row, int cell, int radius);
+
+private:
+    // private constructor (use Floor::create)
+    Floor() : update_interface_(nullptr), hero_(nullptr) {}
+
+    // add all of the tiles to the floor
+    void init(int height, int width);
 
 private:
     // all of the tiles on this floor

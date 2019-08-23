@@ -4,7 +4,7 @@
 
 UIToken Tile::token() const
 {
-    Floor* floor = this->floor();
+    std::shared_ptr<Floor> floor = this->floor();
     if (floor == nullptr)
     {
         return UIToken::none;
