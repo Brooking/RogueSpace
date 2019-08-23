@@ -41,19 +41,19 @@ public:
     ContentSize how_full() const { return this->fullness_; }
 
     // will this thing fit in the tile
-    bool there_is_room(iThing* thing);
+    bool there_is_room(std::shared_ptr<iThing> thing);
 
     // add a thing to this tile
-    bool add(iThing* thing);
+    bool add(std::shared_ptr<iThing> thing);
 
     // remove a thing from this tile
-    bool remove(iThing* thing);
+    bool remove(std::shared_ptr<iThing> thing);
 
     // how many thing are on this tile
     int num_things() const { return this->things_.size(); }
 
     // array notation thing accessor
-    const iThing* thing(int i) const { return const_cast<const iThing*>(this->things_[i]); }
+    const std::shared_ptr<iThing> thing(int i) const { return this->things_[i]; }
 
     // add a spot that has los from this tile
     void add_los(Location location);
@@ -93,7 +93,7 @@ private:
     Location location_;
 
     // the list of things on this tile
-    std::vector<iThing*> things_;
+    std::vector<std::shared_ptr<iThing>> things_;
 
     // the current fullness of the tile
     ContentSize fullness_;

@@ -4,21 +4,10 @@
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
-Hero::Hero(std::shared_ptr<Tile> tile, int sight_range) : 
-    ThingBase(tile, UIToken::hero, ContentSize::large, /*center*/true),
+Hero::Hero(int sight_range) : 
+    ThingBase(UIToken::hero, ContentSize::large, /*center*/true),
     sight_range_(sight_range)
-{
-    std::shared_ptr<Tile> hero_tile = this->tile();
-    if (hero_tile != nullptr)
-    {
-        Floor* hero_floor = hero_tile->floor();
-        if (hero_floor != nullptr)
-        {
-            hero_floor->add_hero(this);
-            hero_floor->update(hero_tile->where(),/*is_center*/true);
-        }
-    }
-}
+{}
 
 bool Hero::move()
 {
@@ -29,12 +18,13 @@ bool Hero::move(Direction direction)
 {
     Location newLocation = this->where().apply_direction(direction);
     Floor* floor = const_cast<Floor*>(this->tile_->floor());
-    std::shared_ptr<Tile> newTile = floor->tile(newLocation);    
-    if (newTile != nullptr && newTile->there_is_room(this)) 
+    std::shared_ptr<Tile> newTile = floor->tile(newLocation);   
+    std::shared_ptr shared_this = this->shared_from_this();
+    if (newTile != nullptr && newTile->there_is_room(shared_this)) 
     {
-        this->tile_->remove(this);
+        this->tile_->remove(shared_this);
         this->tile_ = newTile;
-        newTile->add(this);
+        newTile->add(shared_this);
         return true;
     }
 
@@ -52,8 +42,27 @@ bool Hero::can_see(Location location)
     return tile->has_los(location);
 }
 
-// todo - why can this not be a shared_ptr?
 bool Hero::can_see(const std::shared_ptr<Tile> tile)
 {
     return this->can_see(tile->where());
+}
+
+bool Hero::place(std::shared_ptr<Tile> tile)
+{
+    bool result = ThingBase::place(tile);
+    if (tile != nullptr)
+    {
+        Floor* hero_floor = tile->floor();
+        if (hero_floor != nullptr)
+        {
+            // trick to ensure there is at least one shared pointer to this object
+            // (not needed if this is no longer in the constructor)
+            //const auto trickDontRemove = std::shared_ptr<Hero>( this, [](Hero*){} );
+
+            hero_floor->add_hero(this->derived_shared_from_this<Hero>());
+            hero_floor->update(tile->where(),/*is_center*/true);
+        }
+    }
+
+    return result;
 }

@@ -18,11 +18,15 @@
 class Hero : public ThingBase
 {
 public:
-    Hero(std::shared_ptr<Tile> tile = nullptr, int sight_range = 5);
+    Hero(int sight_range = 5);
     virtual ~Hero() {}
 
     // iThing: move (not used for heroes)
-    virtual bool move();
+    virtual bool move() override;
+
+    // iThing: place the hero (and update the floor's 'hero' value)
+    virtual bool place(std::shared_ptr<Tile> tile) override;
+
 
     // where is this hero now
     Location where() const { return (this->tile_ == nullptr) ? Location(-1,-1) : this->tile_->where(); }
@@ -35,8 +39,6 @@ public:
 
     // can the hero see this tile
     bool can_see(const std::shared_ptr<Tile> tile);
-
-PROTECTED_ACCESS:
 
 private:
     int sight_range_;

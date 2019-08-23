@@ -8,14 +8,12 @@
 #define PROTECTED_ACCESS protected
 #endif
 
-class ThingBase : public iThing
+class ThingBase : public iThing, public std::enable_shared_from_this<iThing>
 {
 public:
-    ThingBase(std::shared_ptr<Tile> tile, UIToken token, ContentSize content_size, bool center) : 
-        tile_(tile), token_(token), content_size_(content_size), center_(center)
-    {
-        this->place(this->tile_);
-    }
+    ThingBase(UIToken token, ContentSize content_size, bool center) : 
+        tile_(nullptr), token_(token), content_size_(content_size), center_(center)
+    {}
     virtual ~ThingBase() {}
 
     // The tile that this thing is on
@@ -30,23 +28,40 @@ public:
     // This thing is centered
     virtual bool is_center() const { return this->center_; }
 
-PROTECTED_ACCESS:
     // put the thing on the tile
     virtual bool place(std::shared_ptr<Tile> tile)
     {
-        if (tile != nullptr && tile->there_is_room(this))
+        if (tile != nullptr && tile->there_is_room(this->shared_from_this()))
         {
-            if (this->tile_ != nullptr)
-            {
-                this->tile_->remove(this);
-                this->tile_ = nullptr;
-            }
-            tile->add(this);
+            this->remove();
+            tile->add(this->shared_from_this());
             this->tile_ = tile;
             return true;
         }
 
         return false;
+    }
+
+    // remove the thing from a tile
+    virtual bool remove()
+    {
+        if (this->tile_ != nullptr)
+        {
+            this->tile_->remove(this->shared_from_this());
+            this->tile_ = nullptr;
+        }
+
+        return true;
+    }
+
+PROTECTED_ACCESS:
+    // A worker to do the magic of getting a shared pointer
+    // to the derived class when ThingBase is where the
+    // shared from this functionality is located
+    template<class derived>
+    std::shared_ptr<derived> derived_shared_from_this()
+    {
+        return std::dynamic_pointer_cast<derived>(ThingBase::shared_from_this());
     }
 
 protected:

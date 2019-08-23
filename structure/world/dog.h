@@ -6,7 +6,7 @@
 class Dog : public MonsterBase
 {
 public:
-    Dog(std::shared_ptr<Tile> tile) : MonsterBase(tile, UIToken::dog) {}
+    Dog() : MonsterBase(UIToken::dog) {}
     virtual ~Dog() {}
 
     // iThing: do its move
@@ -29,7 +29,7 @@ public:
         }
         
         Location current = this->tile_->where();
-        Location new_location = current.chose_random(locations, *floor, this);
+        Location new_location = current.chose_random(locations, *floor, this->shared_from_this());
         if (new_location != current)
         {
             this->place(floor->tile(new_location));

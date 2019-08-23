@@ -37,8 +37,8 @@ public:
 
     // a pointer to our hero
     // todo...it is odd that the floor knows where the hero is
-    Hero* hero() { return this->hero_; }
-    void add_hero(Hero* hero) { this->hero_ = hero; }
+    std::shared_ptr<Hero> hero() { return this->hero_; }
+    void add_hero(std::shared_ptr<Hero> hero) { this->hero_ = hero; }
 
     // add a light
     bool add_light(int row, int cell, int radius);
@@ -52,7 +52,7 @@ private:
 
     // The hero on the floor
     // TODO: is this the right spot for it?
-    Hero* hero_;
+    std::shared_ptr<Hero> hero_;
 
     // all of the lights
     std::vector<std::shared_ptr<Tile>> lights_;

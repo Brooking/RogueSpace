@@ -10,7 +10,7 @@ UIToken Tile::token() const
         return UIToken::none;
     }
 
-    Hero* hero = floor->hero();
+    std::shared_ptr<Hero> hero = floor->hero();
     if (hero == nullptr)
     {
         return UIToken::none;
@@ -56,7 +56,7 @@ UIToken Tile::token() const
 }
 
 
-bool Tile::add(iThing* thing)
+bool Tile::add(std::shared_ptr<iThing> thing)
 {
     if (thing != nullptr)
     {
@@ -75,7 +75,7 @@ bool Tile::add(iThing* thing)
     return false;
 }
 
-bool Tile::remove(iThing* thing)
+bool Tile::remove(std::shared_ptr<iThing> thing)
 {
     if (thing == nullptr) 
     {
@@ -115,7 +115,7 @@ ContentSize Tile::calculate_fullness()
     return size;
 }
 
-bool Tile::there_is_room(iThing* thing)
+bool Tile::there_is_room(std::shared_ptr<iThing> thing)
 {
     assert(thing->content_size() != ContentSize::empty);
 

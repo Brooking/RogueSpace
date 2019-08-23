@@ -66,7 +66,7 @@ std::vector<Location> Location::closer_adjacent_locations(Location target)
     return result;
 }
 
-Location Location::chose_random(std::vector<Location> locations, Floor& floor, iThing* thing)
+Location Location::chose_random(std::vector<Location> locations, Floor& floor, std::shared_ptr<iThing> thing)
 {
     while (locations.size() > 0)
     {

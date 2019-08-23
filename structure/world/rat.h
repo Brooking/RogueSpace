@@ -19,9 +19,9 @@ const int HomeRange = 5;
 class Rat : public MonsterBase
 {
 public:
-    Rat(std::shared_ptr<Tile> tile) : 
-        MonsterBase(tile, UIToken::rat), ai_state_(AiState::Wandering), 
-        home_(this->tile_->where()), target_() {}
+    Rat() : 
+        MonsterBase(UIToken::rat), ai_state_(AiState::Wandering), 
+        home_(Location()), target_() {}
     virtual ~Rat() {}
 
     // iThing: do its move
@@ -29,7 +29,7 @@ public:
     {
         Location here = this->tile_->where();
         Floor* floor = const_cast<Floor*>(this->tile_->floor());
-        Hero* hero = floor->hero();
+        std::shared_ptr<Hero> hero = floor->hero();
 
         // handle state transitions
         bool changed;
@@ -69,23 +69,24 @@ public:
 
         // act in this state
         Location new_location;
+        std::shared_ptr<iThing> shared_this = this->shared_from_this();
         switch(this->ai_state_)
         {
         case AiState::Wandering:
             // just wander around
-            new_location = here.chose_random(here.all_adjacent_locations(), *floor, this);
+            new_location = here.chose_random(here.all_adjacent_locations(), *floor, shared_this);
             break;
 
         case AiState::Beelining:
             // head toward where the hero was
             // todo - replace with pathfinder
-            new_location = here.chose_random(here.closer_adjacent_locations(this->target_), *floor, this);
+            new_location = here.chose_random(here.closer_adjacent_locations(this->target_), *floor, shared_this);
             break;
 
         case AiState::Homing:
             // head toward home
             // todo - replace with pathfinder
-            new_location = here.chose_random(here.closer_adjacent_locations(this->home_), *floor, this);
+            new_location = here.chose_random(here.closer_adjacent_locations(this->home_), *floor, shared_this);
             break;
         }
 
@@ -95,6 +96,13 @@ public:
             return true;
         }
         return false;
+    }
+
+    virtual bool place(std::shared_ptr<Tile> tile) override
+    {
+        bool result = ThingBase::place(tile);
+        this->home_ = tile->where();
+        return result;
     }
 
 private:

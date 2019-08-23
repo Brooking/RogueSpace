@@ -14,6 +14,8 @@ public:
     virtual ContentSize content_size() const { return this->content_size_; }
     virtual bool is_center() const { return this->center_; }
     virtual bool move() { return true; }
+    virtual bool place(std::shared_ptr<Tile> tile) { this->tile_ = tile; return true; }
+    virtual bool remove() { this->tile_ = nullptr; return true; }
 
 private:
     UIToken token_;

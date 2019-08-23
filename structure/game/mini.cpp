@@ -10,8 +10,8 @@
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
-void game_loop(std::shared_ptr<Viewport> viewport, Hero* hero, std::vector<std::shared_ptr<iThing>> monsters);
-void fill_floor(std::shared_ptr<Floor> floor, Hero* hero);
+void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, std::vector<std::shared_ptr<iThing>> monsters);
+void fill_floor(std::shared_ptr<Floor> floor, std::shared_ptr<Hero> hero);
 
 // maps key inputs into useful directions
 std::map<unsigned int,Direction> KeyToDirection
@@ -77,7 +77,8 @@ int main()
     // put our dude on the floor in upper left
     Location starting_spot(1,1);
     std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
-    Hero* hero = new Hero(starting_tile, /*sight_range*/2);
+    std::shared_ptr<Hero> hero = std::make_shared<Hero>(/*sight_range*/2);
+    hero->place(starting_tile);
 
     fill_floor(floor, hero);
 
@@ -95,7 +96,7 @@ int main()
     return 0;
 }
 
-void game_loop(std::shared_ptr<Viewport> viewport, Hero* hero, std::vector<std::shared_ptr<iThing>> monsters)
+void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, std::vector<std::shared_ptr<iThing>> monsters)
 {
     int ch;
     bool done = false;
@@ -136,75 +137,31 @@ void game_loop(std::shared_ptr<Viewport> viewport, Hero* hero, std::vector<std::
     }
 }
 
-void fill_floor(std::shared_ptr<Floor> floor, Hero* hero)
+void fill_floor(std::shared_ptr<Floor> floor, std::shared_ptr<Hero> hero)
 {
+    std::shared_ptr<Wall> wall;
+
     // put walls around the outside
-    // todo, these will leak, they should be unique_ptr attached to tiles
     for (int row = 0; row < floor->height(); row++)
     {
         if (row == 0 || row == floor->height()-1)
         {
             for (int cell = 0; cell < floor->width(); cell++)
             {
-                new Wall(floor->tile(Location(row,cell)));
+                wall = std::make_shared<Wall>();
+                wall->place(floor->tile(Location(row,cell)));
             }
         }
         else
         {
-            new Wall(floor->tile(Location(row,0)));
-            new Wall(floor->tile(Location(row,floor->width()-1)));
+            wall = std::make_shared<Wall>();
+            wall->place(floor->tile(Location(row,0)));
+            wall = std::make_shared<Wall>();
+            wall->place(floor->tile(Location(row,floor->width()-1)));
         }
     }
 
     // add a light in the  lower right corner
     floor->add_light(floor->height()-2, floor->width()-2, 2);
     return;
-
-    // put a wall with a door through the center
-    int wall_cell = hero->where().cell()+1;
-    for (int row = 1; row < hero->where().row(); row++)
-    {
-        new Wall(floor->tile(Location(row, wall_cell)));
-    }
-    for (int row = hero->where().row()+1; row < floor->height()-1; row++)
-    {
-        new Wall(floor->tile(Location(row, wall_cell)));
-    }
-
-    // make a pillar
-    new Wall (floor->tile(Location(2,floor->width()-3)));
-
-    // diagonal walls
-    for (int row = 1; row < floor->height()-1; row++)
-    {
-        if (row == hero->where().row())
-        {
-            continue;
-        }
-
-        // thin
-        std::shared_ptr<Tile> tile = floor->tile(Location(row,row));
-        if (tile->num_things() == 0)
-        {
-            new Wall(tile);
-        }
-
-        // thick
-        int cell = floor->width()/2 + row;
-        tile = floor->tile(Location(row, cell));
-        if (tile->num_things() == 0)
-        {
-            new Wall(tile);
-        }
-
-        tile = floor->tile(Location(row, cell+1));
-        if (tile->num_things() == 0)
-        {
-            new Wall(tile);
-        }
-    }
-
-    // add a lights in the upper and lower right corner
-    floor->add_light(1, floor->width()-2, 20);
-    floor->add_light(floor->height()-2, floor->width()-2, 20);
 }

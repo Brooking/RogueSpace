@@ -6,8 +6,8 @@
 class MonsterBase : public ThingBase
 {
 public:
-    MonsterBase(std::shared_ptr<Tile> tile, UIToken token) : 
-        ThingBase(tile, token, ContentSize::large, /*center*/false) {}
+    MonsterBase(UIToken token) : 
+        ThingBase(token, ContentSize::large, /*center*/false) {}
     virtual ~MonsterBase() {}
 };
 

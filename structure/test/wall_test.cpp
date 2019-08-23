@@ -10,59 +10,26 @@ TEST_CASE("wall_withConstruction_shouldBeCreated", "[wall]")
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(0,0));
 
     // act
-    std::unique_ptr<Wall> wall = std::make_unique<Wall>(tile);
+    std::shared_ptr<Wall> wall = std::make_shared<Wall>();
+    wall->place(tile);
 
     // assert
     REQUIRE(wall->token() == UIToken::visible_wall);
     REQUIRE(wall->tile() == tile);
 }
 
-TEST_CASE("wall_withConstructionNullTile_shouldThrow", "[wall]")
-{
-    // arrange
-    // act
-    bool threw = false;
-    try
-    {
-        std::unique_ptr<Wall> wall = std::make_unique<Wall>(/*tile*/nullptr);
-    }
-    catch(const std::invalid_argument& e)
-    {
-        INFO(e.what());
-        threw = true;
-    }
-    catch(const std::exception& e)
-    {
-        INFO(e.what());
-    }
-
-    // assert
-    REQUIRE(threw == true);
-}
-
-TEST_CASE("wall_withConstructionPopulated_shouldThrow", "[wall]")
+TEST_CASE("wall_withPlaceOnPopulated_shouldFail", "[wall]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(0,0));
-    iThingMock thing(UIToken::test,nullptr);
-    tile->add(&thing);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::test,nullptr);
+    tile->add(thing);
+    std::shared_ptr<Wall> wall = std::make_shared<Wall>();
 
     // act
-    bool threw = false;
-    try
-    {
-        std::unique_ptr<Wall> wall = std::make_unique<Wall>(tile);
-    }
-    catch(const std::invalid_argument& e)
-    {
-        INFO(e.what());
-        threw = true;
-    }
-    catch(const std::exception& e)
-    {
-        INFO(e.what());
-    }
+    bool placed = wall->place(tile);
 
     // assert
-    REQUIRE(threw == true);
+    REQUIRE(placed == false);
+    REQUIRE(wall->tile() == nullptr);
 }

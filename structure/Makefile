@@ -11,7 +11,8 @@ clean:
 
 # definitions	
 cc=g++
-cflags=-ggdb3 -Wall -std=c++17 -fno-rtti
+cflags=-ggdb3 -Wall -std=c++17 
+#-fno-rtti <- we are now using dynamic_casts
 
 # directories (for compiling and linking)
 common_include_dirs=-I$(CURDIR)/inc -I$(CURDIR)/io

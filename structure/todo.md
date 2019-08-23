@@ -7,10 +7,11 @@
   - [x] blank spot follows @
   - [x] in-sight circle lags behind hero
   - [ ] smart pointers for all world objects
-    - [ ] shared_from_this
-      - [ ] Hero
-      - [ ] Floor
+    - [x] shared_from_this
+      - [x] Hero
+      - [x] Floor
     - [ ] ~Screen not getting called
+    - [x] things should not self place
   - [ ] Rectify hero being known to the floor(?)
   - [ ] Move everything up one directory
 ### Input
