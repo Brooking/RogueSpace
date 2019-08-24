@@ -24,10 +24,10 @@ common_includes= \
 	inc/content_size.h \
 	inc/direction.h \
 	inc/ifloor.h \
+	inc/io_constants.h \
 	inc/iupdate.h \
 	inc/uitokens.h
 io_includes= \
-	io/io_constants.h \
 	io/rawcurses.h \
 	io/screen.h \
 	io/window.h

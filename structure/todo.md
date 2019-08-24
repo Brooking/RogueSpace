@@ -14,6 +14,7 @@
     - [x] things should not self place
   - [ ] Rectify hero being known to the floor(?)
   - [ ] Move everything up one directory
+  - [ ] coalesce mini+main
 ### Input
 #### Keyboard
   - [x] add diagonal input

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <map>
-#include "../io/io_constants.h"
+#include "io_constants.h"
 #include "../io/screen.h"
 #include "../io/rawcurses.h"
 #include "../world/floor.h"
@@ -10,21 +10,11 @@
 #include "../ui/viewport.h"
 #include "../world/wall.h"
 
+//
+// The entry point for the mini version of the game
+//
 void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, std::vector<std::shared_ptr<iThing>> monsters);
 void fill_floor(std::shared_ptr<Floor> floor, std::shared_ptr<Hero> hero);
-
-// maps key inputs into useful directions
-std::map<unsigned int,Direction> KeyToDirection
-{
-    {io::Key::UP, Direction::North},
-    {io::Key::UP_RIGHT, Direction::NorthEast},
-    {io::Key::RIGHT, Direction::East},
-    {io::Key::DOWN_RIGHT, Direction::SouthEast},
-    {io::Key::DOWN, Direction::South},
-    {io::Key::DOWN_LEFT, Direction::SouthWest},
-    {io::Key::LEFT, Direction::West},
-    {io::Key::UP_LEFT, Direction::NorthWest},
-};
 
 int main()
 {
