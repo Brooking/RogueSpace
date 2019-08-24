@@ -18,16 +18,16 @@ public:
     virtual ~Floor() {}
 
     // iFloor: the ui is giving us a callback
-    virtual bool register_update(std::shared_ptr<iUpdate> update_interface);
+    virtual bool register_update(std::shared_ptr<iUpdate> update_interface) override;
 
     // iFloor: returns the height (number of rows)
-    virtual int height() { return tile_.size(); }
+    virtual int height() override { return tile_.size(); }
 
     // iFloor: returns the width (number of cells per row)
-    virtual int width() { return tile_[0].size(); }
+    virtual int width() override { return tile_[0].size(); }
 
     // iFloor: returns the ui token for a given location
-    virtual UIToken token(int row, int cell);
+    virtual UIToken token(int row, int cell) override;
 
     // returns the tile at a given location
     std::shared_ptr<Tile> tile(Location location);

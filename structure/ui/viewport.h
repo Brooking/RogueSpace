@@ -23,7 +23,7 @@ public:
     virtual ~Viewport() {}
 
     // iUpdate: an update notification from the world
-    virtual bool update(int row, int cell, bool center = false);
+    virtual bool update(int row, int cell, bool center = false) override;
 
     // time to implement all of the updates (normally called from the game)
     void refresh();

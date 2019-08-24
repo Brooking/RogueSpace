@@ -15,6 +15,7 @@
   - [ ] Rectify hero being known to the floor(?)
   - [ ] Move everything up one directory
   - [ ] coalesce mini+main
+  - [x] consistent virtual/override usage
 ### Input
 #### Keyboard
   - [x] add diagonal input

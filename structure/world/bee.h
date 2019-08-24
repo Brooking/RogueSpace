@@ -15,7 +15,7 @@ public:
     virtual ~Bee() {}
 
     // iThing: do its move
-    virtual bool move()
+    virtual bool move() override
     {
         std::shared_ptr<Floor> floor = this->tile_->floor();
         Location hero_location = floor->hero()->where();

@@ -16,20 +16,20 @@ public:
     {}
     virtual ~ThingBase() {}
 
-    // The tile that this thing is on
+    // iThing: The tile that this thing is on
     virtual std::shared_ptr<Tile> tile() const { return this->tile_; }
 
-    // How this thing should be displayed in the UI
-    virtual UIToken token() const { return this->token_; }
+    // iThing: How this thing should be displayed in the UI
+    virtual UIToken token() const override { return this->token_; }
 
-    // This thing fills the tile
-    virtual ContentSize content_size() const { return this->content_size_; }
+    // iThing: This thing fills the tile
+    virtual ContentSize content_size() const override { return this->content_size_; }
 
-    // This thing is centered
-    virtual bool is_center() const { return this->center_; }
+    // iThing: This thing is centered
+    virtual bool is_center() const override { return this->center_; }
 
-    // put the thing on the tile
-    virtual bool place(std::shared_ptr<Tile> tile)
+    // iThing: put the thing on the tile
+    virtual bool place(std::shared_ptr<Tile> tile) override
     {
         if (tile != nullptr && tile->there_is_room(this->shared_from_this()))
         {
@@ -42,8 +42,8 @@ public:
         return false;
     }
 
-    // remove the thing from a tile
-    virtual bool remove()
+    // iThing: remove the thing from a tile
+    virtual bool remove() override
     {
         if (this->tile_ != nullptr)
         {
