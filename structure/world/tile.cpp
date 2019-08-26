@@ -146,6 +146,8 @@ void Tile::add_los_range(Location location, int range)
 
 int Tile::get_los_range(Location location, int sighting_distance)
 {
+    // todo: asking if another can see should not prevent
+    // 'seen' from being calculated later
     if (this->los_range_ == nullptr)
     {
         this->los_range_ = 

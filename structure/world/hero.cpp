@@ -33,7 +33,6 @@ bool Hero::move(Direction direction)
 
 bool Hero::can_see(Location location)
 {
-    std::shared_ptr<Tile> tile = this->tile_;
     int los_range = this->tile_->get_los_range(location, this->sight_range_);
     if (los_range <= this->sight_range_)
     {
@@ -41,7 +40,7 @@ bool Hero::can_see(Location location)
         return true;
     }
 
-    std::shared_ptr<Tile> target = tile->floor()->tile(location);
+    std::shared_ptr<Tile> target = this->tile_->floor()->tile(location);
     if (los_range < INT_MAX && target->is_lit())
     {
         // location is in los and lit
@@ -54,6 +53,24 @@ bool Hero::can_see(Location location)
 bool Hero::can_see(const std::shared_ptr<Tile> tile)
 {
     return this->can_see(tile->where());
+}
+
+bool Hero::can_be_seen_from(Location seer, int sight_range)
+{
+    int los_range = this->tile_->get_los_range(seer);
+    if (los_range <= sight_range)
+    {
+        // location is in los and close enough to see
+        return true;
+    }
+
+    if (los_range < INT_MAX && this->tile_->is_lit())
+    {
+        // the hero is lit and in los
+        return true;
+    }
+
+    return false;
 }
 
 bool Hero::place(std::shared_ptr<Tile> tile)

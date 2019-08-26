@@ -6,7 +6,7 @@
   - [x] not showing @ on start
   - [x] blank spot follows @
   - [x] in-sight circle lags behind hero
-  - [ ] smart pointers for all world objects
+  - [x] smart pointers for all world objects
     - [x] shared_from_this
       - [x] Hero
       - [x] Floor
@@ -47,12 +47,15 @@
 ### Features
 #### Monster
   - [x] add a monster to move around
-  - [x] limit monster's reaction to hero/dog in field of view
+  - [x] limit monster's reaction to hero in field of view
+  - [x] limit monster's range to view hero
+  - [ ] add monster reaction to dog
+  - [ ] add monster 'bounce' off of hero
   - [ ] add monster smelling
   - [ ] add monster hearing
   - [ ] give monster stateful AI : wandering/seeking, beeline, beeline-to-last-seen, wandering back, etc
   - [x] add pathfinding
-    - [ ] separate djystra
+    - [x] separate dijkstra
     - [ ] pathing
     - [ ] tests
   - [x] add bee and rat
@@ -68,7 +71,7 @@
 #### Visibility
   - [x] Line of sight
   - [x] Field of view
-  - [ ] Djykstra map
+  - [x] Dijkstra map
   - [x] Pathing
   - [x] Change api semantics to hero.can_see()
   - [x] Make lighted tiles visible only if in los

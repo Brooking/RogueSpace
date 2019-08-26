@@ -39,6 +39,9 @@ public:
     // can the hero see this tile
     bool can_see(const std::shared_ptr<Tile> tile);
 
+    // can the hero be seen here from a given spot
+    bool can_be_seen_from(Location seer, int sight_range);
+
 private:
     int sight_range_;
 };

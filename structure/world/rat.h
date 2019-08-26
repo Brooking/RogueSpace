@@ -12,6 +12,7 @@ enum class AiState
 };
 
 const int HomeRange = 5;
+const int SightRange = 10;
 
 //
 // Monster with short sight, but can path find
@@ -37,7 +38,7 @@ public:
         {
             changed = false;
 
-            if (hero->can_see(here))
+            if (hero->can_be_seen_from(here, SightRange))
             {
                 // I see the hero
                 if (this->ai_state_ != AiState::Beelining || here == this->target_)
