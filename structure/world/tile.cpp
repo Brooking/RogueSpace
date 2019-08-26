@@ -3,7 +3,7 @@
 #include "floor.h"
 #include "map_for_casting.h"
 
-UIToken Tile::token() const
+UIToken Tile::token()
 {
     std::shared_ptr<Floor> floor = this->floor();
     if (floor == nullptr)
@@ -33,8 +33,11 @@ UIToken Tile::token() const
 
     if (floor->hero()->can_see(this->where()))
     {
-        // if the hero can see this tile or the tile is lit, 
-        // just return it
+        // the hero can see this, mark it as having been seen
+        // (this has the side effect of only marking those
+        //  spots that appear on the screen as having been seen,
+        //  which makes some sense)
+        this->has_been_seen_ = true;
     }
     else if (this->has_been_seen_)
     {
@@ -144,10 +147,8 @@ void Tile::add_los_range(Location location, int range)
     (*this->los_range_)[location.row()][location.cell()] = range;
 }
 
-int Tile::get_los_range(Location location, int sighting_distance)
+int Tile::get_los_range(Location location)
 {
-    // todo: asking if another can see should not prevent
-    // 'seen' from being calculated later
     if (this->los_range_ == nullptr)
     {
         this->los_range_ = 
@@ -159,8 +160,7 @@ int Tile::get_los_range(Location location, int sighting_distance)
                 )
             );
         
-        MapForCasting map(this->shared_from_this(), CastingScan::visibility, 
-            sighting_distance);
+        MapForCasting map(this->shared_from_this(), CastingScan::visibility);
         do_fov(map, this->where().cell(), this->where().row());
         
     }

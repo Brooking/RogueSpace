@@ -33,7 +33,7 @@ bool Hero::move(Direction direction)
 
 bool Hero::can_see(Location location)
 {
-    int los_range = this->tile_->get_los_range(location, this->sight_range_);
+    int los_range = this->tile_->get_los_range(location);
     if (los_range <= this->sight_range_)
     {
         // location is in los and close enough to see

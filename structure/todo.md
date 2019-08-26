@@ -75,3 +75,4 @@
   - [x] Pathing
   - [x] Change api semantics to hero.can_see()
   - [x] Make lighted tiles visible only if in los
+  - [x] 'Seen' tiles determined by asking for token

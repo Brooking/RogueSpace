@@ -67,7 +67,7 @@ int main()
     // put our dude on the floor in upper left
     Location starting_spot(1,1);
     std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
-    std::shared_ptr<Hero> hero = std::make_shared<Hero>(/*sight_range*/2);
+    std::shared_ptr<Hero> hero = std::make_shared<Hero>(/*sight_range*/1);
     hero->place(starting_tile);
 
     fill_floor(floor, hero);

@@ -79,7 +79,7 @@ bool Floor::add_light(int row, int cell, int radius)
     std::shared_ptr<Tile> tile = this->tile(Location(row, cell));
     tile->set_is_lit(true);
 
-    MapForCasting map(tile, CastingScan::illumination, 0);
+    MapForCasting map(tile, CastingScan::illumination);
     do_fov(map, cell, row, radius);
     return true;
 }

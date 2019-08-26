@@ -30,7 +30,7 @@ public:
     ~Tile() {}
 
     // Th UI token of the topmost thing on the tile
-    UIToken token() const;
+    UIToken token();
 
     // The floor location of this tile
     Location where() const { return location_; }
@@ -60,14 +60,11 @@ public:
     void add_los_range(Location location, int range);
 
     // ask how far los id from this tile
-    // (if sighting_distance is set, then tiles will be marked as seen)
-    int get_los_range(Location location, int sighting_distance = 0);
+    // (returns INT_MAX if no line of sight)
+    int get_los_range(Location location);
 
     // this tile has been seen
     bool has_been_seen() { return this->has_been_seen_; }
-
-    // see this tile
-    void set_has_been_seen(bool seen) { this->has_been_seen_ = seen; }
 
     // set this tile as lit
     void set_is_lit(bool lit) { this->is_lit_ = lit; }
@@ -75,14 +72,13 @@ public:
     // returns whether this tile is lit
     bool is_lit() { return this->is_lit_; }
 
-
 PROTECTED_ACCESS:
     // calculate fullness based on contents
     ContentSize calculate_fullness();
 
 private:
     // prohibit parameterless construction
-    Tile();
+    Tile() = delete;
 
 private:
     // The floor that this tile is in
