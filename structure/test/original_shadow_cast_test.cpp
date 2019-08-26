@@ -3,7 +3,7 @@
 #include "original_shadow_cast.h"
 #include "imap_mock.h"
 
-TEST_CASE("iMapMock_withConstruction_shouldCreate", "[original_shadow_cast]")
+TEST_CASE("iMapMock_withConstruction_shouldCreate", "[original_shadow_cast][.]")
 {
     // arrange
     // act
@@ -12,7 +12,7 @@ TEST_CASE("iMapMock_withConstruction_shouldCreate", "[original_shadow_cast]")
     // assert
     REQUIRE(map.get_width() == 3);
     REQUIRE(map.get_height() == 4);
-    REQUIRE(map.has_los(0,0) == false);
+    REQUIRE(map.has_los(0,0) == INT_MAX);
     REQUIRE(map.is_opaque(0,0) == false);
 }
 
@@ -27,8 +27,8 @@ TEST_CASE("iMapMock_withOpaqueSet_shouldCreate", "[original_shadow_cast]")
     // assert
     REQUIRE(map.get_width() == 3);
     REQUIRE(map.get_height() == 4);
-    REQUIRE(map.has_los(0,0) == false);
-    REQUIRE(map.is_opaque(2,2) == true);
+    REQUIRE(map.has_los(0,0) == INT_MAX);
+    REQUIRE(map.is_opaque(2,2) == 1);
 }
 
 TEST_CASE("iMapMock_withLosSet_shouldCreate", "[original_shadow_cast]")
@@ -37,12 +37,12 @@ TEST_CASE("iMapMock_withLosSet_shouldCreate", "[original_shadow_cast]")
     iMapMock map(/*width*/3,/*height*/4);
 
     // act
-    map.set_los(3,3,true);
+    map.set_los(2,3,2*2);
 
     // assert
     REQUIRE(map.get_width() == 3);
     REQUIRE(map.get_height() == 4);
-    REQUIRE(map.has_los(3,3) == true);
+    REQUIRE(map.has_los(2,3) == 2);
     REQUIRE(map.is_opaque(2,2) == false);
 }
 
@@ -53,47 +53,67 @@ TEST_CASE("originalShadowCast_withSmallMap_shouldShowAll", "[original_shadow_cas
     // ...
 
     // arrange
-    iMapMock map(3,3);
+    iMapMock map(/*width*/3,/*height*/3);
 
     // act
-    do_fov(map, /*x*/1, /*y*/1, /*radius*/2);
+    do_fov(map, /*x*/1, /*y*/1);
 
     // assert
-    REQUIRE(map.has_los(0,0) == true);
-    REQUIRE(map.has_los(0,1) == true);
-    REQUIRE(map.has_los(0,2) == true);
-    REQUIRE(map.has_los(1,0) == true);
-    REQUIRE(map.has_los(1,1) == true);
-    REQUIRE(map.has_los(1,2) == true);
-    REQUIRE(map.has_los(2,0) == true);
-    REQUIRE(map.has_los(2,1) == true);
-    REQUIRE(map.has_los(2,2) == true);
+    REQUIRE(map.has_los(0,0) == 1);
+    REQUIRE(map.has_los(0,1) == 1);
+    REQUIRE(map.has_los(0,2) == 1);
+    REQUIRE(map.has_los(1,0) == 1);
+    REQUIRE(map.has_los(1,1) == 0);
+    REQUIRE(map.has_los(1,2) == 1);
+    REQUIRE(map.has_los(2,0) == 1);
+    REQUIRE(map.has_los(2,1) == 1);
+    REQUIRE(map.has_los(2,2) == 1);
 }
 
 TEST_CASE("originalShadowCast_withSmallishMap_shouldShowAll", "[original_shadow_cast]")
 {
-    // .....
-    // .....
-    // ..@..
-    // .....
-    // .....
+    // @1234
+    // 11234
+    // 22234
+    // 33345
+    // 44455
 
     // arrange
-    iMapMock map(5,5);
+    iMapMock map(/*width*/5,/*height*/5);
 
     // act
-    do_fov(map, /*x*/2, /*y*/2, /*radius*/3);
+    do_fov(map, /*x*/0, /*y*/0);
 
     // assert
-    REQUIRE(map.has_los(0,0) == true);
-    REQUIRE(map.has_los(0,2) == true);
-    REQUIRE(map.has_los(0,4) == true);
+    REQUIRE(map.has_los(0,0) == 0);
+    REQUIRE(map.has_los(0,1) == 1);
+    REQUIRE(map.has_los(0,2) == 2);
+    REQUIRE(map.has_los(0,3) == 3);
+    REQUIRE(map.has_los(0,4) == 4);
 
-    REQUIRE(map.has_los(3,1) == true);
-    REQUIRE(map.has_los(3,2) == true);
-    REQUIRE(map.has_los(3,3) == true);
+    REQUIRE(map.has_los(1,0) == 1);
+    REQUIRE(map.has_los(1,1) == 1);
+    REQUIRE(map.has_los(1,2) == 2);
+    REQUIRE(map.has_los(1,3) == 3);
+    REQUIRE(map.has_los(1,4) == 4);
 
-    REQUIRE(map.has_los(4,3) == true);
+    REQUIRE(map.has_los(2,0) == 2);
+    REQUIRE(map.has_los(2,1) == 2);
+    REQUIRE(map.has_los(2,2) == 2);
+    REQUIRE(map.has_los(2,3) == 3);
+    REQUIRE(map.has_los(2,4) == 4);
+
+    REQUIRE(map.has_los(3,0) == 3);
+    REQUIRE(map.has_los(3,1) == 3);
+    REQUIRE(map.has_los(3,2) == 3);
+    REQUIRE(map.has_los(3,3) == 4);
+    REQUIRE(map.has_los(3,4) == 5);
+
+    REQUIRE(map.has_los(4,0) == 4);
+    REQUIRE(map.has_los(4,1) == 4);
+    REQUIRE(map.has_los(4,2) == 4);
+    REQUIRE(map.has_los(4,3) == 5);
+    REQUIRE(map.has_los(4,4) == 5);
 }
 
 TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[original_shadow_cast]")
@@ -101,75 +121,160 @@ TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[origina
     // @....
     // .....
     // ..#..
-    // .....
+    // ...S.
     // ....S
 
+    // @1234
+    // 11234
+    // 22234
+    // 333X5
+    // 4445X
+
+ 
     // arrange
-    iMapMock map(5,5);
+    iMapMock map(/*width*/5,/*height*/5);
     map.set_opaque(2, 2, true);
 
     // act
-    do_fov(map, /*x*/0, /*y*/0, /*radius*/10);
+    do_fov(map, /*x*/0, /*y*/0);
 
     // assert
-    REQUIRE(map.has_los(0,0) == true);
-    REQUIRE(map.has_los(0,1) == true);
-    REQUIRE(map.has_los(0,2) == true);
-    REQUIRE(map.has_los(0,3) == true);
-    REQUIRE(map.has_los(0,4) == true);
+    REQUIRE(map.has_los(0,0) == 0);
+    REQUIRE(map.has_los(0,1) == 1);
+    REQUIRE(map.has_los(0,2) == 2);
+    REQUIRE(map.has_los(0,3) == 3);
+    REQUIRE(map.has_los(0,4) == 4);
 
-    REQUIRE(map.has_los(1,0) == true);
-    REQUIRE(map.has_los(1,1) == true);
-    REQUIRE(map.has_los(1,2) == true);
-    REQUIRE(map.has_los(1,3) == true);
-    REQUIRE(map.has_los(1,4) == true);
+    REQUIRE(map.has_los(1,0) == 1);
+    REQUIRE(map.has_los(1,1) == 1);
+    REQUIRE(map.has_los(1,2) == 2);
+    REQUIRE(map.has_los(1,3) == 3);
+    REQUIRE(map.has_los(1,4) == 4);
 
-    REQUIRE(map.has_los(2,0) == true);
-    REQUIRE(map.has_los(2,1) == true);
-    REQUIRE(map.has_los(2,2) == true);
-    REQUIRE(map.has_los(2,3) == true);
-    REQUIRE(map.has_los(2,4) == true);
+    REQUIRE(map.has_los(2,0) == 2);
+    REQUIRE(map.has_los(2,1) == 2);
+    REQUIRE(map.has_los(2,2) == 2);
+    REQUIRE(map.has_los(2,3) == 3);
+    REQUIRE(map.has_los(2,4) == 4);
 
-    REQUIRE(map.has_los(3,0) == true);
-    REQUIRE(map.has_los(3,1) == true);
-    REQUIRE(map.has_los(3,2) == true);
-    REQUIRE(map.has_los(3,3) == false);
-    REQUIRE(map.has_los(3,4) == true);
+    REQUIRE(map.has_los(3,0) == 3);
+    REQUIRE(map.has_los(3,1) == 3);
+    REQUIRE(map.has_los(3,2) == 3);
+    REQUIRE(map.has_los(3,3) == INT_MAX);
+    REQUIRE(map.has_los(3,4) == 5);
+
+    REQUIRE(map.has_los(4,0) == 4);
+    REQUIRE(map.has_los(4,1) == 4);
+    REQUIRE(map.has_los(4,2) == 4);
+    REQUIRE(map.has_los(4,3) == 5);
+    REQUIRE(map.has_los(4,4) == INT_MAX);
+}
+
+TEST_CASE("originalShadowCast_withFarPillarOnOblique_shouldShowSome", "[original_shadow_cast]")
+{
+    // .....
+    // @....
+    // ..#..
+    // .....
+    // ....S
+
+    // 11234
+    // 01234
+    // 11234
+    // 22234
+    // 3334X
+
+ 
+    // arrange
+    iMapMock map(/*width*/5,/*height*/5);
+    map.set_opaque(2, 2, true);
+
+    // act
+    do_fov(map, /*x*/0, /*y*/1);
+
+    // assert
+    REQUIRE(map.has_los(0,0) == 1);
+    REQUIRE(map.has_los(0,1) == 0);
+    REQUIRE(map.has_los(0,2) == 1);
+    REQUIRE(map.has_los(0,3) == 2);
+    REQUIRE(map.has_los(0,4) == 3);
+
+    REQUIRE(map.has_los(1,0) == 1);
+    REQUIRE(map.has_los(1,1) == 1);
+    REQUIRE(map.has_los(1,2) == 1);
+    REQUIRE(map.has_los(1,3) == 2);
+    REQUIRE(map.has_los(1,4) == 3);
+
+    REQUIRE(map.has_los(2,0) == 2);
+    REQUIRE(map.has_los(2,1) == 2);
+    REQUIRE(map.has_los(2,2) == 2);
+    REQUIRE(map.has_los(2,3) == 2);
+    REQUIRE(map.has_los(2,4) == 3);
+
+    REQUIRE(map.has_los(3,0) == 3);
+    REQUIRE(map.has_los(3,1) == 3);
+    REQUIRE(map.has_los(3,2) == 3);
+    REQUIRE(map.has_los(3,3) == 3);
+    REQUIRE(map.has_los(3,4) == 4);
+
+    REQUIRE(map.has_los(4,0) == 4);
+    REQUIRE(map.has_los(4,1) == 4);
+    REQUIRE(map.has_los(4,2) == 4);
+    REQUIRE(map.has_los(4,3) == INT_MAX);
+    REQUIRE(map.has_los(4,4) == 5);
 }
 
 TEST_CASE("originalShadowCast_withFarPillarOnOrthogonal_shouldShowSome", "[original_shadow_cast]")
 {
     // .....
+    // .....
     // @.#.S
     // .....
+    // .....
+
+    // 22234
+    // 11234
+    // 012XX
+    // 11234
+    // 22234
 
     // arrange
-    iMapMock map(5,3);
-    map.set_opaque(/*row*/1, /*cell*/2, true);
+    iMapMock map(/*width*/5,/*height*/5);
+    map.set_opaque(2, 2, true);
 
     // act
-    do_fov(map, /*x*/0, /*y*/1, /*radius*/10);
+    do_fov(map, /*x*/0, /*y*/2);
 
     // assert
-    REQUIRE(map.has_los(0,0) == true);
-    REQUIRE(map.has_los(0,1) == true);
-    REQUIRE(map.has_los(0,2) == true);
+    REQUIRE(map.has_los(0,0) == 2);
+    REQUIRE(map.has_los(0,1) == 1);
+    REQUIRE(map.has_los(0,2) == 0);
+    REQUIRE(map.has_los(0,3) == 1);
+    REQUIRE(map.has_los(0,4) == 2);
 
-    REQUIRE(map.has_los(1,0) == true);
-    REQUIRE(map.has_los(1,1) == true);
-    REQUIRE(map.has_los(1,2) == true);
+    REQUIRE(map.has_los(1,0) == 2);
+    REQUIRE(map.has_los(1,1) == 1);
+    REQUIRE(map.has_los(1,2) == 1);
+    REQUIRE(map.has_los(1,3) == 1);
+    REQUIRE(map.has_los(1,4) == 2);
 
-    REQUIRE(map.has_los(2,0) == true);
-    REQUIRE(map.has_los(2,1) == true);
-    REQUIRE(map.has_los(2,2) == true);
+    REQUIRE(map.has_los(2,0) == 2);
+    REQUIRE(map.has_los(2,1) == 2);
+    REQUIRE(map.has_los(2,2) == 2);
+    REQUIRE(map.has_los(2,3) == 2);
+    REQUIRE(map.has_los(2,4) == 2);
 
-    REQUIRE(map.has_los(3,0) == true);
-    REQUIRE(map.has_los(3,1) == true);
-    REQUIRE(map.has_los(3,2) == true);
+    REQUIRE(map.has_los(3,0) == 3);
+    REQUIRE(map.has_los(3,1) == 3);
+    REQUIRE(map.has_los(3,2) == INT_MAX);
+    REQUIRE(map.has_los(3,3) == 3);
+    REQUIRE(map.has_los(3,4) == 3);
 
-    REQUIRE(map.has_los(4,0) == true);
-    REQUIRE(map.has_los(4,1) == true); //?? should be blocked??
-    REQUIRE(map.has_los(4,2) == true);
+    REQUIRE(map.has_los(4,0) == 4);
+    REQUIRE(map.has_los(4,1) == 4);
+    REQUIRE(map.has_los(4,2) == INT_MAX);
+    REQUIRE(map.has_los(4,3) == 4);
+    REQUIRE(map.has_los(4,4) == 4);
 }
 
 TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[original_shadow_cast]")
@@ -179,24 +284,24 @@ TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[origi
     // ..S
 
     // arrange
-    iMapMock map(3,3);
+    iMapMock map(/*width*/3,/*height*/3);
     map.set_opaque(1, 1, true);
 
     // act
-    do_fov(map, /*x*/0, /*y*/0, /*radius*/10);
+    do_fov(map, /*x*/0, /*y*/0);
 
     // assert
-    REQUIRE(map.has_los(0,0) == true);
-    REQUIRE(map.has_los(0,1) == true);
-    REQUIRE(map.has_los(0,2) == true);
+    REQUIRE(map.has_los(0,0) == 0);
+    REQUIRE(map.has_los(0,1) == 1);
+    REQUIRE(map.has_los(0,2) == 2);
 
-    REQUIRE(map.has_los(1,0) == true);
-    REQUIRE(map.has_los(1,1) == true);
-    REQUIRE(map.has_los(1,2) == true);
+    REQUIRE(map.has_los(1,0) == 1);
+    REQUIRE(map.has_los(1,1) == 1);
+    REQUIRE(map.has_los(1,2) == 2);
 
-    REQUIRE(map.has_los(2,0) == true);
-    REQUIRE(map.has_los(2,1) == true);
-    REQUIRE(map.has_los(2,2) == false);
+    REQUIRE(map.has_los(2,0) == 2);
+    REQUIRE(map.has_los(2,1) == 2);
+    REQUIRE(map.has_los(2,2) == INT_MAX);
 }
 
 TEST_CASE("originalShadowCast_withClosePillarOnOrthogonal_shouldShowSome", "[original_shadow_cast]")
@@ -206,26 +311,26 @@ TEST_CASE("originalShadowCast_withClosePillarOnOrthogonal_shouldShowSome", "[ori
     // ...S
 
     // arrange
-    iMapMock map(4,3);
-    map.set_opaque(/*row*/1, /*cell*/1, true);
+    iMapMock map(/*width*/4,/*height*/3);
+    map.set_opaque(1, 1, true);
 
     // act
-    do_fov(map, /*x*/0, /*y*/1, /*radius*/10);
+    do_fov(map, /*x*/0, /*y*/1);
 
     // assert
-    REQUIRE(map.has_los(0,0) == true);
-    REQUIRE(map.has_los(0,1) == true);
-    REQUIRE(map.has_los(0,2) == true);
+    REQUIRE(map.has_los(0,0) == 1);
+    REQUIRE(map.has_los(0,1) == 0);
+    REQUIRE(map.has_los(0,2) == 1);
 
-    REQUIRE(map.has_los(1,0) == true);
-    REQUIRE(map.has_los(1,1) == true);
-    REQUIRE(map.has_los(1,2) == true);
+    REQUIRE(map.has_los(1,0) == 1);
+    REQUIRE(map.has_los(1,1) == 1);
+    REQUIRE(map.has_los(1,2) == 1);
 
-    REQUIRE(map.has_los(2,0) == true);
-    REQUIRE(map.has_los(2,1) == false);
-    REQUIRE(map.has_los(2,2) == true);
+    REQUIRE(map.has_los(2,0) == 2);
+    REQUIRE(map.has_los(2,1) == INT_MAX);
+    REQUIRE(map.has_los(2,2) == 2);
 
-    REQUIRE(map.has_los(3,0) == false);
-    REQUIRE(map.has_los(3,1) == false);
-    REQUIRE(map.has_los(3,2) == false);
+    REQUIRE(map.has_los(3,0) == INT_MAX);
+    REQUIRE(map.has_los(3,1) == INT_MAX);
+    REQUIRE(map.has_los(3,2) == INT_MAX);
 }

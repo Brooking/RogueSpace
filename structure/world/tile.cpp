@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "tile.h"
 #include "floor.h"
+#include "map_for_casting.h"
 
 UIToken Tile::token() const
 {
@@ -30,7 +31,7 @@ UIToken Tile::token() const
         result = this->things_.back()->token();
     }
 
-    if (floor->hero()->can_see(this->where()) || this->is_lit_)
+    if (floor->hero()->can_see(this->where()))
     {
         // if the hero can see this tile or the tile is lit, 
         // just return it
@@ -138,18 +139,29 @@ bool Tile::there_is_room(std::shared_ptr<iThing> thing)
     return false;
 }
 
-void Tile::add_los(Location location)
+void Tile::add_los_range(Location location, int range)
 {
-    this->los_.insert(location);
+    (*this->los_range_)[location.row()][location.cell()] = range;
 }
 
-bool Tile::has_los(Location location) const
+int Tile::get_los_range(Location location, int sighting_distance)
 {
-    return this->los_.count(location) > 0;
-}
+    if (this->los_range_ == nullptr)
+    {
+        this->los_range_ = 
+            new std::vector<std::vector<int>>(
+                this->floor_->height(), 
+                std::vector<int>(
+                    this->floor_->width(), 
+                    INT_MAX
+                )
+            );
+        
+        MapForCasting map(this->shared_from_this(), CastingScan::visibility, 
+            sighting_distance);
+        do_fov(map, this->where().cell(), this->where().row());
+        
+    }
 
-bool Tile::los_has_been_calculated() const
-{
-    return this->los_.size() > 0;
+    return ((*this->los_range_)[location.row()][location.cell()]);
 }
-

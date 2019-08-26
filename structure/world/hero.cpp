@@ -34,12 +34,21 @@ bool Hero::move(Direction direction)
 bool Hero::can_see(Location location)
 {
     std::shared_ptr<Tile> tile = this->tile_;
-    if (!tile->los_has_been_calculated())
+    int los_range = this->tile_->get_los_range(location, this->sight_range_);
+    if (los_range <= this->sight_range_)
     {
-        MapForCasting map(tile, CastingScan::visibility);
-        do_fov(map, tile->where().cell(), tile->where().row(), this->sight_range_);
+        // location is in los and close enough to see
+        return true;
     }
-    return tile->has_los(location);
+
+    std::shared_ptr<Tile> target = tile->floor()->tile(location);
+    if (los_range < INT_MAX && target->is_lit())
+    {
+        // location is in los and lit
+        return true;
+    }
+
+    return false;
 }
 
 bool Hero::can_see(const std::shared_ptr<Tile> tile)

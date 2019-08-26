@@ -61,8 +61,8 @@
   - [x] Persist seen walls
   - [x] add lights
   - [x] lights color structures yellow
-  - [ ] differentiate between "in FOV+lit" and "in FOV+in sight"
-  - [ ] may need to store range with FOV entries
+  - [x] differentiate between "in FOV+lit" and "in FOV+in sight"
+  - [x] may need to store range with FOV entries
 #### Hero
   - [x] Add sight distance
 #### Visibility
@@ -71,4 +71,4 @@
   - [ ] Djykstra map
   - [x] Pathing
   - [x] Change api semantics to hero.can_see()
-  - [ ] Make lighted tiles visible only if in los
+  - [x] Make lighted tiles visible only if in los

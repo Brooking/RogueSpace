@@ -11,10 +11,10 @@ class iMapMock : public iMap
 private:
     struct MapEntry
     {
-        MapEntry() : los(false), opaque(false) {}
+        MapEntry() : range_squared(INT_MAX), opaque(false) {}
         ~MapEntry() {}
 
-        bool los;
+        uint range_squared;
         bool opaque;
     };
 
@@ -25,10 +25,25 @@ public:
     virtual ~iMapMock() {}
 
     // Set the los of the cell at the given position.
-    virtual void set_los(uint cell, uint row, bool visible) { this->map[row][cell].los = visible; }
+    virtual void set_los(uint cell, uint row, uint range_squared) 
+    {
+        assert(row >= 0);
+        assert(row < this->map.size());
+        assert(cell >= 0); 
+        assert(cell < this->map[0].size());
+        this->map[row][cell].range_squared = range_squared;
+    }
 
     // Return whether the given position is in los
-    bool has_los(uint cell, uint row) { return this->map[row][cell].los; }
+    uint has_los(uint cell, uint row)
+    {
+        uint range_squared = this->map[row][cell].range_squared;
+        if (range_squared == INT_MAX)
+        {
+            return INT_MAX;
+        }
+        return sqrt(range_squared);
+    }
     
     // iMap: Return the width of the map.
     virtual uint get_width() const { return this->map[0].size(); }

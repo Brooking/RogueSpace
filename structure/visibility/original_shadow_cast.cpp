@@ -40,7 +40,8 @@ void cast_light(iMap& map, uint x, uint y, uint radius, uint row,
 
             uint radius2 = radius * radius;
             if ((uint)(dx * dx + dy * dy) < radius2) {
-                map.set_los(ax, ay, true);
+                // save the square of the distance
+                map.set_los(ax, ay, dx * dx + dy * dy);
             }
 
             if (blocked) {
@@ -64,9 +65,20 @@ void cast_light(iMap& map, uint x, uint y, uint radius, uint row,
     }
 }
 
+void do_fov(iMap& map, uint x, uint y)
+{
+    // slightly larger than the actual maximum (diagonal)
+    int longest_dist = map.get_height() + map.get_width(); 
+    do_fov(map, x, y, longest_dist);    
+}
+
 void do_fov(iMap& map, uint x, uint y, uint radius) {
 
-    map.set_los(x, y, true);
+    map.set_los(x, y, 0);
+    if (radius == 0)
+    {
+        radius = std::max(map.get_height(), map.get_width());
+    }
 
     for (uint i = 0; i < 8; i++) {
         cast_light(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i],

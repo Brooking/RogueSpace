@@ -1,12 +1,13 @@
 #ifndef _imap_h_
 #define _imap_h_
 
+#include<bits/stdc++.h>
 typedef unsigned int uint;
 
 class iMap {
     public:
         // Set the los of the cell at the given position.
-        virtual void set_los(uint x, uint y, bool visible) = 0;
+        virtual void set_los(uint x, uint y, uint range_squared) = 0;
 
         // Return the width of the map.
         virtual uint get_width() const = 0;

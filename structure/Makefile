@@ -90,6 +90,7 @@ vistests.out : \
 		lib/libvisibility.a \
 		test/catch.hpp \
 		test/main.cpp \
+		test/imap_mock.h \
 		test/original_shadow_cast_test.cpp \
 		test/los_test.cpp \
 		test/pathfinder_test.cpp
@@ -109,6 +110,7 @@ worldtests.out : \
 		lib/libworld.a \
 		lib/libvisibility.a \
 		test/catch.hpp \
+		test/ithing_mock.h \
 		test/main.cpp \
 		test/content_size_test.cpp \
 		test/floor_test.cpp \

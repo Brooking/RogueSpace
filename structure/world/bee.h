@@ -24,7 +24,7 @@ public:
         Location current = this->tile_->where();
         std::vector<Location> closer_locations = 
             current.closer_adjacent_locations(hero_location);
-        Location new_location = current.chose_random(closer_locations, floor, this->shared_from_this());
+        Location new_location = current.choose_random(closer_locations, floor, this->shared_from_this());
         if (new_location != current)
         {
             this->place(floor->tile(new_location));

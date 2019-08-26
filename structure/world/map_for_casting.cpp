@@ -2,15 +2,25 @@
 #include "tile.h"
 #include "floor.h"
 
-void MapForCasting::set_los(uint x, uint y, bool visible)
+void MapForCasting::set_los(uint x, uint y, uint range_squared)
 {
-    if (visible)
+    if (range_squared < INT_MAX)
     {
         std::shared_ptr<Tile> tile = this->floor_->tile(Location(y,x));
         if (this->scan_ == CastingScan::visibility)
         {
-            this->tile_->add_los(Location(y,x));
-            tile->set_has_been_seen(true);
+            this->tile_->add_los_range(Location(y,x), sqrt(range_squared));
+            if (range_squared <= this->sighting_range_squared_)
+            {
+                // seen - in range
+                tile->set_has_been_seen(true);
+            }
+            else if (tile->is_lit())
+            {
+                // seen - in los and lit
+                tile->set_has_been_seen(true);                
+            }
+
         }
         else if (this->scan_ == CastingScan::illumination)
         {

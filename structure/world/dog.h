@@ -29,7 +29,7 @@ public:
         }
         
         Location current = this->tile_->where();
-        Location new_location = current.chose_random(locations, floor, this->shared_from_this());
+        Location new_location = current.choose_random(locations, floor, this->shared_from_this());
         if (new_location != current)
         {
             this->place(floor->tile(new_location));

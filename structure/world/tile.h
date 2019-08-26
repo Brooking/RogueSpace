@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <vector>
 #include <set>
+#include <memory>
 #include <assert.h>
 #include "uitokens.h"
 #include "location.h"
@@ -19,12 +20,12 @@ class Floor;
 //
 // A single spot on a floor
 //
-class Tile
+class Tile : public std::enable_shared_from_this<Tile>
 {
 public:
     Tile(std::shared_ptr<Floor> floor, Location location) : 
         floor_(floor), location_(location), fullness_(ContentSize::empty),
-        has_been_seen_(false), is_lit_(false)
+        los_range_(nullptr), has_been_seen_(false), is_lit_(false)
     {}
     ~Tile() {}
 
@@ -56,13 +57,11 @@ public:
     const std::shared_ptr<iThing> thing(int i) const { return this->things_[i]; }
 
     // add a spot that has los from this tile
-    void add_los(Location location);
+    void add_los_range(Location location, int range);
 
-    // ask whether a spot has los from this tile
-    bool has_los(Location location) const;
-
-    // Has los been calculated for this tile
-    bool los_has_been_calculated() const;
+    // ask how far los id from this tile
+    // (if sighting_distance is set, then tiles will be marked as seen)
+    int get_los_range(Location location, int sighting_distance = 0);
 
     // this tile has been seen
     bool has_been_seen() { return this->has_been_seen_; }
@@ -99,7 +98,7 @@ private:
     ContentSize fullness_;
 
     // all of the spots with los from this tile
-    std::set<Location> los_;
+    std::vector<std::vector<int>>* los_range_;
 
     // has this tile been seen
     bool has_been_seen_;

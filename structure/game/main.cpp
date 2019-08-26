@@ -32,7 +32,7 @@ int main()
     }
 
     // create a floor larger than the view area
-    std::shared_ptr<Floor> floor = Floor::create(screen->height()*1.5, screen->width()*1.5);
+    std::shared_ptr<Floor> floor = Floor::create(screen->height(), screen->width());
 
     // put our dude on the floor in the center
     Location starting_spot(floor->height()/2, floor->width()/2);
@@ -46,7 +46,7 @@ int main()
     // add monsters
     std::vector<std::shared_ptr<iThing>> monsters;
     std::shared_ptr<Rat> rat = std::make_shared<Rat>();
-    rat->place(floor->tile(Location(floor->height()/4, floor->width()/4)));
+    rat->place(floor->tile(Location(floor->height()/2, floor->width()-2)));
     monsters.push_back(rat);
 
     std::shared_ptr<Bee> bee = std::make_shared<Bee>();

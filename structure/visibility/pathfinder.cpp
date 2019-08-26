@@ -26,6 +26,10 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
 
 void Pathfinder::fill(std::vector<std::vector<int>>& distance, Location from, Location to)
 {
+    assert(from.row() >= 0 && from.row() < static_cast<int>(distance.size()));
+    assert(from.cell() >= 0 && from.cell() < static_cast<int>(distance[0].size()));
+    assert(to.row() >= 0 && to.row() < static_cast<int>(distance.size()));
+    assert(to.cell() >= 0 && to.cell() < static_cast<int>(distance[0].size()));
     if (this->map_->is_opaque(to.cell(), to.row()))
     {
         // destination is a wall

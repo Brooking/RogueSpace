@@ -2,9 +2,9 @@
 #include <iostream>
 #include "imap_mock.h"
 #include "../world/location.h"
-#include "pathfinder.h"
+#include "dijkstra.h"
 
-TEST_CASE("djystra_withTinyField_shouldFill", "[pathfinder]")
+TEST_CASE("djystra_withTinyField_shouldFill", "[dijkstra][.]")
 {
     // vfrom
     // 1 0
@@ -12,18 +12,17 @@ TEST_CASE("djystra_withTinyField_shouldFill", "[pathfinder]")
 
     // arrange
     iMapMock map(/*width*/2,/*height*/1);
-    Pathfinder pathfinder(&map);
     std::vector<std::vector<int>> distance(map.get_height(), std::vector(map.get_width(), 0));
 
     // act
-    pathfinder.fill(distance, /*from*/Location(0,0), /*to*/Location(0,1));
+    dijkstra_fill(distance, &map, /*from*/Location(0,0), /*to*/Location(0,1));
 
     // assert
     REQUIRE(distance[0][0] == 1);
     REQUIRE(distance[0][1] == 0);
 }
 
-TEST_CASE("djystra_withSmallField_shouldFill", "[pathfinder]")
+TEST_CASE("djystra_withSmallField_shouldFill", "[dijkstra][.]")
 {
     // vfrom
     // 3 3 3
@@ -34,11 +33,10 @@ TEST_CASE("djystra_withSmallField_shouldFill", "[pathfinder]")
 
     // arrange
     iMapMock map(/*width*/3,/*height*/4);
-    Pathfinder pathfinder(&map);
     std::vector<std::vector<int>> distance(map.get_height(), std::vector(map.get_width(), 0));
 
     // act
-    pathfinder.fill(distance, /*from*/Location(0,0), /*to*/Location(3,2));
+    dijkstra_fill(distance, &map, /*from*/Location(0,0), /*to*/Location(3,2));
 
     // assert
     REQUIRE(distance[0][0] == 3);
@@ -55,7 +53,7 @@ TEST_CASE("djystra_withSmallField_shouldFill", "[pathfinder]")
     REQUIRE(distance[3][2] == 0);
 }
 
-TEST_CASE("djystra_withWall_shouldWrap", "[pathfinder]")
+TEST_CASE("djystra_withWall_shouldWrap", "[dijkstra][.]")
 {
     // vfrom
     // 5 4 3 2 2
@@ -65,14 +63,13 @@ TEST_CASE("djystra_withWall_shouldWrap", "[pathfinder]")
 
     // arrange
     iMapMock map(/*width*/5,/*height*/3);
-    Pathfinder pathfinder(&map);
     map.set_opaque(1,1,true);
     map.set_opaque(2,1,true);
     map.set_opaque(3,1,true);
     std::vector<std::vector<int>> distance(map.get_height(), std::vector(map.get_width(), 0));
 
     // act
-    pathfinder.fill(distance, /*from*/Location(0,0), /*to*/Location(2,4));
+    dijkstra_fill(distance, &map, /*from*/Location(0,0), /*to*/Location(2,4));
 
     // assert
     REQUIRE(distance[0][0] == 5);
@@ -90,35 +87,4 @@ TEST_CASE("djystra_withWall_shouldWrap", "[pathfinder]")
     REQUIRE(distance[2][2] == 2);
     REQUIRE(distance[2][3] == 1);
     REQUIRE(distance[2][4] == 0);
-}
-
-TEST_CASE("pathfinder_withWall_shouldWalkAround", "[pathfinder]")
-{
-    // @ 5 4 3 .
-    // . X X X 2
-    // . X . 1 .
-    // . X . M . 
-    // . X . . .        
-
-    // arrange
-    iMapMock map(/*width*/5,/*height*/5);
-    Pathfinder pathfinder(&map);
-    map.set_opaque(1,1,true);
-    map.set_opaque(2,1,true);
-    map.set_opaque(3,1,true);
-    map.set_opaque(1,2,true);
-    map.set_opaque(1,3,true);
-    map.set_opaque(1,4,true);
-
-    // act
-    std::vector<Location> path = pathfinder.find_path(/*from*/Location(3,3), /*to*/Location(0,0));
-
-    // assert
-    REQUIRE(path.size() == 6);
-    REQUIRE(path[0] == Location(2,3));
-    REQUIRE(path[1] == Location(1,4));
-    REQUIRE(path[2] == Location(0,3));
-    REQUIRE(path[3] == Location(0,2));
-    REQUIRE(path[4] == Location(0,1));
-    REQUIRE(path[5] == Location(0,0));
 }
