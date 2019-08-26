@@ -21,6 +21,7 @@ lib_dir=-L$(CURDIR)/lib
 
 # header file lists (for setting dependencies)
 common_includes= \
+	Makefile \
 	inc/content_size.h \
 	inc/direction.h \
 	inc/ifloor.h \
@@ -49,7 +50,8 @@ vis_includes= \
 	visibility/imap.h \
 	visibility/los.h \
 	visibility/original_shadow_cast.h \
-	visibility/pathfinder.h
+	visibility/pathfinder.h \
+	visibility/dijkstra.h
 
 # executables
 game.out: \
@@ -93,7 +95,8 @@ vistests.out : \
 		test/imap_mock.h \
 		test/original_shadow_cast_test.cpp \
 		test/los_test.cpp \
-		test/pathfinder_test.cpp
+		test/pathfinder_test.cpp \
+		test/dijkstra_test.cpp
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
 		$(lib_dir) \
@@ -102,6 +105,7 @@ vistests.out : \
 		test/original_shadow_cast_test.cpp \
 		test/los_test.cpp \
 		test/pathfinder_test.cpp \
+		test/dijkstra_test.cpp \
 		-lvisibility \
 		-lworld \
 		-o vistests.out
@@ -156,11 +160,13 @@ lib/libui.a : \
 lib/libvisibility.a : \
 		obj/original_shadow_cast.o \
 		obj/los.o \
-		obj/pathfinder.o
+		obj/pathfinder.o \
+		obj/dijkstra.o
 	ar crf lib/libvisibility.a \
 		obj/original_shadow_cast.o \
 		obj/los.o \
-		obj/pathfinder.o
+		obj/pathfinder.o \
+		obj/dijkstra.o
 
 lib/libworld.a : \
 		obj/map_for_casting.o \
@@ -299,3 +305,11 @@ obj/pathfinder.o : \
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c visibility/pathfinder.cpp \
 		-o obj/pathfinder.o
+
+obj/dijkstra.o : \
+		$(common_includes) \
+		$(vis_includes) \
+		visibility/dijkstra.cpp
+	$(cc) $(cflags) $(all_include_dirs) \
+		-c visibility/dijkstra.cpp \
+		-o obj/dijkstra.o

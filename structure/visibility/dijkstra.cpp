@@ -6,20 +6,6 @@ void mark_and_add_neighbor(std::vector<std::vector<int>>& distance,
                            std::queue<Location>& todo, 
                            Location location, int new_distance);
 
-// a list of row/column deltas to (orthogonal+diagonal)neighbors
-std::vector<std::pair<int,int>> neighbors
-{
-    {-1,0},
-    {-1,1},
-    {0,1},
-    {1,1},
-    {1,0},
-    {1,-1},
-    {0,-1},
-    {-1,-1}
-};
-
-
 void dijkstra_fill(std::vector<std::vector<int>>& distance, iMap* map, Location from, Location to)
 {
     assert(from.row() >= 0 && from.row() < static_cast<int>(distance.size()));

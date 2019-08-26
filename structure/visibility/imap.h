@@ -4,6 +4,10 @@
 #include<bits/stdc++.h>
 typedef unsigned int uint;
 
+//
+// An interface for shadow casting and dijksta graphs to use
+// to interact with the floor 
+//
 class iMap {
     public:
         // Set the los of the cell at the given position.

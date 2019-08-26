@@ -10,6 +10,10 @@
 #define PROTECTED_ACCESS protected
 #endif
 
+//
+// find a path using dijksta graph
+//
+
 class Pathfinder
 {
 public:
@@ -20,14 +24,6 @@ public:
     std::vector<Location> find_path(Location from, Location to);
 
 PROTECTED_ACCESS:
-    // fill in the djykstra graph
-    void fill(std::vector<std::vector<int>>& distance, Location from, Location to);
-
-    // if it has not been done yet, fill in the entry and add to the todo list
-    void mark_and_add_neighbor(std::vector<std::vector<int>>& distance, 
-                               std::queue<Location>& todo, 
-                               Location location, int new_distance);
-
     // walk from the destination back to source
     void walk_back(std::vector<Location>& result, std::vector<std::vector<int>>& distance, 
                    Location location);
