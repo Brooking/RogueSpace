@@ -10,12 +10,13 @@
     - [x] shared_from_this
       - [x] Hero
       - [x] Floor
-    - [ ] ~Screen not getting called
+    - [x] ~Screen not getting called
     - [x] things should not self place
   - [ ] Rectify hero being known to the floor(?)
   - [ ] Move everything up one directory
   - [x] coalesce mini+main
   - [x] consistent virtual/override usage
+  - [ ] select char appears in terminal after execution stops
 ### Input
 #### Keyboard
   - [x] add diagonal input

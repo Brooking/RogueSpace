@@ -20,7 +20,9 @@ public:
         unsigned int width, 
         int center_row,
         int center_cell);
-    virtual ~Viewport() {}
+    virtual ~Viewport() {
+        this->screen_ = nullptr;
+    }
 
     // iUpdate: an update notification from the world
     virtual bool update(int row, int cell, bool center = false) override;

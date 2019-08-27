@@ -45,7 +45,7 @@ public:
 
 private:
     // private constructor (use Floor::create)
-    Floor() : update_interface_(nullptr), hero_(nullptr) {}
+    Floor() : hero_(nullptr) {}
 
     // add all of the tiles to the floor
     void init(int height, int width);
@@ -55,7 +55,7 @@ private:
     std::vector<std::vector<std::shared_ptr<Tile>>> tile_;
 
     // the interface to call when something changes
-    std::shared_ptr<iUpdate> update_interface_;
+    std::weak_ptr<iUpdate> update_interface_;
 
     // The hero on the floor
     // TODO: is this the right spot for it?

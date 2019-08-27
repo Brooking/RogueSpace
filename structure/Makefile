@@ -1,7 +1,8 @@
 all: \
 		game.out \
-		worldtests.out \
-		vistests.out
+		iotests.out \
+		vistests.out \
+		worldtests.out
 
 clean:
 	rm -f *.out
@@ -123,6 +124,21 @@ worldtests.out : \
 		-lworld \
 		-lvisibility \
 		-o worldtests.out
+
+iotests.out : \
+		lib/libio.a \
+		test/catch.hpp \
+		test/icurses_mock.h \
+		test/main.cpp \
+		test/screen_test.cpp
+	$(cc) $(cflags) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		test/main.cpp \
+		test/screen_test.cpp \
+		-lio \
+		-o iotests.out
 
 # Libraries
 lib/libio.a : \

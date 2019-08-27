@@ -15,10 +15,12 @@ void fill_floor(std::shared_ptr<Floor> floor, std::shared_ptr<Hero> hero);
 
 int main()
 {
+{
     // initialize the screen
-    std::shared_ptr<io::RawCurses> curses = std::make_shared<io::RawCurses>();
+    std::shared_ptr<iCurses> curses = std::make_shared<io::RawCurses>();
     std::shared_ptr<io::Screen> screen = io::Screen::open_screen(curses);
-
+    int c = screen.use_count();
+{
     // Print a welcome message and wait until the user presses a key
     screen->add("Welcome to the ", io::Color::YELLOW, io::Color::BLACK);
     screen->add("RogueSpace", io::Color::BRIGHT_YELLOW, io::Color::BLACK);
@@ -74,8 +76,6 @@ int main()
 
             case 'q':
             case 'Q':
-                // todo this should be done by screen destructor
-                curses->endwin();
                 return 0;
         }
     } while (floor == nullptr);
@@ -92,9 +92,10 @@ int main()
 
     // start the game loop
     game_loop(viewport, hero, monsters);
-
-    // todo this should be done by screen destructor
-    curses->endwin();
+}
+    int count = screen.use_count();
+    std::cout << count;
+}
     return 0;
 }
 

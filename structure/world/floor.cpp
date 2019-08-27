@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <memory>
 #include <stdexcept>
 #include "floor.h"
 #include "map_for_casting.h"
@@ -64,10 +65,12 @@ std::shared_ptr<Tile> Floor::tile(Location location)
 
 bool Floor::update(Location location, bool is_center)
 {
-    if (this->update_interface_ != nullptr)
+    if (!this->update_interface_.expired())
     {
+        std::shared_ptr<iUpdate> locked_update_interface = 
+            this->update_interface_.lock();
         // tell the ui something changed
-        this->update_interface_->update(location.row(), location.cell(), is_center);
+        locked_update_interface->update(location.row(), location.cell(), is_center);
         return true;
     }
 

@@ -3,22 +3,24 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include "io_constants.h"
+#include "icurses.h"
 
 namespace io
 {
 
 class Window;
-class RawCurses;
 
 //
-// A singleton representing the screen
+// A fake singleton representing the screen
+// (it will throw if you ask for another...)
 //
 class Screen
 {
 public:
     // creator
-    static std::shared_ptr<io::Screen> open_screen(std::shared_ptr<io::RawCurses> curses);
+    static std::shared_ptr<io::Screen> open_screen(std::shared_ptr<iCurses> curses);
     virtual ~Screen();
 
     // Print a colored message to the screen
@@ -47,19 +49,25 @@ public:
 
 private:
     // Initialize the screen
-    Screen(std::shared_ptr<io::RawCurses> curses);
+    Screen(std::shared_ptr<iCurses> curses);
 
     // fetch and cache a color pair index for these colors
     unsigned int get_colorpair_index(io::Color foreground, io::Color background);
 
+    Screen() = delete;
+    Screen(const Screen&) = delete;
+    Screen& operator=(const Screen&) = delete;
+
 private:
-    std::shared_ptr<io::RawCurses> curses_;
+    // singleton support
+    static bool used;
+    static std::mutex mutex;
+
+    std::shared_ptr<iCurses> curses_;
     int width_;
     int height_;
     unsigned int color_pair_index_;
 
-    static int ref_count;
-    static std::shared_ptr<io::Screen> singleton;
 
     // index is pair<foreground,background>, value is index
     std::map<std::pair<io::Color,io::Color>,int> color_pairs_;

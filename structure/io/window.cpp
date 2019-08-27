@@ -2,7 +2,7 @@
 
 io::Window::Window(
     io::Screen& screen, 
-    std::shared_ptr<RawCurses> curses,
+    std::shared_ptr<iCurses> curses,
     unsigned int screen_row, 
     unsigned int screen_cell, 
     unsigned int num_rows, 

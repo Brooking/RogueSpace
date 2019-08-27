@@ -1,31 +1,29 @@
 #include <assert.h>
 #include "ncurses.h" // for COLOR_PAIR()
-#include "rawcurses.h"
+#include "icurses.h"
 #include "screen.h"
 #include "window.h" 
 
 // static variables
-int io::Screen::ref_count = 0;
-std::shared_ptr<io::Screen> io::Screen::singleton = nullptr;
+bool io::Screen::used = false;
+std::mutex io::Screen::mutex;
 
-std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<RawCurses> curses)
+std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<iCurses> curses)
 {
-    if (io::Screen::singleton == nullptr)
+    std::lock_guard<std::mutex> lock (io::Screen::mutex);
+    if (io::Screen::used)
     {
-        assert(io::Screen::ref_count == 0);
-        io::Screen::singleton = std::shared_ptr<io::Screen>(new Screen(curses));
-    }
-    else
-    {
-        // todo we should not be switching curses
-        // assert(curses == io::Screen::singleton->curses_);
+        throw std::invalid_argument("second screen requested");
     }
 
-    io::Screen::ref_count++;
-    return io::Screen::singleton;
+    std::shared_ptr<io::Screen> screen = 
+        std::shared_ptr<io::Screen>(new io::Screen(curses));
+    used = true;
+    int count = screen.use_count();
+    return screen;
 }
 
-io::Screen::Screen(std::shared_ptr<RawCurses> curses) : 
+io::Screen::Screen(std::shared_ptr<iCurses> curses) : 
     curses_(curses), width_(0), height_(0), color_pair_index_(0), next_color_pair_index_(1)
 {
     // initialize the ncurses library
