@@ -1,5 +1,5 @@
-#include "catch.hpp"
 #include <iostream>
+#include "catch.hpp"
 #include "los.h"
 
 TEST_CASE("bresenham_withOrthogonal_shouldReturnRow", "[los]")

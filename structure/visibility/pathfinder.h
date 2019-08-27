@@ -1,10 +1,10 @@
 #ifndef _pathfinder_h_
 #define _pathfinder_h_
 
-#include <vector>
 #include <queue>
-#include "../world/location.h"
+#include <vector>
 #include "imap.h"
+#include "../world/location.h"
 
 #ifndef PROTECTED_ACCESS
 #define PROTECTED_ACCESS protected

@@ -1,8 +1,8 @@
 #ifndef _rat_h_
 #define _rat_h_
 
-#include "monster_base.h"
 #include "floor.h" // todo should be ifloor.h
+#include "monster_base.h"
 
 enum class AiState
 {

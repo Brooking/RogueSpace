@@ -1,6 +1,6 @@
-#include "pathfinder.h"
-#include "dijkstra.h"
 #include <queue>
+#include "dijkstra.h"
+#include "pathfinder.h"
 
 std::vector<Location> Pathfinder::find_path(Location from, Location to)
 {

@@ -2,8 +2,8 @@
 #define _ithing_h_
 
 #include <memory>
-#include "uitokens.h"
 #include "content_size.h"
+#include "uitokens.h"
 class Tile;
 
 //

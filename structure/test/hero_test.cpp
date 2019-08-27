@@ -1,7 +1,7 @@
-#include "catch.hpp"
 #include <iostream>
-#include "hero.h"
+#include "catch.hpp"
 #include "floor.h"
+#include "hero.h"
 #include "ithing_mock.h"
 
 TEST_CASE("hero_withDefaultConstruction_shouldCreate", "[hero]")

@@ -3,10 +3,10 @@
 
 #include <memory>
 #include <vector>
-#include "tile.h"
-#include "location.h"
 #include "hero.h"
 #include "ifloor.h"
+#include "location.h"
+#include "tile.h"
 
 //
 // Holds a single floor

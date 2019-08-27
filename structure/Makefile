@@ -1,6 +1,5 @@
 all: \
 		game.out \
-		mini.out \
 		worldtests.out \
 		vistests.out
 
@@ -59,34 +58,19 @@ game.out: \
 		lib/libui.a \
 		lib/libio.a \
 		lib/libvisibility.a \
-		obj/main.o
+		obj/main.o \
+		obj/generator.o
 	$(cc) $(cflags) \
 		$(all_include_dirs) \
 		$(lib_dir) \
 		obj/main.o \
+		obj/generator.o \
 		-lworld \
 		-lui \
 		-lio \
 		-lvisibility \
 		-lcurses \
 		-o game.out
-
-mini.out: \
-		lib/libworld.a \
-		lib/libui.a \
-		lib/libio.a \
-		lib/libvisibility.a \
-		obj/mini.o
-	$(cc) $(cflags) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		obj/mini.o \
-		-lworld \
-		-lui \
-		-lio \
-		-lvisibility \
-		-lcurses \
-		-o mini.out
 
 vistests.out : \
 		lib/libvisibility.a \
@@ -245,19 +229,21 @@ obj/main.o : \
 		$(common_includes) \
 		$(ui_includes) \
 		$(world_includes) \
+		game/generator.h \
 		game/main.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
 		-c game/main.cpp \
 		-o obj/main.o
 
-obj/mini.o : \
+obj/generator.o : \
 		$(common_includes) \
 		$(ui_includes) \
 		$(world_includes) \
-		game/mini.cpp
+		game/generator.h \
+		game/generator.cpp
 	$(cc) $(cflags) $(all_include_dirs) \
-		-c game/mini.cpp \
-		-o obj/mini.o
+		-c game/generator.cpp \
+		-o obj/generator.o
 
 # io objects
 obj/rawcurses.o : \

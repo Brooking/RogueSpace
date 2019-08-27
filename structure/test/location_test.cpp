@@ -1,6 +1,6 @@
+#include <iostream>
 #include <memory>
 #include "catch.hpp"
-#include <iostream>
 #include "location.h"
 
 TEST_CASE("location_withDefaultHeapConstructor_shouldMakeNegativeOnes", "[location]")

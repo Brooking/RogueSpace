@@ -1,7 +1,7 @@
 #include <cmath> // for sqrt
 #include <vector>
-#include "location.h"
 #include "floor.h"
+#include "location.h"
 
 
 Location Location::apply_direction(Direction direction) const

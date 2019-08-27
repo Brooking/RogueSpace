@@ -1,5 +1,5 @@
-#include "catch.hpp"
 #include <iostream>
+#include "catch.hpp"
 
 TEST_CASE("testcase", "[category]")
 {

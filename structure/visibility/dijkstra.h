@@ -1,10 +1,10 @@
 #ifndef _dijkstra_h_
 #define _dijkstra_h_
 
-#include <vector>
 #include <queue>
-#include "../world/location.h"
+#include <vector>
 #include "imap.h"
+#include "../world/location.h"
 
 // a list of row/column deltas to (orthogonal+diagonal)neighbors
 static std::vector<std::pair<int,int>> neighbors

@@ -2,10 +2,10 @@
 #define _viewport_h_
 
 #include "io_constants.h"
-#include "screen.h"
-#include "window.h"
 #include "ifloor.h"
 #include "iupdate.h"
+#include "screen.h"
+#include "window.h"
 
 //
 // a pane that shows the world from above

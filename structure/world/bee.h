@@ -1,9 +1,8 @@
 #ifndef _bee_h_
 #define _bee_h_
 
-#include "monster_base.h"
-//#include <cstdlib> // for rand()
 #include "floor.h" // todo should be ifloor.h
+#include "monster_base.h"
 
 //
 // Monster that sees you wherever you are, but can't navigate well

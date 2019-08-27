@@ -1,7 +1,7 @@
-#include "catch.hpp"
 #include <iostream>
-#include "original_shadow_cast.h"
+#include "catch.hpp"
 #include "imap_mock.h"
+#include "original_shadow_cast.h"
 
 TEST_CASE("iMapMock_withConstruction_shouldCreate", "[original_shadow_cast][.]")
 {

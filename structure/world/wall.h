@@ -2,9 +2,9 @@
 #define _wall_h_
 
 #include <stdexcept>
+#include "thing_base.h"
 #include "tile.h"
 #include "uitokens.h"
-#include "thing_base.h"
 
 class Wall : public ThingBase
 {

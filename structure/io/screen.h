@@ -1,8 +1,8 @@
 #ifndef _io_screen_h_
 #define _io_screen_h_
 
-#include <memory>
 #include <map>
+#include <memory>
 #include "io_constants.h"
 
 namespace io

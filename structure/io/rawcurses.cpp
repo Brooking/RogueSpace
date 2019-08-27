@@ -1,7 +1,7 @@
-#include <ncurses.h>
 #include <assert.h>
-#include "rawcurses.h"
+#include <ncurses.h>
 #include "io_constants.h"
+#include "rawcurses.h"
 
 io::RawCurses::RawCurses()
 {

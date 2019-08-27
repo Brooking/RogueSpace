@@ -1,9 +1,8 @@
 #include <assert.h>
-#include "window.h" 
-#include "screen.h"
-#include "rawcurses.h"
-
 #include "ncurses.h" // for COLOR_PAIR()
+#include "rawcurses.h"
+#include "screen.h"
+#include "window.h" 
 
 // static variables
 int io::Screen::ref_count = 0;

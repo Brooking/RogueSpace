@@ -1,6 +1,6 @@
-#include "icon.h"
-#include <stdexcept>
 #include <array>
+#include <stdexcept>
+#include "icon.h"
 #include "io_constants.h"
 
 //

@@ -1,6 +1,6 @@
 #include <assert.h>
-#include "hero.h"
 #include "floor.h"
+#include "hero.h"
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 

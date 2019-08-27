@@ -1,8 +1,8 @@
-#include "catch.hpp"
 #include <iostream>
+#include "catch.hpp"
 #include "imap_mock.h"
-#include "../world/location.h"
 #include "pathfinder.h"
+#include "../world/location.h"
 
 TEST_CASE("pathfinder_withWall_shouldWalkAround", "[pathfinder]")
 {

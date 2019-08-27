@@ -1,8 +1,8 @@
-#include "catch.hpp"
-#include <iostream>
 #include <bits/stdc++.h>
-#include "tile.h"
+#include <iostream>
+#include "catch.hpp"
 #include "ithing_mock.h"
+#include "tile.h"
 
 TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
 {

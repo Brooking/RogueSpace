@@ -1,7 +1,7 @@
-#include <bitset>
 #include <assert.h>
-#include "viewport.h"
+#include <bitset>
 #include "icon.h"
+#include "viewport.h"
 
 Viewport::Viewport(
     std::shared_ptr<io::Screen> screen, 

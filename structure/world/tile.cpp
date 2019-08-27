@@ -1,7 +1,7 @@
 #include <assert.h>
-#include "tile.h"
 #include "floor.h"
 #include "map_for_casting.h"
+#include "tile.h"
 
 UIToken Tile::token()
 {

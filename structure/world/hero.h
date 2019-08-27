@@ -2,11 +2,11 @@
 #define _hero_h_
 
 #include <memory>
-#include "uitokens.h"
-#include "location.h"
 #include "direction.h"
+#include "location.h"
 #include "thing_base.h"
 #include "tile.h"
+#include "uitokens.h"
 
 #ifndef PROTECTED_ACCESS
 #define PROTECTED_ACCESS protected

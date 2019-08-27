@@ -1,7 +1,6 @@
 #ifndef _rawcurses_h_
 #define _rawcurses_h_
 
-
 namespace io
 {
 

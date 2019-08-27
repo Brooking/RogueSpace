@@ -2,8 +2,8 @@
 #define _map_for_casting_h_
 
 #include <memory>
-#include "../visibility/original_shadow_cast.h"
 #include "tile.h"
+#include "../visibility/original_shadow_cast.h"
 
 enum CastingScan
 {

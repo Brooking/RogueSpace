@@ -1,15 +1,15 @@
 #ifndef _tile_h_
 #define _tile_h_
 
-#include <stdexcept>
-#include <vector>
-#include <set>
-#include <memory>
 #include <assert.h>
-#include "uitokens.h"
-#include "location.h"
-#include "ithing.h"
+#include <memory>
+#include <stdexcept>
+#include <set>
+#include <vector>
 #include "content_size.h"
+#include "ithing.h"
+#include "location.h"
+#include "uitokens.h"
 
 class Floor;
 

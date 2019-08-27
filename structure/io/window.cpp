@@ -1,6 +1,5 @@
 #include "window.h"
 
-
 io::Window::Window(
     io::Screen& screen, 
     std::shared_ptr<RawCurses> curses,

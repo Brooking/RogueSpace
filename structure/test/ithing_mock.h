@@ -1,3 +1,5 @@
+#ifndef _ithing_mock_h_
+#define _ithing_mock_h_
 #include "ithing.h"
 
 class iThingMock : public iThing
@@ -23,3 +25,5 @@ private:
     ContentSize content_size_;
     bool center_;
 };
+
+#endif // _ithing_mock_h_

@@ -1,6 +1,6 @@
+#include "floor.h"
 #include "map_for_casting.h"
 #include "tile.h"
-#include "floor.h"
 
 void MapForCasting::set_los(uint x, uint y, uint range_squared)
 {

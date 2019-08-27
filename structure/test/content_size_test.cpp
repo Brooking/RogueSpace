@@ -1,7 +1,7 @@
-#include "catch.hpp"
 #include <iostream>
-#include "tile.h"
+#include "catch.hpp"
 #include "ithing_mock.h"
+#include "tile.h"
 
 TEST_CASE("contentSize_with1small_shouldAllow", "[content_size]")
 {

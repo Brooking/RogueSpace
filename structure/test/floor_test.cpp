@@ -1,6 +1,6 @@
+#include <iostream>
 #include <stdexcept>
 #include "catch.hpp"
-#include <iostream>
 #include "floor.h"
 
 TEST_CASE("floor_withConstruction_shouldMakeFloor", "[floor]")

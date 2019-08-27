@@ -1,8 +1,8 @@
-#include "catch.hpp"
 #include <iostream>
-#include "wall.h"
-#include "tile.h"
+#include "catch.hpp"
 #include "ithing_mock.h"
+#include "tile.h"
+#include "wall.h"
 
 TEST_CASE("wall_withConstruction_shouldBeCreated", "[wall]")
 {

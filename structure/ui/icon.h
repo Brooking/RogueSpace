@@ -1,8 +1,8 @@
 #ifndef _icon_h_
 #define _icon_h_
 
-#include "uitokens.h"
 #include "io_constants.h"
+#include "uitokens.h"
 
 //
 // Adjacency informaion (used in drawing walls)
