@@ -38,7 +38,7 @@ private:
     unsigned int screen_cell_;
     unsigned int height_;
     unsigned int width_;
-    void* window_;
+    void* curses_window_;
 };
 
 } // namespace io
