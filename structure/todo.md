@@ -17,6 +17,8 @@
   - [x] coalesce mini+main
   - [x] consistent virtual/override usage
   - [ ] select char appears in terminal after execution stops
+  - [ ] both sides of walls are illuminated (translucent)
+
 ### Input
 #### Keyboard
   - [x] add diagonal input
