@@ -13,7 +13,6 @@ public:
     // construct a window
     Window(
         Screen& screen,
-        std::shared_ptr<iCurses> curses,
         unsigned int screen_row, 
         unsigned int screen_cell, 
         unsigned int num_rows, 
@@ -35,7 +34,6 @@ public:
 
 private:
     Screen& screen_;
-    std::shared_ptr<iCurses> curses_;
     unsigned int screen_row_;
     unsigned int screen_cell_;
     unsigned int height_;

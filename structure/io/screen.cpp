@@ -19,7 +19,6 @@ std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<iCurses> cur
     std::shared_ptr<io::Screen> screen = 
         std::shared_ptr<io::Screen>(new io::Screen(curses));
     used = true;
-    int count = screen.use_count();
     return screen;
 }
 
@@ -93,7 +92,7 @@ io::Window* io::Screen::create_window(
     unsigned int num_rows, 
     unsigned int num_cells)
 {
-    return new io::Window(*this, this->curses_, screen_row, screen_cell, num_rows, num_cells);
+    return new io::Window(*this, screen_row, screen_cell, num_rows, num_cells);
 }                        
 
 unsigned int io::Screen::get_key_input()

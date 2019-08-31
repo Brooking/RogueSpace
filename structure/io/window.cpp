@@ -2,20 +2,19 @@
 
 io::Window::Window(
     io::Screen& screen, 
-    std::shared_ptr<iCurses> curses,
     unsigned int screen_row, 
     unsigned int screen_cell, 
     unsigned int num_rows, 
     unsigned int num_cells) :
-    screen_(screen), curses_(curses), screen_row_(screen_row), screen_cell_(screen_cell), 
+    screen_(screen), screen_row_(screen_row), screen_cell_(screen_cell), 
     height_(num_rows), width_(num_cells), window_(nullptr)
 {
-    this->window_ = this->curses_->newwin( num_rows, num_cells, screen_row, screen_cell);
+    this->window_ = this->screen_.curses()->newwin( num_rows, num_cells, screen_row, screen_cell);
 }
 
 io::Window::~Window()
 {
-    this->curses_->delwin(this->window_);
+    this->screen_.curses()->delwin(this->window_);
     this->window_ = nullptr;
 }
 
@@ -27,10 +26,10 @@ void io::Window::place_character(
     io::Color background)
 {
     unsigned int colored_character = this->screen_.get_color_character(character, foreground, background);
-    this->curses_->mvwaddch_m(this->window_, row, cell, colored_character);
+    this->screen_.curses()->mvwaddch_m(this->window_, row, cell, colored_character);
 }
 
 void io::Window::refresh()
 {
-    this->curses_->wrefresh(this->window_);
+    this->screen_.curses()->wrefresh(this->window_);
 }

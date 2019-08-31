@@ -47,6 +47,9 @@ public:
     // get a colored character
     unsigned int get_color_character(unsigned int character, io::Color foreground, io::Color background);
 
+    // get our curses interface
+    std::shared_ptr<iCurses> curses() { return this->curses_; }
+
 private:
     // Initialize the screen
     Screen(std::shared_ptr<iCurses> curses);
