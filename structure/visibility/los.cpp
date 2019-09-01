@@ -16,8 +16,8 @@ std::vector<Location> bresenham_los(int start_row, int start_cell, int end_row, 
     signed char const i_row((delta_row > 0) - (delta_row < 0));
     delta_row = std::abs(delta_row) << 1;
  
-    // do NOT add the start
-    // result.push_back(Location(start_row, start_cell));
+    // add the start
+    result.push_back(Location(start_row, start_cell));
  
     if (delta_cell >= delta_row)
     {

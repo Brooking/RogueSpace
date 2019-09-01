@@ -158,7 +158,7 @@ std::shared_ptr<Floor> make_full(
     }
     north_walls_cells.push_back(floor->width()-1);
 
-    for (int i = 0; i < static_cast<int>(north_walls_cells.size()); i++) {
+    for (int i = 1; i < static_cast<int>(north_walls_cells.size()); i++) {
         make_wall(floor, 
                   Location(0, north_walls_cells[i]), 
                   Location(north_wall_row-1, north_walls_cells[i]));

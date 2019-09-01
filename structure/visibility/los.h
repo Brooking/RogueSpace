@@ -9,6 +9,7 @@
 //
 //  This uses the Bresenham algorithm which results in a thin trail 
 // (usually 1 tile wide, sparse at diagonals)
+// includes both endpoints
 //
 std::vector<Location> bresenham_los(int start_row, int start_cell, int end_row, int end_cell);
 
