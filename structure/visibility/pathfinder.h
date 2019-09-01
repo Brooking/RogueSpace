@@ -17,7 +17,7 @@
 class Pathfinder
 {
 public:
-    Pathfinder(iMap* map) : map_(map) {}
+    Pathfinder(std::shared_ptr<iMap> map) : map_(map) {}
     virtual ~Pathfinder() {}
 
     // find the shortest path from 'from' to 'to'
@@ -30,7 +30,7 @@ PROTECTED_ACCESS:
 
 
 private:
-    iMap* map_;
+    std::shared_ptr<iMap> map_;
 };
 
 #endif // _pathfinder_h_

@@ -11,11 +11,11 @@ TEST_CASE("djystra_withTinyField_shouldFill", "[dijkstra][.]")
     //   ^to
 
     // arrange
-    iMapMock map(/*width*/2,/*height*/1);
-    std::vector<std::vector<int>> distance(map.get_height(), std::vector(map.get_width(), 0));
+    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/2,/*height*/1);
+    std::vector<std::vector<int>> distance(map->get_height(), std::vector(map->get_width(), 0));
 
     // act
-    dijkstra_fill(distance, &map, /*from*/Location(0,0), /*to*/Location(0,1));
+    dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(0,1));
 
     // assert
     REQUIRE(distance[0][0] == 1);
@@ -32,11 +32,11 @@ TEST_CASE("djystra_withSmallField_shouldFill", "[dijkstra][.]")
     //     ^to
 
     // arrange
-    iMapMock map(/*width*/3,/*height*/4);
-    std::vector<std::vector<int>> distance(map.get_height(), std::vector(map.get_width(), 0));
+    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/3,/*height*/4);
+    std::vector<std::vector<int>> distance(map->get_height(), std::vector(map->get_width(), 0));
 
     // act
-    dijkstra_fill(distance, &map, /*from*/Location(0,0), /*to*/Location(3,2));
+    dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(3,2));
 
     // assert
     REQUIRE(distance[0][0] == 3);
@@ -62,14 +62,14 @@ TEST_CASE("djystra_withWall_shouldWrap", "[dijkstra][.]")
     //         ^to
 
     // arrange
-    iMapMock map(/*width*/5,/*height*/3);
-    map.set_opaque(1,1,true);
-    map.set_opaque(2,1,true);
-    map.set_opaque(3,1,true);
-    std::vector<std::vector<int>> distance(map.get_height(), std::vector(map.get_width(), 0));
+    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/5,/*height*/3);
+    map->set_opaque(1,1,true);
+    map->set_opaque(2,1,true);
+    map->set_opaque(3,1,true);
+    std::vector<std::vector<int>> distance(map->get_height(), std::vector(map->get_width(), 0));
 
     // act
-    dijkstra_fill(distance, &map, /*from*/Location(0,0), /*to*/Location(2,4));
+    dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(2,4));
 
     // assert
     REQUIRE(distance[0][0] == 5);

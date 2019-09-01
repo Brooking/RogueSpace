@@ -2,11 +2,11 @@
 
 // if it has not been done yet, fill in the entry and add to the todo list
 void mark_and_add_neighbor(std::vector<std::vector<int>>& distance,
-                           iMap* map, 
+                           std::shared_ptr<iMap> map, 
                            std::queue<Location>& todo, 
                            Location location, int new_distance);
 
-void dijkstra_fill(std::vector<std::vector<int>>& distance, iMap* map, Location from, Location to)
+void dijkstra_fill(std::vector<std::vector<int>>& distance, std::shared_ptr<iMap> map, Location from, Location to)
 {
     assert(from.row() >= 0 && from.row() < static_cast<int>(distance.size()));
     assert(from.cell() >= 0 && from.cell() < static_cast<int>(distance[0].size()));
@@ -51,7 +51,7 @@ void dijkstra_fill(std::vector<std::vector<int>>& distance, iMap* map, Location 
 }
 
 void mark_and_add_neighbor(std::vector<std::vector<int>>& distance,
-                           iMap* map, 
+                           std::shared_ptr<iMap> map, 
                            std::queue<Location>& todo, 
                            Location location, int neighbor_distance)
 {
