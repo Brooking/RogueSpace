@@ -16,7 +16,7 @@ class Window;
 // A fake singleton representing the screen
 // (it will throw if you ask for another...)
 //
-class Screen
+class Screen : public std::enable_shared_from_this<Screen>
 {
 public:
     // creator
@@ -35,7 +35,7 @@ public:
     int height();
 
     // create a window
-    io::Window* create_window(
+    std::shared_ptr<io::Window> create_window(
         unsigned int screen_row, 
         unsigned int screen_cell, 
         unsigned int num_rows, 

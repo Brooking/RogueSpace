@@ -28,7 +28,7 @@ public:
     virtual bool place(std::shared_ptr<Tile> tile) override;
 
     // where is this hero now
-    Location where() const { return (this->tile_ == nullptr) ? Location() : this->tile_->where(); }
+    Location where() const;
 
     // move the hero this direction
     bool move(Direction direction);

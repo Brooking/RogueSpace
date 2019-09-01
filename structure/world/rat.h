@@ -28,8 +28,8 @@ public:
     // iThing: do its move
     virtual bool move() override
     {
-        Location here = this->tile_->where();
-        std::shared_ptr<Floor> floor = this->tile_->floor();
+        Location here = this->tile()->where();
+        std::shared_ptr<Floor> floor = this->tile()->floor();
         std::shared_ptr<Hero> hero = floor->hero();
 
         // handle state transitions

@@ -16,11 +16,11 @@ public:
     // iThing: do its move
     virtual bool move() override
     {
-        std::shared_ptr<Floor> floor = this->tile_->floor();
+        std::shared_ptr<Floor> floor = this->tile()->floor();
         Location hero_location = floor->hero()->where();
 
         // move closer or stand still
-        Location current = this->tile_->where();
+        Location current = this->tile()->where();
         std::vector<Location> closer_locations = 
             current.closer_adjacent_locations(hero_location);
         Location new_location = current.choose_random(closer_locations, floor, this->shared_from_this());

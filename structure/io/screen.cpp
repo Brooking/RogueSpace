@@ -86,13 +86,13 @@ int io::Screen::width()
     return this->width_;
 }
 
-io::Window* io::Screen::create_window(
+std::shared_ptr<io::Window> io::Screen::create_window(
     unsigned int screen_row, 
     unsigned int screen_cell, 
     unsigned int num_rows, 
     unsigned int num_cells)
 {
-    return new io::Window(*this, screen_row, screen_cell, num_rows, num_cells);
+    return std::make_shared<io::Window>(this->shared_from_this(), screen_row, screen_cell, num_rows, num_cells);
 }                        
 
 unsigned int io::Screen::get_key_input()

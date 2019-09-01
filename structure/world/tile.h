@@ -36,7 +36,7 @@ public:
     Location where() const { return location_; }
 
     // The floor this tile is in
-    std::shared_ptr<Floor> floor() const { return this->floor_; }
+    std::shared_ptr<Floor> floor() const { return this->floor_.lock(); }
 
     // How full is the tile
     ContentSize how_full() const { return this->fullness_; }
@@ -82,7 +82,7 @@ private:
 
 private:
     // The floor that this tile is in
-    std::shared_ptr<Floor> floor_;
+    std::weak_ptr<Floor> floor_;
 
     // the location of this tile
     Location location_;

@@ -17,12 +17,12 @@ bool Hero::move()
 bool Hero::move(Direction direction)
 {
     Location newLocation = this->where().apply_direction(direction);
-    std::shared_ptr<Floor> floor = this->tile_->floor();
+    std::shared_ptr<Floor> floor = this->tile()->floor();
     std::shared_ptr<Tile> newTile = floor->tile(newLocation);   
     std::shared_ptr shared_this = this->shared_from_this();
     if (newTile != nullptr && newTile->there_is_room(shared_this)) 
     {
-        this->tile_->remove(shared_this);
+        this->tile()->remove(shared_this);
         this->tile_ = newTile;
         newTile->add(shared_this);
         return true;
@@ -33,14 +33,14 @@ bool Hero::move(Direction direction)
 
 bool Hero::can_see(Location location)
 {
-    int los_range = this->tile_->get_los_range(location);
+    int los_range = this->tile()->get_los_range(location);
     if (los_range <= this->sight_range_)
     {
         // location is in los and close enough to see
         return true;
     }
 
-    std::shared_ptr<Tile> target = this->tile_->floor()->tile(location);
+    std::shared_ptr<Tile> target = this->tile()->floor()->tile(location);
     if (los_range < INT_MAX && target->is_lit())
     {
         // location is in los and lit
@@ -57,14 +57,14 @@ bool Hero::can_see(const std::shared_ptr<Tile> tile)
 
 bool Hero::can_be_seen_from(Location seer, int sight_range)
 {
-    int los_range = this->tile_->get_los_range(seer);
+    int los_range = this->tile()->get_los_range(seer);
     if (los_range <= sight_range)
     {
         // location is in los and close enough to see
         return true;
     }
 
-    if (los_range < INT_MAX && this->tile_->is_lit())
+    if (los_range < INT_MAX && this->tile()->is_lit())
     {
         // the hero is lit and in los
         return true;
@@ -87,4 +87,13 @@ bool Hero::place(std::shared_ptr<Tile> tile)
     }
 
     return result;
+}
+
+Location Hero::where() const
+{
+    if (!this->tile_.expired())
+    {
+        return this->tile_.lock()->where();
+    }
+    return Location();
 }

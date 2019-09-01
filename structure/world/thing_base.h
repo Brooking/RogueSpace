@@ -12,12 +12,12 @@ class ThingBase : public iThing, public std::enable_shared_from_this<iThing>
 {
 public:
     ThingBase(UIToken token, ContentSize content_size, bool center) : 
-        tile_(nullptr), token_(token), content_size_(content_size), center_(center)
+        token_(token), content_size_(content_size), center_(center)
     {}
     virtual ~ThingBase() {}
 
     // iThing: The tile that this thing is on
-    virtual std::shared_ptr<Tile> tile() const { return this->tile_; }
+    virtual std::shared_ptr<Tile> tile() const { return this->tile_.lock(); }
 
     // iThing: How this thing should be displayed in the UI
     virtual UIToken token() const override { return this->token_; }
@@ -45,10 +45,10 @@ public:
     // iThing: remove the thing from a tile
     virtual bool remove() override
     {
-        if (this->tile_ != nullptr)
+        if (this->tile() != nullptr)
         {
-            this->tile_->remove(this->shared_from_this());
-            this->tile_ = nullptr;
+            this->tile()->remove(this->shared_from_this());
+            //this->tile_.reset();
         }
 
         return true;
@@ -65,7 +65,7 @@ PROTECTED_ACCESS:
     }
 
 protected:
-    std::shared_ptr<Tile> tile_;
+    std::weak_ptr<Tile> tile_;
     UIToken token_;
     ContentSize content_size_;
     bool center_;    

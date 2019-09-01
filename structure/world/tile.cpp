@@ -68,9 +68,9 @@ bool Tile::add(std::shared_ptr<iThing> thing)
         {
             this->things_.push_back(thing);
             this->fullness_ = this->calculate_fullness();
-            if (this->floor_ != nullptr)
+            if (!this->floor_.expired())
             {
-                this->floor_->update(this->location_, thing->is_center());
+                this->floor()->update(this->location_, thing->is_center());
             }
             return true;
         }
@@ -94,9 +94,9 @@ bool Tile::remove(std::shared_ptr<iThing> thing)
             thing_found = true;
             this->things_.erase(this->things_.begin()+i);
             this->fullness_ = this->calculate_fullness();
-            if (this->floor_ != nullptr)
+            if (!this->floor_.expired())
             {
-                this->floor_->update(this->location_);
+                this->floor()->update(this->location_);
             }
             break;
         }
@@ -153,9 +153,9 @@ int Tile::get_los_range(Location location)
     {
         this->los_range_ = 
             new std::vector<std::vector<int>>(
-                this->floor_->height(), 
+                this->floor()->height(), 
                 std::vector<int>(
-                    this->floor_->width(), 
+                    this->floor()->width(), 
                     INT_MAX
                 )
             );

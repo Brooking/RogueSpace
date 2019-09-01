@@ -45,7 +45,7 @@ private:
 
 private:
     std::shared_ptr<io::Screen> screen_;
-    io::Window* window_;
+    std::shared_ptr<io::Window> window_;
     std::shared_ptr<iFloor> floor_;
 
     unsigned int height_;

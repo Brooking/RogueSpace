@@ -7,12 +7,12 @@
 namespace io
 {
 
-class Window 
+class Window
 {
 public:
     // construct a window
     Window(
-        Screen& screen,
+        std::shared_ptr<Screen> screen,
         unsigned int screen_row, 
         unsigned int screen_cell, 
         unsigned int num_rows, 
@@ -33,7 +33,7 @@ public:
     void refresh();
 
 private:
-    Screen& screen_;
+    std::shared_ptr<Screen> screen_;
     unsigned int screen_row_;
     unsigned int screen_cell_;
     unsigned int height_;

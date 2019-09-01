@@ -18,7 +18,7 @@ public:
     // iThing: return the ui token
     virtual UIToken token() const override
     { 
-        return this->tile_->is_lit() ? UIToken::lit_wall :UIToken::visible_wall;
+        return this->tile()->is_lit() ? UIToken::lit_wall :UIToken::visible_wall;
     }
 
     // iThing: walls don't move
