@@ -45,7 +45,7 @@ world_includes= \
 	world/thing_base.h \
 	world/tile.h \
 	world/wall.h
-ui_includes=ui/icon.h ui/viewport.h
+ui_includes=ui/icon.h ui/viewport.h ui/statuspane.h
 vis_includes= \
 	visibility/imap.h \
 	visibility/los.h \
@@ -152,9 +152,11 @@ lib/libio.a : \
 
 lib/libui.a : \
 		obj/icon.o \
+		obj/statuspane.o \
 		obj/viewport.o
 	ar crf lib/libui.a \
 		obj/icon.o \
+		obj/statuspane.o \
 		obj/viewport.o
 
 lib/libvisibility.a : \
@@ -231,6 +233,14 @@ obj/icon.o : \
 	$(cc) $(cflags) $(common_include_dirs) \
 		-c ui/icon.cpp \
 		-o obj/icon.o
+
+obj/statuspane.o : \
+		$(common_includes) \
+		$(ui_includes) \
+		ui/statuspane.cpp
+	$(cc) $(cflags) $(common_include_dirs) \
+		-c ui/statuspane.cpp \
+		-o obj/statuspane.o
 
 obj/viewport.o : \
 		$(common_includes) \

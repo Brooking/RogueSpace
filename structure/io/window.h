@@ -32,6 +32,10 @@ public:
     // push all changes to the actual screen
     void refresh();
 
+    unsigned int height() const { return this->height_; }
+
+    unsigned int width() const { return this->width_; }
+
 private:
     std::shared_ptr<Screen> screen_;
     unsigned int screen_row_;

@@ -5,6 +5,7 @@
 #include "generator.h"
 #include "../io/screen.h"
 #include "../io/rawcurses.h"
+#include "../ui/statuspane.h"
 #include "../ui/viewport.h"
 #include "../world/floor.h"
 #include "../world/hero.h"
@@ -79,15 +80,24 @@ int main()
         }
     } while (floor == nullptr);
     
-    // create a viewport on that floor that is the full viewable area
+    // create a viewport on that floor that is the viewable area
     std::shared_ptr<Viewport> viewport = 
         std::make_shared<Viewport>(
             screen, floor, 
+            /*screen_row*/0, /*screen_cell*/5,
             screen->height(), 
             screen->width(), 
             hero->where().row(),
             hero->where().cell());
     floor->register_update(viewport);
+
+    // create the status window
+    std::shared_ptr<StatusPane> status =
+        std::make_shared<StatusPane>(
+            screen,
+            hero,
+            /*screen_row*/0, /*screen_cell*/0,
+            screen->height(), /*width*/5);
 
     // start the game loop
     game_loop(viewport, hero, monsters);

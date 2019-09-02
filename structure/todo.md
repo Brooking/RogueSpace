@@ -42,7 +42,11 @@
   - [x] show white visible stuff & grey 'seen' stuff
 ### Windows
   - [ ] implement panes
-  - [ ] implement status pane for hero
+    - [ ] make iWindow
+    - [ ] finish iUpdate system for pane updates
+  - [x] implement status pane for hero
+    - [ ] implement stats for hero
+    - [ ] status pane should dictate its own size
   - [ ] implement hover pane
   - [ ] implement map on tab
   - [ ] implement inventory

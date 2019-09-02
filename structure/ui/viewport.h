@@ -15,7 +15,9 @@ class Viewport : public iUpdate
 public:
     Viewport(
         std::shared_ptr<io::Screen> screen, 
-        std::shared_ptr<iFloor> floor, 
+        std::shared_ptr<iFloor> floor,
+        unsigned int screen_row,
+        unsigned int screen_cell, 
         unsigned int height,
         unsigned int width, 
         int center_row,

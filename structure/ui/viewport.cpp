@@ -6,6 +6,8 @@
 Viewport::Viewport(
     std::shared_ptr<io::Screen> screen, 
     std::shared_ptr<iFloor> floor, 
+    unsigned int screen_row,
+    unsigned int screen_cell, 
     unsigned int height, 
     unsigned int width, 
     int center_row,
@@ -16,9 +18,7 @@ Viewport::Viewport(
     window_origin_row_offset_from_floor_(0), window_origin_cell_offset_from_floor_(0)
 {
     // place the window on the screen
-    unsigned int screen_y = 0;
-    unsigned int screen_x = 0;
-    this->window_ = this->screen_->create_window(screen_y, screen_x, height, width);
+    this->window_ = this->screen_->create_window(screen_row, screen_cell, height, width);
 
     this->full_update();
     this->update_center(center_row, center_cell);

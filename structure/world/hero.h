@@ -42,6 +42,11 @@ public:
     // can the hero be seen here from a given spot
     bool can_be_seen_from(Location seer, int sight_range);
 
+    unsigned int max_health() { return 100; }
+    unsigned int current_health() { return 50; }
+    unsigned int max_energy() { return 100; }
+    unsigned int current_energy() { return 100; }
+
 private:
     int sight_range_;
 };
