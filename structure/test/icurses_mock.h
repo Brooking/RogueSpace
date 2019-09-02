@@ -6,10 +6,10 @@
 class iCursesMock : public iCurses
 {
 public:
-    iCursesMock(bool* destructor_called) : destructor_called(destructor_called) {}
+    iCursesMock(bool* destructor_called) : destructor_called_(destructor_called) {}
     virtual ~iCursesMock()
     {
-        *(this->destructor_called) = true;
+        *(this->destructor_called_) = true;
     }
 
     // none of these are functional
@@ -34,8 +34,13 @@ public:
     virtual int wrefresh(void* /*window*/) override {return 0;}
     virtual void* stdscr_m() override {return nullptr;}
 
+    iCursesMock() = delete;
+    iCursesMock(const iCursesMock&) = delete;
+    iCursesMock& operator=(const iCursesMock&) = delete;
+
+
 private:
-    bool* destructor_called;
+    bool* destructor_called_;
 
 };
 

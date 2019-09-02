@@ -82,7 +82,8 @@ static const std::array<unsigned int,16> AdjacentWallList
     /*15:NSEW*/static_cast<unsigned int>(io::Character::WALL_NSEW)
 };
 
-Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
+Icon::Icon(UIToken token, unsigned int adjacency) : 
+    token_(token), foreground_color_(), background_color_(), symbol_()
 {
     if ((long unsigned int)token >= (long unsigned int)UIToken::num_tokens)
     {

@@ -10,6 +10,8 @@ typedef unsigned int uint;
 //
 class iMap {
     public:
+        virtual ~iMap() = default;
+
         // Set the los of the cell at the given position.
         virtual void set_los(uint x, uint y, uint range_squared) = 0;
 

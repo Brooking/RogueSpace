@@ -12,6 +12,8 @@ class Tile;
 class iThing
 {
 public:
+    virtual ~iThing() = default;
+
     // How this thing should be displayed in the UI
     virtual UIToken token() const = 0;
 

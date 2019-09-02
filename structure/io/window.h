@@ -37,6 +37,14 @@ public:
     unsigned int width() const { return this->width_; }
 
 private:
+    // prohibit parameterless construction
+    Window() = delete;
+
+    // prohibit copying
+    Window(const Window&) = delete;
+    Window& operator=(const Window&) = delete;
+
+private:
     std::shared_ptr<Screen> screen_;
     unsigned int screen_row_;
     unsigned int screen_cell_;

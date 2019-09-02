@@ -82,7 +82,7 @@ public:
     Location apply_direction(Direction direction) const;
 
     // return all adjacent locations
-    virtual std::vector<Location> all_adjacent_locations();
+    std::vector<Location> all_adjacent_locations();
 
     // return the distance between this location and another
     int distance(Location that);

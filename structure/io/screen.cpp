@@ -23,7 +23,7 @@ std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<iCurses> cur
 }
 
 io::Screen::Screen(std::shared_ptr<iCurses> curses) : 
-    curses_(curses), width_(0), height_(0), color_pair_index_(0), next_color_pair_index_(1)
+    curses_(curses), width_(0), height_(0), color_pair_index_(0), color_pairs_(), next_color_pair_index_(1)
 {
     // initialize the ncurses library
     curses_->initscr();
@@ -115,7 +115,8 @@ unsigned int io::Screen::get_colorpair_index(io::Color foreground, io::Color bac
     if (this->color_pairs_.count(color_pair) == 0)
     {
         // new pair to us
-        this->curses_->init_pair(this->next_color_pair_index_, foreground, background);
+        this->curses_->init_pair(this->next_color_pair_index_, static_cast<short>(foreground), 
+            static_cast<short>(background));
         color_pair_index = this->next_color_pair_index_;
         this->color_pairs_.insert(std::pair<std::pair<io::Color,io::Color>,int>(color_pair, color_pair_index));
         this->next_color_pair_index_++;

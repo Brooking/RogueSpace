@@ -8,7 +8,7 @@ public:
     iThingMock(UIToken token, std::shared_ptr<Tile> tile, ContentSize size = ContentSize::small, bool center = false) : 
         token_(token), tile_(tile), content_size_(size), center_(center)
     {}
-    virtual ~iThingMock() {}
+    virtual ~iThingMock() = default;
 
     // iThing
     virtual UIToken token() const { return this->token_; }

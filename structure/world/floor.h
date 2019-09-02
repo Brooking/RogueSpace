@@ -45,7 +45,7 @@ public:
 
 private:
     // private constructor (use Floor::create)
-    Floor() : hero_(nullptr) {}
+    Floor() : tile_(), update_interface_(), hero_(), lights_() {}
 
     // add all of the tiles to the floor
     void init(int height, int width);

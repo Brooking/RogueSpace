@@ -24,8 +24,8 @@ class Tile : public std::enable_shared_from_this<Tile>
 {
 public:
     Tile(std::shared_ptr<Floor> floor, Location location) : 
-        floor_(floor), location_(location), fullness_(ContentSize::empty),
-        los_range_(nullptr), has_been_seen_(false), is_lit_(false)
+        floor_(floor), location_(location), things_(), fullness_(ContentSize::empty),
+        los_range_(), has_been_seen_(false), is_lit_(false)
     {}
     ~Tile() {}
 
@@ -79,6 +79,10 @@ PROTECTED_ACCESS:
 private:
     // prohibit parameterless construction
     Tile() = delete;
+
+    // prohibit copying
+    Tile(const Tile&) = delete;
+    Tile& operator=(const Tile&) = delete;
 
 private:
     // The floor that this tile is in

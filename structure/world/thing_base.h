@@ -8,11 +8,17 @@
 #define PROTECTED_ACCESS protected
 #endif
 
+// std::enable_shared_from_this has an accessible non-virtual destructor
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+
+//
+// a base class for all things
+//
 class ThingBase : public iThing, public std::enable_shared_from_this<iThing>
 {
 public:
     ThingBase(UIToken token, ContentSize content_size, bool center) : 
-        token_(token), content_size_(content_size), center_(center)
+        tile_(), token_(token), content_size_(content_size), center_(center)
     {}
     virtual ~ThingBase() {}
 

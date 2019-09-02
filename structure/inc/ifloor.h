@@ -11,6 +11,8 @@
 class iFloor
 {
 public:
+    virtual ~iFloor() = default;
+
     // register an update callback
     virtual bool register_update(std::shared_ptr<iUpdate> update_interface) = 0;
 

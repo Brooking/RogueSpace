@@ -22,7 +22,7 @@ public:
     iMapMock(uint width, uint height) :
         map(std::vector<std::vector<MapEntry>>(height, std::vector<MapEntry>(width)))
     {}
-    virtual ~iMapMock() {}
+    virtual ~iMapMock() = default;
 
     // Set the los of the cell at the given position.
     virtual void set_los(uint cell, uint row, uint range_squared) 

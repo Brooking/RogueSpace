@@ -7,6 +7,7 @@
 class iCurses
 {
 public:
+    virtual ~iCurses() = default;
     virtual void* initscr()= 0;
     virtual int endwin()= 0;
     virtual int noecho()= 0;

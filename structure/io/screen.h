@@ -12,6 +12,9 @@ namespace io
 
 class Window;
 
+// std::enable_shared_from_this has an accessible non-virtual destructor
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+
 //
 // A fake singleton representing the screen
 // (it will throw if you ask for another...)

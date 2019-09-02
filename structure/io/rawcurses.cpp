@@ -120,38 +120,38 @@ void io::RawCurses::validate_io_constants()
     ::initscr();    
 
     // set our local key statics
-    assert(io::Key::UP == static_cast<unsigned int>(KEY_UP));
-    assert(io::Key::UP_RIGHT == static_cast<unsigned int>(KEY_PPAGE));
-    assert(io::Key::RIGHT == static_cast<unsigned int>(KEY_RIGHT));
-    assert(io::Key::DOWN_RIGHT == static_cast<unsigned int>(KEY_NPAGE));
-    assert(io::Key::DOWN == static_cast<unsigned int>(KEY_DOWN));
-    assert(io::Key::DOWN_LEFT == static_cast<unsigned int>(KEY_END));
-    assert(io::Key::LEFT == static_cast<unsigned int>(KEY_LEFT));
-    assert(io::Key::UP_LEFT == static_cast<unsigned int>(KEY_HOME));
+    assert(static_cast<unsigned int>(io::Key::UP) == static_cast<unsigned int>(KEY_UP));
+    assert(static_cast<unsigned int>(io::Key::UP_RIGHT) == static_cast<unsigned int>(KEY_PPAGE));
+    assert(static_cast<unsigned int>(io::Key::RIGHT) == static_cast<unsigned int>(KEY_RIGHT));
+    assert(static_cast<unsigned int>(io::Key::DOWN_RIGHT) == static_cast<unsigned int>(KEY_NPAGE));
+    assert(static_cast<unsigned int>(io::Key::DOWN) == static_cast<unsigned int>(KEY_DOWN));
+    assert(static_cast<unsigned int>(io::Key::DOWN_LEFT) == static_cast<unsigned int>(KEY_END));
+    assert(static_cast<unsigned int>(io::Key::LEFT) == static_cast<unsigned int>(KEY_LEFT));
+    assert(static_cast<unsigned int>(io::Key::UP_LEFT) == static_cast<unsigned int>(KEY_HOME));
 
     // set our local character statics
-    assert(io::Character::WALL_NS == static_cast<unsigned int>(ACS_VLINE));
-    assert(io::Character::WALL_EW == static_cast<unsigned int>(ACS_HLINE));
-    assert(io::Character::WALL_NE == static_cast<unsigned int>(ACS_LLCORNER));
-    assert(io::Character::WALL_SE == static_cast<unsigned int>(ACS_ULCORNER));
-    assert(io::Character::WALL_SW == static_cast<unsigned int>(ACS_URCORNER));
-    assert(io::Character::WALL_NW == static_cast<unsigned int>(ACS_LRCORNER));
-    assert(io::Character::WALL_NSE == static_cast<unsigned int>(ACS_LTEE));
-    assert(io::Character::WALL_NSW == static_cast<unsigned int>(ACS_RTEE));
-    assert(io::Character::WALL_NEW == static_cast<unsigned int>(ACS_BTEE));
-    assert(io::Character::WALL_SEW == static_cast<unsigned int>(ACS_TTEE));
-    assert(io::Character::WALL_NSEW == static_cast<unsigned int>(ACS_PLUS));
+    assert(static_cast<unsigned int>(io::Character::WALL_NS) == static_cast<unsigned int>(ACS_VLINE));
+    assert(static_cast<unsigned int>(io::Character::WALL_EW) == static_cast<unsigned int>(ACS_HLINE));
+    assert(static_cast<unsigned int>(io::Character::WALL_NE) == static_cast<unsigned int>(ACS_LLCORNER));
+    assert(static_cast<unsigned int>(io::Character::WALL_SE) == static_cast<unsigned int>(ACS_ULCORNER));
+    assert(static_cast<unsigned int>(io::Character::WALL_SW) == static_cast<unsigned int>(ACS_URCORNER));
+    assert(static_cast<unsigned int>(io::Character::WALL_NW) == static_cast<unsigned int>(ACS_LRCORNER));
+    assert(static_cast<unsigned int>(io::Character::WALL_NSE) == static_cast<unsigned int>(ACS_LTEE));
+    assert(static_cast<unsigned int>(io::Character::WALL_NSW) == static_cast<unsigned int>(ACS_RTEE));
+    assert(static_cast<unsigned int>(io::Character::WALL_NEW) == static_cast<unsigned int>(ACS_BTEE));
+    assert(static_cast<unsigned int>(io::Character::WALL_SEW) == static_cast<unsigned int>(ACS_TTEE));
+    assert(static_cast<unsigned int>(io::Character::WALL_NSEW) == static_cast<unsigned int>(ACS_PLUS));
 
-    assert(io::Character::BULLET == static_cast<unsigned int>(ACS_BULLET));
+    assert(static_cast<unsigned int>(io::Character::BULLET) == static_cast<unsigned int>(ACS_BULLET));
 
-    assert(io::Color::BLACK == static_cast<unsigned int>(COLOR_BLACK));
-    assert(io::Color::RED == static_cast<unsigned int>(COLOR_RED));
-    assert(io::Color::GREEN == static_cast<unsigned int>(COLOR_GREEN));
-    assert(io::Color::YELLOW == static_cast<unsigned int>(COLOR_YELLOW));
-    assert(io::Color::BLUE == static_cast<unsigned int>(COLOR_BLUE));
-    assert(io::Color::MAGENTA == static_cast<unsigned int>(COLOR_MAGENTA));
-    assert(io::Color::CYAN == static_cast<unsigned int>(COLOR_CYAN));
-    assert(io::Color::WHITE == static_cast<unsigned int>(COLOR_WHITE));
+    assert(static_cast<unsigned int>(io::Color::BLACK) == static_cast<unsigned int>(COLOR_BLACK));
+    assert(static_cast<unsigned int>(io::Color::RED) == static_cast<unsigned int>(COLOR_RED));
+    assert(static_cast<unsigned int>(io::Color::GREEN) == static_cast<unsigned int>(COLOR_GREEN));
+    assert(static_cast<unsigned int>(io::Color::YELLOW) == static_cast<unsigned int>(COLOR_YELLOW));
+    assert(static_cast<unsigned int>(io::Color::BLUE) == static_cast<unsigned int>(COLOR_BLUE));
+    assert(static_cast<unsigned int>(io::Color::MAGENTA) == static_cast<unsigned int>(COLOR_MAGENTA));
+    assert(static_cast<unsigned int>(io::Color::CYAN) == static_cast<unsigned int>(COLOR_CYAN));
+    assert(static_cast<unsigned int>(io::Color::WHITE) == static_cast<unsigned int>(COLOR_WHITE));
 
     ::endwin();
 }
