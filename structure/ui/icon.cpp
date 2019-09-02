@@ -1,20 +1,22 @@
 #include <array>
 #include <stdexcept>
+#include <assert.h>
 #include "icon.h"
 #include "io_constants.h"
 
 //
 // static container of character information
 //
-struct IconData
+class IconData
 {
+public:
     constexpr IconData(
         UIToken token, 
         unsigned long symbol, 
         io::Color foreground, 
         io::Color background = io::Color::BLACK) 
     :
-        token(token), foreground(foreground), background(background), symbol(symbol)
+        token_(token), foreground_(foreground), background_(background), symbol_(symbol)
     {}
 
     constexpr IconData(
@@ -23,13 +25,19 @@ struct IconData
         io::Color foreground, 
         io::Color background = io::Color::BLACK) 
     :
-        token(token), foreground(foreground), background(background), symbol(static_cast<unsigned int>(symbol))
+        token_(token), foreground_(foreground), background_(background), symbol_(static_cast<unsigned int>(symbol))
     {}
 
-    UIToken token;
-    io::Color foreground;
-    io::Color background;
-    unsigned long symbol;
+    UIToken token() const { return this->token_; }
+    io::Color foreground() const { return this->foreground_; }
+    io::Color background() const { return this->background_; }
+    unsigned long symbol() const { return this->symbol_; }
+
+private:
+    UIToken token_;
+    io::Color foreground_;
+    io::Color background_;
+    unsigned long symbol_;
 };
 
 //
@@ -81,8 +89,10 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
         throw std::invalid_argument("token too large");
     }
 
-    this->foreground_color_ = IconList[(long unsigned int)token].foreground;
-    this->background_color_ = IconList[(long unsigned int)token].background;
+    this->foreground_color_ = IconList[(long unsigned int)token].foreground();
+    this->background_color_ = IconList[(long unsigned int)token].background();
+    assert(static_cast<unsigned int>(this->background_color_) <= static_cast<unsigned int>(io::Color::WHITE));
+
     if (is_wall(token))
      {
         // walls' shapes rely on adjacent walls
@@ -94,6 +104,6 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
     }
     else
     {
-        this->symbol_ = IconList[(long unsigned int)token].symbol;
+        this->symbol_ = IconList[(long unsigned int)token].symbol();
     }
 }

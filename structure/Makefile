@@ -14,8 +14,8 @@ c++compile=g++
 c++standard=-std=c++11
 c++debug=-ggdb3 -O0
 #c++debug=-O3 for production
-c++warnings=-Wall -Wextra -Werror -pedantic 
-#c++warnings=-Wall -Wextra -Werror -pedantic  -ansi -Wshadow -Weffc++ -Wstrict-aliasing -Wunreachable-code -Wno-long-long
+c++warnings=-Wall -Wextra -Werror -pedantic -Wshadow
+#c++warnings=-Wall -Wextra -Werror -pedantic -Wshadow -Weffc++ -Wstrict-aliasing -Wunreachable-code -Wno-long-long -ansi 
 c++profiling=-g -pg -fprofile-arcs -ftest-coverage
 c++command=$(c++compile) $(c++standard) $(c++debug) $(c++warnings)
 #cflags= -Wall -Wextra -Werror -pedantic -std=c++17 
