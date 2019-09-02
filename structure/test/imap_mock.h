@@ -27,9 +27,7 @@ public:
     // Set the los of the cell at the given position.
     virtual void set_los(uint cell, uint row, uint range_squared) 
     {
-        assert(row >= 0);
         assert(row < this->map.size());
-        assert(cell >= 0); 
         assert(cell < this->map[0].size());
         this->map[row][cell].range_squared = range_squared;
     }

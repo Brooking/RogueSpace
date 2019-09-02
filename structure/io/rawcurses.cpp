@@ -154,4 +154,4 @@ void io::RawCurses::validate_io_constants()
     assert(io::Color::WHITE == static_cast<unsigned int>(COLOR_WHITE));
 
     ::endwin();
-};
+}

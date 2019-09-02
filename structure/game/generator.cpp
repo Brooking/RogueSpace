@@ -9,9 +9,9 @@ void wall_border(std::shared_ptr<Floor>);
 void make_wall(std::shared_ptr<Floor> floor, Location start, Location end);
 
 std::shared_ptr<Floor> make_mini(
-    std::shared_ptr<io::Screen> screen, 
+    std::shared_ptr<io::Screen>, 
     std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>& monsters)
+    std::vector<std::shared_ptr<iThing>>&)
 {
     // create a floor
     std::shared_ptr<Floor> floor = Floor::create(7, 7);

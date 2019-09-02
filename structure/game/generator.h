@@ -7,9 +7,9 @@
 
 // make the mini screen
 std::shared_ptr<Floor> make_mini(
-    std::shared_ptr<io::Screen> screen, 
+    std::shared_ptr<io::Screen>, 
     std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>& monsters);
+    std::vector<std::shared_ptr<iThing>>&);
 
 // make our standard testing floor
 std::shared_ptr<Floor> make_standard(

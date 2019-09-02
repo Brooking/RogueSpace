@@ -11,7 +11,7 @@ clean:
 
 # definitions	
 cc=g++
-cflags=-ggdb3 -Wall -std=c++17 
+cflags=-ggdb3 -Wall -Wextra -Werror -pedantic -std=c++17 
 #-fno-rtti <- we are now using dynamic_casts
 
 # directories (for compiling and linking)

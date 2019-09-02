@@ -25,7 +25,7 @@ StatusPane::StatusPane(
     this->refresh();
 }
 
-bool StatusPane::update(int row, int cell, bool center)
+bool StatusPane::update(int, int, bool center)
 { 
     if (center)
     {
