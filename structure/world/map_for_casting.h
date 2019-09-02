@@ -5,7 +5,7 @@
 #include "tile.h"
 #include "../visibility/original_shadow_cast.h"
 
-enum CastingScan
+enum class CastingScan
 {
     visibility,
     illumination

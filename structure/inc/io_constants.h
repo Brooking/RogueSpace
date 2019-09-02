@@ -7,7 +7,7 @@ namespace io
 //
 // output character values (from ncurses)
 //
-enum Character : unsigned int
+enum class Character
 {
     WALL_NS = 4194424,
     WALL_EW = 4194417,
@@ -20,13 +20,13 @@ enum Character : unsigned int
     WALL_NEW = 4194422,
     WALL_SEW = 4194423,
     WALL_NSEW = 4194414,
-    BULLET = 4194430,
+    BULLET = 4194430
 };
 
 //
 // input key values (from ncurses)
 //
-enum Key : unsigned int
+enum class Key
 {
     UP = 259,
     UP_RIGHT = 339,
@@ -42,7 +42,7 @@ enum Key : unsigned int
 // colors (from ncurses)
 //
 const unsigned int bright = 8;
-enum Color : unsigned int
+enum class Color
 {
     BLACK = 0,
     RED = 1,
@@ -52,14 +52,14 @@ enum Color : unsigned int
     MAGENTA = 5,
     CYAN = 6,
     WHITE = 7,
-    BRIGHT_BLACK = bright + Color::BLACK,
-    BRIGHT_RED = bright + Color::RED,
-    BRIGHT_GREEN = bright + Color::GREEN,
-    BRIGHT_YELLOW = bright + Color::YELLOW,
-    BRIGHT_BLUE = bright + Color::BLUE,
-    BRIGHT_MAGENTA = bright + Color::MAGENTA,
-    BRIGHT_CYAN = bright + Color::CYAN,
-    BRIGHT_WHITE = bright + Color::WHITE,
+    BRIGHT_BLACK = bright + static_cast<unsigned int>(Color::BLACK),
+    BRIGHT_RED = bright + static_cast<unsigned int>(Color::RED),
+    BRIGHT_GREEN = bright + static_cast<unsigned int>(Color::GREEN),
+    BRIGHT_YELLOW = bright + static_cast<unsigned int>(Color::YELLOW),
+    BRIGHT_BLUE = bright + static_cast<unsigned int>(Color::BLUE),
+    BRIGHT_MAGENTA = bright + static_cast<unsigned int>(Color::MAGENTA),
+    BRIGHT_CYAN = bright + static_cast<unsigned int>(Color::CYAN),
+    BRIGHT_WHITE = bright + static_cast<unsigned int>(Color::WHITE)
 };
 
 } // namespace io

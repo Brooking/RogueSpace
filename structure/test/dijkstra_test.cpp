@@ -12,7 +12,7 @@ TEST_CASE("djystra_withTinyField_shouldFill", "[dijkstra][.]")
 
     // arrange
     std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/2,/*height*/1);
-    std::vector<std::vector<int>> distance(map->get_height(), std::vector(map->get_width(), 0));
+    std::vector<std::vector<int>> distance(map->get_height(), std::vector<int>(map->get_width(), 0));
 
     // act
     dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(0,1));
@@ -33,7 +33,7 @@ TEST_CASE("djystra_withSmallField_shouldFill", "[dijkstra][.]")
 
     // arrange
     std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/3,/*height*/4);
-    std::vector<std::vector<int>> distance(map->get_height(), std::vector(map->get_width(), 0));
+    std::vector<std::vector<int>> distance(map->get_height(), std::vector<int>(map->get_width(), 0));
 
     // act
     dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(3,2));
@@ -66,7 +66,7 @@ TEST_CASE("djystra_withWall_shouldWrap", "[dijkstra][.]")
     map->set_opaque(1,1,true);
     map->set_opaque(2,1,true);
     map->set_opaque(3,1,true);
-    std::vector<std::vector<int>> distance(map->get_height(), std::vector(map->get_width(), 0));
+    std::vector<std::vector<int>> distance(map->get_height(), std::vector<int>(map->get_width(), 0));
 
     // act
     dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(2,4));

@@ -8,37 +8,47 @@
 //
 struct IconData
 {
-    constexpr IconData(UIToken token, io::Color foreground, io::Color background, unsigned long symbol) :
-        token(token), foreground_(foreground), background_(background), symbol(symbol)
+    constexpr IconData(
+        UIToken token, 
+        unsigned long symbol, 
+        io::Color foreground, 
+        io::Color background = io::Color::BLACK) 
+    :
+        token(token), foreground(foreground), background(background), symbol(symbol)
     {}
 
-    constexpr IconData(UIToken token, io::Color foreground, unsigned long symbol) :
-        IconData(token, foreground, io::Color::BLACK, symbol)
+    constexpr IconData(
+        UIToken token, 
+        io::Character symbol, 
+        io::Color foreground, 
+        io::Color background = io::Color::BLACK) 
+    :
+        token(token), foreground(foreground), background(background), symbol(static_cast<unsigned int>(symbol))
     {}
 
     UIToken token;
-    io::Color foreground_;
-    io::Color background_;
+    io::Color foreground;
+    io::Color background;
     unsigned long symbol;
 };
 
 //
 // Table assigning display characters to tokens
 //
-static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconList 
+static const std::array<IconData,static_cast<unsigned int>(UIToken::num_tokens)> IconList 
 {
-    IconData(UIToken::none, io::Color::BLACK, ' '),
-    IconData(UIToken::test, io::Color::BRIGHT_YELLOW, '?'),
-    IconData(UIToken::lit_floor, io::Color::YELLOW, io::Character::BULLET),
-    IconData(UIToken::visible_floor, io::Color::WHITE, io::Character::BULLET),
-    IconData(UIToken::seen_floor, io::Color::BRIGHT_BLACK, io::Character::BULLET),
-    IconData(UIToken::lit_wall, io::Color::YELLOW, '+'),
-    IconData(UIToken::visible_wall, io::Color::WHITE, '+'),
-    IconData(UIToken::seen_wall, io::Color::BRIGHT_BLACK, '+'),
-    IconData(UIToken::hero, io::Color::BRIGHT_CYAN, '@'),
-    IconData(UIToken::rat, io::Color::BRIGHT_RED, 'r'),
-    IconData(UIToken::bee, io::Color::BRIGHT_RED, 'b'),
-    IconData(UIToken::dog, io::Color::BRIGHT_CYAN, 'd')
+    IconData(UIToken::none, ' ', io::Color::BLACK),
+    IconData(UIToken::test, '?', io::Color::BRIGHT_YELLOW),
+    IconData(UIToken::lit_floor, io::Character::BULLET, io::Color::YELLOW),
+    IconData(UIToken::visible_floor, io::Character::BULLET, io::Color::WHITE),
+    IconData(UIToken::seen_floor, io::Character::BULLET, io::Color::BRIGHT_BLACK),
+    IconData(UIToken::lit_wall, '+', io::Color::YELLOW),
+    IconData(UIToken::visible_wall, '+', io::Color::WHITE),
+    IconData(UIToken::seen_wall, '+', io::Color::BRIGHT_BLACK),
+    IconData(UIToken::hero, '@', io::Color::BRIGHT_CYAN),
+    IconData(UIToken::rat, 'r', io::Color::BRIGHT_RED),
+    IconData(UIToken::bee, 'b', io::Color::BRIGHT_RED),
+    IconData(UIToken::dog, 'd', io::Color::BRIGHT_CYAN)
 };
 
 //
@@ -47,21 +57,21 @@ static const std::array<IconData,(long unsigned int)UIToken::num_tokens> IconLis
 static const std::array<unsigned int,16> AdjacentWallList
 {
     /* 0:none*/'+',
-    /* 1:N   */io::Character::WALL_NS,
-    /* 2:E   */io::Character::WALL_EW,
-    /* 3:NE  */io::Character::WALL_NE,
-    /* 4:S   */io::Character::WALL_NS,
-    /* 5:NS  */io::Character::WALL_NS,
-    /* 6:SE  */io::Character::WALL_SE,
-    /* 7:NSE */io::Character::WALL_NSE,
-    /* 8:W   */io::Character::WALL_EW,
-    /* 9:NW  */io::Character::WALL_NW,
-    /*10:EW  */io::Character::WALL_EW,
-    /*11:NEW */io::Character::WALL_NEW,
-    /*12:SW  */io::Character::WALL_SW,
-    /*13:NSW */io::Character::WALL_NSW,
-    /*14:SEW */io::Character::WALL_SEW,
-    /*15:NSEW*/io::Character::WALL_NSEW,
+    /* 1:N   */static_cast<unsigned int>(io::Character::WALL_NS),
+    /* 2:E   */static_cast<unsigned int>(io::Character::WALL_EW),
+    /* 3:NE  */static_cast<unsigned int>(io::Character::WALL_NE),
+    /* 4:S   */static_cast<unsigned int>(io::Character::WALL_NS),
+    /* 5:NS  */static_cast<unsigned int>(io::Character::WALL_NS),
+    /* 6:SE  */static_cast<unsigned int>(io::Character::WALL_SE),
+    /* 7:NSE */static_cast<unsigned int>(io::Character::WALL_NSE),
+    /* 8:W   */static_cast<unsigned int>(io::Character::WALL_EW),
+    /* 9:NW  */static_cast<unsigned int>(io::Character::WALL_NW),
+    /*10:EW  */static_cast<unsigned int>(io::Character::WALL_EW),
+    /*11:NEW */static_cast<unsigned int>(io::Character::WALL_NEW),
+    /*12:SW  */static_cast<unsigned int>(io::Character::WALL_SW),
+    /*13:NSW */static_cast<unsigned int>(io::Character::WALL_NSW),
+    /*14:SEW */static_cast<unsigned int>(io::Character::WALL_SEW),
+    /*15:NSEW*/static_cast<unsigned int>(io::Character::WALL_NSEW)
 };
 
 Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
@@ -71,8 +81,8 @@ Icon::Icon(UIToken token, unsigned int adjacency) : token_(token)
         throw std::invalid_argument("token too large");
     }
 
-    this->foreground_color_ = IconList[(long unsigned int)token].foreground_;
-    this->background_color_ = IconList[(long unsigned int)token].background_;
+    this->foreground_color_ = IconList[(long unsigned int)token].foreground;
+    this->background_color_ = IconList[(long unsigned int)token].background;
     if (is_wall(token))
      {
         // walls' shapes rely on adjacent walls

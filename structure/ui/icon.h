@@ -7,7 +7,7 @@
 //
 // Adjacency informaion (used in drawing walls)
 //
-enum AdjacentWallBits
+enum class AdjacentWallBits
 {
     North = 0,
     East = 1,

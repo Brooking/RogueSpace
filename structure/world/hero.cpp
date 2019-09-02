@@ -19,7 +19,7 @@ bool Hero::move(Direction direction)
     Location newLocation = this->where().apply_direction(direction);
     std::shared_ptr<Floor> floor = this->tile()->floor();
     std::shared_ptr<Tile> newTile = floor->tile(newLocation);   
-    std::shared_ptr shared_this = this->shared_from_this();
+    std::shared_ptr<iThing> shared_this = this->shared_from_this();
     if (newTile != nullptr && newTile->there_is_room(shared_this)) 
     {
         this->tile()->remove(shared_this);

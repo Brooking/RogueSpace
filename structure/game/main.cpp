@@ -107,20 +107,20 @@ int main()
 
 void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, std::vector<std::shared_ptr<iThing>> monsters)
 {
-    int ch;
+    unsigned int key;
     bool done = false;
     while(!done) 
     {
         // get and decode input
-        ch = viewport->screen()->get_key_input();
+        key = viewport->screen()->get_key_input();
         Direction direction = Direction::none;
-        if (KeyToDirection.count(ch) > 0)
+        if (KeyToDirection.count(key) > 0)
         {
-            direction = KeyToDirection[ch];
+            direction = KeyToDirection[key];
         }
         else
         {
-            switch(ch)
+            switch(key)
             {
                 case 'q':
                 case 'Q':
