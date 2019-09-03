@@ -34,8 +34,8 @@ public:
     void add(const char* Message);
 
     // accessors
-    int width();
-    int height();
+    unsigned int width();
+    unsigned int height();
 
     // create a window
     std::shared_ptr<io::Window> create_window(
@@ -70,8 +70,8 @@ private:
     static std::mutex mutex;
 
     std::shared_ptr<iCurses> curses_;
-    int width_;
-    int height_;
+    unsigned int width_;
+    unsigned int height_;
     unsigned int color_pair_index_;
 
 

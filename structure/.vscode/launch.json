@@ -66,7 +66,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/iotests.out",
-            "args": [],
+            "args": ["pathfinder_withWall_shouldWalkAround"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -25,7 +25,7 @@ StatusPane::StatusPane(
     this->refresh();
 }
 
-bool StatusPane::update(int, int, bool center)
+bool StatusPane::update(unsigned int, unsigned int, bool center)
 { 
     if (center)
     {
@@ -41,26 +41,26 @@ void StatusPane::refresh()
 
 bool StatusPane::update()
 {
-    static int top_margin = 0;
-    static int bottom_margin = 1;
-    static int label_margin = 1;
-    int therm_blocks = this->window_->height() - top_margin - bottom_margin - label_margin;
-    int health_blocks = (therm_blocks * this->hero_->current_health()) / this->hero_->max_health();
-    int energy_blocks = (therm_blocks * this->hero_->current_energy()) / this->hero_->max_energy();
+    static unsigned int top_margin = 0;
+    static unsigned int bottom_margin = 1;
+    static unsigned int label_margin = 1;
+    unsigned int therm_blocks = this->window_->height() - top_margin - bottom_margin - label_margin;
+    unsigned int health_blocks = (therm_blocks * this->hero_->current_health()) / this->hero_->max_health();
+    unsigned int energy_blocks = (therm_blocks * this->hero_->current_energy()) / this->hero_->max_energy();
 
-    static int health_cell = 1;
-    static int energy_cell = 3;
+    static unsigned int health_cell = 1;
+    static unsigned int energy_cell = 3;
 
     this->window_->place_character(top_margin, health_cell, 'H', StatusPane::health_foreground, StatusPane::pane_background);
-    int top = top_margin + label_margin + (therm_blocks - health_blocks);
-    for (int i = 0; i < health_blocks; i++)
+    unsigned int top = top_margin + label_margin + (therm_blocks - health_blocks);
+    for (unsigned int i = 0; i < health_blocks; i++)
     {
         this->window_->place_character(top+i, health_cell, ' ', StatusPane::health_foreground, StatusPane::health_foreground);
     }
 
     this->window_->place_character(top_margin, energy_cell, 'E', StatusPane::energy_foreground, StatusPane::pane_background);
     top = top_margin + label_margin + (therm_blocks - energy_blocks);
-    for (int i = 0; i < energy_blocks; i++)
+    for (unsigned int i = 0; i < energy_blocks; i++)
     {
         this->window_->place_character(top+i, energy_cell, ' ', StatusPane::energy_foreground, StatusPane::energy_foreground);
     }

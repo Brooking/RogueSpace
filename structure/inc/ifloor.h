@@ -23,7 +23,7 @@ public:
     virtual unsigned int width() = 0;
 
     // the current ui token at the given location
-    virtual UIToken token(int row, int cell) = 0;
+    virtual UIToken token(unsigned int row, unsigned int cell) = 0;
 };
 
 #endif // _ifloor_h_

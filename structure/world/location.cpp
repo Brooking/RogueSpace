@@ -44,17 +44,17 @@ std::vector<Location> Location::all_adjacent_locations()
     return result;
 }
 
-int Location::distance(Location that)
+unsigned int Location::distance(Location that)
 {
     int delta_y = this->row() - that.row();
     int delta_x = this->cell() - that.cell();
-    return static_cast<int>(sqrt(delta_y * delta_y + delta_x * delta_x));
+    return static_cast<unsigned int>(sqrt(delta_y * delta_y + delta_x * delta_x));
 }
 
 std::vector<Location> Location::closer_adjacent_locations(Location target)
 {
     std::vector<Location> result = this->all_adjacent_locations();
-    int distance = this->distance(target);
+    unsigned int distance = this->distance(target);
     for (unsigned int i = 0; i < result.size(); i++)
     {
         if (result[i].distance(target) >= distance)
@@ -71,7 +71,7 @@ Location Location::choose_random(std::vector<Location> locations, std::shared_pt
 {
     while (locations.size() > 0)
     {
-        int index = static_cast<int>(rand() % locations.size());
+        unsigned int index = static_cast<unsigned int>(rand() % locations.size());
         if (floor->tile(locations[index])->there_is_room(thing))
         {
             // we can move here

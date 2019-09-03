@@ -43,7 +43,7 @@ int io::RawCurses::curs_set(int visibility)
     return ::curs_set(visibility);
 }
 
-void io::RawCurses::getmaxyx_m(void* window, int& y, int& x)
+void io::RawCurses::getmaxyx_m(void* window, unsigned int& y, unsigned int& x)
 {
     // call the macro
     getmaxyx((WINDOW*)window, y, x);

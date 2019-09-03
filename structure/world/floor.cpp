@@ -5,7 +5,7 @@
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
-std::shared_ptr<Floor> Floor::create(int height, int width)
+std::shared_ptr<Floor> Floor::create(unsigned int height, unsigned int width)
 {
     // can not use "std::make_shared<Floor>();" here because that requires a public c'tor
     std::shared_ptr<Floor> floor = std::shared_ptr<Floor>(new Floor());
@@ -13,7 +13,7 @@ std::shared_ptr<Floor> Floor::create(int height, int width)
     return floor;
 }
 
-void Floor::init(int height, int width)
+void Floor::init(unsigned int height, unsigned int width)
 {
     if (height < 1) {
         throw std::invalid_argument("height must be positive");
@@ -21,10 +21,10 @@ void Floor::init(int height, int width)
     if (width < 1) {
         throw std::invalid_argument("width must be positive");
     }
-    for (int row = 0; row < height; row++)
+    for (unsigned int row = 0; row < height; row++)
     {
         this->tile_.push_back(std::vector<std::shared_ptr<Tile>>());
-        for (int cell = 0; cell < width; cell++)
+        for (unsigned int cell = 0; cell < width; cell++)
         {
             std::shared_ptr<Tile> tile = std::make_shared<Tile>(this->shared_from_this(), Location(row, cell));
             this->tile_[row].push_back(tile);
@@ -41,7 +41,7 @@ bool Floor::register_update(std::shared_ptr<iUpdate> update_interface)
 }
 
 
-UIToken Floor::token(int row, int cell)
+UIToken Floor::token(unsigned int row, unsigned int cell)
 {
     Location location(row, cell);
     std::shared_ptr<Tile> tile = this->tile(location);
@@ -55,8 +55,7 @@ UIToken Floor::token(int row, int cell)
 
 std::shared_ptr<Tile> Floor::tile(Location location)
 {
-    if (location.row() >= static_cast<int>(this->height()) || location.row() < 0 ||
-        location.cell() >= static_cast<int>(this->width()) || location.cell() < 0 )
+    if (location.row() >= this->height() || location.cell() >= this->width())
     {
         return nullptr;
     }
@@ -77,7 +76,7 @@ bool Floor::update(Location location, bool is_center)
     return false;
 }
 
-bool Floor::add_light(int row, int cell, int radius)
+bool Floor::add_light(unsigned int row, unsigned int cell, unsigned int radius)
 {
     std::shared_ptr<Tile> tile = this->tile(Location(row, cell));
     tile->set_is_lit(true);

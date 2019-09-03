@@ -14,7 +14,7 @@
 class Floor : public iFloor, public std::enable_shared_from_this<Floor>
 {
 public:
-    static std::shared_ptr<Floor> create(int height, int width);
+    static std::shared_ptr<Floor> create(unsigned int height, unsigned int width);
     virtual ~Floor() {}
 
     // iFloor: the ui is giving us a callback
@@ -27,7 +27,7 @@ public:
     virtual unsigned int width() override { return static_cast<unsigned int>(tile_[0].size()); }
 
     // iFloor: returns the ui token for a given location
-    virtual UIToken token(int row, int cell) override;
+    virtual UIToken token(unsigned int row, unsigned int cell) override;
 
     // returns the tile at a given location
     std::shared_ptr<Tile> tile(Location location);
@@ -41,14 +41,14 @@ public:
     void add_hero(std::shared_ptr<Hero> hero) { this->hero_ = hero; }
 
     // add a light
-    bool add_light(int row, int cell, int radius);
+    bool add_light(unsigned int row, unsigned int cell, unsigned int radius);
 
 private:
     // private constructor (use Floor::create)
     Floor() : tile_(), update_interface_(), hero_(), lights_() {}
 
     // add all of the tiles to the floor
-    void init(int height, int width);
+    void init(unsigned int height, unsigned int width);
 
 private:
     // all of the tiles on this floor

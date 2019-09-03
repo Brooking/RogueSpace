@@ -10,8 +10,8 @@ Viewport::Viewport(
     unsigned int screen_cell, 
     unsigned int height, 
     unsigned int width, 
-    int center_row,
-    int center_cell)
+    unsigned int center_row,
+    unsigned int center_cell)
     : 
     screen_(screen), window_(nullptr), floor_(floor), 
     height_(height), width_(width), 
@@ -25,7 +25,7 @@ Viewport::Viewport(
     this->refresh();
 }
 
-bool Viewport::update_center(int center_row, int center_cell)
+bool Viewport::update_center(unsigned int center_row, unsigned int center_cell)
 {
     int corner_row = center_row - this->height_/2;
     int corner_cell = center_cell - this->width_/2;
@@ -42,7 +42,7 @@ bool Viewport::update_center(int center_row, int center_cell)
 
 // this is an update request from the world
 // location is in floor coordinates
-bool Viewport::update(int row, int cell, bool center)
+bool Viewport::update(unsigned int row, unsigned int cell, bool center)
 {
     if (center)
     {
@@ -57,8 +57,8 @@ bool Viewport::update(int row, int cell, bool center)
 // row and cell are in window coordinates
 bool Viewport::update_worker(unsigned int row, unsigned int cell)
 {
-    int floor_row = row + this->window_origin_row_offset_from_floor_;
-    int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
+    unsigned int floor_row = row + this->window_origin_row_offset_from_floor_;
+    unsigned int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
 
     std::bitset<8> adjacency;
     UIToken token = this->floor_->token(floor_row, floor_cell);

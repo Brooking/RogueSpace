@@ -15,7 +15,7 @@ public:
     virtual int keypad(void* screen, bool enable_extended_single_value)= 0;
     virtual int clear()= 0;
     virtual int curs_set(int visibility)= 0;
-    virtual void getmaxyx_m(void* screen, int& y, int& x)= 0;
+    virtual void getmaxyx_m(void* screen, unsigned int& y, unsigned int& x)= 0;
     virtual bool has_colors()= 0;
     virtual int start_color()= 0;
     virtual int init_pair(short index, short foreground, short background)= 0;

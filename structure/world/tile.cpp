@@ -142,19 +142,19 @@ bool Tile::there_is_room(std::shared_ptr<iThing> thing)
     return false;
 }
 
-void Tile::add_los_range(Location location, int range)
+void Tile::add_los_range(Location location, unsigned int range)
 {
     (*this->los_range_)[location.row()][location.cell()] = range;
 }
 
-int Tile::get_los_range(Location location)
+unsigned int Tile::get_los_range(Location location)
 {
     if (this->los_range_ == nullptr)
     {
         this->los_range_ = 
-            new std::vector<std::vector<int>>(
+            new std::vector<std::vector<unsigned int>>(
                 this->floor()->height(), 
-                std::vector<int>(
+                std::vector<unsigned int>(
                     this->floor()->width(), 
                     INT_MAX
                 )

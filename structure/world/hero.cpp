@@ -4,7 +4,7 @@
 #include "map_for_casting.h"
 #include "../visibility/original_shadow_cast.h"
 
-Hero::Hero(int sight_range) : 
+Hero::Hero(unsigned int sight_range) : 
     ThingBase(UIToken::hero, ContentSize::large, /*center*/true),
     sight_range_(sight_range)
 {}
@@ -33,7 +33,7 @@ bool Hero::move(Direction direction)
 
 bool Hero::can_see(Location location)
 {
-    int los_range = this->tile()->get_los_range(location);
+    unsigned int los_range = this->tile()->get_los_range(location);
     if (los_range <= this->sight_range_)
     {
         // location is in los and close enough to see
@@ -55,9 +55,9 @@ bool Hero::can_see(const std::shared_ptr<Tile> tile)
     return this->can_see(tile->where());
 }
 
-bool Hero::can_be_seen_from(Location seer, int sight_range)
+bool Hero::can_be_seen_from(Location seer, unsigned int sight_range)
 {
-    int los_range = this->tile()->get_los_range(seer);
+    unsigned int los_range = this->tile()->get_los_range(seer);
     if (los_range <= sight_range)
     {
         // location is in los and close enough to see

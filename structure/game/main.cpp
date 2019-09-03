@@ -59,7 +59,7 @@ int main()
     std::vector<std::shared_ptr<iThing>> monsters;
     do
     {
-        int key = screen->get_key_input();
+        unsigned int key = screen->get_key_input();
         switch(key)
         {
             case '1':

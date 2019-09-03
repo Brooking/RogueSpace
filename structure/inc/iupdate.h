@@ -8,6 +8,6 @@ class iUpdate
 {
 public:
     virtual ~iUpdate() {}
-    virtual bool update(int row, int cell, bool center = false) = 0;
+    virtual bool update(unsigned int row, unsigned int cell, bool center = false) = 0;
 };
 #endif // _iupdate_h_

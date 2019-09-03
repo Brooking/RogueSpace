@@ -12,9 +12,9 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
     }
 
     // flood fill distances for floor (todo: save this for reuse by all monsters)
-    std::vector<std::vector<int>> distance(
+    std::vector<std::vector<unsigned int>> distance(
         this->map_->get_height(), 
-        std::vector<int>(
+        std::vector<unsigned int>(
             this->map_->get_width(),
             0
         ));
@@ -30,27 +30,26 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
     return result;
 }
 
-void Pathfinder::walk_back(std::vector<Location>& result, std::vector<std::vector<int>>& distance, 
+void Pathfinder::walk_back(std::vector<Location>& result, std::vector<std::vector<unsigned int>>& distance, 
                            Location location)
 {
-    int current_distance = distance[location.row()][location.cell()];
+    unsigned int current_distance = distance[location.row()][location.cell()];
     while (current_distance > 0)
     {
         Location next_location;
         // check each of the neighbors for the next step
-        for (int i = 0; i < 8; i++)
+        for (unsigned int i = 0; i < 8; i++)
         {
-            int row = location.row() + neighbors[i].first;
-            int cell = location.cell() + neighbors[i].second;
-            if (row < 0 || cell < 0 || 
-                row >= static_cast<int>(distance.size()) || 
-                cell >= static_cast<int>(distance[0].size()))
+            unsigned int row = location.row() + neighbors[i].first;
+            unsigned int cell = location.cell() + neighbors[i].second;
+            if (row >= static_cast<unsigned int>(distance.size()) || 
+                cell >= static_cast<unsigned int>(distance[0].size()))
             {
                 // off the map
                 continue;
             }
-            int new_distance = distance[row][cell];
-            if (new_distance == -1)
+            unsigned int new_distance = distance[row][cell];
+            if (new_distance == INT_MAX)
             {
                 // wall
                 continue;

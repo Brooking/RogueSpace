@@ -11,8 +11,8 @@ enum class AiState
     Homing
 };
 
-const int HomeRange = 5;
-const int SightRange = 10;
+const unsigned int HomeRange = 5;
+const unsigned int SightRange = 10;
 
 //
 // Monster with short sight, but can path find

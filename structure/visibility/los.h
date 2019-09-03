@@ -11,6 +11,7 @@
 // (usually 1 tile wide, sparse at diagonals)
 // includes both endpoints
 //
-std::vector<Location> bresenham_los(int start_row, int start_cell, int end_row, int end_cell);
+std::vector<Location> bresenham_los(unsigned int start_row, 
+    unsigned int start_cell, unsigned int end_row, unsigned int end_cell);
 
 #endif // _los_h_

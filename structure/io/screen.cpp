@@ -76,12 +76,12 @@ void io::Screen::add(const char* Message)
     curses_->printw(Message);
 }
 
-int io::Screen::height()
+unsigned int io::Screen::height()
 {
     return this->height_;
 }
 
-int io::Screen::width()
+unsigned int io::Screen::width()
 {
     return this->width_;
 }
@@ -103,7 +103,7 @@ unsigned int io::Screen::get_key_input()
 unsigned int io::Screen::get_color_character(unsigned int character, io::Color foreground, io::Color background)
 {
     unsigned int colorpair_index = this->get_colorpair_index(foreground, background);
-    return character | COLOR_PAIR(colorpair_index);
+    return character | static_cast<unsigned int>(COLOR_PAIR(colorpair_index));
 }
 
 
@@ -115,8 +115,8 @@ unsigned int io::Screen::get_colorpair_index(io::Color foreground, io::Color bac
     if (this->color_pairs_.count(color_pair) == 0)
     {
         // new pair to us
-        this->curses_->init_pair(this->next_color_pair_index_, static_cast<short>(foreground), 
-            static_cast<short>(background));
+        this->curses_->init_pair(static_cast<short>(this->next_color_pair_index_), 
+            static_cast<short>(foreground), static_cast<short>(background));
         color_pair_index = this->next_color_pair_index_;
         this->color_pairs_.insert(std::pair<std::pair<io::Color,io::Color>,int>(color_pair, color_pair_index));
         this->next_color_pair_index_++;

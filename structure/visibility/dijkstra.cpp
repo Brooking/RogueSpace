@@ -1,17 +1,17 @@
 #include "dijkstra.h"
 
 // if it has not been done yet, fill in the entry and add to the todo list
-void mark_and_add_neighbor(std::vector<std::vector<int>>& distance,
+void mark_and_add_neighbor(std::vector<std::vector<unsigned int>>& distance,
                            std::shared_ptr<iMap> map, 
                            std::queue<Location>& todo, 
-                           Location location, int new_distance);
+                           Location location, unsigned int new_distance);
 
-void dijkstra_fill(std::vector<std::vector<int>>& distance, std::shared_ptr<iMap> map, Location from, Location to)
+void dijkstra_fill(std::vector<std::vector<unsigned int>>& distance, std::shared_ptr<iMap> map, Location from, Location to)
 {
-    assert(from.row() >= 0 && from.row() < static_cast<int>(distance.size()));
-    assert(from.cell() >= 0 && from.cell() < static_cast<int>(distance[0].size()));
-    assert(to.row() >= 0 && to.row() < static_cast<int>(distance.size()));
-    assert(to.cell() >= 0 && to.cell() < static_cast<int>(distance[0].size()));
+    assert(from.row() < distance.size());
+    assert(from.cell() < distance[0].size());
+    assert(to.row() < distance.size());
+    assert(to.cell() < distance[0].size());
     if (map->is_opaque(to.cell(), to.row()))
     {
         // destination is a wall
@@ -19,17 +19,17 @@ void dijkstra_fill(std::vector<std::vector<int>>& distance, std::shared_ptr<iMap
     }
     std::queue<Location> todo;
     todo.push(to);
-    distance[to.row()][to.cell()] = -1;
+    distance[to.row()][to.cell()] = 0;
 
     while (!todo.empty())
     {
         Location location = todo.front();
         todo.pop();
 
-        int row = location.row();
-        int cell = location.cell();
+        unsigned int row = location.row();
+        unsigned int cell = location.cell();
 
-        int neighbor_distance = std::max(distance[row][cell], 0) + 1;
+        unsigned int neighbor_distance = distance[row][cell] + 1;
 
         mark_and_add_neighbor(distance, map, todo, Location(row-1,cell), neighbor_distance);
         mark_and_add_neighbor(distance, map, todo, Location(row-1,cell+1), neighbor_distance);
@@ -50,17 +50,17 @@ void dijkstra_fill(std::vector<std::vector<int>>& distance, std::shared_ptr<iMap
     distance[to.row()][to.cell()] = 0;
 }
 
-void mark_and_add_neighbor(std::vector<std::vector<int>>& distance,
+void mark_and_add_neighbor(std::vector<std::vector<unsigned int>>& distance,
                            std::shared_ptr<iMap> map, 
                            std::queue<Location>& todo, 
-                           Location location, int neighbor_distance)
+                           Location location, 
+                           unsigned int neighbor_distance)
 {
-    int row = location.row();
-    int cell = location.cell();
+    unsigned int row = location.row();
+    unsigned int cell = location.cell();
 
-    if (row < 0 || cell < 0 || 
-        row >= static_cast<int>(map->get_height()) || 
-        cell >= static_cast<int>(map->get_width()))
+    if (row >= map->get_height() || 
+        cell >= map->get_width())
     {
         // off the map
         return;

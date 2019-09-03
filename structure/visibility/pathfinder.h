@@ -25,7 +25,7 @@ public:
 
 PROTECTED_ACCESS:
     // walk from the destination back to source
-    void walk_back(std::vector<Location>& result, std::vector<std::vector<int>>& distance, 
+    void walk_back(std::vector<Location>& result, std::vector<std::vector<unsigned int>>& distance, 
                    Location location);
 
 

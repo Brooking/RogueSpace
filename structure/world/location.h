@@ -2,29 +2,31 @@
 #define _location_h_
 
 #include <vector>
+#include <bits/stdc++.h>
 #include "direction.h"
 #include "ithing.h"
 
 class Floor;
 
+
 class Location
 {    
 public:
-    // default location is -1,-1
+    // default location
     Location() : 
-        row_(-1), cell_(-1)
+        row_(INT_MAX), cell_(INT_MAX)
     {}
 
     // create a location
-    Location(int row, int cell) :
+    Location(unsigned int row, unsigned int cell) :
         row_(row), cell_(cell)
     {}
 
     // return the location's row
-    int row() const { return this->row_; }
+    unsigned int row() const { return this->row_; }
 
     // return the location's cell
-    int cell() const { return this->cell_; }
+    unsigned int cell() const { return this->cell_; }
 
     // equality operator ==
     bool operator== (const Location& that) const
@@ -85,7 +87,7 @@ public:
     std::vector<Location> all_adjacent_locations();
 
     // return the distance between this location and another
-    int distance(Location that);
+    unsigned int distance(Location that);
 
     // return all adjacent locations that are closer to the target than the current
     std::vector<Location> closer_adjacent_locations(Location target);
@@ -95,10 +97,10 @@ public:
 
 private:
     // the row of the location
-    int row_;
+    unsigned int row_;
 
     // the cell of this location
-    int cell_;
+    unsigned int cell_;
 };
 
 #endif // _location_h_

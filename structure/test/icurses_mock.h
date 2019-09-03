@@ -20,7 +20,7 @@ public:
     virtual int keypad(void* /*screen*/, bool /*enable_extended_single_value*/) override {return 0;}
     virtual int clear() override {return 0;}
     virtual int curs_set(int /*visibility*/) override {return 0;}
-    virtual void getmaxyx_m(void* /*screen*/, int& /*y*/, int& /*x*/) override {}
+    virtual void getmaxyx_m(void* /*screen*/, unsigned int& /*y*/, unsigned int& /*x*/) override {}
     virtual bool has_colors() override {return false;}
     virtual int start_color() override {return 0;}
     virtual int init_pair(short /*index*/, short /*foreground*/, short /*background*/) override {return 0;}

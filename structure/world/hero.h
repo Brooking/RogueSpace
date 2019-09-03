@@ -18,7 +18,7 @@
 class Hero : public ThingBase
 {
 public:
-    Hero(int sight_range = 5);
+    Hero(unsigned int sight_range = 5);
     virtual ~Hero() {}
 
     // iThing: move (not used for heroes)
@@ -40,7 +40,7 @@ public:
     bool can_see(const std::shared_ptr<Tile> tile);
 
     // can the hero be seen here from a given spot
-    bool can_be_seen_from(Location seer, int sight_range);
+    bool can_be_seen_from(Location seer, unsigned int sight_range);
 
     unsigned int max_health() const { return 100; }
     unsigned int current_health() const { return 50; }
@@ -48,7 +48,7 @@ public:
     unsigned int current_energy() const { return 100; }
 
 private:
-    int sight_range_;
+    unsigned int sight_range_;
 };
 
 #endif // _hero_h_

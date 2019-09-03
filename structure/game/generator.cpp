@@ -51,7 +51,7 @@ std::shared_ptr<Floor> make_standard(
     std::shared_ptr<Wall> wall;
     // put a wall with a door through the center
     int wall_cell = hero->where().cell()+1;
-    for (int row = 1; row < hero->where().row(); row++)
+    for (unsigned int row = 1; row < hero->where().row(); row++)
     {
         wall = std::make_shared<Wall>();
         wall->place(floor->tile(Location(row, wall_cell)));

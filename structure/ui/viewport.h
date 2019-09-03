@@ -20,14 +20,14 @@ public:
         unsigned int screen_cell, 
         unsigned int height,
         unsigned int width, 
-        int center_row,
-        int center_cell);
+        unsigned int center_row,
+        unsigned int center_cell);
     virtual ~Viewport() {
         this->screen_ = nullptr;
     }
 
     // iUpdate: an update notification from the world
-    virtual bool update(int row, int cell, bool center = false) override;
+    virtual bool update(unsigned int row, unsigned int cell, bool center = false) override;
 
     // time to implement all of the updates (normally called from the game)
     void refresh();
@@ -43,7 +43,7 @@ private:
     bool update_worker(unsigned int row, unsigned int cell);
 
     // update the center (and if it moves update the whole window)
-    bool update_center(int center_row, int center_cell);  
+    bool update_center(unsigned int center_row, unsigned int center_cell);  
 
 private:
     std::shared_ptr<io::Screen> screen_;

@@ -54,14 +54,14 @@ public:
     long unsigned int num_things() const { return this->things_.size(); }
 
     // array notation thing accessor
-    const std::shared_ptr<iThing> thing(int i) const { return this->things_[i]; }
+    const std::shared_ptr<iThing> thing(unsigned int i) const { return this->things_[i]; }
 
     // add a spot that has los from this tile
-    void add_los_range(Location location, int range);
+    void add_los_range(Location location, unsigned int range);
 
     // ask how far los id from this tile
     // (returns INT_MAX if no line of sight)
-    int get_los_range(Location location);
+    unsigned int get_los_range(Location location);
 
     // this tile has been seen
     bool has_been_seen() { return this->has_been_seen_; }
@@ -98,7 +98,7 @@ private:
     ContentSize fullness_;
 
     // all of the spots with los from this tile
-    std::vector<std::vector<int>>* los_range_;
+    std::vector<std::vector<unsigned int>>* los_range_;
 
     // has this tile been seen
     bool has_been_seen_;

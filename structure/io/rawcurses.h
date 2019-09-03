@@ -22,7 +22,7 @@ public:
     virtual int keypad(void* screen, bool enable_extended_single_value) override;
     virtual int clear() override;
     virtual int curs_set(int visibility) override;
-    virtual void getmaxyx_m(void* screen, int& y, int& x) override;
+    virtual void getmaxyx_m(void* screen, unsigned int& y, unsigned int& x) override;
     virtual bool has_colors() override;
     virtual int start_color() override;
     virtual int init_pair(short index, short foreground, short background) override;

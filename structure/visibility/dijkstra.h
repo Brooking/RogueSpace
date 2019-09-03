@@ -24,6 +24,6 @@ static std::vector<std::pair<int,int>> neighbors
 // (in our case the hero). Used in path finding.
 //
 
-void dijkstra_fill(std::vector<std::vector<int>>& distance, std::shared_ptr<iMap> map, Location from, Location to);
+void dijkstra_fill(std::vector<std::vector<unsigned int>>& distance, std::shared_ptr<iMap> map, Location from, Location to);
 
 #endif // _dijkstra_h_

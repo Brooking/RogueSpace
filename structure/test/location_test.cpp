@@ -3,37 +3,37 @@
 #include "catch.hpp"
 #include "location.h"
 
-TEST_CASE("location_withDefaultHeapConstructor_shouldMakeNegativeOnes", "[location]")
+TEST_CASE("location_withDefaultHeapConstructor_shouldMakeMaxOnes", "[location]")
 {
     // arrange
     // act
     Location* location = new Location();
 
     // assert
-    REQUIRE(location->row() == -1);
-    REQUIRE(location->cell() == -1);
+    REQUIRE(location->row() == INT_MAX);
+    REQUIRE(location->cell() == INT_MAX);
 }
 
-TEST_CASE("location_withDefaultSharedConstructor_shouldMakeNegativeOnes", "[location]")
+TEST_CASE("location_withDefaultSharedConstructor_shouldMakeMaxOnes", "[location]")
 {
     // arrange
     // act
     std::shared_ptr<Location> location = std::make_shared<Location>();
 
     // assert
-    REQUIRE(location->row() == -1);
-    REQUIRE(location->cell() == -1);
+    REQUIRE(location->row() == INT_MAX);
+    REQUIRE(location->cell() == INT_MAX);
 }
 
-TEST_CASE("location_withDefaultStackConstructor_shouldMakeNegativeOnes", "[location]")
+TEST_CASE("location_withDefaultStackConstructor_shouldMakeMaxOnes", "[location]")
 {
     // arrange
     // act
     Location location;
 
     // assert
-    REQUIRE(location.row() == -1);
-    REQUIRE(location.cell() == -1);
+    REQUIRE(location.row() == INT_MAX);
+    REQUIRE(location.cell() == INT_MAX);
 }
 
 TEST_CASE("location_withStackConstructor_shouldMakeSpecifiedCoordinates", "[location]")
@@ -47,17 +47,6 @@ TEST_CASE("location_withStackConstructor_shouldMakeSpecifiedCoordinates", "[loca
     REQUIRE(location.cell() == 3);
 }
 
-TEST_CASE("location_withNegativeValuesToConstructor_shouldMakeSpecifiedCoordinates", "[location]")
-{
-    // arrange
-    // act
-    Location location(-10,-3);
-
-    // assert
-    REQUIRE(location.row() == -10);
-    REQUIRE(location.cell() == -3);
-}
-
 TEST_CASE("location_withSameLocations_shouldBeEqual", "[location]")
 {
     // arrange
@@ -69,7 +58,7 @@ TEST_CASE("location_withSameLocations_shouldBeEqual", "[location]")
     REQUIRE(location1 == location2);
 }
 
-TEST_CASE("location_withSameLocations_shouldNotBeNotEqual", "[location]")
+TEST_CASE("location_withDifferentLocations_shouldNotBeNotEqual", "[location]")
 {
     // arrange
     // act
@@ -84,8 +73,8 @@ TEST_CASE("location_withDifferentLocations_shouldNotBeEqual", "[location]")
 {
     // arrange
     // act
-    Location location1(-1,66);
-    Location location2(-1,65);
+    Location location1(1,66);
+    Location location2(1,65);
 
     // assert
     REQUIRE(!(location1 == location2));
@@ -217,7 +206,7 @@ TEST_CASE("distance_withColocated_shouldMakeZero", "[location]")
     Location location(5,5);
 
     // act
-    int distance = location.distance(target);
+    unsigned int distance = location.distance(target);
 
     // assert
     REQUIRE(distance == 0);
@@ -230,7 +219,7 @@ TEST_CASE("distance_withDiagonalClose_shouldMakeNonZero", "[location]")
     Location location(6,6);
 
     // act
-    int distance = location.distance(target);
+    unsigned int distance = location.distance(target);
 
     // assert
     REQUIRE(distance == 1);
@@ -243,7 +232,7 @@ TEST_CASE("distance_withOrthogonalClose_shouldMakeNonZero", "[location]")
     Location location(6,5);
 
     // act
-    int distance = location.distance(target);
+    unsigned int distance = location.distance(target);
 
     // assert
     REQUIRE(distance == 1);
@@ -256,7 +245,7 @@ TEST_CASE("distance_withOrthogonalFar_shouldMakeNonZero", "[location]")
     Location location(5,10);
 
     // act
-    int distance = location.distance(target);
+    unsigned int distance = location.distance(target);
 
     // assert
     REQUIRE(distance == 5);
@@ -269,7 +258,7 @@ TEST_CASE("distance_withDiagonalFar_shouldMakeNonZero", "[location]")
     Location location(11,12);
 
     // act
-    int distance = location.distance(target);
+    unsigned int distance = location.distance(target);
 
     // assert
     REQUIRE(distance == 9);
