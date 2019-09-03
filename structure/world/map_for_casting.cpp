@@ -9,7 +9,7 @@ void MapForCasting::set_los(uint x, uint y, uint range_squared)
         std::shared_ptr<Tile> tile = this->floor_->tile(Location(y,x));
         if (this->scan_ == CastingScan::visibility)
         {
-            this->tile_->add_los_range(Location(y,x), sqrt(range_squared));
+            this->tile_->add_los_range(Location(y,x), static_cast<int>(sqrt(range_squared)));
         }
         else if (this->scan_ == CastingScan::illumination)
         {

@@ -73,6 +73,7 @@ public:
         std::shared_ptr<iThing> shared_this = this->shared_from_this();
         switch(this->ai_state_)
         {
+        default:
         case AiState::Wandering:
             // just wander around
             new_location = here.choose_random(here.all_adjacent_locations(), floor, shared_this);

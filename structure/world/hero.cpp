@@ -9,7 +9,7 @@ Hero::Hero(int sight_range) :
     sight_range_(sight_range)
 {}
 
-bool Hero::move()
+__attribute__((__noreturn__)) bool Hero::move()
 {
     throw std::domain_error("heroes do not move at random");
 }

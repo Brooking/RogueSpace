@@ -56,7 +56,7 @@ std::shared_ptr<Floor> make_standard(
         wall = std::make_shared<Wall>();
         wall->place(floor->tile(Location(row, wall_cell)));
     }
-    for (int row = hero->where().row()+1; row < floor->height()-1; row++)
+    for (unsigned int row = hero->where().row()+1; row < floor->height()-1; row++)
     {
         wall = std::make_shared<Wall>();
         wall->place(floor->tile(Location(row, wall_cell)));
@@ -67,9 +67,9 @@ std::shared_ptr<Floor> make_standard(
     wall->place(floor->tile(Location(2,floor->width()-3)));
 
     // diagonal walls
-    for (int row = 1; row < floor->height()-1; row++)
+    for (unsigned int row = 1; row < floor->height()-1; row++)
     {
-        if (row == hero->where().row())
+        if (row == static_cast<unsigned int>(hero->where().row()))
         {
             continue;
         }
@@ -151,7 +151,7 @@ std::shared_ptr<Floor> make_full(
     static int room_width_vary = 4;
     std::vector<int> north_walls_cells(1,0);
     srand(1);
-    int wall_cell = min_room_width + (rand() % room_width_vary);
+    unsigned int wall_cell = min_room_width + (rand() % room_width_vary);
     while (wall_cell < floor->width() - (min_room_width-1)) {
         north_walls_cells.push_back(wall_cell);
         wall_cell += min_room_width + (rand() % room_width_vary);
@@ -218,11 +218,11 @@ std::shared_ptr<Floor> make_full(
 void wall_border(std::shared_ptr<Floor> floor)
 {
     std::shared_ptr<Wall> wall;
-    for (int row = 0; row < floor->height(); row++)
+    for (unsigned int row = 0; row < floor->height(); row++)
     {
         if (row == 0 || row == floor->height()-1)
         {
-            for (int cell = 0; cell < floor->width(); cell++)
+            for (unsigned int cell = 0; cell < floor->width(); cell++)
             {
                 wall = std::make_shared<Wall>();
                 wall->place(floor->tile(Location(row,cell)));

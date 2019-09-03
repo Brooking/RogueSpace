@@ -51,7 +51,7 @@ public:
     bool remove(std::shared_ptr<iThing> thing);
 
     // how many thing are on this tile
-    int num_things() const { return this->things_.size(); }
+    long unsigned int num_things() const { return this->things_.size(); }
 
     // array notation thing accessor
     const std::shared_ptr<iThing> thing(int i) const { return this->things_[i]; }

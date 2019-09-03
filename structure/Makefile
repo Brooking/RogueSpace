@@ -9,12 +9,73 @@ clean:
 	rm -f lib/*.a
 	rm -f obj/*.o
 
-# definitions	
+
+# not including these warnings
+#  -Waggregate return because I like treating Locations as a value type
+#  -Wmissing   braces misidentifies 2 sets of missing braces
+#  -Wpadded    haven't grocked this stuff yet
+#  -ansi       messes up enum::value formatting 
+c++warnings=-pedantic \
+	-pedantic-errors \
+	-Wall \
+	-Wcast-align \
+	-Wcast-qual \
+	-Wchar-subscripts \
+    -Wcomment\
+    -Wconversion  \
+	-Wdisabled-optimization \
+	-Weffc++ \
+	-Werror \
+	-Wextra \
+	-Wfloat-equal \
+	-Wformat \
+    -Wformat=2 \
+	-Wformat-nonliteral \
+	-Wformat-security \
+	-Wformat-y2k \
+	-Wimport \
+	-Winline \
+	-Winit-self \
+	-Winvalid-pch \
+	-Wlong-long \
+	-Wmissing-field-initializers \
+	-Wmissing-format-attribute \
+	-Wmissing-include-dirs \
+	-Wmissing-noreturn \
+	-Wno-long-long \
+	-Wpacked \
+	-Wparentheses \
+	-Wpointer-arith \
+	-Wredundant-decls \
+	-Wreturn-type \
+	-Wsequence-point \
+	-Wshadow \
+	-Wsign-compare \
+	-Wstack-protector \
+	-Wstrict-aliasing \
+	-Wstrict-aliasing=2 \
+	-Wswitch \
+    -Wswitch-default \
+	-Wswitch-enum \
+	-Wtrigraphs \
+	-Wuninitialized \
+	-Wunknown-pragmas \
+	-Wunreachable-code \
+	-Wunsafe-loop-optimizations \
+    -Wunused-function \
+	-Wunused-label \
+	-Wunused-parameter \
+    -Wunused-value \
+	-Wunused-variable \
+	-Wunused \
+	-Wvariadic-macros \
+    -Wvolatile-register-var \
+	-Wwrite-strings
+
 c++compile=g++
 c++standard=-std=c++11
 c++debug=-ggdb3 -O0
 #c++debug=-O3 for production
-c++warnings=-Wall -Wextra -Werror -pedantic -Wshadow -Weffc++
 #c++warnings=-Wall -Wextra -Werror -pedantic -Wshadow -Weffc++ -Wstrict-aliasing -Wunreachable-code -Wno-long-long -ansi 
 c++profiling=-g -pg -fprofile-arcs -ftest-coverage
 c++command=$(c++compile) $(c++standard) $(c++debug) $(c++warnings)

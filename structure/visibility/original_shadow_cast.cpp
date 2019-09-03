@@ -18,8 +18,8 @@ void cast_light(iMap& map, uint x, uint y, uint radius, uint row,
     for (uint i = row; i <= radius; i++) {
         bool blocked = false;
         for (int dx = -i, dy = -i; dx <= 0; dx++) {
-            float l_slope = (dx - 0.5) / (dy + 0.5);
-            float r_slope = (dx + 0.5) / (dy - 0.5);
+            float l_slope = static_cast<float>((dx - 0.5) / (dy + 0.5));
+            float r_slope = static_cast<float>((dx + 0.5) / (dy - 0.5));
             if (start_slope < r_slope) {
                 continue;
             } else if (end_slope > l_slope) {

@@ -40,14 +40,14 @@ public:
         {
             return INT_MAX;
         }
-        return sqrt(range_squared);
+        return static_cast<uint>(sqrt(range_squared));
     }
     
     // iMap: Return the width of the map.
-    virtual uint get_width() const { return this->map[0].size(); }
+    virtual uint get_width() const { return static_cast<uint>(this->map[0].size()); }
 
     // iMap: Return the height of the map.
-    virtual uint get_height() const { return this->map.size(); }
+    virtual uint get_height() const { return static_cast<uint>(this->map.size()); }
 
     // set a position to opaque
     void set_opaque(uint cell, uint row, bool opaque) { this->map[row][cell].opaque = opaque; }

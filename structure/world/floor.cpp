@@ -55,8 +55,8 @@ UIToken Floor::token(int row, int cell)
 
 std::shared_ptr<Tile> Floor::tile(Location location)
 {
-    if (location.row() >= this->height() || location.row() < 0 ||
-        location.cell() >= this->width() || location.cell() < 0 )
+    if (location.row() >= static_cast<int>(this->height()) || location.row() < 0 ||
+        location.cell() >= static_cast<int>(this->width()) || location.cell() < 0 )
     {
         return nullptr;
     }

@@ -12,7 +12,7 @@ class IconData
 public:
     constexpr IconData(
         UIToken token, 
-        unsigned long symbol, 
+        unsigned int symbol, 
         io::Color foreground, 
         io::Color background = io::Color::BLACK) 
     :
@@ -31,13 +31,13 @@ public:
     UIToken token() const { return this->token_; }
     io::Color foreground() const { return this->foreground_; }
     io::Color background() const { return this->background_; }
-    unsigned long symbol() const { return this->symbol_; }
+    unsigned int symbol() const { return this->symbol_; }
 
 private:
     UIToken token_;
     io::Color foreground_;
     io::Color background_;
-    unsigned long symbol_;
+    unsigned int symbol_;
 };
 
 //

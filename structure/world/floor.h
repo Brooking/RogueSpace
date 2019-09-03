@@ -21,10 +21,10 @@ public:
     virtual bool register_update(std::shared_ptr<iUpdate> update_interface) override;
 
     // iFloor: returns the height (number of rows)
-    virtual int height() override { return tile_.size(); }
+    virtual unsigned int height() override { return static_cast<unsigned int>(tile_.size()); }
 
     // iFloor: returns the width (number of cells per row)
-    virtual int width() override { return tile_[0].size(); }
+    virtual unsigned int width() override { return static_cast<unsigned int>(tile_[0].size()); }
 
     // iFloor: returns the ui token for a given location
     virtual UIToken token(int row, int cell) override;

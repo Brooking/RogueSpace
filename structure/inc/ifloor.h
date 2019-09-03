@@ -17,10 +17,10 @@ public:
     virtual bool register_update(std::shared_ptr<iUpdate> update_interface) = 0;
 
     // the height of the floor (number of rows)
-    virtual int height() = 0;
+    virtual unsigned int height() = 0;
 
     // the width of the floor (number of cells per row)
-    virtual int width() = 0;
+    virtual unsigned int width() = 0;
 
     // the current ui token at the given location
     virtual UIToken token(int row, int cell) = 0;

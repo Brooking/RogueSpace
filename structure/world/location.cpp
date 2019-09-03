@@ -24,6 +24,7 @@ Location Location::apply_direction(Direction direction) const
             return Location(this->row(), this->cell()-1);
         case Direction::NorthWest:
             return Location(this->row()-1, this->cell()-1);
+        case Direction::none:
         default:
             return *this;
     }
@@ -70,7 +71,7 @@ Location Location::choose_random(std::vector<Location> locations, std::shared_pt
 {
     while (locations.size() > 0)
     {
-        int index = rand() % locations.size();
+        int index = static_cast<int>(rand() % locations.size());
         if (floor->tile(locations[index])->there_is_room(thing))
         {
             // we can move here

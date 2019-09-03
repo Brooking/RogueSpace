@@ -59,8 +59,8 @@ int main()
     std::vector<std::shared_ptr<iThing>> monsters;
     do
     {
-        int ch = screen->get_key_input();
-        switch(ch)
+        int key = screen->get_key_input();
+        switch(key)
         {
             case '1':
                 floor = make_mini(screen, hero, monsters);
@@ -77,6 +77,9 @@ int main()
             case 'q':
             case 'Q':
                 return 0;
+
+            default:
+                break;
         }
     } while (floor == nullptr);
     

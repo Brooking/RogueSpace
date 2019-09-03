@@ -31,13 +31,13 @@ public:
     io::Color background_color() { return this->background_color_; }
 
     // the symbol to show
-    unsigned long symbol() { return this->symbol_; }
+    unsigned int symbol() { return this->symbol_; }
 
 private:
     UIToken token_;
     io::Color foreground_color_;
     io::Color background_color_;
-    unsigned long symbol_;
+    unsigned int symbol_;
 };
 
 #endif // _icon_h_
