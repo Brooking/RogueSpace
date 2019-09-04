@@ -18,6 +18,12 @@
   - [x] consistent virtual/override usage
   - [ ] select char appears in terminal after execution stops
   - [ ] both sides of walls are illuminated (translucent)
+  - [ ] enhance token system
+    - [ ] move wall shape to world
+    - [ ] implement lit directionality
+    - [ ] break none/seen/visible/lit out of token
+  - [ ] move visibility tools underneath world
+  - [ ] move io underneath ui
 
 ### Input
 #### Keyboard
@@ -41,9 +47,14 @@
   - [x] implement colors
   - [x] show white visible stuff & grey 'seen' stuff
 ### Windows
-  - [ ] implement panes
-    - [ ] make iWindow
-    - [ ] finish iUpdate system for pane updates
+  - [x] implement mosaic (container)
+  - [x] implement panes
+    - [x] make iPane
+    - [x] finish iUpdate system for pane updates
+    - [ ] normalize start+size vs. sides rect representation
+    - [ ] make each pane a Rect (or iRect) for convenience
+    - [ ] make self sizing panes attached to walls
+      - [ ] keep having immutable panes...
   - [x] implement status pane for hero
     - [ ] implement stats for hero
     - [ ] status pane should dictate its own size
@@ -73,6 +84,7 @@
   - [x] lights color structures yellow
   - [x] differentiate between "in FOV+lit" and "in FOV+in sight"
   - [x] may need to store range with FOV entries
+  - [ ] add directional lighting perception
 #### Hero
   - [x] Add sight distance
 #### Visibility

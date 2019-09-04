@@ -6,11 +6,18 @@ StatusPane::StatusPane(
     unsigned int screen_cell,
     unsigned int height,
     unsigned int width)
-    :
-    screen_(screen), hero_(hero), window_(nullptr)
+:
+    screen_(screen), hero_(hero), window_(nullptr),
+    screen_row_(screen_row), screen_cell_(screen_cell), 
+    height_(height), width_(width)
 {
     this->window_ = this->screen_->create_window(screen_row, screen_cell, height, width);
 
+    // we do not automaticaly fill or refresh, we await other's orders
+}
+
+void StatusPane::refill()
+{
     // paint the background
     for (unsigned int row = 0; row < this->window_->height(); row++)
     {
@@ -20,9 +27,12 @@ StatusPane::StatusPane(
         }
     }
 
-    // update with current data
     this->update();
-    this->refresh();
+}
+
+void StatusPane::refresh()
+{
+    this->window_->refresh();
 }
 
 bool StatusPane::update(unsigned int, unsigned int, bool center)
@@ -32,11 +42,6 @@ bool StatusPane::update(unsigned int, unsigned int, bool center)
         return this->update();
     }
     return false;
-}
-
-void StatusPane::refresh()
-{
-    this->window_->refresh();
 }
 
 bool StatusPane::update()

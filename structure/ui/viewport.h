@@ -3,6 +3,7 @@
 
 #include "io_constants.h"
 #include "ifloor.h"
+#include "ipane.h"
 #include "iupdate.h"
 #include "screen.h"
 #include "window.h"
@@ -10,7 +11,7 @@
 //
 // a pane that shows the world from above
 //
-class Viewport : public iUpdate
+class Viewport final : public iPane
 {
 public:
     Viewport(
@@ -22,34 +23,54 @@ public:
         unsigned int width, 
         unsigned int center_row,
         unsigned int center_cell);
-    virtual ~Viewport() {
+    ~Viewport() {
         this->screen_ = nullptr;
     }
 
-    // iUpdate: an update notification from the world
-    virtual bool update(unsigned int row, unsigned int cell, bool center = false) override;
+    // iPane: get the screen
+    std::shared_ptr<io::Screen> screen() const override { return this->screen_; };
 
-    // time to implement all of the updates (normally called from the game)
+    // iUpdate: a sepecific update notification from the world
+    bool update(unsigned int row, unsigned int cell, bool center = false) override;
+
+    // iUpdate: a general update notification from the world
+    bool update() override;
+
+    // iPane: get the screen row
+    unsigned int screen_row() const override { return this->screen_row_; }
+
+    // iPane: get the screen cell
+    unsigned int screen_cell() const override { return this->screen_cell_; }
+
+    // iPane: get the pane height
+    unsigned int height() const override { return this->height_; }
+
+    // iPane: get the pane width
+    unsigned int width() const override { return this->width_; }
+
+    // iPane: completely refill the pane (includes a full update)
+    void refill() override;
+
+    // iPane: time to implement all of the updates (normally called from the game)
     void refresh();
 
     // get this viewport's parent screen
     std::shared_ptr<io::Screen> screen() { return this->screen_; }
 
 private:
-    // update all spots in the window
-    bool full_update();
-
     // update a given spot in the window
     bool update_worker(unsigned int row, unsigned int cell);
 
     // update the center (and if it moves update the whole window)
-    bool update_center(unsigned int center_row, unsigned int center_cell);  
+    bool update_center(unsigned int center_row, unsigned int center_cell, bool update);
 
 private:
     std::shared_ptr<io::Screen> screen_;
     std::shared_ptr<io::Window> window_;
     std::shared_ptr<iFloor> floor_;
 
+    unsigned int screen_row_;
+    unsigned int screen_cell_;
     unsigned int height_;
     unsigned int width_;
     int window_origin_row_offset_from_floor_;

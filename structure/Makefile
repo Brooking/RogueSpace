@@ -113,7 +113,14 @@ world_includes= \
 	world/thing_base.h \
 	world/tile.h \
 	world/wall.h
-ui_includes=ui/icon.h ui/viewport.h ui/statuspane.h
+ui_includes=\
+	ui/blank_pane.h \
+	ui/icon.h \
+	ui/ipane.h \
+	ui/mosaic.h \
+	ui/rect.h \
+	ui/viewport.h \
+	ui/statuspane.h 
 vis_includes= \
 	visibility/imap.h \
 	visibility/los.h \
@@ -219,11 +226,17 @@ lib/libio.a : \
 		obj/window.o
 
 lib/libui.a : \
+		obj/blank_pane.o \
 		obj/icon.o \
+		obj/mosaic.o \
+		obj/rect.o \
 		obj/statuspane.o \
 		obj/viewport.o
 	ar crf lib/libui.a \
+		obj/blank_pane.o \
 		obj/icon.o \
+		obj/mosaic.o \
+		obj/rect.o \
 		obj/statuspane.o \
 		obj/viewport.o
 
@@ -294,6 +307,14 @@ obj/tile.o : \
 		-o obj/tile.o
 
 # UI objects
+obj/blank_pane.o : \
+		$(common_includes) \
+		$(ui_includes) \
+		ui/blank_pane.cpp
+	$(c++command) $(common_include_dirs) \
+		-c ui/blank_pane.cpp \
+		-o obj/blank_pane.o
+
 obj/icon.o : \
 		$(common_includes) \
 		$(ui_includes) \
@@ -301,6 +322,22 @@ obj/icon.o : \
 	$(c++command) $(common_include_dirs) \
 		-c ui/icon.cpp \
 		-o obj/icon.o
+
+obj/mosaic.o : \
+		$(common_includes) \
+		$(ui_includes) \
+		ui/mosaic.cpp
+	$(c++command) $(common_include_dirs) \
+		-c ui/mosaic.cpp \
+		-o obj/mosaic.o
+
+obj/rect.o : \
+		$(common_includes) \
+		$(ui_includes) \
+		ui/rect.cpp
+	$(c++command) $(common_include_dirs) \
+		-c ui/rect.cpp \
+		-o obj/rect.o
 
 obj/statuspane.o : \
 		$(common_includes) \

@@ -5,14 +5,17 @@
 #include "generator.h"
 #include "../io/screen.h"
 #include "../io/rawcurses.h"
+#include "../ui/mosaic.h"
 #include "../ui/statuspane.h"
 #include "../ui/viewport.h"
 #include "../world/floor.h"
 #include "../world/hero.h"
 #include "../world/wall.h"
 
-void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, std::vector<std::shared_ptr<iThing>> monsters);
-void fill_floor(std::shared_ptr<Floor> floor, std::shared_ptr<Hero> hero);
+void game_loop(
+    std::shared_ptr<Mosaic> mosaic, 
+    std::shared_ptr<Hero> hero, 
+    std::vector<std::shared_ptr<iThing>> monsters);
 
 int main()
 {
@@ -89,7 +92,7 @@ int main()
             screen, floor, 
             /*screen_row*/0, /*screen_cell*/5,
             screen->height(), 
-            screen->width(), 
+            screen->width() - 5, 
             hero->where().row(),
             hero->where().cell());
     floor->register_update(viewport);
@@ -102,20 +105,30 @@ int main()
             /*screen_row*/0, /*screen_cell*/0,
             screen->height(), /*width*/5);
 
+    std::shared_ptr<Mosaic> mosaic = std::make_shared<Mosaic>(screen);
+    bool status_added = mosaic->add(status);
+    bool viewport_added = mosaic->add(viewport);
+    assert(status_added && viewport_added);
+    mosaic->refill();
+    mosaic->refresh();
+
     // start the game loop
-    game_loop(viewport, hero, monsters);
+    game_loop(mosaic, hero, monsters);
 
     return 0;
 }
 
-void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, std::vector<std::shared_ptr<iThing>> monsters)
+void game_loop(
+    std::shared_ptr<Mosaic> mosaic, 
+    std::shared_ptr<Hero> hero, 
+    std::vector<std::shared_ptr<iThing>> monsters)
 {
     unsigned int key;
     bool done = false;
     while(!done) 
     {
         // get and decode input
-        key = viewport->screen()->get_key_input();
+        key = mosaic->screen()->get_key_input();
         Direction direction = Direction::none;
         if (KeyToDirection.count(key) > 0)
         {
@@ -127,12 +140,18 @@ void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, s
             {
                 case 'q':
                 case 'Q':
+                    // quit
                     done = true;
                     continue;
 
                 case ' ':
                     // space is stand for a turn
                     break;
+
+                case '\t':
+                    // tab brings up map
+                    // todo
+                    continue;
 
                 default:
                     // for anything else, we go back for more input
@@ -145,6 +164,6 @@ void game_loop(std::shared_ptr<Viewport> viewport, std::shared_ptr<Hero> hero, s
         {
             monster->move();
         }
-        viewport->refresh();
+        mosaic->refresh();
     }
 }
