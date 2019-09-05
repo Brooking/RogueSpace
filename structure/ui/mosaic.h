@@ -5,7 +5,7 @@
 #include <vector>
 #include "ipane.h"
 #include "../inc/iupdate.h"
-#include "io/screen.h"
+#include "iscreen.h"
 
 //
 // The 'window' that holds all of the panes
@@ -17,10 +17,10 @@
 class Mosaic : public iPane
 {
 public:
-    Mosaic(std::shared_ptr<io::Screen> screen);
+    Mosaic(std::shared_ptr<iScreen> screen);
 
     // iPane: get the screen
-    std::shared_ptr<io::Screen> screen() const override { return this->screen_; };
+    std::shared_ptr<iScreen> screen() const override { return this->screen_; };
 
     // iUpdate: update the mosaic for a single spot
     bool update(unsigned int row, unsigned int cell, bool center = false) override;
@@ -56,7 +56,7 @@ public:
     bool overlay(std::shared_ptr<iPane> pane);
 
 private:
-    std::shared_ptr<io::Screen> screen_;
+    std::shared_ptr<iScreen> screen_;
     std::vector<std::shared_ptr<iPane>> panes_;
     std::shared_ptr<iPane> blank_pane_;
     std::vector<std::shared_ptr<iPane>> covered_panes_;

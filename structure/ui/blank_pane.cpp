@@ -1,8 +1,8 @@
 #include "blank_pane.h"
-#include "io/window.h"
+#include "iwindow.h"
 
 BlankPane::BlankPane(
-    std::shared_ptr<io::Screen> screen, 
+    std::shared_ptr<iScreen> screen, 
     unsigned int screen_row, 
     unsigned int screen_cell,
     unsigned int height,
@@ -16,6 +16,12 @@ BlankPane::BlankPane(
 
     // we do not automaticaly fill or refresh, we await other's orders
 }
+
+bool BlankPane::update(unsigned int /*row*/, unsigned int /*cell*/, bool /*center*/)
+{ 
+    return false;
+}
+
 
 void BlankPane::refill()
 {

@@ -3,8 +3,9 @@
 #include <memory>
 #include "io_constants.h"
 #include "generator.h"
-#include "../ui/io/screen.h"
+#include "iscreen.h"
 #include "../ui/io/rawcurses.h"
+#include "../ui/io/screen.h"
 #include "../ui/mosaic.h"
 #include "../ui/statuspane.h"
 #include "../ui/viewport.h"
@@ -21,7 +22,7 @@ int main()
 {
     // initialize the screen
     std::shared_ptr<iCurses> curses = std::make_shared<io::RawCurses>();
-    std::shared_ptr<io::Screen> screen = io::Screen::open_screen(curses);
+    std::shared_ptr<iScreen> screen = io::Screen::open_screen(curses);
 
     // Print a welcome message and wait until the user presses a key
     screen->add("Welcome to the ", io::Color::YELLOW, io::Color::BLACK);

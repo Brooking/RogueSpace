@@ -4,7 +4,7 @@
 #include "viewport.h"
 
 Viewport::Viewport(
-    std::shared_ptr<io::Screen> screen, 
+    std::shared_ptr<iScreen> screen, 
     std::shared_ptr<iFloor> floor, 
     unsigned int screen_row,
     unsigned int screen_cell, 
@@ -71,13 +71,22 @@ bool Viewport::update_worker(unsigned int row, unsigned int cell)
     UIToken token = this->floor_->token(floor_row, floor_cell);
     if (is_wall(token))
     {
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::North)] = is_wall(this->floor_->token(floor_row-1, floor_cell));
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::East)] = is_wall(this->floor_->token(floor_row, floor_cell+1));
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::South)] = is_wall(this->floor_->token(floor_row+1, floor_cell));
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::West)] = is_wall(this->floor_->token(floor_row, floor_cell-1));
+        adjacency[static_cast<unsigned int>(AdjacentWallBits::North)] = 
+            is_wall(this->floor_->token(floor_row-1, floor_cell));
+        adjacency[static_cast<unsigned int>(AdjacentWallBits::East)] = 
+            is_wall(this->floor_->token(floor_row, floor_cell+1));
+        adjacency[static_cast<unsigned int>(AdjacentWallBits::South)] = 
+            is_wall(this->floor_->token(floor_row+1, floor_cell));
+        adjacency[static_cast<unsigned int>(AdjacentWallBits::West)] = 
+            is_wall(this->floor_->token(floor_row, floor_cell-1));
     }
    Icon icon(token, static_cast<int>(adjacency.to_ulong()));
-    this->window_->place_character(row, cell, icon.symbol(), icon.foreground_color(), icon.background_color());
+    this->window_->place_character(
+        row,
+        cell,
+        icon.symbol(),
+        icon.foreground_color(),
+        icon.background_color());
     return true;
 }
 

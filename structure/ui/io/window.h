@@ -7,12 +7,12 @@
 namespace io
 {
 
-class Window
+class Window : public iWindow
 {
 public:
     // construct a window
     Window(
-        std::shared_ptr<Screen> screen,
+        std::shared_ptr<iScreen> screen,
         unsigned int screen_row, 
         unsigned int screen_cell, 
         unsigned int num_rows, 
@@ -21,20 +21,22 @@ public:
     // destructor
     virtual ~Window();
 
-    // place a colored character at the given spot in the window
+    // iWindow: place a colored character at the given spot in the window
     void place_character(
         unsigned int row,
         unsigned int cell,
         unsigned int character,
         io::Color foreground,
-        io::Color background);
+        io::Color background) override;
 
-    // push all changes to the actual screen
-    void refresh();
+    // iWindow: push all changes to the actual screen
+    void refresh() override;
 
-    unsigned int height() const { return this->height_; }
+    // iWindow: height accessor
+    unsigned int height() const override { return this->height_; }
 
-    unsigned int width() const { return this->width_; }
+    // iWindow: width accessor
+    unsigned int width() const override { return this->width_; }
 
 private:
     // prohibit parameterless construction
@@ -45,7 +47,7 @@ private:
     Window& operator=(const Window&) = delete;
 
 private:
-    std::shared_ptr<Screen> screen_;
+    std::shared_ptr<iScreen> screen_;
     unsigned int screen_row_;
     unsigned int screen_cell_;
     unsigned int height_;

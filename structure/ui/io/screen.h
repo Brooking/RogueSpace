@@ -6,6 +6,7 @@
 #include <mutex>
 #include "io_constants.h"
 #include "icurses.h"
+#include "iscreen.h"
 
 namespace io
 {
@@ -19,39 +20,42 @@ class Window;
 // A fake singleton representing the screen
 // (it will throw if you ask for another...)
 //
-class Screen : public std::enable_shared_from_this<Screen>
+class Screen : public iScreen, public std::enable_shared_from_this<Screen>
 {
 public:
     // creator
-    static std::shared_ptr<io::Screen> open_screen(std::shared_ptr<iCurses> curses);
+    static std::shared_ptr<iScreen> open_screen(std::shared_ptr<iCurses> curses);
     virtual ~Screen();
 
-    // Print a colored message to the screen
+    // iScreen: Print a colored message to the screen
     void add(const char* Message, io::Color foreground, 
-        io::Color background = io::Color::BLACK);
+        io::Color background = io::Color::BLACK) override;
 
-    // Print a message to the screen
-    void add(const char* Message);
+    // iScreen: Print a message to the screen
+    void add(const char* Message) override;
 
-    // accessors
-    unsigned int width();
-    unsigned int height();
+    // iScreen: accessors
+    unsigned int width() const override;
+    unsigned int height() const override;
 
-    // create a window
-    std::shared_ptr<io::Window> create_window(
+    // iScreen: create a window
+    std::shared_ptr<iWindow> create_window(
         unsigned int screen_row, 
         unsigned int screen_cell, 
         unsigned int num_rows, 
-        unsigned int num_cells);
+        unsigned int num_cells) override;
 
-    // wait for a character
-    unsigned int get_key_input();
+    // iScreen: wait for a character
+    unsigned int get_key_input() override;
 
-    // get a colored character
-    unsigned int get_color_character(unsigned int character, io::Color foreground, io::Color background);
+    // iScreen: get a colored character
+    unsigned int get_color_character(
+        unsigned int character,
+        io::Color foreground,
+        io::Color background) override;
 
-    // get our curses interface
-    std::shared_ptr<iCurses> curses() { return this->curses_; }
+    // iScreen: get our curses interface
+    std::shared_ptr<iCurses> curses() const override { return this->curses_; }
 
 private:
     // Initialize the screen
@@ -73,7 +77,6 @@ private:
     unsigned int width_;
     unsigned int height_;
     unsigned int color_pair_index_;
-
 
     // index is pair<foreground,background>, value is index
     std::map<std::pair<io::Color,io::Color>,int> color_pairs_;

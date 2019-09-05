@@ -9,7 +9,7 @@ void wall_border(std::shared_ptr<Floor>);
 void make_wall(std::shared_ptr<Floor> floor, Location start, Location end);
 
 std::shared_ptr<Floor> make_mini(
-    std::shared_ptr<io::Screen>, 
+    std::shared_ptr<iScreen>, 
     std::shared_ptr<Hero>& hero, 
     std::vector<std::shared_ptr<iThing>>&)
 {
@@ -32,7 +32,7 @@ std::shared_ptr<Floor> make_mini(
 }
 
 std::shared_ptr<Floor> make_standard(
-    std::shared_ptr<io::Screen> screen, 
+    std::shared_ptr<iScreen> screen, 
     std::shared_ptr<Hero>& hero, 
     std::vector<std::shared_ptr<iThing>>& monsters)
 {
@@ -124,7 +124,7 @@ std::shared_ptr<Floor> make_standard(
 }
 
 std::shared_ptr<Floor> make_full(
-    std::shared_ptr<io::Screen> screen, 
+    std::shared_ptr<iScreen> screen, 
     std::shared_ptr<Hero>& hero, 
     std::vector<std::shared_ptr<iThing>>& monsters)
 {

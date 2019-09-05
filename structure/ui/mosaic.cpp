@@ -3,11 +3,12 @@
 #include "mosaic.h"
 #include "rect.h"
 
-Mosaic::Mosaic(std::shared_ptr<io::Screen> screen) : 
+Mosaic::Mosaic(std::shared_ptr<iScreen> screen) : 
     screen_(screen), panes_(), blank_pane_(), covered_panes_(),
     screen_row_(0), screen_cell_(0), height_(screen->height()), width_(screen->width())
 {
-    this->blank_pane_ = std::make_shared<BlankPane>(screen, 0, 0, screen->height(), screen->width());
+    this->blank_pane_ = std::make_shared<BlankPane>(
+        screen, 0, 0, screen->height(), screen->width());
 }
 
 bool Mosaic::update(unsigned int row, unsigned int cell, bool center)

@@ -3,8 +3,8 @@
 
 #include <memory>
 #include "ipane.h"
-#include "io/screen.h"
-#include "io/window.h"
+#include "iscreen.h"
+#include "iwindow.h"
 #include "../inc/io_constants.h"
 #include "../inc/iupdate.h"
 #include "../world/hero.h"
@@ -13,7 +13,7 @@ class StatusPane final : public iPane
 {
 public:
     StatusPane(
-        std::shared_ptr<io::Screen> screen, 
+        std::shared_ptr<iScreen> screen, 
         std::shared_ptr<Hero> hero,
         unsigned int screen_row, 
         unsigned int screen_cell,
@@ -23,7 +23,7 @@ public:
     ~StatusPane() {}
 
     // iPane: get the screen
-    std::shared_ptr<io::Screen> screen() const override { return this->screen_; };
+    std::shared_ptr<iScreen> screen() const override { return this->screen_; };
 
     // iUpdate: a specific update notification from the world
     bool update(unsigned int, unsigned int, bool center = false) override;
@@ -56,9 +56,9 @@ private:
     static const io::Color energy_foreground = io::Color::BLUE;
 
 private:
-    std::shared_ptr<io::Screen> screen_;
+    std::shared_ptr<iScreen> screen_;
     std::shared_ptr<Hero> hero_;
-    std::shared_ptr<io::Window> window_;
+    std::shared_ptr<iWindow> window_;
     unsigned int screen_row_;
     unsigned int screen_cell_;
     unsigned int height_;

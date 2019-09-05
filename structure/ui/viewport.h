@@ -4,9 +4,9 @@
 #include "io_constants.h"
 #include "ifloor.h"
 #include "ipane.h"
+#include "iscreen.h"
 #include "iupdate.h"
-#include "screen.h"
-#include "window.h"
+#include "iwindow.h"
 
 //
 // a pane that shows the world from above
@@ -15,7 +15,7 @@ class Viewport final : public iPane
 {
 public:
     Viewport(
-        std::shared_ptr<io::Screen> screen, 
+        std::shared_ptr<iScreen> screen, 
         std::shared_ptr<iFloor> floor,
         unsigned int screen_row,
         unsigned int screen_cell, 
@@ -28,7 +28,7 @@ public:
     }
 
     // iPane: get the screen
-    std::shared_ptr<io::Screen> screen() const override { return this->screen_; };
+    std::shared_ptr<iScreen> screen() const override { return this->screen_; };
 
     // iUpdate: a sepecific update notification from the world
     bool update(unsigned int row, unsigned int cell, bool center = false) override;
@@ -62,8 +62,8 @@ private:
     bool update_center(unsigned int center_row, unsigned int center_cell, bool update);
 
 private:
-    std::shared_ptr<io::Screen> screen_;
-    std::shared_ptr<io::Window> window_;
+    std::shared_ptr<iScreen> screen_;
+    std::shared_ptr<iWindow> window_;
     std::shared_ptr<iFloor> floor_;
 
     unsigned int screen_row_;

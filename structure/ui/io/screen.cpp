@@ -8,7 +8,7 @@
 bool io::Screen::used = false;
 std::mutex io::Screen::mutex;
 
-std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<iCurses> curses)
+std::shared_ptr<iScreen> io::Screen::open_screen(std::shared_ptr<iCurses> curses)
 {
     std::lock_guard<std::mutex> lock (io::Screen::mutex);
     if (io::Screen::used)
@@ -23,7 +23,12 @@ std::shared_ptr<io::Screen> io::Screen::open_screen(std::shared_ptr<iCurses> cur
 }
 
 io::Screen::Screen(std::shared_ptr<iCurses> curses) : 
-    curses_(curses), width_(0), height_(0), color_pair_index_(0), color_pairs_(), next_color_pair_index_(1)
+    curses_(curses), 
+    width_(0), 
+    height_(0), 
+    color_pair_index_(0), 
+    color_pairs_(), 
+    next_color_pair_index_(1)
 {
     // initialize the ncurses library
     curses_->initscr();
@@ -76,23 +81,28 @@ void io::Screen::add(const char* Message)
     curses_->printw(Message);
 }
 
-unsigned int io::Screen::height()
+unsigned int io::Screen::height() const
 {
     return this->height_;
 }
 
-unsigned int io::Screen::width()
+unsigned int io::Screen::width() const
 {
     return this->width_;
 }
 
-std::shared_ptr<io::Window> io::Screen::create_window(
+std::shared_ptr<iWindow> io::Screen::create_window(
     unsigned int screen_row, 
     unsigned int screen_cell, 
     unsigned int num_rows, 
     unsigned int num_cells)
 {
-    return std::make_shared<io::Window>(this->shared_from_this(), screen_row, screen_cell, num_rows, num_cells);
+    return std::make_shared<io::Window>(
+        this->shared_from_this(), 
+        screen_row, 
+        screen_cell, 
+        num_rows, 
+        num_cells);
 }                        
 
 unsigned int io::Screen::get_key_input()
@@ -100,7 +110,10 @@ unsigned int io::Screen::get_key_input()
     return this->curses_->getch_m();
 }
 
-unsigned int io::Screen::get_color_character(unsigned int character, io::Color foreground, io::Color background)
+unsigned int io::Screen::get_color_character(
+    unsigned int character, 
+    io::Color foreground, 
+    io::Color background)
 {
     unsigned int colorpair_index = this->get_colorpair_index(foreground, background);
     return character | static_cast<unsigned int>(COLOR_PAIR(colorpair_index));
@@ -118,7 +131,10 @@ unsigned int io::Screen::get_colorpair_index(io::Color foreground, io::Color bac
         this->curses_->init_pair(static_cast<short>(this->next_color_pair_index_), 
             static_cast<short>(foreground), static_cast<short>(background));
         color_pair_index = this->next_color_pair_index_;
-        this->color_pairs_.insert(std::pair<std::pair<io::Color,io::Color>,int>(color_pair, color_pair_index));
+        this->color_pairs_.insert(
+            std::pair<std::pair<io::Color,io::Color>,int>(
+                color_pair, 
+                color_pair_index));
         this->next_color_pair_index_++;
     }
     else

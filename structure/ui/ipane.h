@@ -2,7 +2,7 @@
 #define _ipane_h_
 
 #include "../inc/iupdate.h"
-#include "io/screen.h"
+#include "iscreen.h"
 
 //
 // interface to a single pane
@@ -13,7 +13,7 @@ public:
     virtual ~iPane() {}
 
     // get the screen
-    virtual std::shared_ptr<io::Screen> screen() const = 0;
+    virtual std::shared_ptr<iScreen> screen() const = 0;
 
     // get the screen row
     virtual unsigned int screen_row() const = 0;

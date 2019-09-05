@@ -9,27 +9,27 @@ clean:
 	rm -f lib/*.a
 	rm -f obj/*.o
 
-
 # not including these warnings
 #  -Waggregate return because I like treating Locations as a value type
 #  -Wmissing   braces misidentifies 2 sets of missing braces
 #  -Wpadded    haven't grocked this stuff yet
 #  -ansi       messes up enum::value formatting 
-c++warnings=-pedantic \
+c++warnings= \
+	-pedantic \
 	-pedantic-errors \
 	-Wall \
 	-Wcast-align \
 	-Wcast-qual \
 	-Wchar-subscripts \
-    -Wcomment\
-    -Wconversion  \
+	-Wcomment\
+	-Wconversion  \
 	-Wdisabled-optimization \
 	-Weffc++ \
 	-Werror \
 	-Wextra \
 	-Wfloat-equal \
 	-Wformat \
-    -Wformat=2 \
+	-Wformat=2 \
 	-Wformat-nonliteral \
 	-Wformat-security \
 	-Wformat-y2k \
@@ -55,21 +55,21 @@ c++warnings=-pedantic \
 	-Wstrict-aliasing \
 	-Wstrict-aliasing=2 \
 	-Wswitch \
-    -Wswitch-default \
+	-Wswitch-default \
 	-Wswitch-enum \
 	-Wtrigraphs \
 	-Wuninitialized \
 	-Wunknown-pragmas \
 	-Wunreachable-code \
 	-Wunsafe-loop-optimizations \
-    -Wunused-function \
+	-Wunused-function \
 	-Wunused-label \
 	-Wunused-parameter \
-    -Wunused-value \
+	-Wunused-value \
 	-Wunused-variable \
 	-Wunused \
 	-Wvariadic-macros \
-    -Wvolatile-register-var \
+	-Wvolatile-register-var \
 	-Wwrite-strings
 
 c++compile=g++
@@ -105,6 +105,8 @@ common_includes= \
 	inc/direction.h \
 	inc/ifloor.h \
 	inc/io_constants.h \
+	inc/iscreen.h \
+	inc/iwindow.h \
 	inc/iupdate.h \
 	inc/uitokens.h
 io_includes= \
