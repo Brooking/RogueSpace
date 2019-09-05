@@ -2,7 +2,7 @@
 #include "floor.h"
 #include "hero.h"
 #include "map_for_casting.h"
-#include "../visibility/original_shadow_cast.h"
+#include "visibility/original_shadow_cast.h"
 
 Hero::Hero(unsigned int sight_range) : 
     ThingBase(UIToken::hero, ContentSize::large, /*center*/true),

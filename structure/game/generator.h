@@ -2,7 +2,7 @@
 #define _generator_h_
 
 #include <memory>
-#include "../io/screen.h"
+#include "../ui/io/screen.h"
 #include "../world/floor.h"
 
 // make the mini screen

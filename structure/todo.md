@@ -16,14 +16,14 @@
   - [ ] Move everything up one directory
   - [x] coalesce mini+main
   - [x] consistent virtual/override usage
-  - [ ] select char appears in terminal after execution stops
+  - [x] select char appears in terminal after execution stops
   - [ ] both sides of walls are illuminated (translucent)
   - [ ] enhance token system
     - [ ] move wall shape to world
     - [ ] implement lit directionality
     - [ ] break none/seen/visible/lit out of token
-  - [ ] move visibility tools underneath world
-  - [ ] move io underneath ui
+  - [x] move visibility tools underneath world
+  - [x] move io underneath ui
 
 ### Input
 #### Keyboard

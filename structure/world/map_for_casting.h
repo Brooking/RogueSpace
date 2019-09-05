@@ -3,7 +3,7 @@
 
 #include <memory>
 #include "tile.h"
-#include "../visibility/original_shadow_cast.h"
+#include "visibility/original_shadow_cast.h"
 
 enum class CastingScan
 {

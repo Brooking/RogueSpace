@@ -1,7 +1,7 @@
 #include <iostream>
 #include "catch.hpp"
 #include "icurses_mock.h"
-#include "../io/screen.h"
+#include "../ui/io/screen.h"
 
 
 TEST_CASE("testcase", "[category]")

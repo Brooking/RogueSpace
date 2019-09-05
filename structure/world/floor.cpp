@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include "floor.h"
 #include "map_for_casting.h"
-#include "../visibility/original_shadow_cast.h"
+#include "visibility/original_shadow_cast.h"
 
 std::shared_ptr<Floor> Floor::create(unsigned int height, unsigned int width)
 {

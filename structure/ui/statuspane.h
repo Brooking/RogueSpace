@@ -3,10 +3,10 @@
 
 #include <memory>
 #include "ipane.h"
+#include "io/screen.h"
+#include "io/window.h"
 #include "../inc/io_constants.h"
 #include "../inc/iupdate.h"
-#include "../io/screen.h"
-#include "../io/window.h"
 #include "../world/hero.h"
 
 class StatusPane final : public iPane

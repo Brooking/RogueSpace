@@ -1,5 +1,5 @@
 #include "blank_pane.h"
-#include "../io/window.h"
+#include "io/window.h"
 
 BlankPane::BlankPane(
     std::shared_ptr<io::Screen> screen, 

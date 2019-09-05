@@ -1,9 +1,9 @@
 #include "generator.h"
-#include "../visibility/los.h"
 #include "../world/bee.h"
 #include "../world/dog.h"
 #include "../world/rat.h"
 #include "../world/wall.h"
+#include "../world/visibility/los.h"
 
 void wall_border(std::shared_ptr<Floor>);
 void make_wall(std::shared_ptr<Floor> floor, Location start, Location end);

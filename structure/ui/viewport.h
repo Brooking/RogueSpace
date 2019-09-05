@@ -54,9 +54,6 @@ public:
     // iPane: time to implement all of the updates (normally called from the game)
     void refresh();
 
-    // get this viewport's parent screen
-    std::shared_ptr<io::Screen> screen() { return this->screen_; }
-
 private:
     // update a given spot in the window
     bool update_worker(unsigned int row, unsigned int cell);

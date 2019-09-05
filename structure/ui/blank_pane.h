@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 #include "ipane.h"
-#include "../io/screen.h"
+#include "io/screen.h"
 
 //
 // A blank pane to take up the spaces between real panes

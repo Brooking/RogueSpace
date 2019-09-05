@@ -3,8 +3,8 @@
 #include <memory>
 #include "io_constants.h"
 #include "generator.h"
-#include "../io/screen.h"
-#include "../io/rawcurses.h"
+#include "../ui/io/screen.h"
+#include "../ui/io/rawcurses.h"
 #include "../ui/mosaic.h"
 #include "../ui/statuspane.h"
 #include "../ui/viewport.h"

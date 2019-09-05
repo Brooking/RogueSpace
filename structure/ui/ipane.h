@@ -2,7 +2,7 @@
 #define _ipane_h_
 
 #include "../inc/iupdate.h"
-#include "../io/screen.h"
+#include "io/screen.h"
 
 //
 // interface to a single pane
