@@ -6,25 +6,26 @@
   - [x] not showing @ on start
   - [x] blank spot follows @
   - [x] in-sight circle lags behind hero
+  - [x] coalesce mini+main
+  - [x] consistent virtual/override usage
+  - [x] select char appears in terminal after execution stops
+  - [ ] both sides of walls are illuminated (translucent)
+### Structure
+  - [ ] Rectify hero being known to the floor(?)
   - [x] smart pointers for all world objects
     - [x] shared_from_this
       - [x] Hero
       - [x] Floor
     - [x] ~Screen not getting called
     - [x] things should not self place
-  - [ ] Rectify hero being known to the floor(?)
   - [ ] Move everything up one directory
-  - [x] coalesce mini+main
-  - [x] consistent virtual/override usage
-  - [x] select char appears in terminal after execution stops
-  - [ ] both sides of walls are illuminated (translucent)
+  - [x] Create a common library
   - [ ] enhance token system
     - [ ] move wall shape to world
     - [ ] implement lit directionality
     - [ ] break none/seen/visible/lit out of token
   - [x] move visibility tools underneath world
   - [x] move io underneath ui
-
 ### Input
 #### Keyboard
   - [x] add diagonal input

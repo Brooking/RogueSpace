@@ -9,3 +9,6 @@ echo vistests
 
 echo worldtests
 ./worldtests.out
+
+echo commontests
+./commontests.out

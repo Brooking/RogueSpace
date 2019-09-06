@@ -1,5 +1,6 @@
 all: \
 		game.out \
+		commontests.out \
 		iotests.out \
 		vistests.out \
 		worldtests.out
@@ -108,6 +109,7 @@ common_includes= \
 	inc/iscreen.h \
 	inc/iwindow.h \
 	inc/iupdate.h \
+	inc/location.h \
 	inc/uitokens.h
 io_includes= \
 	ui/io/rawcurses.h \
@@ -119,7 +121,6 @@ world_includes= \
 	world/floor.h \
 	world/hero.h \
 	world/ithing.h \
-	world/location.h \
 	world/map_for_casting.h \
 	world/monster_base.h \
 	world/rat.h \
@@ -154,6 +155,7 @@ game.out: \
 		$(lib_dir) \
 		obj/main.o \
 		obj/generator.o \
+		-lcommon \
 		-lworld \
 		-lui \
 		-lio \
@@ -179,8 +181,8 @@ vistests.out : \
 		test/los_test.cpp \
 		test/pathfinder_test.cpp \
 		test/dijkstra_test.cpp \
+		-lcommon \
 		-lvisibility \
-		-lworld \
 		-o vistests.out
 
 worldtests.out : \
@@ -209,6 +211,7 @@ worldtests.out : \
 		test/template_test.cpp \
 		test/tile_test.cpp \
 		test/wall_test.cpp \
+		-lcommon \
 		-lworld \
 		-lvisibility \
 		-o worldtests.out
@@ -225,10 +228,16 @@ iotests.out : \
 		-DPROTECTED_ACCESS=public \
 		test/main.cpp \
 		test/screen_test.cpp \
+		-lcommon \
 		-lio \
 		-o iotests.out
 
 # Libraries
+lib/libcommon.a : \
+		obj/location.o
+	ar crf lib/libcommon.a \
+		obj/location.o
+
 lib/libio.a : \
 		obj/rawcurses.o \
 		obj/screen.o \
@@ -277,6 +286,14 @@ lib/libworld.a : \
 		obj/hero.o \
 		obj/tile.o
 
+# common objects
+obj/location.o : \
+		$(common_includes) \
+		common/location.cpp
+	$(c++command) $(common_include_dirs) \
+		-c common/location.cpp \
+		-o obj/location.o
+
 # world objects
 obj/floor.o : \
 		$(common_includes) \
@@ -293,14 +310,6 @@ obj/hero.o : \
 	$(c++command) $(world_include_dirs) \
 		-c world/hero.cpp \
 		-o obj/hero.o
-
-obj/location.o : \
-		$(common_includes) \
-		$(world_includes) \
-		world/location.cpp
-	$(c++command) $(world_include_dirs) \
-		-c world/location.cpp \
-		-o obj/location.o
 
 obj/map_for_casting.o : \
 		$(common_includes) \
