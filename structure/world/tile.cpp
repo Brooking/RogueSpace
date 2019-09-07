@@ -11,8 +11,8 @@ UIToken Tile::token()
         return UIToken();
     }
 
-    std::shared_ptr<Hero> hero = floor->hero();
-    if (hero == nullptr)
+    std::weak_ptr<Hero> hero = floor->hero();
+    if (floor->hero().expired())
     {
         return UIToken();
     }
@@ -153,7 +153,7 @@ bool Tile::hero_can_see()
     {
         return false;
     }
-    std::shared_ptr<Hero> hero = floor->hero();
+    std::shared_ptr<Hero> hero = floor->hero().lock();
     if (hero == nullptr)
     {
         return false;

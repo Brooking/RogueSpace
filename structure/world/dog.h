@@ -13,7 +13,7 @@ public:
     virtual bool move() override
     {
         std::shared_ptr<Floor> floor = this->tile()->floor();
-        Location hero_location = floor->hero()->where();
+        Location hero_location = floor->hero().lock()->where();
 
         unsigned int distance = this->tile()->where().distance(hero_location);
         std::vector<Location> locations;

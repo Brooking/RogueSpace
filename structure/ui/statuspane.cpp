@@ -1,13 +1,13 @@
 #include "statuspane.h"
 StatusPane::StatusPane(
     std::shared_ptr<iScreen> screen, 
-    std::shared_ptr<Hero> hero,
+    std::weak_ptr<Hero> hero,
     unsigned int screen_row, 
     unsigned int screen_cell,
     unsigned int height,
     unsigned int width)
 :
-    screen_(screen), hero_(hero), window_(nullptr),
+    screen_(screen), hero_ptr_(hero), window_(nullptr),
     screen_row_(screen_row), screen_cell_(screen_cell), 
     height_(height), width_(width)
 {
@@ -51,15 +51,16 @@ bool StatusPane::update(unsigned int, unsigned int, bool center)
 
 bool StatusPane::update()
 {
+    std::shared_ptr<Hero> hero = this->hero_ptr_.lock();
     static unsigned int top_margin = 0;
     static unsigned int bottom_margin = 1;
     static unsigned int label_margin = 1;
     unsigned int therm_blocks = 
         this->window_->height() - top_margin - bottom_margin - label_margin;
     unsigned int health_blocks = 
-        (therm_blocks * this->hero_->current_health()) / this->hero_->max_health();
+        (therm_blocks * hero->current_health()) / hero->max_health();
     unsigned int energy_blocks = 
-        (therm_blocks * this->hero_->current_energy()) / this->hero_->max_energy();
+        (therm_blocks * hero->current_energy()) / hero->max_energy();
 
     static unsigned int health_cell = 1;
     static unsigned int energy_cell = 3;

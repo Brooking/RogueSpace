@@ -30,7 +30,7 @@ public:
     {
         Location here = this->tile()->where();
         std::shared_ptr<Floor> floor = this->tile()->floor();
-        std::shared_ptr<Hero> hero = floor->hero();
+        std::shared_ptr<Hero> hero = floor->hero().lock();
 
         // handle state transitions
         bool changed;

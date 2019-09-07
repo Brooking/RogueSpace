@@ -15,8 +15,9 @@
 
 void game_loop(
     std::shared_ptr<Mosaic> mosaic, 
-    std::shared_ptr<Hero> hero, 
-    std::vector<std::shared_ptr<iThing>> monsters);
+    std::weak_ptr<Hero> hero, 
+    std::vector<std::weak_ptr<iThing>> actors);
+int hero_move(std::shared_ptr<Mosaic> mosaic, std::weak_ptr<Hero> hero, bool& quit);
 
 int main()
 {
@@ -59,23 +60,23 @@ int main()
     screen->add("BRIGHT_WHITE\n", io::Color::BRIGHT_WHITE, io::Color::WHITE);
 
     std::shared_ptr<Floor> floor = nullptr;
-    std::shared_ptr<Hero> hero = nullptr;
-    std::vector<std::shared_ptr<iThing>> monsters;
+    std::weak_ptr<Hero> hero;
+    std::vector<std::weak_ptr<iThing>> actors;
     do
     {
         unsigned int key = screen->get_key_input();
         switch(key)
         {
             case '1':
-                floor = make_mini(screen, hero, monsters);
+                floor = make_mini(screen, hero, actors);
                 break;
 
             case '2':
-                floor = make_standard(screen, hero, monsters);
+                floor = make_standard(screen, hero, actors);
                 break;
 
             case '3':
-                floor = make_full(screen, hero, monsters);
+                floor = make_full(screen, hero, actors);
                 break;
 
             case 'q':
@@ -94,8 +95,8 @@ int main()
             /*screen_row*/0, /*screen_cell*/5,
             screen->height(), 
             screen->width() - 5, 
-            hero->where().row(),
-            hero->where().cell());
+            hero.lock()->where().row(),
+            hero.lock()->where().cell());
     floor->register_update(viewport);
 
     // create the status window
@@ -114,57 +115,76 @@ int main()
     mosaic->refresh();
 
     // start the game loop
-    game_loop(mosaic, hero, monsters);
+    game_loop(mosaic, hero, actors);
 
     return 0;
 }
 
 void game_loop(
     std::shared_ptr<Mosaic> mosaic, 
-    std::shared_ptr<Hero> hero, 
-    std::vector<std::shared_ptr<iThing>> monsters)
+    std::weak_ptr<Hero> hero_ptr, 
+    std::vector<std::weak_ptr<iThing>> actors)
 {
-    unsigned int key;
-    bool done = false;
-    while(!done) 
+    std::shared_ptr<Hero> hero = hero_ptr.lock();
+    bool quit = false;
+    while (!quit && actors.size() > 0)
     {
-        // get and decode input
-        key = mosaic->screen()->get_key_input();
-        Direction direction = Direction::none;
-        if (KeyToDirection.count(key) > 0)
+        for (unsigned int i = 0; i < actors.size(); i++)
         {
-            direction = KeyToDirection[key];
-        }
-        else
-        {
-            switch(key)
+            std::shared_ptr<iThing> actor = actors[i].lock();
+            if (actor == nullptr)
             {
-                case 'q':
-                case 'Q':
-                    // quit
-                    done = true;
-                    continue;
-
-                case ' ':
-                    // space is stand for a turn
-                    break;
-
-                case '\t':
-                    // tab brings up map
-                    // todo
-                    continue;
-
-                default:
-                    // for anything else, we go back for more input
-                    continue;
+                actors.erase(actors.begin()+i);
+            }
+            else
+            {
+                if (actor == hero_ptr.lock())
+                {
+                    hero_move(mosaic, hero_ptr, quit);
+                }
+                else
+                {
+                    actor->move();
+                }
+                mosaic->refresh();
             }
         }
+    }
+}
 
-        hero->move(direction);
-        for (auto& monster : monsters)
+int hero_move(std::shared_ptr<Mosaic> mosaic, std::weak_ptr<Hero> hero_ptr, bool& quit)
+{
+    std::shared_ptr<Hero> hero = hero_ptr.lock();
+
+    // get and decode input
+    for(;;)
+    {
+        unsigned int key = mosaic->screen()->get_key_input();
+        if (KeyToDirection.count(key) > 0)
         {
-            monster->move();
+            Direction direction = KeyToDirection[key];
+            return hero->move(direction);
         }
-        mosaic->refresh();
+        switch(key)
+        {
+            case 'q':
+            case 'Q':
+                // quit
+                quit = true;
+                return 0;
+
+            case ' ':
+                // space is stand for a turn
+                return hero->move();
+
+            case '\t':
+                // tab brings up map
+                // todo
+                continue;
+
+            default:
+                // for anything else, we go back for more input
+                continue;
+        }
     }
 }

@@ -9,7 +9,6 @@
   - [x] coalesce mini+main
   - [x] consistent virtual/override usage
   - [x] select char appears in terminal after execution stops
-  - [ ] both sides of walls are illuminated (translucent)
 ### Structure
   - [ ] Rectify hero being known to the floor(?)
   - [x] smart pointers for all world objects
@@ -22,8 +21,6 @@
   - [x] Create a common library
   - [x] enhance token system
     - [x] move wall shape to world
-    - [ ] implement lit directionality
-      [ ] implement hiding walls behind walls
     - [x] break none/seen/visible/lit out of token
   - [x] move visibility tools underneath world
   - [x] move io underneath ui
@@ -36,6 +33,8 @@
   - [ ] implement click to move
 #### Time Management
   - [ ] implement time-tic based speed differentiation
+    - [ ] timeline, iActor, time-per-action, (speed setting?)
+    - [ ] different timer for UI effects
 ### Output
 #### Curses
   - [x] static values on RealCurses
@@ -87,6 +86,8 @@
   - [x] differentiate between "in FOV+lit" and "in FOV+in sight"
   - [x] may need to store range with FOV entries
   - [ ] add directional lighting perception
+  - [ ] implement lit directionality
+  - [ ] implement hiding walls behind walls
 #### Hero
   - [x] Add sight distance
 #### Visibility

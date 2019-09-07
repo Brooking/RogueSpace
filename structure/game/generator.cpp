@@ -10,8 +10,8 @@ void make_wall(std::shared_ptr<Floor> floor, Location start, Location end);
 
 std::shared_ptr<Floor> make_mini(
     std::shared_ptr<iScreen>, 
-    std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>&)
+    std::weak_ptr<Hero>& hero_ptr, 
+    std::vector<std::weak_ptr<iThing>>& actors)
 {
     // create a floor
     std::shared_ptr<Floor> floor = Floor::create(7, 7);
@@ -19,8 +19,10 @@ std::shared_ptr<Floor> make_mini(
     // put our dude on the floor in upper left
     Location starting_spot(1,1);
     std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
-    hero = std::make_shared<Hero>(/*sight_range*/1);
+    std::shared_ptr<Hero> hero = std::make_shared<Hero>(/*sight_range*/1);
     hero->place(starting_tile);
+    hero_ptr = hero;
+    actors.push_back(hero);
 
     // put a wall around the outside
     wall_border(floor);
@@ -33,8 +35,8 @@ std::shared_ptr<Floor> make_mini(
 
 std::shared_ptr<Floor> make_standard(
     std::shared_ptr<iScreen> screen, 
-    std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>& monsters)
+    std::weak_ptr<Hero>& hero_ptr, 
+    std::vector<std::weak_ptr<iThing>>& actors)
 {
     // create a floor larger than the view area
     std::shared_ptr<Floor> floor = Floor::create(screen->height(), screen->width());
@@ -42,8 +44,10 @@ std::shared_ptr<Floor> make_standard(
     // put our dude on the floor in the center
     Location starting_spot(floor->height()/2, floor->width()/2);
     std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
-    hero = std::make_shared<Hero>(/*sight_range*/5);
+    std::shared_ptr<Hero> hero = std::make_shared<Hero>(/*sight_range*/5);
     hero->place(starting_tile);
+    hero_ptr = hero;
+    actors.push_back(hero);
 
     // wall the border
     wall_border(floor);
@@ -109,24 +113,24 @@ std::shared_ptr<Floor> make_standard(
     // add monsters
     std::shared_ptr<Rat> rat = std::make_shared<Rat>();
     rat->place(floor->tile(Location(floor->height()/2, floor->width()-2)));
-    monsters.push_back(rat);
+    actors.push_back(rat);
 
     std::shared_ptr<Bee> bee = std::make_shared<Bee>();
     bee->place(floor->tile(Location(3 * floor->height()/4, floor->width()/4)));
-    monsters.push_back(bee);
+    actors.push_back(bee);
 
     // add a dog
     std::shared_ptr<Dog> dog = std::make_shared<Dog>();
     dog->place(floor->tile(Location(starting_spot.row(), starting_spot.cell()+1)));
-    monsters.push_back(dog);
+    actors.push_back(dog);
 
     return floor;
 }
 
 std::shared_ptr<Floor> make_full(
     std::shared_ptr<iScreen> screen, 
-    std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>& monsters)
+    std::weak_ptr<Hero>& hero_ptr, 
+    std::vector<std::weak_ptr<iThing>>& actors)
 {
     // create a floor larger than the view area
     std::shared_ptr<Floor> floor = Floor::create(screen->height(), screen->width());
@@ -134,8 +138,10 @@ std::shared_ptr<Floor> make_full(
     // put our dude on the floor
     Location starting_spot(floor->height()/2, screen->width()/2);
     std::shared_ptr<Tile> starting_tile = floor->tile(starting_spot);
-    hero = std::make_shared<Hero>(/*sight_range*/10);
+    std::shared_ptr<Hero> hero = std::make_shared<Hero>(/*sight_range*/10);
     hero->place(starting_tile);
+    hero_ptr = hero;
+    actors.push_back(hero);
 
     // wall the border
     wall_border(floor);
@@ -195,7 +201,7 @@ std::shared_ptr<Floor> make_full(
         rat_cell = rand() % floor->width();
     } while(floor->tile(Location(rat_row, rat_cell))->how_full() == ContentSize::full);
     rat->place(floor->tile(Location(rat_row, rat_cell)));
-    monsters.push_back(rat);
+    actors.push_back(rat);
 
     std::shared_ptr<Bee> bee = std::make_shared<Bee>();
     int bee_row;
@@ -205,12 +211,12 @@ std::shared_ptr<Floor> make_full(
         bee_cell = rand() % floor->width();
     } while(floor->tile(Location(bee_row, bee_cell))->how_full() == ContentSize::full);
     bee->place(floor->tile(Location(bee_row, bee_cell)));
-    monsters.push_back(bee);
+    actors.push_back(bee);
 
     // add a dog
     std::shared_ptr<Dog> dog = std::make_shared<Dog>();
     dog->place(floor->tile(Location(starting_spot.row(), starting_spot.cell()+1)));
-    monsters.push_back(dog);
+    actors.push_back(dog);
 
     return floor;
 }

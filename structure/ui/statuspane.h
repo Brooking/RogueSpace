@@ -14,7 +14,7 @@ class StatusPane final : public iPane
 public:
     StatusPane(
         std::shared_ptr<iScreen> screen, 
-        std::shared_ptr<Hero> hero,
+        std::weak_ptr<Hero> hero,
         unsigned int screen_row, 
         unsigned int screen_cell,
         unsigned int height,
@@ -57,7 +57,7 @@ private:
 
 private:
     std::shared_ptr<iScreen> screen_;
-    std::shared_ptr<Hero> hero_;
+    std::weak_ptr<Hero> hero_ptr_;
     std::shared_ptr<iWindow> window_;
     unsigned int screen_row_;
     unsigned int screen_cell_;

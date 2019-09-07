@@ -8,19 +8,19 @@
 // make the mini screen
 std::shared_ptr<Floor> make_mini(
     std::shared_ptr<iScreen>, 
-    std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>&);
+    std::weak_ptr<Hero>& hero, 
+    std::vector<std::weak_ptr<iThing>>& actors);
 
 // make our standard testing floor
 std::shared_ptr<Floor> make_standard(
     std::shared_ptr<iScreen> screen, 
-    std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>& monsters);
+    std::weak_ptr<Hero>& hero, 
+    std::vector<std::weak_ptr<iThing>>& actors);
 
 // make a real floor
 std::shared_ptr<Floor> make_full(
     std::shared_ptr<iScreen> screen, 
-    std::shared_ptr<Hero>& hero, 
-    std::vector<std::shared_ptr<iThing>>& monsters);
+    std::weak_ptr<Hero>& hero, 
+    std::vector<std::weak_ptr<iThing>>& actors);
 
 #endif // _generator_h_
