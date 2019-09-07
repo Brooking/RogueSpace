@@ -21,7 +21,7 @@ class Rat : public MonsterBase
 {
 public:
     Rat() : 
-        MonsterBase(UIToken::rat), ai_state_(AiState::Wandering), 
+        MonsterBase(TokenType::rat), ai_state_(AiState::Wandering), 
         home_(Location()), target_() {}
     virtual ~Rat() {}
 
@@ -76,23 +76,23 @@ public:
         default:
         case AiState::Wandering:
             // just wander around
-            new_location = here.choose_random(here.all_adjacent_locations(), floor, shared_this);
+            new_location = floor->choose_random(here.all_adjacent_locations(),shared_this);
             break;
 
         case AiState::Beelining:
             // head toward where the hero was
             // todo - replace with pathfinder
-            new_location = here.choose_random(here.closer_adjacent_locations(this->target_), floor, shared_this);
+            new_location = floor->choose_random(here.closer_adjacent_locations(this->target_), shared_this);
             break;
 
         case AiState::Homing:
             // head toward home
             // todo - replace with pathfinder
-            new_location = here.choose_random(here.closer_adjacent_locations(this->home_), floor, shared_this);
+            new_location = floor->choose_random(here.closer_adjacent_locations(this->home_), shared_this);
             break;
         }
 
-        if (new_location != here)
+        if (new_location != Location())
         {
             this->place(floor->tile(new_location));
             return true;

@@ -6,7 +6,7 @@
 #include "location.h"
 #include "thing_base.h"
 #include "tile.h"
-#include "uitokens.h"
+#include "uitoken.h"
 
 #ifndef PROTECTED_ACCESS
 #define PROTECTED_ACCESS protected

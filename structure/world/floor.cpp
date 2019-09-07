@@ -41,19 +41,19 @@ bool Floor::register_update(std::shared_ptr<iUpdate> update_interface)
 }
 
 
-UIToken Floor::token(unsigned int row, unsigned int cell)
+UIToken Floor::token(unsigned int row, unsigned int cell) const
 {
     Location location(row, cell);
     std::shared_ptr<Tile> tile = this->tile(location);
     if (tile == nullptr)
     {
-        return UIToken::none;
+        return UIToken();
     }
     return tile->token();
 }
 
 
-std::shared_ptr<Tile> Floor::tile(Location location)
+std::shared_ptr<Tile> Floor::tile(Location location) const
 {
     if (location.row() >= this->height() || location.cell() >= this->width())
     {
@@ -84,4 +84,20 @@ bool Floor::add_light(unsigned int row, unsigned int cell, unsigned int radius)
     MapForCasting map(tile, CastingScan::illumination);
     do_fov(map, cell, row, radius);
     return true;
+}
+
+Location Floor::choose_random(std::vector<Location> locations, std::shared_ptr<iThing> thing) const
+{
+    while (locations.size() > 0)
+    {
+        unsigned int index = static_cast<unsigned int>(rand() % locations.size());
+        if (this->tile(locations[index])->there_is_room(thing))
+        {
+            // we can move here
+            return locations[index];
+        }
+        locations.erase(locations.begin()+index);
+    }
+
+    return Location();
 }

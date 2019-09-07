@@ -5,7 +5,7 @@
 #include "visibility/original_shadow_cast.h"
 
 Hero::Hero(unsigned int sight_range) : 
-    ThingBase(UIToken::hero, ContentSize::large, /*center*/true),
+    ThingBase(TokenType::hero, ContentSize::large, /*center*/true),
     sight_range_(sight_range)
 {}
 

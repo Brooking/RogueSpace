@@ -9,7 +9,7 @@
 #include "content_size.h"
 #include "ithing.h"
 #include "location.h"
-#include "uitokens.h"
+#include "uitoken.h"
 
 class Floor;
 
@@ -71,6 +71,9 @@ public:
 
     // returns whether this tile is lit
     bool is_lit() { return this->is_lit_; }
+
+    // returns whether the hero can see this tile
+    bool hero_can_see();
 
 PROTECTED_ACCESS:
     // calculate fullness based on contents

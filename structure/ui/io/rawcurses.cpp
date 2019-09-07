@@ -131,16 +131,16 @@ void io::RawCurses::validate_io_constants()
 
     // set our local character statics
     assert(static_cast<unsigned int>(io::Character::WALL_NS) == static_cast<unsigned int>(ACS_VLINE));
-    assert(static_cast<unsigned int>(io::Character::WALL_EW) == static_cast<unsigned int>(ACS_HLINE));
+    assert(static_cast<unsigned int>(io::Character::WALL_WE) == static_cast<unsigned int>(ACS_HLINE));
     assert(static_cast<unsigned int>(io::Character::WALL_NE) == static_cast<unsigned int>(ACS_LLCORNER));
     assert(static_cast<unsigned int>(io::Character::WALL_SE) == static_cast<unsigned int>(ACS_ULCORNER));
     assert(static_cast<unsigned int>(io::Character::WALL_SW) == static_cast<unsigned int>(ACS_URCORNER));
     assert(static_cast<unsigned int>(io::Character::WALL_NW) == static_cast<unsigned int>(ACS_LRCORNER));
     assert(static_cast<unsigned int>(io::Character::WALL_NSE) == static_cast<unsigned int>(ACS_LTEE));
     assert(static_cast<unsigned int>(io::Character::WALL_NSW) == static_cast<unsigned int>(ACS_RTEE));
-    assert(static_cast<unsigned int>(io::Character::WALL_NEW) == static_cast<unsigned int>(ACS_BTEE));
-    assert(static_cast<unsigned int>(io::Character::WALL_SEW) == static_cast<unsigned int>(ACS_TTEE));
-    assert(static_cast<unsigned int>(io::Character::WALL_NSEW) == static_cast<unsigned int>(ACS_PLUS));
+    assert(static_cast<unsigned int>(io::Character::WALL_NWE) == static_cast<unsigned int>(ACS_BTEE));
+    assert(static_cast<unsigned int>(io::Character::WALL_SWE) == static_cast<unsigned int>(ACS_TTEE));
+    assert(static_cast<unsigned int>(io::Character::WALL_NSWE) == static_cast<unsigned int>(ACS_PLUS));
 
     assert(static_cast<unsigned int>(io::Character::BULLET) == static_cast<unsigned int>(ACS_BULLET));
 

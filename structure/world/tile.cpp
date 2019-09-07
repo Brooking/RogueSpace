@@ -8,55 +8,33 @@ UIToken Tile::token()
     std::shared_ptr<Floor> floor = this->floor();
     if (floor == nullptr)
     {
-        return UIToken::none;
+        return UIToken();
     }
 
     std::shared_ptr<Hero> hero = floor->hero();
     if (hero == nullptr)
     {
-        return UIToken::none;
+        return UIToken();
     }
 
-    UIToken result = UIToken::none;
-    if (this->num_things() == 0)
+    bool hero_can_see = this->hero_can_see();
+    if (hero_can_see)
     {
-        // nothing on the tile, start with a floor
-        result = this->is_lit_ ? 
-                    UIToken::lit_floor : 
-                    UIToken::visible_floor; 
-    }
-    else
-    {
-        // start with the token from the top of the stack
-        result = this->things_.back()->token();
-    }
-
-    if (floor->hero()->can_see(this->where()))
-    {
-        // the hero can see this, mark it as having been seen
-        // (this has the side effect of only marking those
-        //  spots that appear on the screen as having been seen,
-        //  which makes some sense)
+        // This is the spot where we update tiles that the hero has
+        // seen. Asking for the token is as good a place as any.
         this->has_been_seen_ = true;
     }
-    else if (this->has_been_seen_)
+
+    if (this->num_things() > 0)
     {
-        if (is_wall(result))
-        {
-            result = UIToken::seen_wall;
-        }
-        else
-        {
-            result = UIToken::seen_floor;
-        }
-    }
-    else
-    {
-        // can't see and has never been seen
-        result = UIToken::none;
+        return this->things_.back()->token();
     }
 
-    return result;
+    return UIToken(
+        TokenType::floor,
+        hero_can_see,
+        this->has_been_seen(),
+        this->is_lit());
 }
 
 
@@ -166,4 +144,19 @@ unsigned int Tile::get_los_range(Location location)
     }
 
     return ((*this->los_range_)[location.row()][location.cell()]);
+}
+
+bool Tile::hero_can_see()
+{
+    std::shared_ptr<Floor> floor = this->floor();
+    if (floor == nullptr)
+    {
+        return false;
+    }
+    std::shared_ptr<Hero> hero = floor->hero();
+    if (hero == nullptr)
+    {
+        return false;
+    }
+    return hero->can_see(this->where());
 }

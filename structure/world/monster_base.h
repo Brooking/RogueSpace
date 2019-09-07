@@ -6,8 +6,8 @@
 class MonsterBase : public ThingBase
 {
 public:
-    MonsterBase(UIToken token) : 
-        ThingBase(token, ContentSize::large, /*center*/false) {}
+    MonsterBase(TokenType token_type) : 
+        ThingBase(token_type, ContentSize::large, /*center*/false) {}
     virtual ~MonsterBase() {}
 };
 

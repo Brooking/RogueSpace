@@ -6,7 +6,7 @@
 class Dog : public MonsterBase
 {
 public:
-    Dog() : MonsterBase(UIToken::dog) {}
+    Dog() : MonsterBase(TokenType::dog) {}
     virtual ~Dog() {}
 
     // iThing: do its move
@@ -28,9 +28,8 @@ public:
             locations = this->tile()->where().all_adjacent_locations();
         }
         
-        Location current = this->tile()->where();
-        Location new_location = current.choose_random(locations, floor, this->shared_from_this());
-        if (new_location != current)
+        Location new_location = floor->choose_random(locations, this->shared_from_this());
+        if (new_location != Location())
         {
             this->place(floor->tile(new_location));
             return true;

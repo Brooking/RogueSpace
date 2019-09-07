@@ -20,10 +20,11 @@
     - [x] things should not self place
   - [ ] Move everything up one directory
   - [x] Create a common library
-  - [ ] enhance token system
-    - [ ] move wall shape to world
+  - [x] enhance token system
+    - [x] move wall shape to world
     - [ ] implement lit directionality
-    - [ ] break none/seen/visible/lit out of token
+      [ ] implement hiding walls behind walls
+    - [x] break none/seen/visible/lit out of token
   - [x] move visibility tools underneath world
   - [x] move io underneath ui
 ### Input

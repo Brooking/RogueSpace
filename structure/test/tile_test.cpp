@@ -13,7 +13,7 @@ TEST_CASE("tile_withConstructor_shouldMakeTile", "[tile]")
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, location);
 
     // assert
-    REQUIRE(tile->token() == UIToken::none);    
+    REQUIRE(tile->token().token_type() == TokenType::none);    
     REQUIRE(tile->where() == location);
     REQUIRE(tile->floor() == nullptr);
     REQUIRE(tile->how_full() == ContentSize::empty);
@@ -24,7 +24,7 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
-    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::small);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::small);
 
     // act
     bool addWorked = tile->add(thing);
@@ -32,7 +32,7 @@ TEST_CASE("tile_withAdd_shouldAddThing", "[tile]")
     // assert
     REQUIRE(addWorked == true);
     REQUIRE(tile->num_things() == 1);
-    REQUIRE(tile->thing(0)->token() == UIToken::none);
+    REQUIRE(tile->thing(0)->token().token_type() == TokenType::none);
     REQUIRE(tile->how_full() == ContentSize::small);
 }
 
@@ -40,9 +40,9 @@ TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
-    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::full);
+    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::full);
     tile->add(thing1);
-    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::full);
+    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::full);
 
     // act
     bool addWorked = tile->add(thing2);
@@ -50,7 +50,7 @@ TEST_CASE("tile_withTwoFullAdd_shouldNotAdd", "[tile]")
     // assert
     REQUIRE(addWorked == false);
     REQUIRE(tile->num_things() == 1);
-    REQUIRE(tile->thing(0)->token() == UIToken::none);
+    REQUIRE(tile->thing(0)->token().token_type() == TokenType::none);
     REQUIRE(tile->how_full() == ContentSize::full);
 }
 
@@ -58,9 +58,9 @@ TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
-    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::small);
+    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::small);
     tile->add(thing1);
-    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::full);
+    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::full);
 
     // act
     bool addWorked = tile->add(thing2);
@@ -68,7 +68,7 @@ TEST_CASE("tile_withSecondFullAdd_shouldNotAdd", "[tile]")
     // assert
     REQUIRE(addWorked == false);
     REQUIRE(tile->num_things() == 1);
-    REQUIRE(tile->thing(0)->token() == UIToken::none);
+    REQUIRE(tile->thing(0)->token().token_type() == TokenType::none);
     REQUIRE(tile->how_full() == ContentSize::small);
 }
 
@@ -76,7 +76,7 @@ TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-1,2));
-    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::full);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::full);
 
     // act
     bool addWorked = tile->add(thing);
@@ -84,7 +84,7 @@ TEST_CASE("tile_withFillingAdd_shouldAddThing", "[tile]")
     // assert
     REQUIRE(addWorked == true);
     REQUIRE(tile->num_things() == 1);
-    REQUIRE(tile->thing(0)->token() == UIToken::none);
+    REQUIRE(tile->thing(0)->token().token_type() == TokenType::none);
     REQUIRE(tile->how_full() == ContentSize::full);
 }
 
@@ -105,7 +105,7 @@ TEST_CASE("tile_withRemove_shouldRemoveThing", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(5,1));
-    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr);
     tile->add(thing);
 
     // act
@@ -121,7 +121,7 @@ TEST_CASE("tile_withFullRemove_shouldRemoveThing", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(5,1));
-    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr, ContentSize::full);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr, ContentSize::full);
     tile->add(thing);
 
     // act
@@ -150,7 +150,7 @@ TEST_CASE("tile_withRemoveInvalid_shouldFailElegantly", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(-10,12));
-    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr);
 
     // act
     bool removeWorked = tile->remove(thing);
@@ -164,8 +164,8 @@ TEST_CASE("tile_withRemoveFirst_shouldRemove", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,-12));
-    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr);
-    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(UIToken::test, /*tile*/nullptr);
+    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr);
+    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(TokenType::test, /*tile*/nullptr);
     tile->add(thing1);
     tile->add(thing2);
 
@@ -175,15 +175,15 @@ TEST_CASE("tile_withRemoveFirst_shouldRemove", "[tile]")
     // assert
     REQUIRE(removeWorked == true);
     REQUIRE(tile->num_things() == 1);
-    REQUIRE(tile->thing(0)->token() == UIToken::test);
+    REQUIRE(tile->thing(0)->token().token_type() == TokenType::test);
 }
 
 TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,-12));
-    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(UIToken::none, /*tile*/nullptr);
-    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(UIToken::test, /*tile*/nullptr);
+    std::shared_ptr<iThing> thing1 = std::make_shared<iThingMock>(TokenType::none, /*tile*/nullptr);
+    std::shared_ptr<iThing> thing2 = std::make_shared<iThingMock>(TokenType::test, /*tile*/nullptr);
     tile->add(thing1);
     tile->add(thing2);
 
@@ -193,31 +193,30 @@ TEST_CASE("tile_withRemoveSecond_shouldRemove", "[tile]")
     // assert
     REQUIRE(removeWorked == true);
     REQUIRE(tile->num_things() == 1);
-    REQUIRE(tile->thing(0)->token() == UIToken::none);
+    REQUIRE(tile->thing(0)->token().token_type() == TokenType::none);
 }
 
-// TEST_CASE("tile_withNoLosSet_shouldSaySo", "[tile]")
-// {
-//     // arrange
-//     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,12));
+TEST_CASE("tile_heroCanSee_withNoFloor_shouldSayNo", "[tile]")
+{
+    // arrange
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,12));
 
-//     // act
-//     bool los_set = tile->los_has_been_calculated();
+    // act
+    bool hero_can_see = tile->hero_can_see();
 
-//     // assert
-//     REQUIRE(los_set == false);
-// }
+    // assert
+    REQUIRE(hero_can_see == false);
+}
 
-// TEST_CASE("tile_withLosSet_shouldReturnLos", "[tile]")
-// {
-//     // arrange
-//     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,12));
+TEST_CASE("tile_heroCanSee_withNoHero_shouldSayNo", "[tile]")
+{
+    // arrange
+    // todo make and add to floor
+    std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(10,12));
 
-//     // act
-//     tile->add_los_range(Location(11,12),4);
+    // act
+    bool hero_can_see = tile->hero_can_see();
 
-//     // assert
-//     // REQUIRE(tile->los_has_been_calculated() == true);
-//     REQUIRE(tile->get_los_range(Location(11,12)) == 4);
-//     REQUIRE(tile->get_los_range(Location(10,12)) == INT_MAX);
-// }
+    // assert
+    REQUIRE(hero_can_see == false);
+}

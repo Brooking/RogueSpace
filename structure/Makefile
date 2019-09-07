@@ -1,7 +1,7 @@
 all: \
 		game.out \
 		commontests.out \
-		iotests.out \
+		uitests.out \
 		vistests.out \
 		worldtests.out
 
@@ -110,7 +110,7 @@ common_includes= \
 	inc/iwindow.h \
 	inc/iupdate.h \
 	inc/location.h \
-	inc/uitokens.h
+	inc/uitoken.h
 io_includes= \
 	ui/io/rawcurses.h \
 	ui/io/screen.h \
@@ -143,11 +143,28 @@ vis_includes= \
 	world/visibility/dijkstra.h
 
 # executables
+commontests.out : \
+		lib/libcommon.a \
+		test/catch.hpp \
+		test/location_test.cpp \
+		test/main.cpp \
+		test/uitoken_test.cpp
+	$(c++command) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		test/main.cpp \
+		test/location_test.cpp \
+		test/uitoken_test.cpp \
+		-lcommon \
+		-o commontests.out
+
 game.out: \
-		lib/libworld.a \
-		lib/libui.a \
+		lib/libcommon.a \
 		lib/libio.a \
+		lib/libui.a \
 		lib/libvisibility.a \
+		lib/libworld.a \
 		obj/main.o \
 		obj/generator.o
 	$(c++command) \
@@ -163,7 +180,29 @@ game.out: \
 		-lcurses \
 		-o game.out
 
+uitests.out : \
+		lib/libcommon.a \
+		lib/libio.a \
+		lib/libui.a \
+		test/catch.hpp \
+		test/icurses_mock.h \
+		test/main.cpp \
+		test/icon_test.cpp \
+		test/screen_test.cpp
+	$(c++command) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		test/main.cpp \
+		test/icon_test.cpp \
+		test/screen_test.cpp \
+		-lcommon \
+		-lio \
+		-lui \
+		-o uitests.out
+
 vistests.out : \
+		lib/libcommon.a \
 		lib/libvisibility.a \
 		test/catch.hpp \
 		test/main.cpp \
@@ -186,8 +225,9 @@ vistests.out : \
 		-o vistests.out
 
 worldtests.out : \
-		lib/libworld.a \
+		lib/libcommon.a \
 		lib/libvisibility.a \
+		lib/libworld.a \
 		test/catch.hpp \
 		test/ithing_mock.h \
 		test/main.cpp \
@@ -216,27 +256,13 @@ worldtests.out : \
 		-lvisibility \
 		-o worldtests.out
 
-iotests.out : \
-		lib/libio.a \
-		test/catch.hpp \
-		test/icurses_mock.h \
-		test/main.cpp \
-		test/screen_test.cpp
-	$(c++command) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
-		test/screen_test.cpp \
-		-lcommon \
-		-lio \
-		-o iotests.out
-
 # Libraries
 lib/libcommon.a : \
-		obj/location.o
+		obj/location.o \
+		obj/uitoken.o
 	ar crf lib/libcommon.a \
-		obj/location.o
+		obj/location.o \
+		obj/uitoken.o
 
 lib/libio.a : \
 		obj/rawcurses.o \
@@ -293,6 +319,13 @@ obj/location.o : \
 	$(c++command) $(common_include_dirs) \
 		-c common/location.cpp \
 		-o obj/location.o
+
+obj/uitoken.o : \
+		$(common_includes) \
+		common/uitoken.cpp
+	$(c++command) $(common_include_dirs) \
+		-c common/uitoken.cpp \
+		-o obj/uitoken.o
 
 # world objects
 obj/floor.o : \

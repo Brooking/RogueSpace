@@ -4,10 +4,6 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include "direction.h"
-#include "ithing.h"
-
-class Floor;
-
 
 class Location
 {    
@@ -84,16 +80,13 @@ public:
     Location apply_direction(Direction direction) const;
 
     // return all adjacent locations
-    std::vector<Location> all_adjacent_locations();
+    std::vector<Location> all_adjacent_locations() const;
 
     // return the distance between this location and another
-    unsigned int distance(Location that);
+    unsigned int distance(Location that) const;
 
     // return all adjacent locations that are closer to the target than the current
-    std::vector<Location> closer_adjacent_locations(Location target);
-
-    // given a list of locations, return a random one
-    Location choose_random(std::vector<Location> locations, std::shared_ptr<Floor> floor, std::shared_ptr<iThing> thing);
+    std::vector<Location> closer_adjacent_locations(Location target) const;
 
 private:
     // the row of the location

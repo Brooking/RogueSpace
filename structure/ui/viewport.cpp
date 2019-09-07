@@ -67,20 +67,8 @@ bool Viewport::update_worker(unsigned int row, unsigned int cell)
     unsigned int floor_row = row + this->window_origin_row_offset_from_floor_;
     unsigned int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
 
-    std::bitset<8> adjacency;
     UIToken token = this->floor_->token(floor_row, floor_cell);
-    if (is_wall(token))
-    {
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::North)] = 
-            is_wall(this->floor_->token(floor_row-1, floor_cell));
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::East)] = 
-            is_wall(this->floor_->token(floor_row, floor_cell+1));
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::South)] = 
-            is_wall(this->floor_->token(floor_row+1, floor_cell));
-        adjacency[static_cast<unsigned int>(AdjacentWallBits::West)] = 
-            is_wall(this->floor_->token(floor_row, floor_cell-1));
-    }
-   Icon icon(token, static_cast<int>(adjacency.to_ulong()));
+    Icon icon(token);
     this->window_->place_character(
         row,
         cell,

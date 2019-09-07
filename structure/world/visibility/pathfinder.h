@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 #include "imap.h"
-#include "../world/location.h"
+#include "location.h"
 
 #ifndef PROTECTED_ACCESS
 #define PROTECTED_ACCESS protected

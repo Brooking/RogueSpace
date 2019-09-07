@@ -11,7 +11,7 @@ TEST_CASE("hero_withDefaultConstruction_shouldCreate", "[hero]")
     std::shared_ptr<Hero> hero = std::make_shared<Hero>();
 
     // assert
-    REQUIRE(hero->token() == UIToken::hero);
+    REQUIRE(hero->token().token_type() == TokenType::hero);
     REQUIRE(hero->tile() == nullptr);
     REQUIRE(hero->where() == Location());
 }
@@ -27,7 +27,7 @@ TEST_CASE("hero_withLocatedConstruction_shouldCreateInPlace", "[hero]")
     hero->place(tile);
 
     // assert
-    REQUIRE(hero->token() == UIToken::hero);
+    REQUIRE(hero->token().token_type() == TokenType::hero);
     REQUIRE(hero->tile() == tile);
     REQUIRE(hero->where() == location);
 }
@@ -68,7 +68,7 @@ TEST_CASE("hero_withMoveIntoWall_shouldNotMove", "[hero]")
     std::shared_ptr<Floor> floor = Floor::create(1,2);
     std::shared_ptr<Hero> hero = std::make_shared<Hero>();
     hero->place(floor->tile(Location(0,0)));
-    std::shared_ptr<iThing> wall = std::make_shared<iThingMock>(UIToken::test, floor->tile(Location(0,1)), ContentSize::full);
+    std::shared_ptr<iThing> wall = std::make_shared<iThingMock>(TokenType::test, floor->tile(Location(0,1)), ContentSize::full);
     floor->tile(Location(0,1))->add(wall);
 
     // act

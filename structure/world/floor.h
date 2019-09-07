@@ -21,16 +21,16 @@ public:
     virtual bool register_update(std::shared_ptr<iUpdate> update_interface) override;
 
     // iFloor: returns the height (number of rows)
-    virtual unsigned int height() override { return static_cast<unsigned int>(tile_.size()); }
+    virtual unsigned int height() const override { return static_cast<unsigned int>(tile_.size()); }
 
     // iFloor: returns the width (number of cells per row)
-    virtual unsigned int width() override { return static_cast<unsigned int>(tile_[0].size()); }
+    virtual unsigned int width() const override { return static_cast<unsigned int>(tile_[0].size()); }
 
     // iFloor: returns the ui token for a given location
-    virtual UIToken token(unsigned int row, unsigned int cell) override;
+    virtual UIToken token(unsigned int row, unsigned int cell) const override;
 
     // returns the tile at a given location
-    std::shared_ptr<Tile> tile(Location location);
+    std::shared_ptr<Tile> tile(Location location) const;
 
     // the spot our tiles call us when things change
     bool update(Location location, bool is_center = false);
@@ -42,6 +42,9 @@ public:
 
     // add a light
     bool add_light(unsigned int row, unsigned int cell, unsigned int radius);
+
+    // given a list of locations, return a random one to move to
+    Location choose_random(std::vector<Location> locations, std::shared_ptr<iThing> thing) const;
 
 private:
     // private constructor (use Floor::create)

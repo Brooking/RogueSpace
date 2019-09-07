@@ -5,7 +5,7 @@
 #include "../ui/io/screen.h"
 
 
-TEST_CASE("testcase", "[category]")
+TEST_CASE("screen_withGoingOutOfScope_shouldDestruct", "[screen]")
 {
     bool destructor_called = false;
     {

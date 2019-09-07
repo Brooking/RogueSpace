@@ -2,7 +2,7 @@
 #include "catch.hpp"
 #include "dijkstra.h"
 #include "imap_mock.h"
-#include "../world/location.h"
+#include "location.h"
 
 TEST_CASE("djystra_withTinyField_shouldFill", "[dijkstra][.]")
 {

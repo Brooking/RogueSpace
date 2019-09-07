@@ -1,6 +1,5 @@
 #include <cmath> // for sqrt
 #include <vector>
-#include "floor.h"
 #include "location.h"
 
 
@@ -30,7 +29,7 @@ Location Location::apply_direction(Direction direction) const
     }
 }
 
-std::vector<Location> Location::all_adjacent_locations()
+std::vector<Location> Location::all_adjacent_locations() const
 {
     std::vector<Location> result;
     for (int delta_row = -1; delta_row <= 1; delta_row++)
@@ -44,14 +43,14 @@ std::vector<Location> Location::all_adjacent_locations()
     return result;
 }
 
-unsigned int Location::distance(Location that)
+unsigned int Location::distance(Location that) const
 {
     int delta_y = this->row() - that.row();
     int delta_x = this->cell() - that.cell();
     return static_cast<unsigned int>(sqrt(delta_y * delta_y + delta_x * delta_x));
 }
 
-std::vector<Location> Location::closer_adjacent_locations(Location target)
+std::vector<Location> Location::closer_adjacent_locations(Location target) const
 {
     std::vector<Location> result = this->all_adjacent_locations();
     unsigned int distance = this->distance(target);
@@ -65,20 +64,4 @@ std::vector<Location> Location::closer_adjacent_locations(Location target)
     }
 
     return result;
-}
-
-Location Location::choose_random(std::vector<Location> locations, std::shared_ptr<Floor> floor, std::shared_ptr<iThing> thing)
-{
-    while (locations.size() > 0)
-    {
-        unsigned int index = static_cast<unsigned int>(rand() % locations.size());
-        if (floor->tile(locations[index])->there_is_room(thing))
-        {
-            // we can move here
-            return locations[index];
-        }
-        locations.erase(locations.begin()+index);
-    }
-
-    return *this;
 }

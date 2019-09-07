@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 #include "imap.h"
-#include "../world/location.h"
+#include "location.h"
 
 // a list of row/column deltas to (orthogonal+diagonal)neighbors
 static std::vector<std::pair<int,int>> neighbors

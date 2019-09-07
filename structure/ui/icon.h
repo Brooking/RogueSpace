@@ -2,18 +2,7 @@
 #define _icon_h_
 
 #include "io_constants.h"
-#include "uitokens.h"
-
-//
-// Adjacency informaion (used in drawing walls)
-//
-enum class AdjacentWallBits
-{
-    North = 0,
-    East = 1,
-    South = 2,
-    West = 3
-};
+#include "uitoken.h"
 
 //
 // A container for a displayable ui icon
@@ -21,7 +10,7 @@ enum class AdjacentWallBits
 class Icon
 {
 public:
-    Icon(UIToken token, unsigned int adjacency = 0);
+    Icon(UIToken token);
     virtual ~Icon() {}
 
     // the foregound color

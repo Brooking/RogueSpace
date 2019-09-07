@@ -14,7 +14,7 @@ TEST_CASE("wall_withConstruction_shouldBeCreated", "[wall]")
     wall->place(tile);
 
     // assert
-    REQUIRE(wall->token() == UIToken::visible_wall);
+    REQUIRE(wall->token().token_type() == TokenType::wall);
     REQUIRE(wall->tile() == tile);
 }
 
@@ -22,7 +22,7 @@ TEST_CASE("wall_withPlaceOnPopulated_shouldFail", "[wall]")
 {
     // arrange
     std::shared_ptr<Tile> tile = std::make_shared<Tile>(/*floor*/nullptr, Location(0,0));
-    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(UIToken::test,nullptr);
+    std::shared_ptr<iThing> thing = std::make_shared<iThingMock>(TokenType::test,nullptr);
     tile->add(thing);
     std::shared_ptr<Wall> wall = std::make_shared<Wall>();
 

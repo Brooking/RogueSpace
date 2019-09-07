@@ -10,7 +10,7 @@
 class Bee : public MonsterBase
 {
 public:
-    Bee() : MonsterBase(UIToken::bee) {}
+    Bee() : MonsterBase(TokenType::bee) {}
     virtual ~Bee() {}
 
     // iThing: do its move
@@ -23,8 +23,8 @@ public:
         Location current = this->tile()->where();
         std::vector<Location> closer_locations = 
             current.closer_adjacent_locations(hero_location);
-        Location new_location = current.choose_random(closer_locations, floor, this->shared_from_this());
-        if (new_location != current)
+        Location new_location = floor->choose_random(closer_locations, this->shared_from_this());
+        if (new_location != Location())
         {
             this->place(floor->tile(new_location));
             return true;

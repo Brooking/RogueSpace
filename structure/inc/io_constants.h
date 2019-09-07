@@ -10,16 +10,16 @@ namespace io
 enum class Character
 {
     WALL_NS = 4194424,
-    WALL_EW = 4194417,
+    WALL_WE = 4194417,
     WALL_NE = 4194413,
     WALL_SE = 4194412,
     WALL_SW = 4194411,
     WALL_NW = 4194410,
     WALL_NSE = 4194420,
     WALL_NSW = 4194421,
-    WALL_NEW = 4194422,
-    WALL_SEW = 4194423,
-    WALL_NSEW = 4194414,
+    WALL_NWE = 4194422,
+    WALL_SWE = 4194423,
+    WALL_NSWE = 4194414,
     BULLET = 4194430
 };
 
