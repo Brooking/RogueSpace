@@ -114,6 +114,12 @@ common_includes= \
 	inc/iwindow.h \
 	inc/location.h \
 	inc/uitoken.h
+game_includes =\
+	game/game_type.h \
+	game/game.h \
+	game/generator.h \
+	game/time_entry.h \
+	game/timeline.h
 io_includes= \
 	ui/io/rawcurses.h \
 	ui/io/screen.h \
@@ -162,42 +168,32 @@ commontests.out : \
 		-o commontests.out
 
 gametests.out : \
-		lib/libcommon.a \
-		game/time_entry.h \
-		game/timeline.h \
-		game/timeline.cpp \
+		lib/libgame.a \
 		test/catch.hpp \
-		test/timeline_test.cpp \
 		test/main.cpp \
 		test/timeline_test.cpp
 	$(c++command) \
 		$(all_include_dirs) \
 		$(lib_dir) \
 		-DPROTECTED_ACCESS=public \
-		game/timeline.cpp \
 		test/main.cpp \
 		test/timeline_test.cpp \
-		-lcommon \
+		-lgame \
 		-o gametests.out
 
 roguespace.out: \
 		lib/libcommon.a \
+		lib/libgame.a \
 		lib/libio.a \
 		lib/libui.a \
 		lib/libvisibility.a \
 		lib/libworld.a \
-		game/generator.h \
-		game/time_entry.h \
-		game/timeline.h \
-		obj/main.o \
-		obj/generator.o \
-		obj/timeline.o
+		obj/main.o
 	$(c++command) \
 		$(all_include_dirs) \
 		$(lib_dir) \
-		obj/generator.o \
 		obj/main.o \
-		obj/timeline.o \
+		-lgame \
 		-lcommon \
 		-lworld \
 		-lui \
@@ -290,6 +286,15 @@ lib/libcommon.a : \
 		obj/location.o \
 		obj/uitoken.o
 
+lib/libgame.a : \
+		obj/game.o \
+		obj/generator.o \
+		obj/timeline.o
+	ar crf lib/libgame.a \
+		obj/game.o \
+		obj/generator.o \
+		obj/timeline.o
+
 lib/libio.a : \
 		obj/rawcurses.o \
 		obj/screen.o \
@@ -352,6 +357,42 @@ obj/uitoken.o : \
 	$(c++command) $(common_include_dirs) \
 		-c common/uitoken.cpp \
 		-o obj/uitoken.o
+
+# game objects
+obj/game.o : \
+		$(common_includes) \
+		$(game_includes) \
+		$(ui_includes) \
+		$(world_includes) \
+		game/game.cpp
+	$(c++command) $(all_include_dirs) \
+		-c game/game.cpp \
+		-o obj/game.o
+
+obj/generator.o : \
+		$(common_includes) \
+		$(game_includes) \
+		$(world_includes) \
+		game/generator.cpp
+	$(c++command) $(all_include_dirs) \
+		-c game/generator.cpp \
+		-o obj/generator.o
+
+obj/main.o : \
+		$(common_includes) \
+		$(game_includes) \
+		game/main.cpp
+	$(c++command) $(all_include_dirs) \
+		-c game/main.cpp \
+		-o obj/main.o
+
+obj/timeline.o : \
+		$(common_includes) \
+		$(game_includes) \
+		game/timeline.cpp
+	$(c++command) $(all_include_dirs) \
+		-c game/timeline.cpp \
+		-o obj/timeline.o
 
 # world objects
 obj/floor.o : \

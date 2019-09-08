@@ -2,26 +2,13 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include "game.h"
 #include "io_constants.h"
-#include "generator.h"
-#include "iactor.h"
 #include "iscreen.h"
-#include "timeline.h"
-#include "time_entry.h"
 #include "../ui/io/rawcurses.h"
 #include "../ui/io/screen.h"
-#include "../ui/mosaic.h"
-#include "../ui/statuspane.h"
-#include "../ui/viewport.h"
-#include "../world/floor.h"
-#include "../world/hero.h"
-#include "../world/wall.h"
 
-void game_loop(
-    std::shared_ptr<Mosaic> mosaic, 
-    std::weak_ptr<Hero> hero, 
-    std::vector<std::weak_ptr<iActor>> actors);
-int hero_move(std::shared_ptr<Mosaic> mosaic, std::shared_ptr<Hero> hero, bool& quit);
+void color_pallette(std::shared_ptr<iScreen> screen);
 
 int main()
 {
@@ -36,8 +23,47 @@ int main()
     screen->add("1 - mini\n");
     screen->add("2 - standard\n");
     screen->add("3 - full\n");
+    screen->add("4 - color pallette\n");
     screen->add("If you want to quit, press \"Q\"\n\n");
 
+    GameType game_type = GameType::none;
+    do
+    {
+        unsigned int key = screen->get_key_input();
+        switch(key)
+        {
+            case '1':
+                game_type = GameType::mini;
+                break;
+
+            case '2':
+                game_type = GameType::test;
+                break;
+
+            case '3':
+                game_type = GameType::full;
+                break;
+
+            case '4':
+                color_pallette(screen);
+                return 0;
+
+            case 'q':
+            case 'Q':
+                return 0;
+
+            default:
+                break;
+        }
+    } while (game_type == GameType::none);
+
+    Game game(screen, game_type);
+    int result = game.play();
+    return result;
+}
+
+void color_pallette(std::shared_ptr<iScreen> screen)
+{
     screen->add("       BLACK ", io::Color::BLACK, io::Color::WHITE);
     screen->add("       RED ", io::Color::RED);
     screen->add("       GREEN ", io::Color::GREEN);
@@ -62,139 +88,6 @@ int main()
     screen->add("BRIGHT_MAGENTA ", io::Color::BRIGHT_MAGENTA, io::Color::MAGENTA);
     screen->add("BRIGHT_CYAN ", io::Color::BRIGHT_CYAN, io::Color::CYAN);
     screen->add("BRIGHT_WHITE\n", io::Color::BRIGHT_WHITE, io::Color::WHITE);
-
-    std::shared_ptr<Floor> floor = nullptr;
-    std::weak_ptr<Hero> hero;
-    std::vector<std::weak_ptr<iActor>> actors;
-    do
-    {
-        unsigned int key = screen->get_key_input();
-        switch(key)
-        {
-            case '1':
-                floor = make_mini(screen, hero, actors);
-                break;
-
-            case '2':
-                floor = make_standard(screen, hero, actors);
-                break;
-
-            case '3':
-                floor = make_full(screen, hero, actors);
-                break;
-
-            case 'q':
-            case 'Q':
-                return 0;
-
-            default:
-                break;
-        }
-    } while (floor == nullptr);
-    
-    // create a viewport on that floor that is the viewable area
-    std::shared_ptr<Viewport> viewport = 
-        std::make_shared<Viewport>(
-            screen, floor, 
-            /*screen_row*/0, /*screen_cell*/5,
-            screen->height(), 
-            screen->width() - 5, 
-            hero.lock()->where().row(),
-            hero.lock()->where().cell());
-    floor->register_update(viewport);
-
-    // create the status window
-    std::shared_ptr<StatusPane> status =
-        std::make_shared<StatusPane>(
-            screen,
-            hero,
-            /*screen_row*/0, /*screen_cell*/0,
-            screen->height(), /*width*/5);
-
-    std::shared_ptr<Mosaic> mosaic = std::make_shared<Mosaic>(screen);
-    bool status_added = mosaic->add(status);
-    bool viewport_added = mosaic->add(viewport);
-    assert(status_added && viewport_added);
-    mosaic->refill();
-    mosaic->refresh();
-
-    // start the game loop
-    game_loop(mosaic, hero, actors);
-
-    return 0;
+    screen->get_key_input();
 }
 
-void game_loop(
-    std::shared_ptr<Mosaic> mosaic, 
-    std::weak_ptr<Hero> hero_ptr, 
-    std::vector<std::weak_ptr<iActor>> actors)
-{
-    TimeLine timeline;
-    for (unsigned int i = 0; i < actors.size(); i++)
-    {
-        std::shared_ptr<iActor> actor = actors[i].lock();
-        std::shared_ptr<TimeEntry> entry = std::make_shared<TimeEntry>(
-            actor,
-            actor == hero_ptr.lock());
-        timeline.insert(entry, i);
-    }
-
-    bool quit = false;
-    while (!quit && !timeline.is_empty())
-    {
-        std::shared_ptr<TimeEntry> entry = timeline.remove_next();
-        std::shared_ptr<iActor> actor = entry->actor().lock();
-        if (actor == nullptr)
-        {
-            continue;
-        }
-
-        unsigned long time_used;
-        if (entry->is_hero())
-        {
-            assert(entry->actor().lock() == hero_ptr.lock());
-            time_used = hero_move(mosaic, hero_ptr.lock(), quit);
-        }
-        else
-        {
-            time_used = actor->move();
-        }
-        mosaic->refresh();
-        timeline.insert(entry, time_used);
-    }
-}
-
-int hero_move(std::shared_ptr<Mosaic> mosaic, std::shared_ptr<Hero> hero, bool& quit)
-{
-    // get and decode input
-    for(;;)
-    {
-        unsigned int key = mosaic->screen()->get_key_input();
-        if (KeyToDirection.count(key) > 0)
-        {
-            Direction direction = KeyToDirection[key];
-            return hero->move(direction);
-        }
-        switch(key)
-        {
-            case 'q':
-            case 'Q':
-                // quit
-                quit = true;
-                return 0;
-
-            case ' ':
-                // space is stand for a turn
-                return hero->move();
-
-            case '\t':
-                // tab brings up map
-                // todo
-                continue;
-
-            default:
-                // for anything else, we go back for more input
-                continue;
-        }
-    }
-}

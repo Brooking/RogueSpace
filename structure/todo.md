@@ -25,7 +25,7 @@
     - [x] break none/seen/visible/lit out of token
   - [x] move visibility tools underneath world
   - [x] move io underneath ui
-  - [ ] create game class
+  - [x] create game class
   - [x] implement iActor
   - [x] change the executable name to roguespace.out
 ### Input
@@ -39,7 +39,7 @@
   - [x] implement time-tic based speed differentiation
     - [x] timeline
     - [ ] time-per-action, (speed setting?)
-    - [ ] iActor
+    - [x] iActor
     - [ ] different timer for UI effects
 ### Output
 #### Curses
@@ -101,6 +101,7 @@
 #### Hero
   - [x] Add sight distance
   - [ ] add push-past
+  - [ ] create iHero for use in game.cpp
 #### Visibility
   - [x] Line of sight
   - [x] Field of view

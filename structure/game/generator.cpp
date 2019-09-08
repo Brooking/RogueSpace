@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "generator.h"
 #include "../world/bee.h"
 #include "../world/dog.h"
@@ -5,10 +6,30 @@
 #include "../world/wall.h"
 #include "../world/visibility/los.h"
 
-void wall_border(std::shared_ptr<Floor>);
-void make_wall(std::shared_ptr<Floor> floor, Location start, Location end);
+std::shared_ptr<Floor> Generator::make(
+    std::shared_ptr<iScreen> screen,
+    GameType game_type, 
+    std::weak_ptr<Hero>& hero,
+    std::vector<std::weak_ptr<iActor>>& actors)
+{
+    switch(game_type)
+    {
+        case GameType::mini:
+            return Generator::make_mini(screen, hero, actors);
 
-std::shared_ptr<Floor> make_mini(
+        case GameType::test:
+            return Generator::make_test(screen, hero, actors);
+
+        case GameType::full:
+            return Generator::make_full(screen, hero, actors);
+
+        case GameType::none:
+        default:        
+            throw std::invalid_argument("unknown game type");
+    }
+}
+
+std::shared_ptr<Floor> Generator::make_mini(
     std::shared_ptr<iScreen>, 
     std::weak_ptr<Hero>& hero_ptr, 
     std::vector<std::weak_ptr<iActor>>& actors)
@@ -33,7 +54,7 @@ std::shared_ptr<Floor> make_mini(
     return floor;
 }
 
-std::shared_ptr<Floor> make_standard(
+std::shared_ptr<Floor> Generator::make_test(
     std::shared_ptr<iScreen> screen, 
     std::weak_ptr<Hero>& hero_ptr, 
     std::vector<std::weak_ptr<iActor>>& actors)
@@ -127,7 +148,7 @@ std::shared_ptr<Floor> make_standard(
     return floor;
 }
 
-std::shared_ptr<Floor> make_full(
+std::shared_ptr<Floor> Generator::make_full(
     std::shared_ptr<iScreen> screen, 
     std::weak_ptr<Hero>& hero_ptr, 
     std::vector<std::weak_ptr<iActor>>& actors)
@@ -221,7 +242,7 @@ std::shared_ptr<Floor> make_full(
     return floor;
 }
 
-void wall_border(std::shared_ptr<Floor> floor)
+void Generator::wall_border(std::shared_ptr<Floor> floor)
 {
     std::shared_ptr<Wall> wall;
     for (unsigned int row = 0; row < floor->height(); row++)
@@ -244,7 +265,7 @@ void wall_border(std::shared_ptr<Floor> floor)
     }
 }
 
-void make_wall(std::shared_ptr<Floor> floor, Location start, Location end)
+void Generator::make_wall(std::shared_ptr<Floor> floor, Location start, Location end)
 {
     std::vector<Location> locations = bresenham_los(
         start.row(), start.cell(), end.row(), end.cell());
