@@ -1,7 +1,7 @@
 all: \
-		game.out \
-		gametests.out \
 		commontests.out \
+		gametests.out \
+		roguespace.out \
 		uitests.out \
 		vistests.out \
 		worldtests.out
@@ -11,11 +11,6 @@ clean:
 	rm -f lib/*.a
 	rm -f obj/*.o
 
-# not including these warnings
-#  -Waggregate return because I like treating Locations as a value type
-#  -Wmissing   braces misidentifies 2 sets of missing braces
-#  -Wpadded    haven't grocked this stuff yet
-#  -ansi       messes up enum::value formatting 
 c++warnings= \
 	-pedantic \
 	-pedantic-errors \
@@ -73,6 +68,11 @@ c++warnings= \
 	-Wvariadic-macros \
 	-Wvolatile-register-var \
 	-Wwrite-strings
+# not including these warnings
+#	-Waggregate-return	because I like treating Locations as a value type
+#	-Wmissing			braces misidentifies 2 sets of missing braces
+#	-Wpadded			no need to pad out my structures
+#	-ansi				replacement for -std=c++11, messes up enum::value formatting 
 
 c++compile=g++
 c++standard=-std=c++11
@@ -160,7 +160,26 @@ commontests.out : \
 		-lcommon \
 		-o commontests.out
 
-game.out: \
+gametests.out : \
+		lib/libcommon.a \
+		game/time_entry.h \
+		game/timeline.h \
+		game/timeline.cpp \
+		test/catch.hpp \
+		test/timeline_test.cpp \
+		test/main.cpp \
+		test/timeline_test.cpp
+	$(c++command) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		game/timeline.cpp \
+		test/main.cpp \
+		test/timeline_test.cpp \
+		-lcommon \
+		-o gametests.out
+
+roguespace.out: \
 		lib/libcommon.a \
 		lib/libio.a \
 		lib/libui.a \
@@ -184,26 +203,7 @@ game.out: \
 		-lio \
 		-lvisibility \
 		-lcurses \
-		-o game.out
-
-gametests.out : \
-		lib/libcommon.a \
-		game/time_entry.h \
-		game/timeline.h \
-		game/timeline.cpp \
-		test/catch.hpp \
-		test/timeline_test.cpp \
-		test/main.cpp \
-		test/timeline_test.cpp
-	$(c++command) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		game/timeline.cpp \
-		test/main.cpp \
-		test/timeline_test.cpp \
-		-lcommon \
-		-o gametests.out
+		-o roguespace.out
 
 uitests.out : \
 		lib/libcommon.a \

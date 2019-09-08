@@ -27,7 +27,7 @@
   - [x] move io underneath ui
   - [ ] create game class
   - [ ] implement iActor
-  - [ ] change the executable name to roguespace.out
+  - [x] change the executable name to roguespace.out
 ### Input
 #### Keyboard
   - [x] add diagonal input
@@ -36,8 +36,10 @@
   - [ ] implement hover info
   - [ ] implement click to move
 #### Time Management
-  - [ ] implement time-tic based speed differentiation
-    - [ ] timeline, iActor, time-per-action, (speed setting?)
+  - [x] implement time-tic based speed differentiation
+    - [x] timeline
+    - [ ] time-per-action, (speed setting?)
+    - [ ] iActor
     - [ ] different timer for UI effects
 ### Output
 #### Curses
@@ -83,6 +85,7 @@
     - [ ] tests
   - [x] add bee and rat
   - [ ] dog should pathfind (and always know where hero is)
+  - [ ] dog always visible
   - [ ] monster::move should have central implementation
 #### Lighting
   - [x] Add visibility to hero
