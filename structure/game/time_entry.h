@@ -10,7 +10,7 @@
 class TimeEntry
 {
 public:
-    TimeEntry(std::weak_ptr<iThing> actor, bool is_hero) : 
+    TimeEntry(std::weak_ptr<iThing> actor, bool is_hero = false) : 
         actor_(actor), timestamp_(0), next_(nullptr), is_hero_(is_hero)
     {}
 

@@ -1,17 +1,24 @@
 #include <bits/stdc++.h>
+#include <stdexcept>
 #include "timeline.h"
 
 void TimeLine::insert(std::shared_ptr<TimeEntry> entry, unsigned long time_added)
 {
     std::shared_ptr<TimeEntry> current;
-    if (ULONG_MAX - entry->timestamp() <= time_added)
+    unsigned long space_left = ULONG_MAX - entry->timestamp();
+    if (space_left <= time_added)
     {
         // we are about to wrap out timestamps, back everyone up
         unsigned long delta = entry->timestamp();
         if (this->next_ != nullptr)
-        {
+        {            
             current = this->next_;
             delta = current->timestamp();
+            if (delta < time_added - space_left)
+            {
+                // the space required exceeds the space available
+                throw std::invalid_argument("Not enough room in the timeline");
+            }
             while (current != nullptr)
             {
                 current->set_timestamp(current->timestamp() - delta);

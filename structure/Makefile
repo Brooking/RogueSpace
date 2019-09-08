@@ -1,5 +1,6 @@
 all: \
 		game.out \
+		gametests.out \
 		commontests.out \
 		uitests.out \
 		vistests.out \
@@ -153,8 +154,8 @@ commontests.out : \
 		$(all_include_dirs) \
 		$(lib_dir) \
 		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
 		test/location_test.cpp \
+		test/main.cpp \
 		test/uitoken_test.cpp \
 		-lcommon \
 		-o commontests.out
@@ -184,6 +185,25 @@ game.out: \
 		-lvisibility \
 		-lcurses \
 		-o game.out
+
+gametests.out : \
+		lib/libcommon.a \
+		game/time_entry.h \
+		game/timeline.h \
+		game/timeline.cpp \
+		test/catch.hpp \
+		test/timeline_test.cpp \
+		test/main.cpp \
+		test/timeline_test.cpp
+	$(c++command) \
+		$(all_include_dirs) \
+		$(lib_dir) \
+		-DPROTECTED_ACCESS=public \
+		game/timeline.cpp \
+		test/main.cpp \
+		test/timeline_test.cpp \
+		-lcommon \
+		-o gametests.out
 
 uitests.out : \
 		lib/libcommon.a \

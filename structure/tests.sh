@@ -12,3 +12,6 @@ echo worldtests
 
 echo commontests
 ./commontests.out
+
+echo gametests
+./gametests.out
