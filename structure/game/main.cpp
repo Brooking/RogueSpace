@@ -4,6 +4,7 @@
 #include <memory>
 #include "io_constants.h"
 #include "generator.h"
+#include "iactor.h"
 #include "iscreen.h"
 #include "timeline.h"
 #include "time_entry.h"
@@ -19,7 +20,7 @@
 void game_loop(
     std::shared_ptr<Mosaic> mosaic, 
     std::weak_ptr<Hero> hero, 
-    std::vector<std::weak_ptr<iThing>> actors);
+    std::vector<std::weak_ptr<iActor>> actors);
 int hero_move(std::shared_ptr<Mosaic> mosaic, std::shared_ptr<Hero> hero, bool& quit);
 
 int main()
@@ -64,7 +65,7 @@ int main()
 
     std::shared_ptr<Floor> floor = nullptr;
     std::weak_ptr<Hero> hero;
-    std::vector<std::weak_ptr<iThing>> actors;
+    std::vector<std::weak_ptr<iActor>> actors;
     do
     {
         unsigned int key = screen->get_key_input();
@@ -126,12 +127,12 @@ int main()
 void game_loop(
     std::shared_ptr<Mosaic> mosaic, 
     std::weak_ptr<Hero> hero_ptr, 
-    std::vector<std::weak_ptr<iThing>> actors)
+    std::vector<std::weak_ptr<iActor>> actors)
 {
     TimeLine timeline;
     for (unsigned int i = 0; i < actors.size(); i++)
     {
-        std::shared_ptr<iThing> actor = actors[i].lock();
+        std::shared_ptr<iActor> actor = actors[i].lock();
         std::shared_ptr<TimeEntry> entry = std::make_shared<TimeEntry>(
             actor,
             actor == hero_ptr.lock());
@@ -142,7 +143,7 @@ void game_loop(
     while (!quit && !timeline.is_empty())
     {
         std::shared_ptr<TimeEntry> entry = timeline.remove_next();
-        std::shared_ptr<iThing> actor = entry->actor().lock();
+        std::shared_ptr<iActor> actor = entry->actor().lock();
         if (actor == nullptr)
         {
             continue;

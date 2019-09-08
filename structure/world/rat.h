@@ -28,7 +28,7 @@ public:
         home_(Location()), target_() {}
     virtual ~Rat() {}
 
-    // iThing: do its move
+    // iActor: do its move
     virtual unsigned int move() override
     {
         Location original_location = this->tile()->where();

@@ -25,7 +25,7 @@ public:
     Hero(unsigned int sight_range = Hero::DefaultSightRange);
     virtual ~Hero() {}
 
-    // iThing: move (ironaically, for the hero, this means stand still...)
+    // iActor: move (ironaically, for the hero, this means stand still...)
     virtual unsigned int move() override;
 
     // iThing: place the hero (and update the floor's 'hero' value)

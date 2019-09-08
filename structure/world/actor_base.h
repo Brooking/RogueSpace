@@ -3,12 +3,13 @@
 
 #include <cmath> // for abs
 #include <assert.h>
+#include "iactor.h"
 #include "thing_base.h"
 
 //
 // Base class for all actors
 //
-class ActorBase : public ThingBase
+class ActorBase : public ThingBase, public iActor
 {
 public:
     static constexpr double sqrt2 = 1.41;

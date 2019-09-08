@@ -16,7 +16,7 @@ public:
     Bee() : ActorBase(TokenType::bee, Bee::MoveTime) {}
     virtual ~Bee() {}
 
-    // iThing: do its move
+    // iActor: do its move
     virtual unsigned int move() override
     {
         Location original_location = this->tile()->where();

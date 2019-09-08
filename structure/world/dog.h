@@ -12,7 +12,7 @@ public:
     Dog() : ActorBase(TokenType::dog, Dog::MoveTime) {}
     virtual ~Dog() {}
 
-    // iThing: do its move
+    // iActor: do its move
     virtual unsigned int move() override
     {
         Location original_location = this->tile()->where();

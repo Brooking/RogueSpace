@@ -11,7 +11,7 @@ void make_wall(std::shared_ptr<Floor> floor, Location start, Location end);
 std::shared_ptr<Floor> make_mini(
     std::shared_ptr<iScreen>, 
     std::weak_ptr<Hero>& hero_ptr, 
-    std::vector<std::weak_ptr<iThing>>& actors)
+    std::vector<std::weak_ptr<iActor>>& actors)
 {
     // create a floor
     std::shared_ptr<Floor> floor = Floor::create(7, 7);
@@ -36,7 +36,7 @@ std::shared_ptr<Floor> make_mini(
 std::shared_ptr<Floor> make_standard(
     std::shared_ptr<iScreen> screen, 
     std::weak_ptr<Hero>& hero_ptr, 
-    std::vector<std::weak_ptr<iThing>>& actors)
+    std::vector<std::weak_ptr<iActor>>& actors)
 {
     // create a floor larger than the view area
     std::shared_ptr<Floor> floor = Floor::create(screen->height(), screen->width());
@@ -130,7 +130,7 @@ std::shared_ptr<Floor> make_standard(
 std::shared_ptr<Floor> make_full(
     std::shared_ptr<iScreen> screen, 
     std::weak_ptr<Hero>& hero_ptr, 
-    std::vector<std::weak_ptr<iThing>>& actors)
+    std::vector<std::weak_ptr<iActor>>& actors)
 {
     // create a floor larger than the view area
     std::shared_ptr<Floor> floor = Floor::create(screen->height(), screen->width());

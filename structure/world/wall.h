@@ -87,14 +87,6 @@ public:
                 adjacency[i] = (adjacent_tile->how_full() == ContentSize::full);
             }
         }
-        // adjacency[static_cast<unsigned int>(AdjacentWallBits::North)] =
-        //     floor->tile(Location(floor_row-1, floor_cell))->how_full() == ContentSize::full;
-        // adjacency[static_cast<unsigned int>(AdjacentWallBits::East)] =
-        //     floor->tile(Location(floor_row, floor_cell+1))->how_full() == ContentSize::full;
-        // adjacency[static_cast<unsigned int>(AdjacentWallBits::South)] =
-        //     floor->tile(Location(floor_row+1, floor_cell))->how_full() == ContentSize::full;
-        // adjacency[static_cast<unsigned int>(AdjacentWallBits::West)] =
-        //     floor->tile(Location(floor_row, floor_cell-1))->how_full() == ContentSize::full;
         WallType wall_type = AdjacentWallList[static_cast<int>(adjacency.to_ulong())];
 
         return UIToken(
@@ -103,13 +95,6 @@ public:
             tile->has_been_seen(), 
             tile->is_lit());
     }
-
-    // iThing: walls don't move
-    __attribute__((__noreturn__)) 
-    unsigned int move() override
-    {
-        throw std::domain_error("walls don't move");
-    }    
 };
 
 #endif // _wall.h_

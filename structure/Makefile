@@ -105,6 +105,7 @@ common_includes= \
 	Makefile \
 	inc/content_size.h \
 	inc/direction.h \
+	inc/iactor.h \
 	inc/ifloor.h \
 	inc/io_constants.h \
 	inc/iscreen.h \

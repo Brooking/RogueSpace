@@ -26,9 +26,6 @@ public:
     // This thing is centered
     virtual bool is_center() const = 0;
 
-    // Tell this thing to move
-    virtual unsigned int move() = 0;
-
     // Put this thing on a tile (remove it from its current tile)
     virtual bool place(std::shared_ptr<Tile> tile) = 0;
 

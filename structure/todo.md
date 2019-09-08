@@ -26,7 +26,7 @@
   - [x] move visibility tools underneath world
   - [x] move io underneath ui
   - [ ] create game class
-  - [ ] implement iActor
+  - [x] implement iActor
   - [x] change the executable name to roguespace.out
 ### Input
 #### Keyboard
@@ -74,6 +74,7 @@
   - [x] add a monster to move around
   - [x] limit monster's reaction to hero in field of view
   - [x] limit monster's range to view hero
+  - [ ] rat passes hero to get to old 'target'
   - [ ] add monster reaction to dog
   - [ ] add monster 'bounce' off of hero
   - [ ] add monster smelling
