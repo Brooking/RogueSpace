@@ -86,7 +86,7 @@ protected:
     std::weak_ptr<Tile> tile_;
     TokenType token_type_;
     ContentSize content_size_;
-    bool center_;    
+    bool center_;
 };
 
 #endif // _thing_base_h_

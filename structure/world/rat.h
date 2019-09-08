@@ -2,7 +2,7 @@
 #define _rat_h_
 
 #include "floor.h" // todo should be ifloor.h
-#include "monster_base.h"
+#include "actor_base.h"
 
 enum class AiState
 {
@@ -11,24 +11,27 @@ enum class AiState
     Homing
 };
 
-const unsigned int HomeRange = 5;
-const unsigned int SightRange = 10;
-
 //
 // Monster with short sight, but can path find
 //
-class Rat : public MonsterBase
+class Rat : public ActorBase
 {
 public:
+    static const unsigned int SightRange = 10;
+    static const unsigned int MoveTime = 100;
+    static const unsigned int HomeRange = 5;
+
+public:
     Rat() : 
-        MonsterBase(TokenType::rat), ai_state_(AiState::Wandering), 
+        ActorBase(TokenType::rat, Rat::MoveTime), 
+        ai_state_(AiState::Wandering), 
         home_(Location()), target_() {}
     virtual ~Rat() {}
 
     // iThing: do its move
-    virtual bool move() override
+    virtual unsigned int move() override
     {
-        Location here = this->tile()->where();
+        Location original_location = this->tile()->where();
         std::shared_ptr<Floor> floor = this->tile()->floor();
         std::shared_ptr<Hero> hero = floor->hero().lock();
 
@@ -38,10 +41,10 @@ public:
         {
             changed = false;
 
-            if (hero->can_be_seen_from(here, SightRange))
+            if (hero->can_be_seen_from(original_location, SightRange))
             {
                 // I see the hero
-                if (this->ai_state_ != AiState::Beelining || here == this->target_)
+                if (this->ai_state_ != AiState::Beelining || original_location == this->target_)
                 {
                     this->target_ = hero->tile()->where();
                     changed = true;
@@ -51,7 +54,7 @@ public:
             } 
             else if (this->ai_state_ != AiState::Beelining)
             {
-                if (here.distance(this->home_) > HomeRange)
+                if (original_location.distance(this->home_) > HomeRange)
                 {
                     // I have wandered away from home
                     changed = (this->ai_state_ != AiState::Homing);
@@ -76,28 +79,33 @@ public:
         default:
         case AiState::Wandering:
             // just wander around
-            new_location = floor->choose_random(here.all_adjacent_locations(),shared_this);
+            new_location = floor->choose_random(
+                original_location.all_adjacent_locations(),
+                shared_this);
             break;
 
         case AiState::Beelining:
             // head toward where the hero was
             // todo - replace with pathfinder
-            new_location = floor->choose_random(here.closer_adjacent_locations(this->target_), shared_this);
+            new_location = floor->choose_random(
+                original_location.closer_adjacent_locations(this->target_),
+                shared_this);
             break;
 
         case AiState::Homing:
             // head toward home
             // todo - replace with pathfinder
-            new_location = floor->choose_random(here.closer_adjacent_locations(this->home_), shared_this);
+            new_location = floor->choose_random(
+                original_location.closer_adjacent_locations(this->home_),
+                shared_this);
             break;
         }
 
         if (new_location != Location())
         {
             this->place(floor->tile(new_location));
-            return true;
         }
-        return false;
+        return this->calculate_move_time(original_location);
     }
 
     virtual bool place(std::shared_ptr<Tile> tile) override

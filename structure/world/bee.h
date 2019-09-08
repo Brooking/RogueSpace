@@ -2,20 +2,24 @@
 #define _bee_h_
 
 #include "floor.h" // todo should be ifloor.h
-#include "monster_base.h"
+#include "actor_base.h"
 
 //
 // Monster that sees you wherever you are, but can't navigate well
 //
-class Bee : public MonsterBase
+class Bee : public ActorBase
 {
 public:
-    Bee() : MonsterBase(TokenType::bee) {}
+    static const unsigned int MoveTime = 150;
+
+public:
+    Bee() : ActorBase(TokenType::bee, Bee::MoveTime) {}
     virtual ~Bee() {}
 
     // iThing: do its move
-    virtual bool move() override
+    virtual unsigned int move() override
     {
+        Location original_location = this->tile()->where();
         std::shared_ptr<Floor> floor = this->tile()->floor();
         Location hero_location = floor->hero().lock()->where();
 
@@ -27,10 +31,9 @@ public:
         if (new_location != Location())
         {
             this->place(floor->tile(new_location));
-            return true;
         }
 
-        return false;
+        return this->calculate_move_time(original_location);
     }
 };
 #endif // _bee_h_

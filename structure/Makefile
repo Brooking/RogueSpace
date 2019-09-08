@@ -107,8 +107,9 @@ common_includes= \
 	inc/ifloor.h \
 	inc/io_constants.h \
 	inc/iscreen.h \
-	inc/iwindow.h \
+	inc/ithing.h \
 	inc/iupdate.h \
+	inc/iwindow.h \
 	inc/location.h \
 	inc/uitoken.h
 io_includes= \
@@ -116,13 +117,12 @@ io_includes= \
 	ui/io/screen.h \
 	ui/io/window.h
 world_includes= \
+	world/actor_base.h \
 	world/bee.h \
 	world/dog.h \
 	world/floor.h \
 	world/hero.h \
-	world/ithing.h \
 	world/map_for_casting.h \
-	world/monster_base.h \
 	world/rat.h \
 	world/thing_base.h \
 	world/tile.h \
@@ -165,13 +165,18 @@ game.out: \
 		lib/libui.a \
 		lib/libvisibility.a \
 		lib/libworld.a \
+		game/generator.h \
+		game/time_entry.h \
+		game/timeline.h \
 		obj/main.o \
-		obj/generator.o
+		obj/generator.o \
+		obj/timeline.o
 	$(c++command) \
 		$(all_include_dirs) \
 		$(lib_dir) \
-		obj/main.o \
 		obj/generator.o \
+		obj/main.o \
+		obj/timeline.o \
 		-lcommon \
 		-lworld \
 		-lui \
@@ -430,6 +435,15 @@ obj/generator.o : \
 	$(c++command) $(all_include_dirs) \
 		-c game/generator.cpp \
 		-o obj/generator.o
+
+obj/timeline.o : \
+		$(common_includes) \
+		game/timeline.h \
+		game/timeline.cpp \
+		game/time_entry.h
+	$(c++command) $(common_include_dirs) \
+		-c game/timeline.cpp \
+		-o obj/timeline.o
 
 # io objects
 obj/rawcurses.o : \

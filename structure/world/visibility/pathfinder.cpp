@@ -11,7 +11,7 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
         return result;
     }
 
-    // flood fill distances for floor (todo: save this for reuse by all monsters)
+    // flood fill distances for floor (todo: save this for reuse by all actors)
     std::vector<std::vector<unsigned int>> distance(
         this->map_->get_height(), 
         std::vector<unsigned int>(

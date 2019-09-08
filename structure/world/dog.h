@@ -1,17 +1,21 @@
 #ifndef _dog_h_
 #define _dog_h_
 
-#include "monster_base.h"
+#include "actor_base.h"
 
-class Dog : public MonsterBase
+class Dog : public ActorBase
 {
 public:
-    Dog() : MonsterBase(TokenType::dog) {}
+    static const unsigned int MoveTime = 50;
+
+public:
+    Dog() : ActorBase(TokenType::dog, Dog::MoveTime) {}
     virtual ~Dog() {}
 
     // iThing: do its move
-    virtual bool move() override
+    virtual unsigned int move() override
     {
+        Location original_location = this->tile()->where();
         std::shared_ptr<Floor> floor = this->tile()->floor();
         Location hero_location = floor->hero().lock()->where();
 
@@ -32,10 +36,9 @@ public:
         if (new_location != Location())
         {
             this->place(floor->tile(new_location));
-            return true;
         }
 
-        return false;
+        return this->calculate_move_time(original_location);
     }
 };
 

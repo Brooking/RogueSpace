@@ -105,7 +105,11 @@ public:
     }
 
     // iThing: walls don't move
-    virtual bool move() override { return false; }
+    __attribute__((__noreturn__)) 
+    unsigned int move() override
+    {
+        throw std::domain_error("walls don't move");
+    }    
 };
 
 #endif // _wall.h_

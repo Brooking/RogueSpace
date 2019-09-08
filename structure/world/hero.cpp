@@ -5,17 +5,18 @@
 #include "visibility/original_shadow_cast.h"
 
 Hero::Hero(unsigned int sight_range) : 
-    ThingBase(TokenType::hero, ContentSize::large, /*center*/true),
+    ActorBase(TokenType::hero, Hero::MoveTime, /*center*/true),
     sight_range_(sight_range)
 {}
 
-__attribute__((__noreturn__)) bool Hero::move()
+unsigned int Hero::move()
 {
-    throw std::domain_error("heroes do not move at random");
+    return MoveTime;
 }
 
-bool Hero::move(Direction direction)
+unsigned int Hero::move(Direction direction)
 {
+    Location original_location = this->tile()->where();
     Location newLocation = this->where().apply_direction(direction);
     std::shared_ptr<Floor> floor = this->tile()->floor();
     std::shared_ptr<Tile> newTile = floor->tile(newLocation);   
@@ -25,10 +26,10 @@ bool Hero::move(Direction direction)
         this->tile()->remove(shared_this);
         this->tile_ = newTile;
         newTile->add(shared_this);
-        return true;
+        return this->calculate_move_time(original_location);
     }
 
-    return false;
+    return 0;
 }
 
 bool Hero::can_see(Location location)

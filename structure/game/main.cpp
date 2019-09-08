@@ -1,9 +1,12 @@
+#include <assert.h>
 #include <iostream>
 #include <map>
 #include <memory>
 #include "io_constants.h"
 #include "generator.h"
 #include "iscreen.h"
+#include "timeline.h"
+#include "time_entry.h"
 #include "../ui/io/rawcurses.h"
 #include "../ui/io/screen.h"
 #include "../ui/mosaic.h"
@@ -17,7 +20,7 @@ void game_loop(
     std::shared_ptr<Mosaic> mosaic, 
     std::weak_ptr<Hero> hero, 
     std::vector<std::weak_ptr<iThing>> actors);
-int hero_move(std::shared_ptr<Mosaic> mosaic, std::weak_ptr<Hero> hero, bool& quit);
+int hero_move(std::shared_ptr<Mosaic> mosaic, std::shared_ptr<Hero> hero, bool& quit);
 
 int main()
 {
@@ -125,37 +128,43 @@ void game_loop(
     std::weak_ptr<Hero> hero_ptr, 
     std::vector<std::weak_ptr<iThing>> actors)
 {
-    std::shared_ptr<Hero> hero = hero_ptr.lock();
-    bool quit = false;
-    while (!quit && actors.size() > 0)
+    TimeLine timeline;
+    for (unsigned int i = 0; i < actors.size(); i++)
     {
-        for (unsigned int i = 0; i < actors.size(); i++)
+        std::shared_ptr<iThing> actor = actors[i].lock();
+        std::shared_ptr<TimeEntry> entry = std::make_shared<TimeEntry>(
+            actor,
+            actor == hero_ptr.lock());
+        timeline.insert(entry, i);
+    }
+
+    bool quit = false;
+    while (!quit && !timeline.is_empty())
+    {
+        std::shared_ptr<TimeEntry> entry = timeline.remove_next();
+        std::shared_ptr<iThing> actor = entry->actor().lock();
+        if (actor == nullptr)
         {
-            std::shared_ptr<iThing> actor = actors[i].lock();
-            if (actor == nullptr)
-            {
-                actors.erase(actors.begin()+i);
-            }
-            else
-            {
-                if (actor == hero_ptr.lock())
-                {
-                    hero_move(mosaic, hero_ptr, quit);
-                }
-                else
-                {
-                    actor->move();
-                }
-                mosaic->refresh();
-            }
+            continue;
         }
+
+        unsigned long time_used;
+        if (entry->is_hero())
+        {
+            assert(entry->actor().lock() == hero_ptr.lock());
+            time_used = hero_move(mosaic, hero_ptr.lock(), quit);
+        }
+        else
+        {
+            time_used = actor->move();
+        }
+        mosaic->refresh();
+        timeline.insert(entry, time_used);
     }
 }
 
-int hero_move(std::shared_ptr<Mosaic> mosaic, std::weak_ptr<Hero> hero_ptr, bool& quit)
+int hero_move(std::shared_ptr<Mosaic> mosaic, std::shared_ptr<Hero> hero, bool& quit)
 {
-    std::shared_ptr<Hero> hero = hero_ptr.lock();
-
     // get and decode input
     for(;;)
     {

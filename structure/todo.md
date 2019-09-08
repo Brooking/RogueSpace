@@ -9,6 +9,7 @@
   - [x] coalesce mini+main
   - [x] consistent virtual/override usage
   - [x] select char appears in terminal after execution stops
+  - [ ] unseen actors obscure seen floors
 ### Structure
   - [ ] Rectify hero being known to the floor(?)
   - [x] smart pointers for all world objects
@@ -24,6 +25,9 @@
     - [x] break none/seen/visible/lit out of token
   - [x] move visibility tools underneath world
   - [x] move io underneath ui
+  - [ ] create game class
+  - [ ] implement iActor
+  - [ ] change the executable name to roguespace.out
 ### Input
 #### Keyboard
   - [x] add diagonal input
@@ -78,6 +82,8 @@
     - [ ] pathing
     - [ ] tests
   - [x] add bee and rat
+  - [ ] dog should pathfind (and always know where hero is)
+  - [ ] monster::move should have central implementation
 #### Lighting
   - [x] Add visibility to hero
   - [x] Persist seen walls
@@ -90,6 +96,7 @@
   - [ ] implement hiding walls behind walls
 #### Hero
   - [x] Add sight distance
+  - [ ] add push-past
 #### Visibility
   - [x] Line of sight
   - [x] Field of view

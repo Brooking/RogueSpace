@@ -4,7 +4,7 @@
 #include <memory>
 #include "direction.h"
 #include "location.h"
-#include "thing_base.h"
+#include "actor_base.h"
 #include "tile.h"
 #include "uitoken.h"
 
@@ -15,14 +15,18 @@
 //
 // Holds the player's avatar
 //
-class Hero : public ThingBase
+class Hero : public ActorBase
 {
 public:
-    Hero(unsigned int sight_range = 5);
+    static const unsigned int DefaultSightRange = 5;
+    static const unsigned int MoveTime = 100;
+
+public:
+    Hero(unsigned int sight_range = Hero::DefaultSightRange);
     virtual ~Hero() {}
 
-    // iThing: move (not used for heroes)
-    virtual bool move() override;
+    // iThing: move (ironaically, for the hero, this means stand still...)
+    virtual unsigned int move() override;
 
     // iThing: place the hero (and update the floor's 'hero' value)
     virtual bool place(std::shared_ptr<Tile> tile) override;
@@ -31,7 +35,7 @@ public:
     Location where() const;
 
     // move the hero this direction
-    bool move(Direction direction);
+    unsigned int move(Direction direction);
 
     // can the hero see this spot
     bool can_see(Location location);
