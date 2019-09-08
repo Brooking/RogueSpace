@@ -27,7 +27,11 @@ UIToken Tile::token()
 
     if (this->num_things() > 0)
     {
-        return this->things_.back()->token();
+        UIToken token = this->things_.back()->token();
+        if (hero_can_see || token.token_type() == TokenType::wall)
+        {
+            return token; 
+        }
     }
 
     return UIToken(

@@ -9,7 +9,7 @@
   - [x] coalesce mini+main
   - [x] consistent virtual/override usage
   - [x] select char appears in terminal after execution stops
-  - [ ] unseen actors obscure seen floors
+  - [x] unseen actors obscure seen floors
 ### Structure
   - [ ] Rectify hero being known to the floor(?)
   - [x] smart pointers for all world objects
@@ -110,3 +110,4 @@
   - [x] Change api semantics to hero.can_see()
   - [x] Make lighted tiles visible only if in los
   - [x] 'Seen' tiles determined by asking for token
+  - [ ] add always-visible monsters for debugging
