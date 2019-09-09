@@ -29,6 +29,14 @@ public:
         io::Color foreground,
         io::Color background) override;
 
+    // iWindow: place a colored string at the given spot in the window
+    void place_string(
+        unsigned int row,
+        unsigned int cell,
+        std::string string,
+        io::Color foreground,
+        io::Color background) override;
+
     // iWindow: push all changes to the actual screen
     void refresh() override;
 

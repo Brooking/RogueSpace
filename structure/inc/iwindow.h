@@ -14,6 +14,14 @@ public:
         io::Color foreground,
         io::Color background) = 0;
 
+    // place a colored string at the given spot in the window
+    virtual void place_string(
+        unsigned int row,
+        unsigned int cell,
+        std::string string,
+        io::Color foreground,
+        io::Color background) = 0;
+
     // push all changes to the actual screen
     virtual void refresh() = 0;
 

@@ -12,7 +12,6 @@
 class ActorBase : public ThingBase, public iActor
 {
 public:
-    static constexpr double sqrt2 = 1.41;
 
 public:
     ActorBase(TokenType token_type, unsigned int move_time, bool center = false) : 
@@ -28,22 +27,29 @@ public:
     }
 
 protected:
+    static constexpr double SquareRootOf2 = 1.41;
+
     unsigned int calculate_move_time(Location original)
     {
-        int row_diff = std::abs(
+        if (this->is_diagonal_move(original))
+        {
+            // diagonal move
+            return static_cast<unsigned int>(this->move_time_ * ActorBase::SquareRootOf2);
+        }
+
+        // orthogonal (or no) move
+        return this->move_time_;
+    }
+
+    bool is_diagonal_move(Location original)
+    {
+       int row_diff = std::abs(
             static_cast<int>(this->tile()->where().row()) - static_cast<int>(original.row()));
         int cell_diff = std::abs(
             static_cast<int>(this->tile()->where().cell()) - static_cast<int>(original.cell()));
         assert(row_diff < 2);
         assert(cell_diff < 2);
-        if (row_diff > 0 && cell_diff > 0)
-        {
-            // diagonal move
-            return static_cast<unsigned int>(this->move_time_ * sqrt2);
-        }
-
-        // orthogonal (or no) move
-        return this->move_time_;
+        return (row_diff > 0 && cell_diff > 0);
     }
 
 protected:

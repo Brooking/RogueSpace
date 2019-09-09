@@ -8,7 +8,7 @@ StatusPane::StatusPane(
 :
     screen_(screen), hero_ptr_(hero), window_(nullptr),
     screen_row_(screen_row), screen_cell_(screen_cell), 
-    height_(height), width_(StatusPane::status_pane_width)
+    height_(height), width_(StatusPane::StatusPaneWidth)
 {
     this->window_ = this->screen_->create_window(
         this->screen_row_, 
@@ -30,8 +30,8 @@ void StatusPane::refill()
                 row,
                 cell,
                 ' ',
-                StatusPane::pane_foreground,
-                StatusPane::pane_background);
+                StatusPane::PaneForeground,
+                StatusPane::PaneBackground);
         }
     }
 
@@ -55,25 +55,46 @@ bool StatusPane::update(unsigned int, unsigned int, bool center)
 bool StatusPane::update()
 {
     std::shared_ptr<Hero> hero = this->hero_ptr_.lock();
-    unsigned int therm_top = this->screen_row() + top_margin;
+    unsigned int therm_top = this->screen_row() + TopMargin;
     unsigned int therm_height = 
-        this->window_->height() - top_margin - bottom_margin;
+        this->window_->height() - TopMargin - BottomMargin;
+    unsigned int run_row = this->window_->height() - 1;
 
     // health
-    fill_thermometer(therm_top, StatusPane::health_cell, therm_height, 'H', 
+    fill_thermometer(therm_top, StatusPane::HealthCell, therm_height, 'H', 
         hero->max_health(), hero->current_health(),
-        StatusPane::health_foreground, StatusPane::pane_background);
+        StatusPane::HealthForeground, StatusPane::PaneBackground);
 
     // energy
-    fill_thermometer(therm_top, StatusPane::energy_cell, therm_height, 'E', 
+    fill_thermometer(therm_top, StatusPane::EnergyCell, therm_height, 'E', 
         hero->max_energy(), hero->current_energy(),
-        StatusPane::energy_foreground, StatusPane::pane_background);
+        StatusPane::EnergyForeground, StatusPane::PaneBackground);
 
     // stamina
-    fill_thermometer(therm_top, StatusPane::stamina_cell, therm_height, 'S', 
+    fill_thermometer(therm_top, StatusPane::StaminaCell, therm_height, 'S', 
         hero->max_stamina(), hero->current_stamina(),
-        StatusPane::stamina_foreground, StatusPane::pane_background);
+        StatusPane::StaminaForeground, StatusPane::PaneBackground);
 
+    // update run/walk
+    if (hero->is_running())
+    {
+        this->window_->place_string(
+            run_row,
+            StatusPane::HealthCell,
+            "run ",
+            StatusPane::PaneForeground,
+            StatusPane::PaneBackground);
+    }
+    else
+    {
+        this->window_->place_string(
+            run_row,
+            StatusPane::HealthCell,
+            "walk",
+            StatusPane::PaneForeground,
+            StatusPane::PaneBackground);
+    }
+    
     return true;
 }
 

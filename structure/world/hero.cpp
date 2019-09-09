@@ -5,15 +5,25 @@
 #include "visibility/original_shadow_cast.h"
 
 Hero::Hero(unsigned int sight_range) : 
-    ActorBase(TokenType::hero, Hero::MoveTime, /*center*/true),
+    ActorBase(TokenType::hero, Hero::WalkTime, /*center*/true),
     sight_range_(sight_range),
     max_stamina_(Hero::DefaultMaxStamina),
-    current_stamina_(Hero::DefaultMaxStamina)
+    current_stamina_(Hero::DefaultMaxStamina),
+    running_(false)
 {}
 
 unsigned int Hero::move()
 {
-    return MoveTime;
+    this->current_stamina_ = std::min(
+        this->max_stamina_, 
+        this->current_stamina_ + Hero::RestStaminaRecovery);
+
+    // need to update because the normal mechanism for 
+    // causing changes to show up in the UI is adds/deletes from
+    // the floor. There are none here, but still want the UI 
+    // to reflect the change
+    this->tile()->floor()->update(this->where(),/*is_center*/true);
+    return Hero::RunTime;
 }
 
 unsigned int Hero::move(Direction direction)
@@ -27,6 +37,30 @@ unsigned int Hero::move(Direction direction)
     {
         this->tile()->remove(shared_this);
         this->tile_ = newTile;
+
+        // handle stamina
+        if (this->running_)
+        {
+            unsigned int stamina_cost = this->is_diagonal_move(original_location) ?
+                static_cast<unsigned int>(Hero::RunStaminaCost * Hero::SquareRootOf2) :
+                Hero::RunStaminaCost;
+            if (this->current_stamina_ < stamina_cost)
+            {
+                this->current_stamina_ = 0;
+                this->toggle_run();
+            }
+            else
+            {
+                this->current_stamina_ -= stamina_cost;
+            }            
+        }
+        else
+        {
+            this->current_stamina_ = std::min(
+                this->max_stamina_, 
+                this->current_stamina_ + Hero::WalkStaminaRecovery);
+        }
+
         newTile->add(shared_this);
         return this->calculate_move_time(original_location);
     }
@@ -99,4 +133,11 @@ Location Hero::where() const
         return this->tile_.lock()->where();
     }
     return Location();
+}
+
+void Hero::toggle_run()
+{
+    this->running_ = !this->running_;
+    this->move_time_ = (this->running_) ? Hero::RunTime : Hero::WalkTime;
+    this->tile()->floor()->update(this->where(),/*is_center*/true);
 }

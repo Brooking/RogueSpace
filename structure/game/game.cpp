@@ -29,13 +29,13 @@ Game::Game(std::shared_ptr<iScreen> screen, GameType game_type) :
             screen->width() - status->width(), 
             this->floor_->hero_location().row(),
             this->floor_->hero_location().cell());
-    this->floor_->register_update(viewport);
 
     //put the UI items into the mosaic
    this->mosaic_ = std::make_shared<Mosaic>(screen);
     bool status_added = this->mosaic_->add(status);
     bool viewport_added = this->mosaic_->add(viewport);
     assert(status_added && viewport_added);
+    this->floor_->register_update(this->mosaic_);
     this->mosaic_->refill();
     this->mosaic_->refresh();
 
@@ -101,6 +101,16 @@ int Game::hero_move(bool& quit)
             case ' ':
                 // space is stand for a turn
                 return this->hero_.lock()->move();
+
+            case 'r':
+            case 'R':
+                // toggle running
+                this->hero_.lock()->toggle_run();
+
+                // need to refresh because we are not returning,
+                // but still want the UI to reflect the change
+                this->mosaic_->refresh();
+                continue;
 
             case '\t':
                 // tab brings up map

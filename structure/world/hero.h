@@ -18,11 +18,6 @@
 class Hero : public ActorBase
 {
 public:
-    static const unsigned int DefaultSightRange = 5;
-    static const unsigned int DefaultMaxStamina = 100;
-    static const unsigned int MoveTime = 100;
-
-public:
     Hero(unsigned int sight_range = Hero::DefaultSightRange);
     virtual ~Hero() = default;
 
@@ -47,6 +42,12 @@ public:
     // can the hero be seen here from a given spot
     bool can_be_seen_from(Location seer, unsigned int sight_range);
 
+    // switch from running to walking
+    void toggle_run();
+
+    // the hero is running
+    bool is_running() { return this->running_; }
+
     unsigned int max_health() const { return 100; }
     unsigned int current_health() const { return 50; }
     unsigned int max_energy() const { return 100; }
@@ -55,9 +56,19 @@ public:
     unsigned int current_stamina() const { return this->current_stamina_; }
 
 private:
+    static const unsigned WalkTime = 200;
+    static const unsigned RunTime = 100;
+    static const unsigned int DefaultSightRange = 5;
+    static const unsigned int DefaultMaxStamina = 100;
+    static const unsigned int RunStaminaCost = 10;
+    static const unsigned int WalkStaminaRecovery = 5;
+    static const unsigned int RestStaminaRecovery = 10;
+
+private:
     unsigned int sight_range_;
     unsigned int max_stamina_;
     unsigned int current_stamina_;
+    bool running_;
 };
 
 #endif // _hero_h_

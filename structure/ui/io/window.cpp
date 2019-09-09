@@ -36,6 +36,19 @@ void io::Window::place_character(
     this->screen_->curses()->mvwaddch_m(this->curses_window_, row, cell, colored_character);
 }
 
+void io::Window::place_string(
+    unsigned int row,
+    unsigned int cell,
+    std::string string,
+    io::Color foreground,
+    io::Color background)
+{
+    for (unsigned int i = 0; i < string.size(); i++)
+    {
+        this->place_character(row, cell+i, string[i], foreground, background);
+    }
+}
+
 void io::Window::refresh()
 {
     this->screen_->curses()->wrefresh(this->curses_window_);

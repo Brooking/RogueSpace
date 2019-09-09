@@ -102,12 +102,12 @@
   - [x] Add sight distance
   - [ ] add push-past
   - [ ] create iHero for use in game.cpp
-  - [ ] add stamina
-    - [ ] add 'run' (shift+click)
-      - [ ] double speed (faster than monsters, where walking is slower)
-      - [ ] uses stamina
-    - [ ] add stamina to status window
-    - [ ] recover stamina on walk
+  - [x] add stamina
+    - [x] add 'run' (mode: 'r')
+      - [x] double speed (faster than monsters, where walking is slower)
+      - [x] uses stamina
+    - [x] add stamina to status window
+    - [x] recover stamina on walk and rest
 #### Visibility
   - [x] Line of sight
   - [x] Field of view
