@@ -29,7 +29,7 @@ Game::Game(std::shared_ptr<iScreen> screen, GameType game_type) :
             screen,
             this->hero_,
             /*screen_row*/0, /*screen_cell*/0,
-            screen->height(), /*width*/5);
+            screen->height());
 
     //put the UI items into the mosaic
    this->mosaic_ = std::make_shared<Mosaic>(screen);

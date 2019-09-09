@@ -12,13 +12,15 @@
 class StatusPane final : public iPane
 {
 public:
+    static const unsigned int StatusPaneWidth = 5;
+
+public:
     StatusPane(
         std::shared_ptr<iScreen> screen, 
         std::weak_ptr<Hero> hero,
         unsigned int screen_row, 
         unsigned int screen_cell,
-        unsigned int height,
-        unsigned int width);
+        unsigned int height);
 
     ~StatusPane() {}
 
@@ -48,6 +50,17 @@ public:
 
     // iPane: time to implement all of the updates (normally called from the game)
     void refresh() override;
+
+protected:
+    void fill_thermometer(
+        unsigned int screen_row, 
+        unsigned int screen_cell,
+        unsigned int height,
+        unsigned int label,
+        unsigned int max,
+        unsigned int current,
+        io::Color foreground,
+        io::Color background);
 
 private:
     static const io::Color pane_foreground = io::Color::BRIGHT_BLACK;

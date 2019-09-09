@@ -20,7 +20,8 @@ enum class Character
     WALL_NWE = 4194422,
     WALL_SWE = 4194423,
     WALL_NSWE = 4194414,
-    BULLET = 4194430
+    BULLET = 4194430,
+    FROST = 4194401
 };
 
 //

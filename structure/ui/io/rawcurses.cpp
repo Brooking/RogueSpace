@@ -143,6 +143,7 @@ void io::RawCurses::validate_io_constants()
     assert(static_cast<unsigned int>(io::Character::WALL_NSWE) == static_cast<unsigned int>(ACS_PLUS));
 
     assert(static_cast<unsigned int>(io::Character::BULLET) == static_cast<unsigned int>(ACS_BULLET));
+    assert(static_cast<unsigned int>(io::Character::FROST) == static_cast<unsigned int>(ACS_CKBOARD));
 
     assert(static_cast<unsigned int>(io::Color::BLACK) == static_cast<unsigned int>(COLOR_BLACK));
     assert(static_cast<unsigned int>(io::Color::RED) == static_cast<unsigned int>(COLOR_RED));
