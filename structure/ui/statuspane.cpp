@@ -8,7 +8,7 @@ StatusPane::StatusPane(
 :
     screen_(screen), hero_ptr_(hero), window_(nullptr),
     screen_row_(screen_row), screen_cell_(screen_cell), 
-    height_(height), width_(StatusPane::StatusPaneWidth)
+    height_(height), width_(StatusPane::status_pane_width)
 {
     this->window_ = this->screen_->create_window(
         this->screen_row_, 
@@ -55,25 +55,24 @@ bool StatusPane::update(unsigned int, unsigned int, bool center)
 bool StatusPane::update()
 {
     std::shared_ptr<Hero> hero = this->hero_ptr_.lock();
-    static const unsigned int top_margin = 0;
-    static const unsigned int bottom_margin = 1;
-    static const unsigned int health_cell = 1;
-    static const unsigned int energy_cell = 3;
-
     unsigned int therm_top = this->screen_row() + top_margin;
     unsigned int therm_height = 
         this->window_->height() - top_margin - bottom_margin;
 
     // health
-    fill_thermometer(therm_top, health_cell, therm_height, 'H', 
+    fill_thermometer(therm_top, StatusPane::health_cell, therm_height, 'H', 
         hero->max_health(), hero->current_health(),
         StatusPane::health_foreground, StatusPane::pane_background);
 
     // energy
-
-    fill_thermometer(therm_top, energy_cell, therm_height, 'E', 
+    fill_thermometer(therm_top, StatusPane::energy_cell, therm_height, 'E', 
         hero->max_energy(), hero->current_energy(),
         StatusPane::energy_foreground, StatusPane::pane_background);
+
+    // stamina
+    fill_thermometer(therm_top, StatusPane::stamina_cell, therm_height, 'S', 
+        hero->max_stamina(), hero->current_stamina(),
+        StatusPane::stamina_foreground, StatusPane::pane_background);
 
     return true;
 }

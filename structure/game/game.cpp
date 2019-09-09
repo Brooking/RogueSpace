@@ -12,17 +12,6 @@ Game::Game(std::shared_ptr<iScreen> screen, GameType game_type) :
     std::vector<std::weak_ptr<iActor>> actors;
     this->floor_ = Generator::make(screen, game_type, this->hero_, actors);
 
-    // create a viewport on that floor that is the viewable area
-    std::shared_ptr<Viewport> viewport = 
-        std::make_shared<Viewport>(
-            screen, this->floor_, 
-            /*screen_row*/0, /*screen_cell*/5,
-            screen->height(), 
-            screen->width() - 5, 
-            this->floor_->hero_location().row(),
-            this->floor_->hero_location().cell());
-    this->floor_->register_update(viewport);
-
     // create the status window
     std::shared_ptr<StatusPane> status =
         std::make_shared<StatusPane>(
@@ -30,6 +19,17 @@ Game::Game(std::shared_ptr<iScreen> screen, GameType game_type) :
             this->hero_,
             /*screen_row*/0, /*screen_cell*/0,
             screen->height());
+    
+    // create a viewport on that floor that is the viewable area
+    std::shared_ptr<Viewport> viewport = 
+        std::make_shared<Viewport>(
+            screen, this->floor_, 
+            /*screen_row*/0, /*screen_cell*/status->width(),
+            screen->height(), 
+            screen->width() - status->width(), 
+            this->floor_->hero_location().row(),
+            this->floor_->hero_location().cell());
+    this->floor_->register_update(viewport);
 
     //put the UI items into the mosaic
    this->mosaic_ = std::make_shared<Mosaic>(screen);

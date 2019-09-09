@@ -19,6 +19,7 @@ class Hero : public ActorBase
 {
 public:
     static const unsigned int DefaultSightRange = 5;
+    static const unsigned int DefaultMaxStamina = 100;
     static const unsigned int MoveTime = 100;
 
 public:
@@ -50,9 +51,13 @@ public:
     unsigned int current_health() const { return 50; }
     unsigned int max_energy() const { return 100; }
     unsigned int current_energy() const { return 100; }
+    unsigned int max_stamina() const { return this->max_stamina_; }
+    unsigned int current_stamina() const { return this->current_stamina_; }
 
 private:
     unsigned int sight_range_;
+    unsigned int max_stamina_;
+    unsigned int current_stamina_;
 };
 
 #endif // _hero_h_

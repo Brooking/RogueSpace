@@ -6,7 +6,9 @@
 
 Hero::Hero(unsigned int sight_range) : 
     ActorBase(TokenType::hero, Hero::MoveTime, /*center*/true),
-    sight_range_(sight_range)
+    sight_range_(sight_range),
+    max_stamina_(Hero::DefaultMaxStamina),
+    current_stamina_(Hero::DefaultMaxStamina)
 {}
 
 unsigned int Hero::move()

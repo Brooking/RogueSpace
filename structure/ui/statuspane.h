@@ -12,9 +12,6 @@
 class StatusPane final : public iPane
 {
 public:
-    static const unsigned int StatusPaneWidth = 5;
-
-public:
     StatusPane(
         std::shared_ptr<iScreen> screen, 
         std::weak_ptr<Hero> hero,
@@ -63,10 +60,17 @@ protected:
         io::Color background);
 
 private:
+    static const unsigned int top_margin = 0;
+    static const unsigned int bottom_margin = 1;
+    static const unsigned int health_cell = 1;
+    static const unsigned int energy_cell = 3;
+    static const unsigned int stamina_cell = 5;
+    static const unsigned int status_pane_width = 7;
     static const io::Color pane_foreground = io::Color::BRIGHT_BLACK;
     static const io::Color pane_background = io::Color::WHITE;
     static const io::Color health_foreground = io::Color::RED;
     static const io::Color energy_foreground = io::Color::BLUE;
+    static const io::Color stamina_foreground = io::Color::CYAN;
 
 private:
     std::shared_ptr<iScreen> screen_;
