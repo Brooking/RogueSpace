@@ -4,7 +4,7 @@
 class iWindow
 {
 public:
-    virtual ~iWindow() {}
+    virtual ~iWindow() = default;
 
     // place a colored character at the given spot in the window
     virtual void place_character(

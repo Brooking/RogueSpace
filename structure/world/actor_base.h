@@ -19,7 +19,7 @@ public:
         ThingBase(token_type, ContentSize::large, center),
          move_time_(move_time)
     {}
-    virtual ~ActorBase() {}
+    virtual ~ActorBase() = default;
 
     // iActor: directed move (most actors ignore this)
     virtual unsigned int move(Direction) override

@@ -13,7 +13,7 @@ class RawCurses : public iCurses
 {
 public:
     RawCurses();
-    virtual ~RawCurses() {}
+    virtual ~RawCurses() = default;
 
     virtual void* initscr() override;
     virtual int endwin() override;

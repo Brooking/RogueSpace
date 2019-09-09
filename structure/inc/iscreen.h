@@ -12,7 +12,7 @@
 class iScreen
 {
 public:
-    virtual ~iScreen() {}
+    virtual ~iScreen() = default;
 
     // Print a colored message to the screen
     virtual void add(

@@ -17,8 +17,7 @@ public:
     MapForCasting(std::shared_ptr<Tile> tile, CastingScan scan) : 
         tile_(tile), floor_(tile->floor()), scan_(scan)
     {}
-    virtual ~MapForCasting() {}
-
+    virtual ~MapForCasting() = default;
     // iMap: Set the visibility of the cell at the given position.
     virtual void set_los(uint x, uint y, uint range_squared) override;
 

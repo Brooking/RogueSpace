@@ -7,7 +7,7 @@
 class iUpdate
 {
 public:
-    virtual ~iUpdate() {}
+    virtual ~iUpdate() = default;
 
     // update a given screen location
     virtual bool update(unsigned int row, unsigned int cell, bool center = false) = 0;

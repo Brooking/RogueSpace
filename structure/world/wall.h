@@ -61,7 +61,7 @@ public:
         ThingBase(TokenType::wall, ContentSize::full, /*center*/false)
     {}
 
-    virtual ~Wall() {}
+    virtual ~Wall() = default;
 
     // iThing: return the ui token
     virtual UIToken token() const override

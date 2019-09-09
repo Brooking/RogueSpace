@@ -18,7 +18,7 @@ class Pathfinder
 {
 public:
     Pathfinder(std::shared_ptr<iMap> map) : map_(map) {}
-    virtual ~Pathfinder() {}
+    virtual ~Pathfinder() = default;
 
     // find the shortest path from 'from' to 'to'
     std::vector<Location> find_path(Location from, Location to);

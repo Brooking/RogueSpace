@@ -11,7 +11,7 @@ class Icon
 {
 public:
     Icon(UIToken token);
-    virtual ~Icon() {}
+    virtual ~Icon() = default;
 
     // the foregound color
     io::Color foreground_color() { return this->foreground_color_; }

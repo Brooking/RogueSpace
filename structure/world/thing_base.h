@@ -20,7 +20,7 @@ public:
     ThingBase(TokenType token_type, ContentSize content_size, bool center) : 
         tile_(), token_type_(token_type), content_size_(content_size), center_(center)
     {}
-    virtual ~ThingBase() {}
+    virtual ~ThingBase() = default;
 
     // iThing: The tile that this thing is on
     virtual std::shared_ptr<Tile> tile() const { return this->tile_.lock(); }

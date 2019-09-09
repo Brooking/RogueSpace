@@ -10,7 +10,7 @@
 class iPane : public iUpdate
 {
 public:
-    virtual ~iPane() {}
+    virtual ~iPane() = default;
 
     // get the screen
     virtual std::shared_ptr<iScreen> screen() const = 0;

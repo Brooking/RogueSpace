@@ -23,7 +23,7 @@ public:
 
 public:
     Hero(unsigned int sight_range = Hero::DefaultSightRange);
-    virtual ~Hero() {}
+    virtual ~Hero() = default;
 
     // iActor: move (ironically, for the hero, this means stand still...)
     virtual unsigned int move() override;

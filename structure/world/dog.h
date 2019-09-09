@@ -10,7 +10,7 @@ public:
 
 public:
     Dog() : ActorBase(TokenType::dog, Dog::MoveTime) {}
-    virtual ~Dog() {}
+    virtual ~Dog() = default;
 
     // iActor: do its move
     virtual unsigned int move() override

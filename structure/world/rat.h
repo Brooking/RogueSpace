@@ -26,7 +26,7 @@ public:
         ActorBase(TokenType::rat, Rat::MoveTime), 
         ai_state_(AiState::Wandering), 
         home_(Location()), target_() {}
-    virtual ~Rat() {}
+    virtual ~Rat() = default;
 
     // iActor: do its move
     virtual unsigned int move() override

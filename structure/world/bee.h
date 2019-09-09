@@ -14,7 +14,7 @@ public:
 
 public:
     Bee() : ActorBase(TokenType::bee, Bee::MoveTime) {}
-    virtual ~Bee() {}
+    virtual ~Bee() = default;
 
     // iActor: do its move
     virtual unsigned int move() override

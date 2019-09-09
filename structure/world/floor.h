@@ -15,7 +15,7 @@ class Floor : public iFloor, public std::enable_shared_from_this<Floor>
 {
 public:
     static std::shared_ptr<Floor> create(unsigned int height, unsigned int width);
-    virtual ~Floor() {}
+    virtual ~Floor() = default;
 
     // iFloor: the ui is giving us a callback
     virtual bool register_update(std::shared_ptr<iUpdate> update_interface) override;
