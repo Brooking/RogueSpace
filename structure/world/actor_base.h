@@ -21,6 +21,12 @@ public:
     {}
     virtual ~ActorBase() {}
 
+    // iActor: directed move (most actors ignore this)
+    virtual unsigned int move(Direction) override
+    {
+        throw std::invalid_argument("This type of actor can not be told what to do");
+    }
+
 protected:
     unsigned int calculate_move_time(Location original)
     {

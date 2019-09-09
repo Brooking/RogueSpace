@@ -4,8 +4,8 @@
 #include <memory>
 #include <vector>
 #include "ipane.h"
-#include "../inc/iupdate.h"
 #include "iscreen.h"
+#include "iupdate.h"
 
 //
 // The 'window' that holds all of the panes

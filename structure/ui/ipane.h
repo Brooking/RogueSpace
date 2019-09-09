@@ -1,8 +1,8 @@
 #ifndef _ipane_h_
 #define _ipane_h_
 
-#include "../inc/iupdate.h"
 #include "iscreen.h"
+#include "iupdate.h"
 
 //
 // interface to a single pane

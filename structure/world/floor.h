@@ -29,6 +29,9 @@ public:
     // iFloor: returns the ui token for a given location
     virtual UIToken token(unsigned int row, unsigned int cell) const override;
 
+    // iFloor: returns the location of the hero on the floor
+    virtual Location hero_location() const override { return this->hero_.lock()->where(); }
+
     // returns the tile at a given location
     std::shared_ptr<Tile> tile(Location location) const;
 

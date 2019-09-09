@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "iupdate.h"
+#include "location.h"
 #include "uitoken.h"
 
 //
@@ -24,6 +25,9 @@ public:
 
     // the current ui token at the given location
     virtual UIToken token(unsigned int row, unsigned int cell) const = 0;
+
+    // get the location of the hero on the floor
+    virtual Location hero_location() const = 0;
 };
 
 #endif // _ifloor_h_

@@ -2,9 +2,9 @@
 #define _hero_h_
 
 #include <memory>
+#include "actor_base.h"
 #include "direction.h"
 #include "location.h"
-#include "actor_base.h"
 #include "tile.h"
 #include "uitoken.h"
 
@@ -25,17 +25,17 @@ public:
     Hero(unsigned int sight_range = Hero::DefaultSightRange);
     virtual ~Hero() {}
 
-    // iActor: move (ironaically, for the hero, this means stand still...)
+    // iActor: move (ironically, for the hero, this means stand still...)
     virtual unsigned int move() override;
+
+    // iActor: move the hero this direction
+    virtual unsigned int move(Direction direction) override;
 
     // iThing: place the hero (and update the floor's 'hero' value)
     virtual bool place(std::shared_ptr<Tile> tile) override;
 
     // where is this hero now
     Location where() const;
-
-    // move the hero this direction
-    unsigned int move(Direction direction);
 
     // can the hero see this spot
     bool can_see(Location location);

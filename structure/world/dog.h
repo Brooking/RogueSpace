@@ -17,7 +17,7 @@ public:
     {
         Location original_location = this->tile()->where();
         std::shared_ptr<Floor> floor = this->tile()->floor();
-        Location hero_location = floor->hero().lock()->where();
+        Location hero_location = floor->hero_location();
 
         unsigned int distance = this->tile()->where().distance(hero_location);
         std::vector<Location> locations;

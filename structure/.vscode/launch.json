@@ -9,7 +9,7 @@
             "name": "game.out debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/game.out",
+            "program": "${workspaceFolder}/roguespace.out",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

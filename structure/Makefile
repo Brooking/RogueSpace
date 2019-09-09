@@ -477,36 +477,6 @@ obj/viewport.o : \
 		-c ui/viewport.cpp \
 		-o obj/viewport.o
 
-# game objects
-obj/main.o : \
-		$(common_includes) \
-		$(ui_includes) \
-		$(world_includes) \
-		game/generator.h \
-		game/main.cpp
-	$(c++command) $(all_include_dirs) \
-		-c game/main.cpp \
-		-o obj/main.o
-
-obj/generator.o : \
-		$(common_includes) \
-		$(ui_includes) \
-		$(world_includes) \
-		game/generator.h \
-		game/generator.cpp
-	$(c++command) $(all_include_dirs) \
-		-c game/generator.cpp \
-		-o obj/generator.o
-
-obj/timeline.o : \
-		$(common_includes) \
-		game/timeline.h \
-		game/timeline.cpp \
-		game/time_entry.h
-	$(c++command) $(common_include_dirs) \
-		-c game/timeline.cpp \
-		-o obj/timeline.o
-
 # io objects
 obj/rawcurses.o : \
 		$(common_includes) \

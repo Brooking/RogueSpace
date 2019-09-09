@@ -2,11 +2,11 @@
 #define _statuspane_h_
 
 #include <memory>
+#include "io_constants.h"
 #include "ipane.h"
 #include "iscreen.h"
+#include "iupdate.h"
 #include "iwindow.h"
-#include "../inc/io_constants.h"
-#include "../inc/iupdate.h"
 #include "../world/hero.h"
 
 class StatusPane final : public iPane

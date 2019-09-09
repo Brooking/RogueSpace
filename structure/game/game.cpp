@@ -19,8 +19,8 @@ Game::Game(std::shared_ptr<iScreen> screen, GameType game_type) :
             /*screen_row*/0, /*screen_cell*/5,
             screen->height(), 
             screen->width() - 5, 
-            this->hero_.lock()->where().row(),
-            this->hero_.lock()->where().cell());
+            this->floor_->hero_location().row(),
+            this->floor_->hero_location().cell());
     this->floor_->register_update(viewport);
 
     // create the status window
@@ -45,7 +45,7 @@ Game::Game(std::shared_ptr<iScreen> screen, GameType game_type) :
         std::shared_ptr<iActor> actor = actors[i].lock();
         std::shared_ptr<TimeEntry> entry = std::make_shared<TimeEntry>(
             actor,
-            actor == this->hero_.lock());
+            actor.get() == dynamic_cast<iActor*>(this->hero_.lock().get()));
         this->timeline_.insert(entry, i);
     }
 }
