@@ -31,7 +31,7 @@ void BlankPane::refill()
         for (unsigned int cell = 0; cell < this->window_->width(); cell++)
         {
             this->window_->place_character(row, cell, ' ', 
-                BlankPane::pane_foreground, BlankPane::pane_background);
+                BlankPane::PaneForeground, BlankPane::PaneBackground);
         }
     }
 }

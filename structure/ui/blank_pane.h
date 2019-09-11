@@ -48,8 +48,8 @@ public:
 
 
 private:
-    static const io::Color pane_foreground = io::Color::BLACK;
-    static const io::Color pane_background = io::Color::BLACK;
+    static const io::Color PaneForeground = io::Color::BLACK;
+    static const io::Color PaneBackground = io::Color::BLACK;
 
 private:
     std::shared_ptr<iScreen> screen_;
