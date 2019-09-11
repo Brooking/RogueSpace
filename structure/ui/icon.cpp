@@ -158,7 +158,7 @@ Icon::Icon(UIToken token) :
     }
     else
     {
-        if (token.has_been_seen())
+        if (token.is_remembered())
         {
             // not visible but seen
             this->foreground_color_ = IconList[token_type_int].foreground_seen();

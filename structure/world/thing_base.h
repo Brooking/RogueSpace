@@ -33,10 +33,12 @@ public:
         {
             return UIToken(this->token_type_);
         }
+
+        // Remembered items are set explicitly in their classes
         return UIToken(
             this->token_type_,
             tile->hero_can_see(),
-            tile->has_been_seen(),
+            /*remembered*/false,
             tile->is_lit());
     }
 

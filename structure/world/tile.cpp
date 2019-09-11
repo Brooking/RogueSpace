@@ -28,16 +28,16 @@ UIToken Tile::token()
     if (this->num_things() > 0)
     {
         UIToken token = this->things_.back()->token();
-        if (hero_can_see || token.token_type() == TokenType::wall)
+        if (token.is_visible() || token.is_remembered())
         {
-            return token; 
+            return token;
         }
     }
 
     return UIToken(
         TokenType::floor,
         hero_can_see,
-        this->has_been_seen(),
+        this->has_been_seen(), // floors are remembered once seen
         this->is_lit());
 }
 

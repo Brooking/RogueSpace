@@ -12,6 +12,17 @@ public:
     Dog() : ActorBase(TokenType::dog, Dog::MoveTime) {}
     virtual ~Dog() = default;
 
+    // iThing: How this thing should be displayed in the UI
+    virtual UIToken token() const override
+    {
+        // Hero always sees the dog
+        return UIToken(
+            this->token_type_,
+            /*hero_can_see*/true,
+            /*remembered*/false,
+            /*lit*/false);
+    }
+
     // iActor: do its move
     virtual unsigned int move() override
     {

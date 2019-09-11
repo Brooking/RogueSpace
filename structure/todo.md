@@ -87,8 +87,10 @@
     - [ ] tests
   - [x] add bee and rat
   - [ ] dog should pathfind (and always know where hero is)
-  - [ ] dog always visible
+  - [x] dog always visible
   - [ ] monster::move should have central implementation
+  - [ ] change ContentSize to 0-100: walls are 100, monsters are 50+, items are 49-
+    - [ ] allow push of smaller monsters (if no fit...) 
 #### Lighting
   - [x] Add visibility to hero
   - [x] Persist seen walls

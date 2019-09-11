@@ -48,13 +48,13 @@ class UIToken final
 {
 public:
     // wall constructor
-    UIToken( WallType wall_type, bool visible, bool seen, bool lit);
+    UIToken( WallType wall_type, bool visible, bool remembered, bool lit);
 
     // default wall constructor
     UIToken(WallType wall_type);
 
     // type constructor
-    UIToken(TokenType token_type, bool visible, bool seen, bool lit);
+    UIToken(TokenType token_type, bool visible, bool remembered, bool lit);
 
     // default type constructor
     UIToken(TokenType token_type);
@@ -68,8 +68,8 @@ public:
     // This is visible
     bool is_visible() const { return this->visible_; }
 
-    // This has been seen
-    bool has_been_seen() const { return this->seen_; }
+    // This has been seen and the hero remembers it
+    bool is_remembered() const { return this->remembered_; }
 
     // This is currently lit from the hero's point of view
     bool is_lit() const { return this->lit_; }
@@ -82,9 +82,14 @@ private:
     void verify_non_wall() const;
 
 private:
+    static const bool DefaultVisible = false;
+    static const bool DefaultLit = false;
+    static const bool DefaultRemembered = false;
+
+private:
     TokenType token_type_;
     bool visible_;
-    bool seen_;
+    bool remembered_;
     bool lit_;
     WallType wall_type_;
 };
