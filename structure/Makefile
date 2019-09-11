@@ -254,6 +254,7 @@ lib/libworld.a : \
 		obj/hero.o \
 		obj/original_shadow_cast.o \
 		obj/pathfinder.o \
+		obj/thing_base.o \
 		obj/tile.o
 	ar crf lib/libworld.a \
 		obj/actor_base.o \
@@ -265,6 +266,7 @@ lib/libworld.a : \
 		obj/hero.o \
 		obj/original_shadow_cast.o \
 		obj/pathfinder.o \
+		obj/thing_base.o \
 		obj/tile.o
 
 # common objects
@@ -351,6 +353,14 @@ obj/map_for_casting.o : \
 	$(c++command) $(world_include_dirs) \
 		-c world/map_for_casting.cpp \
 		-o obj/map_for_casting.o
+
+obj/thing_base.o : \
+		$(common_includes) \
+		$(world_includes) \
+		world/thing_base.cpp
+	$(c++command) $(world_include_dirs) \
+		-c world/thing_base.cpp \
+		-o obj/thing_base.o
 
 obj/tile.o : \
 		$(common_includes) \

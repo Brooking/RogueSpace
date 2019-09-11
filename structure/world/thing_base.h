@@ -29,21 +29,7 @@ public:
     virtual TokenType token_type() const override { return this->token_type_; }
 
     // iThing: How this thing should be displayed in the UI
-    virtual UIToken token() const override
-    {
-        std::shared_ptr<Tile> tile = this->tile();
-        if (tile == nullptr)
-        {
-            return UIToken(this->token_type_);
-        }
-
-        // Remembered items are set explicitly in their classes
-        return UIToken(
-            this->token_type_,
-            tile->hero_can_see(),
-            /*remembered*/false,
-            tile->is_lit());
-    }
+    virtual UIToken token() const override;
 
     // iThing: This thing fills the tile
     virtual ContentSize content_size() const override { return this->content_size_; }
@@ -52,30 +38,10 @@ public:
     virtual bool is_center() const override { return this->center_; }
 
     // iThing: put the thing on the tile
-    virtual bool place(std::shared_ptr<Tile> tile) override
-    {
-        if (tile != nullptr && tile->there_is_room(this->shared_from_this()))
-        {
-            this->remove();
-            tile->add(this->shared_from_this());
-            this->tile_ = tile;
-            return true;
-        }
-
-        return false;
-    }
+    virtual bool place(std::shared_ptr<Tile> tile) override;
 
     // iThing: remove the thing from a tile
-    virtual bool remove() override
-    {
-        if (this->tile() != nullptr)
-        {
-            this->tile()->remove(this->shared_from_this());
-            //this->tile_.reset();
-        }
-
-        return true;
-    }
+    virtual bool remove() override;
 
 PROTECTED_ACCESS:
     // A worker to do the magic of getting a shared pointer
