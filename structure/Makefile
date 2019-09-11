@@ -245,6 +245,7 @@ lib/libui.a : \
 		obj/window.o
 
 lib/libworld.a : \
+		obj/actor_base.o \
 		obj/dijkstra.o \
 		obj/map_for_casting.o \
 		obj/floor.o \
@@ -255,6 +256,7 @@ lib/libworld.a : \
 		obj/pathfinder.o \
 		obj/tile.o
 	ar crf lib/libworld.a \
+		obj/actor_base.o \
 		obj/dijkstra.o \
 		obj/map_for_casting.o \
 		obj/floor.o \
@@ -317,6 +319,14 @@ obj/timeline.o : \
 		-o obj/timeline.o
 
 # world objects
+obj/actor_base.o : \
+		$(common_includes) \
+		$(world_includes) \
+		world/actor_base.cpp
+	$(c++command) $(world_include_dirs) \
+		-c world/actor_base.cpp \
+		-o obj/actor_base.o
+
 obj/floor.o : \
 		$(common_includes) \
 		$(world_includes) \
