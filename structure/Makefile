@@ -1,6 +1,6 @@
 all: \
-		roguespace.out \
-		tests.out
+	roguespace.out \
+	tests.out
 
 clean:
 	rm -f *.out
@@ -94,7 +94,6 @@ all_include_dirs=\
 	-I$(CURDIR)/ui/io \
 	-I$(CURDIR)/world \
 	-I$(CURDIR)/world/visibility
-lib_dir=-L$(CURDIR)/lib
 
 # header file lists (for setting dependencies)
 common_includes= \
@@ -116,10 +115,6 @@ game_includes =\
 	game/generator.h \
 	game/time_entry.h \
 	game/timeline.h
-io_includes= \
-	ui/io/rawcurses.h \
-	ui/io/screen.h \
-	ui/io/window.h
 world_includes= \
 	world/actor_base.h \
 	world/bee.h \
@@ -130,7 +125,12 @@ world_includes= \
 	world/rat.h \
 	world/thing_base.h \
 	world/tile.h \
-	world/wall.h
+	world/wall.h \
+	world/visibility/imap.h \
+	world/visibility/los.h \
+	world/visibility/original_shadow_cast.h \
+	world/visibility/pathfinder.h \
+	world/visibility/dijkstra.h
 ui_includes=\
 	ui/blank_pane.h \
 	ui/icon.h \
@@ -138,29 +138,22 @@ ui_includes=\
 	ui/mosaic.h \
 	ui/rect.h \
 	ui/viewport.h \
-	ui/statuspane.h 
-vis_includes= \
-	world/visibility/imap.h \
-	world/visibility/los.h \
-	world/visibility/original_shadow_cast.h \
-	world/visibility/pathfinder.h \
-	world/visibility/dijkstra.h
+	ui/statuspane.h \
+	ui/io/rawcurses.h \
+	ui/io/screen.h \
+	ui/io/window.h
 
 # library lists
 library_files = \
 	lib/libgame.a \
 	lib/libworld.a \
-	lib/libvisibility.a \
 	lib/libui.a \
-	lib/libio.a \
 	lib/libcommon.a
-lib_dir=-L$(CURDIR)/lib
+library_dir=-L$(CURDIR)/lib
 library_specs = \
 	-lgame \
 	-lworld \
-	-lvisibility \
 	-lui \
-	-lio \
 	-lcommon
 
 # test lists
@@ -191,7 +184,7 @@ roguespace.out: \
 		obj/main.o
 	$(c++command) \
 		$(all_include_dirs) \
-		$(lib_dir) \
+		$(library_dir) \
 		obj/main.o \
 		$(library_specs) \
 		-lcurses \
@@ -205,7 +198,7 @@ tests.out : \
 		inc/test_main.cpp
 	$(c++command) \
 		$(all_include_dirs) \
-		$(lib_dir) \
+		$(library_dir) \
 		-DPROTECTED_ACCESS=public \
 		inc/test_main.cpp \
 		$(tests) \
@@ -229,52 +222,46 @@ lib/libgame.a : \
 		obj/generator.o \
 		obj/timeline.o
 
-lib/libio.a : \
-		obj/rawcurses.o \
-		obj/screen.o \
-		obj/window.o
-	ar crf lib/libio.a \
-		obj/rawcurses.o \
-		obj/screen.o \
-		obj/window.o
-
 lib/libui.a : \
 		obj/blank_pane.o \
 		obj/icon.o \
 		obj/mosaic.o \
+		obj/rawcurses.o \
 		obj/rect.o \
+		obj/screen.o \
 		obj/statuspane.o \
-		obj/viewport.o
+		obj/viewport.o \
+		obj/window.o
 	ar crf lib/libui.a \
 		obj/blank_pane.o \
 		obj/icon.o \
 		obj/mosaic.o \
+		obj/rawcurses.o \
 		obj/rect.o \
+		obj/screen.o \
 		obj/statuspane.o \
-		obj/viewport.o
-
-lib/libvisibility.a : \
-		obj/original_shadow_cast.o \
-		obj/los.o \
-		obj/pathfinder.o \
-		obj/dijkstra.o
-	ar crf lib/libvisibility.a \
-		obj/original_shadow_cast.o \
-		obj/los.o \
-		obj/pathfinder.o \
-		obj/dijkstra.o
+		obj/viewport.o \
+		obj/window.o
 
 lib/libworld.a : \
+		obj/dijkstra.o \
 		obj/map_for_casting.o \
 		obj/floor.o \
 		obj/location.o \
+		obj/los.o \
 		obj/hero.o \
+		obj/original_shadow_cast.o \
+		obj/pathfinder.o \
 		obj/tile.o
 	ar crf lib/libworld.a \
+		obj/dijkstra.o \
 		obj/map_for_casting.o \
 		obj/floor.o \
 		obj/location.o \
+		obj/los.o \
 		obj/hero.o \
+		obj/original_shadow_cast.o \
+		obj/pathfinder.o \
 		obj/tile.o
 
 # common objects
@@ -437,6 +424,14 @@ obj/window.o : \
 		-o obj/window.o
 
 # visibility objects
+obj/dijkstra.o : \
+		$(common_includes) \
+		$(vis_includes) \
+		world/visibility/dijkstra.cpp
+	$(c++command) $(common_include_dirs) \
+		-c world/visibility/dijkstra.cpp \
+		-o obj/dijkstra.o
+
 obj/los.o : \
 		$(common_includes) \
 		$(world_includes) \
@@ -460,11 +455,3 @@ obj/pathfinder.o : \
 	$(c++command) $(common_include_dirs) \
 		-c world/visibility/pathfinder.cpp \
 		-o obj/pathfinder.o
-
-obj/dijkstra.o : \
-		$(common_includes) \
-		$(vis_includes) \
-		world/visibility/dijkstra.cpp
-	$(c++command) $(common_include_dirs) \
-		-c world/visibility/dijkstra.cpp \
-		-o obj/dijkstra.o
