@@ -159,6 +159,7 @@ library_specs = \
 # test lists
 tests= \
 	game/timeline_test.cpp \
+	game/time_entry_test.cpp \
 	inc/content_size_test.cpp \
 	inc/location_test.cpp \
 	inc/uitoken_test.cpp \
