@@ -1,10 +1,6 @@
 all: \
-		commontests.out \
-		gametests.out \
 		roguespace.out \
-		uitests.out \
-		vistests.out \
-		worldtests.out
+		tests.out
 
 clean:
 	rm -f *.out
@@ -150,133 +146,71 @@ vis_includes= \
 	world/visibility/pathfinder.h \
 	world/visibility/dijkstra.h
 
+# library lists
+library_files = \
+	lib/libgame.a \
+	lib/libworld.a \
+	lib/libvisibility.a \
+	lib/libui.a \
+	lib/libio.a \
+	lib/libcommon.a
+lib_dir=-L$(CURDIR)/lib
+library_specs = \
+	-lgame \
+	-lworld \
+	-lvisibility \
+	-lui \
+	-lio \
+	-lcommon
+
+# test lists
+tests= \
+	game/timeline_test.cpp \
+	inc/content_size_test.cpp \
+	inc/location_test.cpp \
+	inc/uitoken_test.cpp \
+	ui/icon_test.cpp \
+	ui/screen_test.cpp \
+	world/floor_test.cpp \
+	world/hero_test.cpp \
+	world/tile_test.cpp \
+	world/wall_test.cpp \
+	world/visibility/dijkstra_test.cpp \
+	world/visibility/los_test.cpp \
+	world/visibility/original_shadow_cast_test.cpp \
+	world/visibility/pathfinder_test.cpp
+test_mocks = \
+	inc/iactor_mock.h \
+	inc/icurses_mock.h \
+	inc/imap_mock.h \
+	inc/ithing_mock.h
+
 # executables
-commontests.out : \
-		lib/libcommon.a \
-		test/catch.hpp \
-		test/location_test.cpp \
-		test/main.cpp \
-		test/uitoken_test.cpp
-	$(c++command) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		test/location_test.cpp \
-		test/main.cpp \
-		test/uitoken_test.cpp \
-		-lcommon \
-		-o commontests.out
-
-gametests.out : \
-		lib/libgame.a \
-		test/catch.hpp \
-		test/main.cpp \
-		test/timeline_test.cpp
-	$(c++command) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
-		test/timeline_test.cpp \
-		-lgame \
-		-o gametests.out
-
 roguespace.out: \
-		lib/libcommon.a \
-		lib/libgame.a \
-		lib/libio.a \
-		lib/libui.a \
-		lib/libvisibility.a \
-		lib/libworld.a \
+		$(library_files) \
 		obj/main.o
 	$(c++command) \
 		$(all_include_dirs) \
 		$(lib_dir) \
 		obj/main.o \
-		-lgame \
-		-lcommon \
-		-lworld \
-		-lui \
-		-lio \
-		-lvisibility \
+		$(library_specs) \
 		-lcurses \
 		-o roguespace.out
 
-uitests.out : \
-		lib/libcommon.a \
-		lib/libio.a \
-		lib/libui.a \
-		test/catch.hpp \
-		test/icurses_mock.h \
-		test/main.cpp \
-		test/icon_test.cpp \
-		test/screen_test.cpp
+tests.out : \
+		$(library_files) \
+		$(tests) \
+		$(test_mocks) \
+		inc/catch.hpp \
+		inc/test_main.cpp
 	$(c++command) \
 		$(all_include_dirs) \
 		$(lib_dir) \
 		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
-		test/icon_test.cpp \
-		test/screen_test.cpp \
-		-lcommon \
-		-lio \
-		-lui \
-		-o uitests.out
-
-vistests.out : \
-		lib/libcommon.a \
-		lib/libvisibility.a \
-		test/catch.hpp \
-		test/main.cpp \
-		test/imap_mock.h \
-		test/original_shadow_cast_test.cpp \
-		test/los_test.cpp \
-		test/pathfinder_test.cpp \
-		test/dijkstra_test.cpp
-	$(c++command) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
-		test/original_shadow_cast_test.cpp \
-		test/los_test.cpp \
-		test/pathfinder_test.cpp \
-		test/dijkstra_test.cpp \
-		-lcommon \
-		-lvisibility \
-		-o vistests.out
-
-worldtests.out : \
-		lib/libcommon.a \
-		lib/libvisibility.a \
-		lib/libworld.a \
-		test/catch.hpp \
-		test/ithing_mock.h \
-		test/main.cpp \
-		test/content_size_test.cpp \
-		test/floor_test.cpp \
-		test/hero_test.cpp \
-		test/ithing_mock.h \
-		test/location_test.cpp \
-		test/template_test.cpp \
-		test/tile_test.cpp \
-		test/wall_test.cpp
-	$(c++command) \
-		$(all_include_dirs) \
-		$(lib_dir) \
-		-DPROTECTED_ACCESS=public \
-		test/main.cpp \
-		test/content_size_test.cpp \
-		test/floor_test.cpp \
-		test/hero_test.cpp \
-		test/location_test.cpp \
-		test/template_test.cpp \
-		test/tile_test.cpp \
-		test/wall_test.cpp \
-		-lcommon \
-		-lworld \
-		-lvisibility \
-		-o worldtests.out
+		inc/test_main.cpp \
+		$(tests) \
+		$(library_specs) \
+		-o tests.out
 
 # Libraries
 lib/libcommon.a : \

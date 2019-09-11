@@ -28,6 +28,7 @@
   - [x] create game class
   - [x] implement iActor
   - [x] change the executable name to roguespace.out
+  - [x] tests colocated with source, single test exe
 ### Input
 #### Keyboard
   - [x] add diagonal input
