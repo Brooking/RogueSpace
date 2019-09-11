@@ -176,8 +176,8 @@ tests= \
 test_mocks = \
 	inc/iactor_mock.h \
 	inc/icurses_mock.h \
-	inc/imap_mock.h \
-	inc/ithing_mock.h
+	inc/ithing_mock.h \
+	world/visibility/imap_mock.h
 
 # executables
 roguespace.out: \
