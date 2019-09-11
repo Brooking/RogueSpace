@@ -25,6 +25,9 @@ public:
     // iThing: The tile that this thing is on
     virtual std::shared_ptr<Tile> tile() const { return this->tile_.lock(); }
 
+    // iThing: Get the lightweight token type
+    virtual TokenType token_type() const override { return this->token_type_; }
+
     // iThing: How this thing should be displayed in the UI
     virtual UIToken token() const override
     {

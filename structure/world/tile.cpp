@@ -164,3 +164,16 @@ bool Tile::hero_can_see()
     }
     return hero->can_see(this->where());
 }
+
+bool Tile::is_wall()
+{
+    if (this->things_.size() > 0  &&
+        this->things_[0]->token_type() == TokenType::wall)
+    {
+        assert(this->how_full() == ContentSize::full);
+        assert(this->things_.size() == 1);
+        return true;
+    }
+    return false;
+}
+

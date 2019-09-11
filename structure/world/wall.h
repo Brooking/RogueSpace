@@ -84,7 +84,7 @@ public:
                     floor_cell + AdjacencyDelta[i].second));
             if (adjacent_tile != nullptr)
             {
-                adjacency[i] = (adjacent_tile->how_full() == ContentSize::full);
+                adjacency[i] = (adjacent_tile->is_wall());
             }
         }
         WallType wall_type = AdjacentWallList[static_cast<int>(adjacency.to_ulong())];

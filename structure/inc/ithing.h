@@ -14,6 +14,9 @@ class iThing
 public:
     virtual ~iThing() = default;
 
+    // A lightweight indication of what sort of thing this is
+    virtual TokenType token_type() const = 0;
+
     // How this thing should be displayed in the UI
     virtual UIToken token() const = 0;
 

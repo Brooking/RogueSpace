@@ -32,7 +32,7 @@ public:
 
         unsigned int distance = this->tile()->where().distance(hero_location);
         std::vector<Location> locations;
-        if (distance > 3)
+        if (distance > Dog::ComfortRadius || !floor->hero().lock()->can_see(original_location))
         {
             // move closer or stand still
             locations = this->tile()->where().closer_adjacent_locations(hero_location);
@@ -51,6 +51,9 @@ public:
 
         return this->calculate_move_time(original_location);
     }
+
+private:
+    static const unsigned int ComfortRadius = 3;
 };
 
 #endif // _dog_h_

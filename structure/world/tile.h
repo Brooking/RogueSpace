@@ -75,6 +75,9 @@ public:
     // returns whether the hero can see this tile
     bool hero_can_see();
 
+    // returns whether this tile contains a wall
+    bool is_wall();
+
 PROTECTED_ACCESS:
     // calculate fullness based on contents
     ContentSize calculate_fullness();

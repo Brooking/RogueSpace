@@ -17,6 +17,7 @@ public:
     virtual ~iThingMock() = default;
 
     // iThing
+    virtual TokenType token_type() const override {return this->token_type_; }
     virtual UIToken token() const 
     {
         if (this->token_type_ == TokenType::wall)
