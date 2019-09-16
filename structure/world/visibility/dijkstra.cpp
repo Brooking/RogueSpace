@@ -1,18 +1,28 @@
 #include "dijkstra.h"
 
 // if it has not been done yet, fill in the entry and add to the todo list
-void mark_and_add_neighbor(std::vector<std::vector<unsigned int>>& distance,
-                           std::shared_ptr<iMap> map, 
-                           std::queue<Location>& todo, 
-                           Location location, unsigned int new_distance);
+void mark_and_add_neighbor(
+    std::vector<std::vector<unsigned int>>& distance,
+    std::shared_ptr<iWallMap> map, 
+    std::queue<Location>& todo, 
+    Location location, unsigned int new_distance);
 
-void dijkstra_fill(std::vector<std::vector<unsigned int>>& distance, std::shared_ptr<iMap> map, Location from, Location to)
+void dijkstra_fill(
+    std::vector<std::vector<unsigned int>>& distance,
+    std::shared_ptr<iWallMap> map,
+    Location from,
+    Location to)
 {
-    assert(from.row() < distance.size());
-    assert(from.cell() < distance[0].size());
-    assert(to.row() < distance.size());
-    assert(to.cell() < distance[0].size());
-    if (map->is_opaque(to.cell(), to.row()))
+    // There general algorithm here is that we start at the destination, and on each 
+    // iteration, we mark all of our neighbors as being 1 further away, we also push
+    // each neighbor into the todo queue. Then we iterate on the next spot in the queue
+    // until we are done.
+
+    assert(from.row() < map->height());
+    assert(from.cell() < map->width());
+    assert(to.row() < map->height());
+    assert(to.cell() <map->width());
+    if (map->is_opaque(to.row(), to.cell()))
     {
         // destination is a wall
         return;
@@ -47,20 +57,22 @@ void dijkstra_fill(std::vector<std::vector<unsigned int>>& distance, std::shared
         }
     }
 
+    // why do this both before and after?????
     distance[to.row()][to.cell()] = 0;
 }
 
-void mark_and_add_neighbor(std::vector<std::vector<unsigned int>>& distance,
-                           std::shared_ptr<iMap> map, 
-                           std::queue<Location>& todo, 
-                           Location location, 
-                           unsigned int neighbor_distance)
+void mark_and_add_neighbor(
+    std::vector<std::vector<unsigned int>>& distance,
+    std::shared_ptr<iWallMap> map, 
+    std::queue<Location>& todo, 
+    Location location, 
+    unsigned int neighbor_distance)
 {
     unsigned int row = location.row();
     unsigned int cell = location.cell();
 
-    if (row >= map->get_height() || 
-        cell >= map->get_width())
+    if (row >= map->height() || 
+        cell >= map->width())
     {
         // off the map
         return;
@@ -72,10 +84,10 @@ void mark_and_add_neighbor(std::vector<std::vector<unsigned int>>& distance,
         return;
     }
 
-    if (map->is_opaque(cell,row))
+    if (map->is_opaque(row,cell))
     {
         // wall, mark and do not add to todo list
-        distance[row][cell] = -1;
+        distance[row][cell] = UINT_MAX;
         return;
     }
 

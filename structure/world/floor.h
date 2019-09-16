@@ -5,13 +5,15 @@
 #include <vector>
 #include "hero.h"
 #include "ifloor.h"
+#include "ifov.h"
+#include "iwall_map.h"
 #include "location.h"
 #include "tile.h"
 
 //
 // Holds a single floor
 //
-class Floor : public iFloor, public std::enable_shared_from_this<Floor>
+class Floor : public iFloor, public iWallMap, public std::enable_shared_from_this<Floor>
 {
 public:
     static std::shared_ptr<Floor> create(unsigned int height, unsigned int width);
@@ -20,10 +22,10 @@ public:
     // iFloor: the ui is giving us a callback
     virtual bool register_update(std::shared_ptr<iUpdate> update_interface) override;
 
-    // iFloor: returns the height (number of rows)
+    // iFloor+iWallMap: returns the height (number of rows)
     virtual unsigned int height() const override { return static_cast<unsigned int>(tile_.size()); }
 
-    // iFloor: returns the width (number of cells per row)
+    // iFloor+iWallMap: returns the width (number of cells per row)
     virtual unsigned int width() const override { return static_cast<unsigned int>(tile_[0].size()); }
 
     // iFloor: returns the ui token for a given location
@@ -31,6 +33,15 @@ public:
 
     // iFloor: returns the location of the hero on the floor
     virtual Location hero_location() const override { return this->hero_.lock()->where(); }
+
+    // iWallMap: returns whether this spot contains a wall
+    virtual bool is_opaque(unsigned int row, unsigned int cell) const override;
+
+    // iWallMap: we don't
+    virtual void set_opaque(uint, uint, bool) override
+    {
+        throw std::invalid_argument("dont artificially make a wall...");
+    }
 
     // returns the tile at a given location
     std::shared_ptr<Tile> tile(Location location) const;
@@ -55,6 +66,24 @@ private:
 
     // add all of the tiles to the floor
     void init(unsigned int height, unsigned int width);
+
+private:
+    // Class for responses from light casting
+    class LightFov : public iFov
+    {
+    public:
+        LightFov(std::shared_ptr<Floor> floor) : floor_(floor) {}
+        void set_fov(unsigned int row, unsigned int cell, unsigned int) override
+        {
+            this->floor_->tile(Location(row,cell))->set_is_lit(true);
+        }
+        unsigned int get_fov(unsigned int row, unsigned int cell)
+        {
+            return this->floor_->tile(Location(row,cell))->is_lit();
+        };
+    private:
+        std::shared_ptr<Floor> floor_;
+    };
 
 private:
     // all of the tiles on this floor

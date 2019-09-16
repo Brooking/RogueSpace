@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 #include "content_size.h"
+#include "ifov.h"
 #include "ithing.h"
 #include "location.h"
 #include "uitoken.h"
@@ -60,7 +61,7 @@ public:
     void add_los_range(Location location, unsigned int range);
 
     // ask how far los id from this tile
-    // (returns INT_MAX if no line of sight)
+    // (returns UINT_MAX if no line of sight)
     unsigned int get_los_range(Location location);
 
     // this tile has been seen
@@ -89,6 +90,29 @@ private:
     // prohibit copying
     Tile(const Tile&) = delete;
     Tile& operator=(const Tile&) = delete;
+
+private:
+    // Class for responses from eye casting
+    class EyeLos : public iFov
+    {
+    public:
+        EyeLos(std::shared_ptr<Tile> tile) : tile_(tile) {}
+        void set_fov(unsigned int row, unsigned int cell, unsigned int distance) override
+        {
+            if (this->get_fov(row,cell) > distance)
+            {
+                // store the shortest distance...
+                this->tile_->add_los_range(Location(row,cell), distance);
+            }
+        }
+
+        unsigned int get_fov(unsigned int row, unsigned int cell) override
+        {
+            return this->tile_->get_los_range(Location(row,cell));
+        }
+    private:
+        std::shared_ptr<Tile> tile_;
+    };
 
 private:
     // The floor that this tile is in

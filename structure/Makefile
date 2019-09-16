@@ -121,12 +121,11 @@ world_includes= \
 	world/dog.h \
 	world/floor.h \
 	world/hero.h \
-	world/map_for_casting.h \
+	world/iwall_map.h \
 	world/rat.h \
 	world/thing_base.h \
 	world/tile.h \
 	world/wall.h \
-	world/visibility/imap.h \
 	world/visibility/los.h \
 	world/visibility/original_shadow_cast.h \
 	world/visibility/pathfinder.h \
@@ -177,7 +176,7 @@ test_mocks = \
 	inc/iactor_mock.h \
 	inc/icurses_mock.h \
 	inc/ithing_mock.h \
-	world/visibility/imap_mock.h
+	world/iwall_map_mock.h
 
 # executables
 roguespace.out: \
@@ -247,7 +246,6 @@ lib/libui.a : \
 lib/libworld.a : \
 		obj/actor_base.o \
 		obj/dijkstra.o \
-		obj/map_for_casting.o \
 		obj/floor.o \
 		obj/location.o \
 		obj/los.o \
@@ -259,7 +257,6 @@ lib/libworld.a : \
 	ar crf lib/libworld.a \
 		obj/actor_base.o \
 		obj/dijkstra.o \
-		obj/map_for_casting.o \
 		obj/floor.o \
 		obj/location.o \
 		obj/los.o \
@@ -344,15 +341,6 @@ obj/hero.o : \
 	$(c++command) $(world_include_dirs) \
 		-c world/hero.cpp \
 		-o obj/hero.o
-
-obj/map_for_casting.o : \
-		$(common_includes) \
-		$(vis_includes) \
-		$(world_includes) \
-		world/map_for_casting.cpp
-	$(c++command) $(world_include_dirs) \
-		-c world/map_for_casting.cpp \
-		-o obj/map_for_casting.o
 
 obj/thing_base.o : \
 		$(common_includes) \

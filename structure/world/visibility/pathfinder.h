@@ -3,7 +3,7 @@
 
 #include <queue>
 #include <vector>
-#include "imap.h"
+#include "../iwall_map.h"
 #include "location.h"
 
 #ifndef PROTECTED_ACCESS
@@ -17,7 +17,7 @@
 class Pathfinder
 {
 public:
-    Pathfinder(std::shared_ptr<iMap> map) : map_(map) {}
+    Pathfinder(std::shared_ptr<iWallMap> map) : map_(map) {}
     virtual ~Pathfinder() = default;
 
     // find the shortest path from 'from' to 'to'
@@ -30,7 +30,7 @@ PROTECTED_ACCESS:
 
 
 private:
-    std::shared_ptr<iMap> map_;
+    std::shared_ptr<iWallMap> map_;
 };
 
 #endif // _pathfinder_h_

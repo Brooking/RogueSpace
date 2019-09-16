@@ -2,7 +2,6 @@
 #include <memory>
 #include <stdexcept>
 #include "floor.h"
-#include "map_for_casting.h"
 #include "visibility/original_shadow_cast.h"
 
 std::shared_ptr<Floor> Floor::create(unsigned int height, unsigned int width)
@@ -52,6 +51,15 @@ UIToken Floor::token(unsigned int row, unsigned int cell) const
     return tile->token();
 }
 
+bool Floor::is_opaque(unsigned int row, unsigned int cell) const
+{
+    std::shared_ptr<Tile> tile = this->tile(Location(row,cell));
+    if (tile == nullptr)
+    {
+        return false;
+    }
+    return tile->is_wall();
+}
 
 std::shared_ptr<Tile> Floor::tile(Location location) const
 {
@@ -81,8 +89,9 @@ bool Floor::add_light(unsigned int row, unsigned int cell, unsigned int radius)
     std::shared_ptr<Tile> tile = this->tile(Location(row, cell));
     tile->set_is_lit(true);
 
-    MapForCasting map(tile, CastingScan::illumination);
-    do_fov(map, cell, row, radius);
+    std::shared_ptr<iWallMap> map = this->shared_from_this();
+    std::shared_ptr<iFov> fov = std::make_shared<LightFov>(this->shared_from_this());
+    do_fov(fov, map, row, cell, radius);
     return true;
 }
 

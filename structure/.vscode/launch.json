@@ -26,10 +26,10 @@
             ]
         },
         {
-            "name": "worldtest.out debug",
+            "name": "tests.out debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/worldtests.out",
+            "program": "${workspaceFolder}/tests.out",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -44,46 +44,6 @@
                     "ignoreFailures": true
                 }
             ]
-        },
-        {
-            "name": "vistests.out debug",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/vistests.out",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            //"miDebuggerPath": "/usr/bin/gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
-            "name": "uitests.out debug",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/uitests.out",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            //"miDebuggerPath": "/usr/bin/gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
+        }
     ]
 }

@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "floor.h"
-#include "map_for_casting.h"
+#include "original_shadow_cast.h"
 #include "tile.h"
 
 UIToken Tile::token()
@@ -138,13 +138,13 @@ unsigned int Tile::get_los_range(Location location)
                 this->floor()->height(), 
                 std::vector<unsigned int>(
                     this->floor()->width(), 
-                    INT_MAX
+                    UINT_MAX
                 )
             );
         
-        MapForCasting map(this->shared_from_this(), CastingScan::visibility);
-        do_fov(map, this->where().cell(), this->where().row());
-        
+        std::shared_ptr<iFov> fov = std::make_shared<EyeLos>(this->shared_from_this());
+        std::shared_ptr<iWallMap> map = this->floor();
+        do_fov(fov, map, this->where().row(), this->where().cell());
     }
 
     return ((*this->los_range_)[location.row()][location.cell()]);

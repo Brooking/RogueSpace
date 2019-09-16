@@ -1,18 +1,22 @@
 #include <iostream>
 #include "catch.hpp"
 #include "dijkstra.h"
-#include "imap_mock.h"
+#include "../iwall_map_mock.h"
 #include "location.h"
 
-TEST_CASE("djystra_withTinyField_shouldFill", "[dijkstra][.]")
+TEST_CASE("djystra_withTinyField_shouldFill", "[dijkstra]")
 {
     // vfrom
     // 1 0
     //   ^to
 
     // arrange
-    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/2,/*height*/1);
-    std::vector<std::vector<unsigned int>> distance(map->get_height(), std::vector<unsigned int>(map->get_width(), 0));
+    std::shared_ptr<iWallMap> map = std::make_shared<iWallMapMock>(/*height*/1,/*width*/2);
+    std::vector<std::vector<unsigned int>> distance(
+        map->height(), 
+        std::vector<unsigned int>(
+            map->width(), 
+            0));
 
     // act
     dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(0,1));
@@ -32,8 +36,12 @@ TEST_CASE("djystra_withSmallField_shouldFill", "[dijkstra][.]")
     //     ^to
 
     // arrange
-    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/3,/*height*/4);
-    std::vector<std::vector<unsigned int>> distance(map->get_height(), std::vector<unsigned int>(map->get_width(), 0));
+    std::shared_ptr<iWallMap> map = std::make_shared<iWallMapMock>(/*height*/4,/*width*/3);
+    std::vector<std::vector<unsigned int>> distance(
+        map->height(), 
+        std::vector<unsigned int>(
+            map->width(), 
+            0));
 
     // act
     dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(3,2));
@@ -62,11 +70,16 @@ TEST_CASE("djystra_withWall_shouldWrap", "[dijkstra][.]")
     //         ^to
 
     // arrange
-    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/5,/*height*/3);
-    map->set_opaque(1,1,true);
-    map->set_opaque(2,1,true);
-    map->set_opaque(3,1,true);
-    std::vector<std::vector<unsigned int>> distance(map->get_height(), std::vector<unsigned int>(map->get_width(), 0));
+    std::shared_ptr<iWallMap> map = std::make_shared<iWallMapMock>(/*height*/3,/*width*/5);
+    iWallMapMock* mock = dynamic_cast<iWallMapMock*>(map.get());
+    mock->set_opaque(1,1,true);
+    mock->set_opaque(2,1,true);
+    mock->set_opaque(3,1,true);
+    std::vector<std::vector<unsigned int>> distance(
+        map->height(),
+        std::vector<unsigned int>(
+            map->width(),
+            0));
 
     // act
     dijkstra_fill(distance, map, /*from*/Location(0,0), /*to*/Location(2,4));

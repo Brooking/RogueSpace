@@ -13,9 +13,9 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
 
     // flood fill distances for floor (todo: save this for reuse by all actors)
     std::vector<std::vector<unsigned int>> distance(
-        this->map_->get_height(), 
+        this->map_->height(), 
         std::vector<unsigned int>(
-            this->map_->get_width(),
+            this->map_->width(),
             0
         ));
     dijkstra_fill(distance, this->map_, from, to);

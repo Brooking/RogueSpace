@@ -1,26 +1,27 @@
 #include <iostream>
 #include "catch.hpp"
-#include "imap_mock.h"
+#include "../iwall_map_mock.h"
 #include "pathfinder.h"
 #include "location.h"
 
 TEST_CASE("pathfinder_withWall_shouldWalkAround", "[pathfinder]")
 {
-    // @ 5 4 3 .
-    // . X X X 2
-    // . X . 1 .
-    // . X . M . 
-    // . X . . .        
+    //   0 1 2 3 4
+    // 0 @ 5 4 3 .
+    // 1 . X X X 2
+    // 2 . X . 1 .
+    // 3 . X . M . 
+    // 4 . X . . .        
 
     // arrange
-    std::shared_ptr<iMapMock> map = std::make_shared<iMapMock>(/*width*/5,/*height*/5);
+    std::shared_ptr<iWallMapMock> map = std::make_shared<iWallMapMock>(/*height*/5,/*width*/5);
     Pathfinder pathfinder(map);
     map->set_opaque(1,1,true);
     map->set_opaque(2,1,true);
     map->set_opaque(3,1,true);
+    map->set_opaque(4,1,true);
     map->set_opaque(1,2,true);
     map->set_opaque(1,3,true);
-    map->set_opaque(1,4,true);
 
     // act
     std::vector<Location> path = pathfinder.find_path(/*from*/Location(3,3), /*to*/Location(0,0));
