@@ -1,13 +1,19 @@
 #include "dijkstra.h"
 
-// if it has not been done yet, fill in the entry and add to the todo list
-void mark_and_add_neighbor(
-    std::vector<std::vector<unsigned int>>& distance,
-    std::shared_ptr<iWallMap> map, 
-    std::queue<Location>& todo, 
-    Location location, unsigned int new_distance);
+const std::vector<std::pair<int,int>> Dijkstra::Neighbors
+{
+    {-1,0},
+    {-1,1},
+    {0,1},
+    {1,1},
+    {1,0},
+    {1,-1},
+    {0,-1},
+    {-1,-1}
+};
 
-void dijkstra_fill(
+
+void Dijkstra::fill(
     std::vector<std::vector<unsigned int>>& distance,
     std::shared_ptr<iWallMap> map,
     Location from,
@@ -61,7 +67,7 @@ void dijkstra_fill(
     distance[to.row()][to.cell()] = 0;
 }
 
-void mark_and_add_neighbor(
+void Dijkstra::mark_and_add_neighbor(
     std::vector<std::vector<unsigned int>>& distance,
     std::shared_ptr<iWallMap> map, 
     std::queue<Location>& todo, 
@@ -94,5 +100,3 @@ void mark_and_add_neighbor(
     distance[row][cell] = neighbor_distance;
     todo.push(location);
 }                            
-
-

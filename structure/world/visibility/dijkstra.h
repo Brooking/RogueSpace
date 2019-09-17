@@ -6,27 +6,40 @@
 #include "../iwall_map.h"
 #include "location.h"
 
-// a list of row/column deltas to (orthogonal+diagonal) neighbors
-static std::vector<std::pair<int,int>> neighbors
+class Dijkstra
 {
-    {-1,0},
-    {-1,1},
-    {0,1},
-    {1,1},
-    {1,0},
-    {1,-1},
-    {0,-1},
-    {-1,-1}
+public:
+    // a list of row/column deltas to (orthogonal+diagonal) neighbors
+    // todo - isnt this more general? and cant this include diagonal indication?
+    static const std::vector<std::pair<int,int>> Neighbors;
+    // {
+    //     {-1,0},
+    //     {-1,1},
+    //     {0,1},
+    //     {1,1},
+    //     {1,0},
+    //     {1,-1},
+    //     {0,-1},
+    //     {-1,-1}
+    // };
+
+    // 
+    // Dijkstra graph - an array showing the stepping distance from any tile to an origin
+    // (in our case the hero). Used in path finding.
+    //
+    static void fill(
+        std::vector<std::vector<unsigned int>>& distance,
+        std::shared_ptr<iWallMap> map, 
+        Location from, 
+        Location to);
+
+private:
+    // if it has not been done yet, fill in the entry and add to the todo list
+    static void mark_and_add_neighbor(
+        std::vector<std::vector<unsigned int>>& distance,
+        std::shared_ptr<iWallMap> map, 
+        std::queue<Location>& todo, 
+        Location location, unsigned int new_distance);
+
 };
-
-// 
-// Dijkstra graph - an array showing the stepping distance from any tile to an origin
-// (in our case the hero). Used in path finding.
-//
-void dijkstra_fill(
-    std::vector<std::vector<unsigned int>>& distance,
-    std::shared_ptr<iWallMap> map, 
-    Location from, 
-    Location to);
-
 #endif // _dijkstra_h_

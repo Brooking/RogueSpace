@@ -18,7 +18,7 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
             this->map_->width(),
             0
         ));
-    dijkstra_fill(distance, this->map_, from, to);
+    Dijkstra::fill(distance, this->map_, from, to);
     if ( distance[from.row()][from.cell()] == 0)
     {
         // no path
@@ -40,8 +40,8 @@ void Pathfinder::walk_back(std::vector<Location>& result, std::vector<std::vecto
         // check each of the neighbors for the next step
         for (unsigned int i = 0; i < 8; i++)
         {
-            unsigned int row = location.row() + neighbors[i].first;
-            unsigned int cell = location.cell() + neighbors[i].second;
+            unsigned int row = location.row() + Dijkstra::Neighbors[i].first;
+            unsigned int cell = location.cell() + Dijkstra::Neighbors[i].second;
             if (row >= static_cast<unsigned int>(distance.size()) || 
                 cell >= static_cast<unsigned int>(distance[0].size()))
             {
