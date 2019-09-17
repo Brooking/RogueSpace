@@ -121,7 +121,7 @@
   - [x] 'Seen' tiles determined by asking for token
   - [ ] add always-visible monsters for debugging
   - [ ] for pathfinding to be accurate, we need to account for diagonal distance
-  - [ ] "original_shadow_cast" -> "fov"
+  - [x] "original_shadow_cast" -> "fov"
   - [ ] regularize all visibility workers
     - [ ] static class holders
     - [x] x,y -> row,cell

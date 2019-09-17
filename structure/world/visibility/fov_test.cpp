@@ -2,7 +2,7 @@
 #include "catch.hpp"
 #include "../iwall_map_mock.h"
 #include "../ifov.h"
-#include "original_shadow_cast.h"
+#include "fov.h"
 
 class FovTestCallback : public iFov
 {
@@ -27,7 +27,7 @@ private:
     std::vector<std::vector<unsigned int>> grid_;
 };
 
-TEST_CASE("originalShadowCast_withSmallMap_shouldShowAll", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withSmallMap_shouldShowAll", "[fov]")
 {
     // ...
     // .@.
@@ -53,7 +53,7 @@ TEST_CASE("originalShadowCast_withSmallMap_shouldShowAll", "[original_shadow_cas
     REQUIRE(fov->get_fov(2,2) == 1);
 }
 
-TEST_CASE("originalShadowCast_withSmallishMap_shouldShowAll", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withSmallishMap_shouldShowAll", "[fov]")
 {
     // @1234
     // 11234
@@ -101,7 +101,7 @@ TEST_CASE("originalShadowCast_withSmallishMap_shouldShowAll", "[original_shadow_
     REQUIRE(fov->get_fov(4,4) == 5);
 }
 
-TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[fov]")
 {
     // @....
     // .....
@@ -157,7 +157,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[origina
     REQUIRE(fov->get_fov(4,4) == UINT_MAX);
 }
 
-TEST_CASE("originalShadowCast_withFarPillarOnOblique_shouldShowSome", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withFarPillarOnOblique_shouldShowSome", "[fov]")
 {
     // .....
     // @....
@@ -214,7 +214,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnOblique_shouldShowSome", "[original
     REQUIRE(fov->get_fov(4,4) == 5);
 }
 
-TEST_CASE("originalShadowCast_withFarPillarOnOrthogonal_shouldShowSome", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withFarPillarOnOrthogonal_shouldShowSome", "[fov]")
 {
     // .....
     // .....
@@ -269,7 +269,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnOrthogonal_shouldShowSome", "[origi
     REQUIRE(fov->get_fov(4,4) == 4);
 }
 
-TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[fov]")
 {
     // @..
     // .#.
@@ -303,7 +303,7 @@ TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[origi
     REQUIRE(fov->get_fov(2,2) == UINT_MAX);
 }
 
-TEST_CASE("originalShadowCast_withClosePillarOnOrthogonal_shouldShowSome", "[original_shadow_cast]")
+TEST_CASE("originalShadowCast_withClosePillarOnOrthogonal_shouldShowSome", "[fov]")
 {
     // ...S
     // @#SS

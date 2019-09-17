@@ -2,7 +2,7 @@
 #include <memory>
 #include <stdexcept>
 #include "floor.h"
-#include "visibility/original_shadow_cast.h"
+#include "visibility/fov.h"
 
 std::shared_ptr<Floor> Floor::create(unsigned int height, unsigned int width)
 {

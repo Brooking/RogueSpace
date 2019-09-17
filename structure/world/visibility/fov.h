@@ -1,5 +1,5 @@
-#ifndef _original_shadow_cast_h_
-#define _original_shadow_cast_h_
+#ifndef _fov_h_
+#define _fov_h_
 
 #include "../ifov.h"
 #include "../iwall_map.h"
@@ -23,4 +23,4 @@ void do_fov(
     uint cell,
     uint radius);
 
-#endif // _original_shadow_cast_h_
+#endif // _fov_h_

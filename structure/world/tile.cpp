@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "floor.h"
-#include "original_shadow_cast.h"
+#include "fov.h"
 #include "tile.h"
 
 UIToken Tile::token()

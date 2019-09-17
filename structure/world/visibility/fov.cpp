@@ -1,5 +1,5 @@
 #include <cmath>
-#include "original_shadow_cast.h"
+#include "fov.h"
 
 static int multipliers[4][8] = {
     {1, 0, 0, -1, -1, 0, 0, 1},

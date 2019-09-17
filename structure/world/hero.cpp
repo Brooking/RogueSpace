@@ -1,7 +1,7 @@
 #include <assert.h>
 #include "floor.h"
 #include "hero.h"
-#include "visibility/original_shadow_cast.h"
+#include "visibility/fov.h"
 
 Hero::Hero(unsigned int sight_range) : 
     ActorBase(TokenType::hero, Hero::WalkTime, /*center*/true),

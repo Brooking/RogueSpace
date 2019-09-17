@@ -127,7 +127,7 @@ world_includes= \
 	world/tile.h \
 	world/wall.h \
 	world/visibility/los.h \
-	world/visibility/original_shadow_cast.h \
+	world/visibility/fov.h \
 	world/visibility/pathfinder.h \
 	world/visibility/dijkstra.h
 ui_includes=\
@@ -170,7 +170,7 @@ tests= \
 	world/wall_test.cpp \
 	world/visibility/dijkstra_test.cpp \
 	world/visibility/los_test.cpp \
-	world/visibility/original_shadow_cast_test.cpp \
+	world/visibility/fov_test.cpp \
 	world/visibility/pathfinder_test.cpp
 test_mocks = \
 	inc/iactor_mock.h \
@@ -250,7 +250,7 @@ lib/libworld.a : \
 		obj/location.o \
 		obj/los.o \
 		obj/hero.o \
-		obj/original_shadow_cast.o \
+		obj/fov.o \
 		obj/pathfinder.o \
 		obj/thing_base.o \
 		obj/tile.o
@@ -261,7 +261,7 @@ lib/libworld.a : \
 		obj/location.o \
 		obj/los.o \
 		obj/hero.o \
-		obj/original_shadow_cast.o \
+		obj/fov.o \
 		obj/pathfinder.o \
 		obj/thing_base.o \
 		obj/tile.o
@@ -449,13 +449,13 @@ obj/los.o : \
 		-c world/visibility/los.cpp \
 		-o obj/los.o
 
-obj/original_shadow_cast.o : \
+obj/fov.o : \
 		$(common_includes) \
 		$(vis_includes) \
-		world/visibility/original_shadow_cast.cpp
+		world/visibility/fov.cpp
 	$(c++command) $(common_include_dirs) \
-		-c world/visibility/original_shadow_cast.cpp \
-		-o obj/original_shadow_cast.o
+		-c world/visibility/fov.cpp \
+		-o obj/fov.o
 
 obj/pathfinder.o : \
 		$(common_includes) \
