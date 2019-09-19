@@ -267,7 +267,7 @@ void Generator::wall_border(std::shared_ptr<Floor> floor)
 
 void Generator::make_wall(std::shared_ptr<Floor> floor, Location start, Location end)
 {
-    std::vector<Location> locations = bresenham_los(
+    std::vector<Location> locations = Los::bresenham_los(
         start.row(), start.cell(), end.row(), end.cell());
 
     std::shared_ptr<Wall> wall = std::make_shared<Wall>();

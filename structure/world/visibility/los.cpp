@@ -2,10 +2,10 @@
 #include "los.h"
 
 // From RogueBasin...
-std::vector<Location> bresenham_los(
-    unsigned int start_row, 
-    unsigned  int start_cell, 
-    unsigned int end_row, 
+std::vector<Location> Los::bresenham_los(
+    unsigned int start_row,
+    unsigned  int start_cell,
+    unsigned int end_row,
     unsigned int end_cell)
 {
     std::vector<Location> result;
@@ -14,20 +14,20 @@ std::vector<Location> bresenham_los(
     // if start_cell == end_cell, then it does not matter what we set here
     signed char const i_cell(static_cast<signed char>((delta_cell > 0) - (delta_cell < 0)));
     delta_cell = std::abs(delta_cell) << 1;
- 
+
     int delta_row(end_row - start_row);
     // if start_row == end_row, then it does not matter what we set here
     signed char const i_row(static_cast<signed char>((delta_row > 0) - (delta_row < 0)));
     delta_row = std::abs(delta_row) << 1;
- 
+
     // add the start
     result.push_back(Location(start_row, start_cell));
- 
+
     if (delta_cell >= delta_row)
     {
         // error may go below zero
         int error(delta_row - (delta_cell >> 1));
- 
+
         while (start_cell != end_cell)
         {
             // reduce error, while taking into account the corner case of error == 0
@@ -37,10 +37,10 @@ std::vector<Location> bresenham_los(
                 start_row += i_row;
             }
             // else do nothing
- 
+
             error += delta_row;
             start_cell += i_cell;
- 
+
             result.push_back(Location(start_row, start_cell));
         }
     }
@@ -48,7 +48,7 @@ std::vector<Location> bresenham_los(
     {
         // error may go below zero
         int error(delta_cell - (delta_row >> 1));
- 
+
         while (start_row != end_row)
         {
             // reduce error, while taking into account the corner case of error == 0
@@ -58,10 +58,10 @@ std::vector<Location> bresenham_los(
                 start_cell += i_cell;
             }
             // else do nothing
- 
+
             error += delta_cell;
             start_row += i_row;
- 
+
             result.push_back(Location(start_row, start_cell));
         }
     }

@@ -6,7 +6,7 @@ TEST_CASE("bresenham_withOrthogonal_shouldReturnRow", "[los]")
 {
     // arrange
     // act
-    std::vector<Location> locations = bresenham_los(1,1,1,3);
+    std::vector<Location> locations = Los::bresenham_los(1,1,1,3);
 
     // assert
     REQUIRE(locations.size() == 3);
@@ -19,7 +19,7 @@ TEST_CASE("bresenham_withDiagonal_shouldReturnDiagonal", "[los]")
 {
     // arrange
     // act
-    std::vector<Location> locations = bresenham_los(1,1,3,3);
+    std::vector<Location> locations = Los::bresenham_los(1,1,3,3);
 
     // assert
     REQUIRE(locations.size() == 3);
@@ -32,7 +32,7 @@ TEST_CASE("bresenham_withOblique_shouldReturnOblique", "[los]")
 {
     // arrange
     // act
-    std::vector<Location> locations = bresenham_los(5,5,3,0);
+    std::vector<Location> locations = Los::bresenham_los(5,5,3,0);
 
     // assert
     REQUIRE(locations.size() == 6);
