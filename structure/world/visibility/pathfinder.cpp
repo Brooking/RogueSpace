@@ -30,8 +30,10 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
     return result;
 }
 
-void Pathfinder::walk_back(std::vector<Location>& result, std::vector<std::vector<unsigned int>>& distance, 
-                           Location location)
+void Pathfinder::walk_back(
+    std::vector<Location>& result,
+    std::vector<std::vector<unsigned int>>& distance,
+    Location location)
 {
     unsigned int current_distance = distance[location.row()][location.cell()];
     while (current_distance > 0)
