@@ -91,7 +91,7 @@ bool Floor::add_light(unsigned int row, unsigned int cell, unsigned int radius)
 
     std::shared_ptr<iWallMap> map = this->shared_from_this();
     std::shared_ptr<iFov> fov = std::make_shared<LightFov>(this->shared_from_this());
-    do_fov(fov, map, row, cell, radius);
+    Fov::do_fov(fov, map, row, cell, radius);
     return true;
 }
 

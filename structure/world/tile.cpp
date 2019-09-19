@@ -144,7 +144,7 @@ unsigned int Tile::get_los_range(Location location)
         
         std::shared_ptr<iFov> fov = std::make_shared<EyeLos>(this->shared_from_this());
         std::shared_ptr<iWallMap> map = this->floor();
-        do_fov(fov, map, this->where().row(), this->where().cell());
+        Fov::do_fov(fov, map, this->where().row(), this->where().cell());
     }
 
     return ((*this->los_range_)[location.row()][location.cell()]);

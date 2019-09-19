@@ -39,7 +39,7 @@ TEST_CASE("originalShadowCast_withSmallMap_shouldShowAll", "[fov]")
         std::make_shared<FovTestCallback>(map->height(), map->width());
 
     // act
-    do_fov(fov, map, /*row*/1, /*cell*/1);
+    Fov::do_fov(fov, map, /*row*/1, /*cell*/1);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 1);
@@ -67,7 +67,7 @@ TEST_CASE("originalShadowCast_withSmallishMap_shouldShowAll", "[fov]")
         std::make_shared<FovTestCallback>(map->height(), map->width());
 
     // act
-    do_fov(fov, map, /*row*/0, /*cell*/0);
+    Fov::do_fov(fov, map, /*row*/0, /*cell*/0);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 0);
@@ -123,7 +123,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnDiagonal_shouldShowSome", "[fov]")
         std::make_shared<FovTestCallback>(map->height(), map->width());
 
     // act
-    do_fov(fov, map, /*row*/0, /*cell*/0);
+    Fov::do_fov(fov, map, /*row*/0, /*cell*/0);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 0);
@@ -180,7 +180,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnOblique_shouldShowSome", "[fov]")
 
 
     // act
-    do_fov(fov, map, /*row*/1, /*cell*/0);
+    Fov::do_fov(fov, map, /*row*/1, /*cell*/0);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 1);
@@ -235,7 +235,7 @@ TEST_CASE("originalShadowCast_withFarPillarOnOrthogonal_shouldShowSome", "[fov]"
         std::make_shared<FovTestCallback>(map->height(), map->width());
 
     // act
-    do_fov(fov, map, /*row*/2, /*cell*/0);
+    Fov::do_fov(fov, map, /*row*/2, /*cell*/0);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 2);
@@ -287,7 +287,7 @@ TEST_CASE("originalShadowCast_withClosePillarOnDiagonal_shouldShowSome", "[fov]"
 
 
     // act
-    do_fov(fov, map, /*row*/0, /*cell*/0);
+    Fov::do_fov(fov, map, /*row*/0, /*cell*/0);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 0);
@@ -320,7 +320,7 @@ TEST_CASE("originalShadowCast_withClosePillarOnOrthogonal_shouldShowSome", "[fov
         std::make_shared<FovTestCallback>(map->height(), map->width());
 
     // act
-    do_fov(fov, map, /*row*/1, /*cell*/0);
+    Fov::do_fov(fov, map, /*row*/1, /*cell*/0);
 
     // assert
     REQUIRE(fov->get_fov(0,0) == 1);

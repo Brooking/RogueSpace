@@ -1,14 +1,14 @@
 #include <cmath>
 #include "fov.h"
 
-static int multipliers[4][8] = {
+const int Fov::Multipliers[4][8] = {
     {1, 0, 0, -1, -1, 0, 0, 1},
     {0, 1, -1, 0, 0, -1, 1, 0},
     {0, 1, 1, 0, 0, -1, -1, 0},
     {1, 0, 0, 1, -1, 0, 0, -1}
 };
 
-void cast_light(std::shared_ptr<iFov>& fov_response,
+void Fov::cast_light(std::shared_ptr<iFov>& fov_response,
         std::shared_ptr<iWallMap>& map,
         uint row, uint cell, uint radius, uint row_start,
         float start_slope, float end_slope, uint xx, uint xy, uint yx,
@@ -67,7 +67,7 @@ void cast_light(std::shared_ptr<iFov>& fov_response,
     }
 }
 
-void do_fov(
+void Fov::do_fov(
     std::shared_ptr<iFov>& fov_response,
     std::shared_ptr<iWallMap>& map,
     uint row, uint cell)
@@ -77,7 +77,7 @@ void do_fov(
     do_fov(fov_response, map, row, cell, longest_dist);    
 }
 
-void do_fov(
+void Fov::do_fov(
     std::shared_ptr<iFov>& fov_response,
     std::shared_ptr<iWallMap>& map,
     uint row,
@@ -91,7 +91,7 @@ void do_fov(
     }
 
     for (uint i = 0; i < 8; i++) {
-        cast_light(fov_response, map, row, cell, radius, 1, 1.0, 0.0, multipliers[0][i],
-                multipliers[1][i], multipliers[2][i], multipliers[3][i]);
+        cast_light(fov_response, map, row, cell, radius, 1, 1.0, 0.0, Multipliers[0][i],
+                Multipliers[1][i], Multipliers[2][i], Multipliers[3][i]);
     }
 }
