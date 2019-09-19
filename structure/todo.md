@@ -123,7 +123,7 @@
   - [ ] for pathfinding to be accurate, we need to account for diagonal distance
   - [x] "original_shadow_cast" -> "fov"
   - [ ] regularize all visibility workers
-    - [ ] static class holders
+    - [x] static class holders
     - [x] x,y -> row,cell
     - [x] remove one of the iFov testing mocks
     - [ ] THEN reformat...
