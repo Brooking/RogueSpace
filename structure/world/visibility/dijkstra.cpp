@@ -45,16 +45,17 @@ void Dijkstra::fill(
         unsigned int row = location.row();
         unsigned int cell = location.cell();
 
-        unsigned int neighbor_distance = distance[row][cell] + 1;
+        unsigned int orthogonal_distance = distance[row][cell] + Dijkstra::OrthogonalDistance;
+        unsigned int diagonal_distance = distance[row][cell] + Dijkstra::DiagonalDistance;
 
-        mark_and_add_neighbor(distance, map, todo, Location(row-1,cell), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row-1,cell+1), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row,cell+1), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row+1,cell+1), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row+1,cell), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row+1,cell-1), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row,cell-1), neighbor_distance);
-        mark_and_add_neighbor(distance, map, todo, Location(row-1,cell-1), neighbor_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row-1,cell), orthogonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row-1,cell+1), diagonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row,cell+1), orthogonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row+1,cell+1), diagonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row+1,cell), orthogonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row+1,cell-1), diagonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row,cell-1), orthogonal_distance);
+        mark_and_add_neighbor(distance, map, todo, Location(row-1,cell-1), diagonal_distance);
 
         // if we just found our source, we can early exit
         if (location == from)

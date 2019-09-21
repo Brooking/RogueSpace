@@ -41,5 +41,8 @@ private:
         std::queue<Location>& todo, 
         Location location, unsigned int new_distance);
 
+    static const unsigned int OrthogonalDistance = 10;
+    static const unsigned int DiagonalDistance = 14;
+
 };
 #endif // _dijkstra_h_

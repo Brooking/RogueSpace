@@ -38,7 +38,8 @@ void Pathfinder::walk_back(
     unsigned int current_distance = distance[location.row()][location.cell()];
     while (current_distance > 0)
     {
-        Location next_location;
+        std::vector<Location> next_locations;
+
         // check each of the neighbors for the next step
         for (unsigned int i = 0; i < 8; i++)
         {
@@ -60,20 +61,27 @@ void Pathfinder::walk_back(
             if (new_distance < current_distance)
             {
                 // found a next step
-                assert(new_distance == current_distance - 1);
-                next_location = Location(row, cell);
-                break;
+                // assert(new_distance == current_distance - 1); todo - assert for orth/diag
+                next_locations.push_back(Location(row, cell));
             }
         }
 
-        if (next_location == Location())
+        if (next_locations.size() == 0)
         {
             // could not find a next step
             return;
         }
+        std::sort(next_locations.begin(),next_locations.end(),
+            []( Location a,  Location b) { return a < b; }
+        );
 
-        location = next_location;
+        for (unsigned int i = 0; i < next_locations.size(); i++)
+        {
+            // todo: this is where we check to see if the monster can move here
+            location = next_locations[i];
+            break;
+        }
         result.push_back(location);
         current_distance = distance[location.row()][location.cell()];
     }
-}                           
+}

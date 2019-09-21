@@ -6,12 +6,19 @@
 
 TEST_CASE("pathfinder_withWall_shouldWalkAround", "[pathfinder]")
 {
-    //   0 1 2 3 4
-    // 0 @ 5 4 3 .
-    // 1 . X X X 2
-    // 2 . X . 1 .
-    // 3 . X . M . 
-    // 4 . X . . .        
+    //    0  1  2  3  4
+    // 0  @  5  4  3  .
+    // 1  .  X  X  X  2
+    // 2  .  X  .  1  .
+    // 3  .  X  .  M  .
+    // 4  .  X  .  .  .
+
+    //    0  1  2  3  4
+    // 0 00 10 20 30 40
+    // 1 10 XX XX XX 44
+    // 2 20 XX 68 58 54
+    // 3 30 XX 72 68 64
+    // 4 40 XX 82 78 74
 
     // arrange
     std::shared_ptr<iWallMapMock> map = std::make_shared<iWallMapMock>(/*height*/5,/*width*/5);

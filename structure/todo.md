@@ -120,7 +120,7 @@
   - [x] Make lighted tiles visible only if in los
   - [x] 'Seen' tiles determined by asking for token
   - [ ] add always-visible monsters for debugging
-  - [ ] for pathfinding to be accurate, we need to account for diagonal distance
+  - [x] for pathfinding to be accurate, we need to account for diagonal distance
   - [x] "original_shadow_cast" -> "fov"
   - [x] regularize all visibility workers
     - [x] static class holders
