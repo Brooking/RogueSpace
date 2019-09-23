@@ -29,7 +29,7 @@
   - [x] implement iActor
   - [x] change the executable name to roguespace.out
   - [x] tests colocated with source, single test exe
-  - [ ] /inc+/common => /interfaces
+  - [x] /inc+/common => /interfaces
 ### Input
 #### Keyboard
   - [x] add diagonal input

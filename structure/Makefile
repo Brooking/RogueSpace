@@ -79,17 +79,17 @@ c++command=$(c++compile) $(c++standard) $(c++debug) $(c++warnings)
 
 # directories (for compiling and linking)
 common_include_dirs=\
-	-I$(CURDIR)/inc
+	-I$(CURDIR)/interfaces
 ui_include_dirs=\
-	-I$(CURDIR)/inc \
+	-I$(CURDIR)/interfaces \
 	-I$(CURDIR)/ui \
 	-I$(CURDIR)/ui/io
 world_include_dirs=\
-	-I$(CURDIR)/inc \
+	-I$(CURDIR)/interfaces \
 	-I$(CURDIR)/world \
 	-I$(CURDIR)/world/visibility
 all_include_dirs=\
-	-I$(CURDIR)/inc \
+	-I$(CURDIR)/interfaces \
 	-I$(CURDIR)/ui \
 	-I$(CURDIR)/ui/io \
 	-I$(CURDIR)/world \
@@ -98,17 +98,17 @@ all_include_dirs=\
 # header file lists (for setting dependencies)
 common_includes= \
 	Makefile \
-	inc/content_size.h \
-	inc/direction.h \
-	inc/iactor.h \
-	inc/ifloor.h \
-	inc/io_constants.h \
-	inc/iscreen.h \
-	inc/ithing.h \
-	inc/iupdate.h \
-	inc/iwindow.h \
-	inc/location.h \
-	inc/uitoken.h
+	interfaces/content_size.h \
+	interfaces/direction.h \
+	interfaces/iactor.h \
+	interfaces/ifloor.h \
+	interfaces/io_constants.h \
+	interfaces/iscreen.h \
+	interfaces/ithing.h \
+	interfaces/iupdate.h \
+	interfaces/iwindow.h \
+	interfaces/location.h \
+	interfaces/uitoken.h
 game_includes =\
 	game/game_type.h \
 	game/game.h \
@@ -147,21 +147,21 @@ library_files = \
 	lib/libgame.a \
 	lib/libworld.a \
 	lib/libui.a \
-	lib/libcommon.a
+	lib/libinterfaces.a
 library_dir=-L$(CURDIR)/lib
 library_specs = \
 	-lgame \
 	-lworld \
 	-lui \
-	-lcommon
+	-linterfaces
 
 # test lists
 tests= \
 	game/timeline_test.cpp \
 	game/time_entry_test.cpp \
-	inc/content_size_test.cpp \
-	inc/location_test.cpp \
-	inc/uitoken_test.cpp \
+	interfaces/content_size_test.cpp \
+	interfaces/location_test.cpp \
+	interfaces/uitoken_test.cpp \
 	ui/icon_test.cpp \
 	ui/screen_test.cpp \
 	world/floor_test.cpp \
@@ -173,9 +173,9 @@ tests= \
 	world/visibility/fov_test.cpp \
 	world/visibility/pathfinder_test.cpp
 test_mocks = \
-	inc/iactor_mock.h \
-	inc/icurses_mock.h \
-	inc/ithing_mock.h \
+	interfaces/iactor_mock.h \
+	interfaces/icurses_mock.h \
+	interfaces/ithing_mock.h \
 	world/iwall_map_mock.h
 
 # executables
@@ -194,22 +194,22 @@ tests.out : \
 		$(library_files) \
 		$(tests) \
 		$(test_mocks) \
-		inc/catch.hpp \
-		inc/test_main.cpp
+		interfaces/catch.hpp \
+		interfaces/test_main.cpp
 	$(c++command) \
 		$(all_include_dirs) \
 		$(library_dir) \
 		-DPROTECTED_ACCESS=public \
-		inc/test_main.cpp \
+		interfaces/test_main.cpp \
 		$(tests) \
 		$(library_specs) \
 		-o tests.out
 
 # Libraries
-lib/libcommon.a : \
+lib/libinterfaces.a : \
 		obj/location.o \
 		obj/uitoken.o
-	ar crf lib/libcommon.a \
+	ar crf lib/libinterfaces.a \
 		obj/location.o \
 		obj/uitoken.o
 
@@ -266,19 +266,19 @@ lib/libworld.a : \
 		obj/thing_base.o \
 		obj/tile.o
 
-# common objects
+# interfaces objects
 obj/location.o : \
 		$(common_includes) \
-		common/location.cpp
+		interfaces/location.cpp
 	$(c++command) $(common_include_dirs) \
-		-c common/location.cpp \
+		-c interfaces/location.cpp \
 		-o obj/location.o
 
 obj/uitoken.o : \
 		$(common_includes) \
-		common/uitoken.cpp
+		interfaces/uitoken.cpp
 	$(c++command) $(common_include_dirs) \
-		-c common/uitoken.cpp \
+		-c interfaces/uitoken.cpp \
 		-o obj/uitoken.o
 
 # game objects
