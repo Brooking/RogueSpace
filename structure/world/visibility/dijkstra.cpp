@@ -16,16 +16,16 @@ const std::vector<std::pair<int,int>> Dijkstra::Neighbors
 void Dijkstra::fill(
     std::vector<std::vector<unsigned int>>& distance,
     std::shared_ptr<iWallMap> map,
-    Location from,
-    Location to)
+    Location to,
+    Location from)
 {
     // There general algorithm here is that we start at the destination, and on each 
     // iteration, we mark all of our neighbors as being 1 further away, we also push
     // each neighbor into the todo queue. Then we iterate on the next spot in the queue
     // until we are done.
 
-    assert(from.row() < map->height());
-    assert(from.cell() < map->width());
+    assert(from == Location() || from.row() < map->height());
+    assert(from == Location() || from.cell() < map->width());
     assert(to.row() < map->height());
     assert(to.cell() <map->width());
     if (map->is_opaque(to.row(), to.cell()))

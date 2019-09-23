@@ -21,7 +21,7 @@ TEST_CASE("dijkstra_withTinyField_shouldFill", "[dijkstra]")
             0));
 
     // act
-    Dijkstra::fill(distance, map, /*from*/Location(0,0), /*to*/Location(0,1));
+    Dijkstra::fill(distance, map, /*to*/Location(0,1), /*from*/Location(0,0));
 
     // assert
     REQUIRE(distance[0][0] == 10);
@@ -48,7 +48,7 @@ TEST_CASE("dijkstra_withSmallField_shouldFill", "[dijkstra][.]")
             0));
 
     // act
-    Dijkstra::fill(distance, map, /*from*/Location(0,0), /*to*/Location(3,2));
+    Dijkstra::fill(distance, map, /*to*/Location(3,2), /*from*/Location(0,0));
 
     // assert
     REQUIRE(distance[0][0] == 38);
@@ -88,7 +88,7 @@ TEST_CASE("dijkstra_withWall_shouldWrap", "[dijkstra][.]")
             0));
 
     // act
-    Dijkstra::fill(distance, map, /*from*/Location(0,0), /*to*/Location(2,4));
+    Dijkstra::fill(distance, map, /*to*/Location(2,4), /*from*/Location(0,0));
 
     // assert
     REQUIRE(distance[0][0] == 54);
@@ -143,7 +143,7 @@ TEST_CASE("dijkstra_withLWall_shouldWrapAround", "[dijkstra]")
             0));
 
     // act
-    Dijkstra::fill(distance, map, /*from*/Location(3,3), /*to*/Location(0,0));
+    Dijkstra::fill(distance, map, /*to*/Location(0,0), /*from*/Location(3,3));
 
     // assert
     REQUIRE(distance[0][0] == 0);

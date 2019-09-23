@@ -29,9 +29,9 @@ public:
     //
     static void fill(
         std::vector<std::vector<unsigned int>>& distance,
-        std::shared_ptr<iWallMap> map, 
-        Location from, 
-        Location to);
+        std::shared_ptr<iWallMap> map,
+        Location to,
+        Location from = Location());
 
 private:
     // if it has not been done yet, fill in the entry and add to the todo list

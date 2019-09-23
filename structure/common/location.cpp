@@ -65,3 +65,26 @@ std::vector<Location> Location::closer_adjacent_locations(Location target) const
 
     return result;
 }
+
+bool Location::is_adjacent(Location& that, bool& diagonal) const
+{
+    diagonal = false;
+    if (*this == that)
+    {
+        return false;
+    }
+
+    int row_diff = std::abs(
+        static_cast<int>(this->row()) - static_cast<int>(that.row()));
+    int cell_diff = std::abs(
+        static_cast<int>(this->cell()) - static_cast<int>(that.cell()));
+
+    if (row_diff <= 1 && cell_diff <= 1)
+    {
+        // it is adjacent
+        diagonal = (row_diff > 0 && cell_diff > 0);
+        return true;
+    }
+
+    return false;
+}

@@ -26,6 +26,9 @@ public:
         throw std::invalid_argument("This type of actor can not be told what to do");
     }
 
+    // iActor: move toward a destination
+    virtual unsigned int move(Location destination) override;
+
 protected:
     static constexpr double SquareRootOf2 = 1.41;
 
@@ -35,6 +38,9 @@ protected:
 
     // determine if a given move is diagonal
     bool is_diagonal_move(Location original) const;
+
+    // find next step along the path
+    Location next_step(const std::shared_ptr<std::vector<std::vector<unsigned int>>>& dmap);
 
 protected:
     unsigned int move_time_;

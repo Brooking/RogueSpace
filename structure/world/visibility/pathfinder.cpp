@@ -18,7 +18,7 @@ std::vector<Location> Pathfinder::find_path(Location from, Location to)
             this->map_->width(),
             0
         ));
-    Dijkstra::fill(distance, this->map_, from, to);
+    Dijkstra::fill(distance, this->map_, to, from);
     if ( distance[from.row()][from.cell()] == 0)
     {
         // no path

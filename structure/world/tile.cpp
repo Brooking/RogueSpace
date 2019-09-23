@@ -1,4 +1,5 @@
 #include <assert.h>
+#include "dijkstra.h"
 #include "floor.h"
 #include "fov.h"
 #include "tile.h"
@@ -176,4 +177,24 @@ bool Tile::is_wall()
     }
     return false;
 }
+
+const std::shared_ptr<std::vector<std::vector<unsigned int>>> Tile::get_dmap()
+{
+    std::shared_ptr<Floor> floor = this->floor_.lock();
+    if (this->d_map_ == nullptr)
+    {
+        this->d_map_ = std::make_shared<std::vector<std::vector<unsigned int>>>(
+            floor->height(),
+            std::vector<unsigned int>(
+                floor->width()));
+
+        Dijkstra::fill(
+            *(this->d_map_),
+            this->floor_.lock(),
+            this->where());
+    }
+
+    return this->d_map_;
+}
+
 

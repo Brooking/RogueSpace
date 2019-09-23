@@ -26,7 +26,7 @@ class Tile : public std::enable_shared_from_this<Tile>
 public:
     Tile(std::shared_ptr<Floor> floor, Location location) : 
         floor_(floor), location_(location), things_(), fullness_(ContentSize::empty),
-        los_range_(), has_been_seen_(false), is_lit_(false)
+        los_range_(), has_been_seen_(false), is_lit_(false), d_map_()
     {}
     ~Tile() {}
 
@@ -78,6 +78,9 @@ public:
 
     // returns whether this tile contains a wall
     bool is_wall();
+
+    // calculate dijkstra map
+    const std::shared_ptr<std::vector<std::vector<unsigned int>>> get_dmap();
 
 PROTECTED_ACCESS:
     // calculate fullness based on contents
@@ -135,6 +138,9 @@ private:
 
     // is this tile lit
     bool is_lit_;
+
+    // Paths to this tile
+    std::shared_ptr<std::vector<std::vector<unsigned int>>> d_map_;
 };
 
 #endif // _tile_h_

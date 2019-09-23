@@ -4,6 +4,7 @@
 #include <memory>
 #include "content_size.h"
 #include "direction.h"
+#include "location.h"
 #include "uitoken.h"
 
 //
@@ -19,6 +20,9 @@ public:
 
     // Tell this thing to move (and tell it which direction)
     virtual unsigned int move(Direction direction) = 0;
+
+    // Tell the thing to move toward a destination
+    virtual unsigned int move(Location destination) = 0;
 };
 
 #endif // _iactor_h_

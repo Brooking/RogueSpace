@@ -12,6 +12,8 @@ public:
 
     virtual unsigned int move(Direction) { return this->move_time_; }
 
+    virtual unsigned int move(Location) { return this->move_time_; }
+
 private:
     unsigned int move_time_;
 };

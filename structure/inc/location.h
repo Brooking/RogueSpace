@@ -88,6 +88,9 @@ public:
     // return all adjacent locations that are closer to the target than the current
     std::vector<Location> closer_adjacent_locations(Location target) const;
 
+    // return whether a location is adjacent to this, and if it is diagonal
+    bool is_adjacent(Location& that, bool& diagonal) const;
+
 private:
     // the row of the location
     unsigned int row_;

@@ -295,3 +295,63 @@ TEST_CASE("closerAdjacentLocations_withOrthogonalFar_shouldMakeThreeInLine", "[l
     REQUIRE(closer_adjacent_locations[1] == Location(5,10));
     REQUIRE(closer_adjacent_locations[2] == Location(6,10));
 }
+
+TEST_CASE("isAdjacent_withSpots_shouldReturnProperly", "[location]")
+{
+    //    0  1  2  3  4
+    // 0 NN NN NN NN NN
+    // 1 NN AD AO AD NN
+    // 2 NN AO XX AO NN
+    // 3 NN AD AO AD NN
+    // 4 NN NN NN NN NN
+
+
+    // arrange
+    Location this_location(2, 2);
+    Location that_location;
+
+    // act
+    // assert
+    bool diagonal;
+    that_location = Location(0,0);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == false);
+    REQUIRE(diagonal == false);
+
+    that_location = Location(1,4);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == false);
+    REQUIRE(diagonal == false);
+
+    that_location = Location(1,2);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == false);
+
+    that_location = Location(2,3);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == false);
+
+    that_location = Location(3,2);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == false);
+
+    that_location = Location(2,1);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == false);
+
+    that_location = Location(1,3);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == true);
+
+    that_location = Location(3,3);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == true);
+
+    that_location = Location(3,1);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == true);
+
+    that_location = Location(1,1);
+    REQUIRE(this_location.is_adjacent(that_location, diagonal) == true);
+    REQUIRE(diagonal == true);
+}
+
+

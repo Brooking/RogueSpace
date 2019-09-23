@@ -29,6 +29,7 @@
   - [x] implement iActor
   - [x] change the executable name to roguespace.out
   - [x] tests colocated with source, single test exe
+  - [ ] /inc+/common => /interfaces
 ### Input
 #### Keyboard
   - [x] add diagonal input
@@ -127,3 +128,4 @@
     - [x] x,y -> row,cell
     - [x] remove one of the iFov testing mocks
     - [x] THEN reformat...
+  - [x] move pathfinding from visibility to actor

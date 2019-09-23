@@ -60,9 +60,9 @@ private:
     static const unsigned RunTime = 100;
     static const unsigned int DefaultSightRange = 5;
     static const unsigned int DefaultMaxStamina = 100;
-    static const unsigned int RunStaminaCost = 10;
-    static const unsigned int WalkStaminaRecovery = 5;
-    static const unsigned int RestStaminaRecovery = 10;
+    static const unsigned int RunStaminaCost = 4;
+    static const unsigned int WalkStaminaRecovery = 1;
+    static const unsigned int RestStaminaRecovery = 4;
 
 private:
     unsigned int sight_range_;
