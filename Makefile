@@ -54,7 +54,6 @@ c++warnings= \
 	-Wuninitialized \
 	-Wunknown-pragmas \
 	-Wunreachable-code \
-	-Wunsafe-loop-optimizations \
 	-Wunused-function \
 	-Wunused-label \
 	-Wunused-parameter \
@@ -68,7 +67,8 @@ c++warnings= \
 #	-Waggregate-return	because I like treating Locations as a value type
 #	-Wmissing			braces misidentifies 2 sets of missing braces
 #	-Wpadded			no need to pad out my structures
-#	-ansi				replacement for -std=c++11, messes up enum::value formatting 
+#	-ansi				replacement for -std=c++11, messes up enum::value formatting
+#	-Wunsafe-loop-optimizations	(won't build on osx)
 
 c++compile=g++
 c++standard=-std=c++11
