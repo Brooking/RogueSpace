@@ -2,10 +2,12 @@
 #define _wall_h_
 
 #include <array>
+#include <bitset>
 #include <stdexcept>
 #include "thing_base.h"
 #include "tile.h"
 #include "floor.h"
+#include "safe_math.h"
 #include "uitoken.h"
 
 //
@@ -72,22 +74,20 @@ public:
         {
             return UIToken(WallType::pillar);
         }
-        int floor_row = tile->where().row();
-        int floor_cell = tile->where().cell();
+        unsigned int floor_row = tile->where().row();
+        unsigned int floor_cell = tile->where().cell();
 
         std::bitset<8> adjacency;
         for (unsigned int i = 0; i < AdjacencyDelta.size(); i++)
         {
             std::shared_ptr<Tile> adjacent_tile = floor->tile(
-                Location(
-                    floor_row + AdjacencyDelta[i].first, 
-                    floor_cell + AdjacencyDelta[i].second));
+                Location( SafeMath::Add(floor_row, AdjacencyDelta[i].first), SafeMath::Add(floor_cell, AdjacencyDelta[i].second)));
             if (adjacent_tile != nullptr)
             {
                 adjacency[i] = (adjacent_tile->is_wall());
             }
         }
-        WallType wall_type = AdjacentWallList[static_cast<int>(adjacency.to_ulong())];
+        WallType wall_type = AdjacentWallList[adjacency.to_ulong()];
 
         return UIToken(
             wall_type, 

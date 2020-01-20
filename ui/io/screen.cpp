@@ -26,7 +26,6 @@ io::Screen::Screen(std::shared_ptr<iCurses> curses) :
     curses_(curses), 
     width_(0), 
     height_(0), 
-    color_pair_index_(0), 
     color_pairs_(), 
     next_color_pair_index_(1)
 {
@@ -70,7 +69,7 @@ io::Screen::~Screen()
 
 void io::Screen::add(const char* Message, io::Color foreground, io::Color background)
 {
-    unsigned int color_pair_index = this->get_colorpair_index(foreground, background);
+    int color_pair_index = this->get_colorpair_index(foreground, background);
     curses_->attron_m(COLOR_PAIR(color_pair_index));
     add(Message);
     curses_->attroff_m(COLOR_PAIR(color_pair_index));
@@ -105,25 +104,25 @@ std::shared_ptr<iWindow> io::Screen::create_window(
         num_cells);
 }                        
 
-unsigned int io::Screen::get_key_input()
+int io::Screen::get_key_input()
 {
     return this->curses_->getch_m();
 }
 
-unsigned int io::Screen::get_color_character(
+int io::Screen::get_color_character(
     unsigned int character, 
     io::Color foreground, 
     io::Color background)
 {
-    unsigned int colorpair_index = this->get_colorpair_index(foreground, background);
-    return character | static_cast<unsigned int>(COLOR_PAIR(colorpair_index));
+    int colorpair_index = this->get_colorpair_index(foreground, background);
+    return static_cast<int>(character) | static_cast<int>(COLOR_PAIR(colorpair_index));
 }
 
 
-unsigned int io::Screen::get_colorpair_index(io::Color foreground, io::Color background)
+int io::Screen::get_colorpair_index(io::Color foreground, io::Color background)
 {
     assert(background >= io::Color::BLACK && background <= io::Color::WHITE);
-    unsigned int color_pair_index = 0;
+    int color_pair_index = 0;
     std::pair<io::Color,io::Color> color_pair(foreground, background);
     if (this->color_pairs_.count(color_pair) == 0)
     {

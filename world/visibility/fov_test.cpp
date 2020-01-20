@@ -18,7 +18,7 @@ public:
     {
         this->grid_[row][cell] = distance;
     }
-    unsigned int get_fov(unsigned int row, unsigned int cell)
+    unsigned int get_fov(unsigned int row, unsigned int cell) override
     {
         return this->grid_[row][cell];
     }

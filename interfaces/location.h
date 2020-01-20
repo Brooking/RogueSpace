@@ -2,7 +2,6 @@
 #define _location_h_
 
 #include <vector>
-#include <bits/stdc++.h>
 #include "direction.h"
 
 class Location

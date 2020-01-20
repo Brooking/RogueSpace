@@ -52,7 +52,7 @@ public:
     void refill() override;
 
     // iPane: time to implement all of the updates (normally called from the game)
-    void refresh();
+    void refresh() override;
 
 private:
     // update a given spot in the window

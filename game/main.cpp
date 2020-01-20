@@ -29,7 +29,7 @@ int main()
     GameType game_type = GameType::none;
     do
     {
-        unsigned int key = screen->get_key_input();
+        int key = screen->get_key_input();
         switch(key)
         {
             case '1':

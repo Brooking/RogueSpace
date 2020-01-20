@@ -75,7 +75,7 @@ std::shared_ptr<Floor> Generator::make_test(
 
     std::shared_ptr<Wall> wall;
     // put a wall with a door through the center
-    int wall_cell = hero->where().cell()+1;
+    unsigned int wall_cell = hero->where().cell()+1;
     for (unsigned int row = 1; row < hero->where().row(); row++)
     {
         wall = std::make_shared<Wall>();
@@ -108,7 +108,7 @@ std::shared_ptr<Floor> Generator::make_test(
         }
 
         // thick
-        int cell = floor->width()/2 + row;
+        unsigned int cell = floor->width()/2 + row;
         tile = floor->tile(Location(row, cell));
         if (tile->num_things() == 0)
         {
@@ -168,31 +168,31 @@ std::shared_ptr<Floor> Generator::make_full(
     wall_border(floor);
 
     // make a hall
-    int north_wall_row = starting_spot.row() - 2;
-    int south_wall_row = starting_spot.row() + 2;
+    unsigned int north_wall_row = starting_spot.row() - 2;
+    unsigned int south_wall_row = starting_spot.row() + 2;
     make_wall(floor, Location(north_wall_row, 0), Location(north_wall_row, floor->width()-1));
     make_wall(floor, Location(south_wall_row, 0), Location(south_wall_row, floor->width()-1));
 
     // make north rooms
-    static int min_room_width = 8;
-    static int room_width_vary = 4;
-    std::vector<int> north_walls_cells(1,0);
+    static unsigned int min_room_width = 8;
+    static unsigned int room_width_vary = 4;
+    std::vector<unsigned int> north_walls_cells(1,0);
     srand(1);
-    unsigned int wall_cell = min_room_width + (rand() % room_width_vary);
+    unsigned int wall_cell = min_room_width + (static_cast<unsigned int>(rand()) % room_width_vary);
     while (wall_cell < floor->width() - (min_room_width-1)) {
         north_walls_cells.push_back(wall_cell);
-        wall_cell += min_room_width + (rand() % room_width_vary);
+        wall_cell += min_room_width + (static_cast<unsigned int>(rand()) % room_width_vary);
     }
     north_walls_cells.push_back(floor->width()-1);
 
-    for (int i = 1; i < static_cast<int>(north_walls_cells.size()); i++) {
+    for (size_t i = 1; i < north_walls_cells.size(); i++) {
         make_wall(floor, 
                   Location(0, north_walls_cells[i]), 
                   Location(north_wall_row-1, north_walls_cells[i]));
 
         // make door
-        int door_cell = (north_walls_cells[i] - north_walls_cells[i-1])/2 + 
-                        north_walls_cells[i-1];
+        unsigned int door_cell = (north_walls_cells[i] - north_walls_cells[i-1])/2 + 
+                                  north_walls_cells[i-1];
         std::shared_ptr<Tile> tile = floor->tile(Location(north_wall_row,door_cell));
         std::shared_ptr<iThing> placed_wall = tile->thing(0);
         assert(placed_wall->content_size() == ContentSize::full);
@@ -202,8 +202,8 @@ std::shared_ptr<Floor> Generator::make_full(
     // add some stuff...
     // add 7 lights
     for (int i = 0; i < 7; i++) {
-        int light_row = rand() % north_wall_row;
-        int light_cell = rand() % floor->width();
+        unsigned int light_row = static_cast<unsigned int>(rand()) % north_wall_row;
+        unsigned int light_cell = static_cast<unsigned int>(rand()) % floor->width();
         if (floor->tile(Location(light_row, light_cell))->how_full() != ContentSize::full) 
         {
             floor->add_light(light_row, light_cell, 20);
@@ -215,21 +215,21 @@ std::shared_ptr<Floor> Generator::make_full(
     }
 
     std::shared_ptr<Rat> rat = std::make_shared<Rat>();
-    int rat_row;
-    int rat_cell;
+    unsigned int rat_row;
+    unsigned int rat_cell;
     do {
-        rat_row = rand() % north_wall_row;
-        rat_cell = rand() % floor->width();
+        rat_row = static_cast<unsigned int>(rand()) % north_wall_row;
+        rat_cell = static_cast<unsigned int>(rand()) % floor->width();
     } while(floor->tile(Location(rat_row, rat_cell))->how_full() == ContentSize::full);
     rat->place(floor->tile(Location(rat_row, rat_cell)));
     actors.push_back(rat);
 
     std::shared_ptr<Bee> bee = std::make_shared<Bee>();
-    int bee_row;
-    int bee_cell;
+    unsigned int bee_row;
+    unsigned int bee_cell;
     do {
-        bee_row = rand() % north_wall_row;
-        bee_cell = rand() % floor->width();
+        bee_row = static_cast<unsigned int>(rand()) % north_wall_row;
+        bee_cell = static_cast<unsigned int>(rand()) % floor->width();
     } while(floor->tile(Location(bee_row, bee_cell))->how_full() == ContentSize::full);
     bee->place(floor->tile(Location(bee_row, bee_cell)));
     actors.push_back(bee);

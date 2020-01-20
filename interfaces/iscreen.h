@@ -35,11 +35,11 @@ public:
         unsigned int num_cells) = 0;
 
     // wait for a character
-    virtual unsigned int get_key_input() = 0;
+    virtual int get_key_input() = 0;
 
     // get a colored character
     // (because the screen is where we cache color pairs)
-    virtual unsigned int get_color_character(
+    virtual int get_color_character(
         unsigned int character,
         io::Color foreground,
         io::Color background) = 0;

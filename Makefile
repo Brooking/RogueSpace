@@ -77,6 +77,8 @@ c++debug=-ggdb3 -O0
 c++profiling=-g -pg -fprofile-arcs -ftest-coverage
 c++command=$(c++compile) $(c++standard) $(c++debug) $(c++warnings)
 
+c++library=ar crs
+
 # directories (for compiling and linking)
 common_include_dirs=\
 	-I$(CURDIR)/interfaces
@@ -108,6 +110,7 @@ common_includes= \
 	interfaces/iupdate.h \
 	interfaces/iwindow.h \
 	interfaces/location.h \
+	interfaces/safe_math.h \
 	interfaces/uitoken.h
 game_includes =\
 	game/game_type.h \
@@ -209,7 +212,7 @@ tests.out : \
 lib/libinterfaces.a : \
 		obj/location.o \
 		obj/uitoken.o
-	ar crf lib/libinterfaces.a \
+	$(c++library) lib/libinterfaces.a \
 		obj/location.o \
 		obj/uitoken.o
 
@@ -217,7 +220,7 @@ lib/libgame.a : \
 		obj/game.o \
 		obj/generator.o \
 		obj/timeline.o
-	ar crf lib/libgame.a \
+	$(c++library) lib/libgame.a \
 		obj/game.o \
 		obj/generator.o \
 		obj/timeline.o
@@ -232,7 +235,7 @@ lib/libui.a : \
 		obj/statuspane.o \
 		obj/viewport.o \
 		obj/window.o
-	ar crf lib/libui.a \
+	$(c++library) lib/libui.a \
 		obj/blank_pane.o \
 		obj/icon.o \
 		obj/mosaic.o \
@@ -254,7 +257,7 @@ lib/libworld.a : \
 		obj/pathfinder.o \
 		obj/thing_base.o \
 		obj/tile.o
-	ar crf lib/libworld.a \
+	$(c++library) lib/libworld.a \
 		obj/actor_base.o \
 		obj/dijkstra.o \
 		obj/floor.o \

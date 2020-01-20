@@ -79,12 +79,12 @@ int Game::play()
     return 0;
 }
 
-int Game::hero_move(bool& quit)
+unsigned int Game::hero_move(bool& quit)
 {
     // get and decode input
     for(;;)
     {
-        unsigned int key = this->mosaic_->screen()->get_key_input();
+        int key = this->mosaic_->screen()->get_key_input();
         if (KeyToDirection.count(key) > 0)
         {
             Direction direction = KeyToDirection[key];

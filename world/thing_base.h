@@ -23,7 +23,7 @@ public:
     virtual ~ThingBase() = default;
 
     // iThing: The tile that this thing is on
-    virtual std::shared_ptr<Tile> tile() const { return this->tile_.lock(); }
+    virtual std::shared_ptr<Tile> tile() const override { return this->tile_.lock(); }
 
     // iThing: Get the lightweight token type
     virtual TokenType token_type() const override { return this->token_type_; }

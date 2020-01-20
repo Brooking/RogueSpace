@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include "blank_pane.h"
 #include "mosaic.h"
 #include "rect.h"

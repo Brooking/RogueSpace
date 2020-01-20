@@ -99,7 +99,7 @@ Location Floor::choose_random(std::vector<Location> locations, std::shared_ptr<i
 {
     while (locations.size() > 0)
     {
-        unsigned int index = static_cast<unsigned int>(rand() % locations.size());
+        unsigned int index = static_cast<unsigned int>(rand()) % locations.size();
         if (this->tile(locations[index])->there_is_room(thing))
         {
             // we can move here

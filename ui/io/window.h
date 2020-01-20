@@ -56,8 +56,6 @@ private:
 
 private:
     std::shared_ptr<iScreen> screen_;
-    unsigned int screen_row_;
-    unsigned int screen_cell_;
     unsigned int height_;
     unsigned int width_;
     void* curses_window_;

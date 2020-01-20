@@ -2,6 +2,7 @@
 #include "dijkstra.h"
 #include "floor.h"
 #include "ifloor.h"
+#include "safe_math.h"
 
 unsigned int ActorBase::move(Location destination)
 {
@@ -40,8 +41,8 @@ Location ActorBase::next_step(const std::shared_ptr<std::vector<std::vector<unsi
 
     for (unsigned int i = 0; i < 8; i++)
     {
-        unsigned int row = here.row() + Dijkstra::Neighbors[i].first;
-        unsigned int cell = here.cell() + Dijkstra::Neighbors[i].second;
+        unsigned int row = SafeMath::Add(here.row(), Dijkstra::Neighbors[i].first);
+        unsigned int cell = SafeMath::Add(here.cell(), Dijkstra::Neighbors[i].second);
         if (row >= static_cast<unsigned int>((*map).size()) || 
             cell >= static_cast<unsigned int>((*map)[0].size()))
         {

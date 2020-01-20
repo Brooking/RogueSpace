@@ -1,6 +1,7 @@
 #include <cmath> // for sqrt
 #include <vector>
 #include "location.h"
+#include "safe_math.h"
 
 
 Location Location::apply_direction(Direction direction) const
@@ -36,7 +37,8 @@ std::vector<Location> Location::all_adjacent_locations() const
     {
         for (int delta_cell = -1; delta_cell <= 1; delta_cell++)
         {
-            result.push_back(Location(this->row()+delta_row, this->cell()+delta_cell));
+            result.push_back(
+                Location(SafeMath::Add(this->row(), delta_row), SafeMath::Add(this->cell(), delta_cell)));
         }
     }
 
@@ -45,8 +47,8 @@ std::vector<Location> Location::all_adjacent_locations() const
 
 unsigned int Location::distance(Location that) const
 {
-    int delta_y = this->row() - that.row();
-    int delta_x = this->cell() - that.cell();
+    int delta_y = static_cast<int>(this->row()) - static_cast<int>(that.row());
+    int delta_x = static_cast<int>(this->cell()) - static_cast<int>(that.cell());
     return static_cast<unsigned int>(sqrt(delta_y * delta_y + delta_x * delta_x));
 }
 

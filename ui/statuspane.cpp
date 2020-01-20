@@ -1,4 +1,6 @@
 #include "statuspane.h"
+#include <string>
+
 StatusPane::StatusPane(
     std::shared_ptr<iScreen> screen, 
     std::weak_ptr<Hero> hero,
@@ -81,7 +83,7 @@ bool StatusPane::update()
         this->window_->place_string(
             run_row,
             StatusPane::HealthCell,
-            "run ",
+            std::string("run "),
             StatusPane::PaneForeground,
             StatusPane::PaneBackground);
     }
@@ -90,7 +92,7 @@ bool StatusPane::update()
         this->window_->place_string(
             run_row,
             StatusPane::HealthCell,
-            "walk",
+            std::string("walk"),
             StatusPane::PaneForeground,
             StatusPane::PaneBackground);
     }

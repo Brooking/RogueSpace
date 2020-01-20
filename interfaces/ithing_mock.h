@@ -18,7 +18,7 @@ public:
 
     // iThing
     virtual TokenType token_type() const override {return this->token_type_; }
-    virtual UIToken token() const 
+    virtual UIToken token() const override
     {
         if (this->token_type_ == TokenType::wall)
         {
@@ -26,12 +26,12 @@ public:
         }
         return UIToken(this->token_type_,true,true,false); 
     }
-    virtual std::shared_ptr<Tile> tile() const { return this->tile_; }
-    virtual ContentSize content_size() const { return this->content_size_; }
-    virtual bool is_center() const { return this->center_; }
+    virtual std::shared_ptr<Tile> tile() const override { return this->tile_; }
+    virtual ContentSize content_size() const override { return this->content_size_; }
+    virtual bool is_center() const override { return this->center_; }
     virtual unsigned int move() { return this->move_time_; }
-    virtual bool place(std::shared_ptr<Tile> tile) { this->tile_ = tile; return true; }
-    virtual bool remove() { this->tile_ = nullptr; return true; }
+    virtual bool place(std::shared_ptr<Tile> tile) override { this->tile_ = tile; return true; }
+    virtual bool remove() override { this->tile_ = nullptr; return true; }
 
 private:
     TokenType token_type_;

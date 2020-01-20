@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <bitset>
 #include "icon.h"
+#include "safe_math.h"
 #include "viewport.h"
 
 Viewport::Viewport(
@@ -27,8 +28,9 @@ Viewport::Viewport(
 
 bool Viewport::update_center(unsigned int center_row, unsigned int center_cell, bool update)
 {
-    int corner_row = center_row - this->height_/2;
-    int corner_cell = center_cell - this->width_/2;
+    // note: rows and cells here are signed, just for local convenience
+    int corner_row = static_cast<int>(center_row - this->height_/2);
+    int corner_cell = static_cast<int>(center_cell - this->width_/2);
     bool center_moved = corner_row != this->window_origin_row_offset_from_floor_ ||
                         corner_cell != this->window_origin_cell_offset_from_floor_;
     this->window_origin_row_offset_from_floor_ = corner_row;
@@ -56,16 +58,17 @@ bool Viewport::update(unsigned int row, unsigned int cell, bool center)
         this->update_center(row, cell, true);
     }
 
-    return this->update_worker(row - this->window_origin_row_offset_from_floor_, 
-                        cell - this->window_origin_cell_offset_from_floor_);
+    return this->update_worker(
+        SafeMath::Subtract(row, this->window_origin_row_offset_from_floor_), 
+        SafeMath::Subtract(cell, this->window_origin_cell_offset_from_floor_));
 }
 
 // this is an internal update
 // row and cell are in window coordinates
 bool Viewport::update_worker(unsigned int row, unsigned int cell)
 {
-    unsigned int floor_row = row + this->window_origin_row_offset_from_floor_;
-    unsigned int floor_cell = cell + this->window_origin_cell_offset_from_floor_;
+    unsigned int floor_row = SafeMath::Add(row, this->window_origin_row_offset_from_floor_);
+    unsigned int floor_cell = SafeMath::Add(cell, this->window_origin_cell_offset_from_floor_);
 
     UIToken token = this->floor_->token(floor_row, floor_cell);
     Icon icon(token);

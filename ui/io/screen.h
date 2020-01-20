@@ -46,10 +46,10 @@ public:
         unsigned int num_cells) override;
 
     // iScreen: wait for a character
-    unsigned int get_key_input() override;
+    int get_key_input() override;
 
     // iScreen: get a colored character
-    unsigned int get_color_character(
+    int get_color_character(
         unsigned int character,
         io::Color foreground,
         io::Color background) override;
@@ -62,7 +62,7 @@ private:
     Screen(std::shared_ptr<iCurses> curses);
 
     // fetch and cache a color pair index for these colors
-    unsigned int get_colorpair_index(io::Color foreground, io::Color background);
+    int get_colorpair_index(io::Color foreground, io::Color background);
 
     Screen() = delete;
     Screen(const Screen&) = delete;
@@ -76,7 +76,6 @@ private:
     std::shared_ptr<iCurses> curses_;
     unsigned int width_;
     unsigned int height_;
-    unsigned int color_pair_index_;
 
     // index is pair<foreground,background>, value is index
     std::map<std::pair<io::Color,io::Color>,int> color_pairs_;

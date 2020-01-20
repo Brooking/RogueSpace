@@ -29,3 +29,13 @@ An experiment in detaching world structure from UI represenation
             * keyboard
     * game
         * this is the engine that drives things forward
+
+* Integral Types
+    * unsigned int
+        * row/cell
+        * sizes
+        * indices
+        * time
+    * (signed) int
+        * input keys
+        * color character

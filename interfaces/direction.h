@@ -18,16 +18,16 @@ enum class Direction
 };
 
 // maps key inputs into useful directions
-static std::map<unsigned int,Direction> KeyToDirection
+static std::map<int,Direction> KeyToDirection
 {
-    {static_cast<unsigned int>(io::Key::UP), Direction::North},
-    {static_cast<unsigned int>(io::Key::UP_RIGHT), Direction::NorthEast},
-    {static_cast<unsigned int>(io::Key::RIGHT), Direction::East},
-    {static_cast<unsigned int>(io::Key::DOWN_RIGHT), Direction::SouthEast},
-    {static_cast<unsigned int>(io::Key::DOWN), Direction::South},
-    {static_cast<unsigned int>(io::Key::DOWN_LEFT), Direction::SouthWest},
-    {static_cast<unsigned int>(io::Key::LEFT), Direction::West},
-    {static_cast<unsigned int>(io::Key::UP_LEFT), Direction::NorthWest},
+    {static_cast<int>(io::Key::UP), Direction::North},
+    {static_cast<int>(io::Key::UP_RIGHT), Direction::NorthEast},
+    {static_cast<int>(io::Key::RIGHT), Direction::East},
+    {static_cast<int>(io::Key::DOWN_RIGHT), Direction::SouthEast},
+    {static_cast<int>(io::Key::DOWN), Direction::South},
+    {static_cast<int>(io::Key::DOWN_LEFT), Direction::SouthWest},
+    {static_cast<int>(io::Key::LEFT), Direction::West},
+    {static_cast<int>(io::Key::UP_LEFT), Direction::NorthWest},
 };
 
 #endif // _direction_h_

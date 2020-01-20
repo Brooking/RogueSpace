@@ -1,6 +1,7 @@
 #include <queue>
 #include "dijkstra.h"
 #include "pathfinder.h"
+#include "safe_math.h"
 
 std::vector<Location> Pathfinder::find_path(Location from, Location to)
 {
@@ -43,8 +44,8 @@ void Pathfinder::walk_back(
         // check each of the neighbors for the next step
         for (unsigned int i = 0; i < 8; i++)
         {
-            unsigned int row = location.row() + Dijkstra::Neighbors[i].first;
-            unsigned int cell = location.cell() + Dijkstra::Neighbors[i].second;
+            unsigned int row = SafeMath::Add(location.row(), Dijkstra::Neighbors[i].first);
+            unsigned int cell = SafeMath::Add(location.cell(), Dijkstra::Neighbors[i].second);
             if (row >= static_cast<unsigned int>(distance.size()) || 
                 cell >= static_cast<unsigned int>(distance[0].size()))
             {
@@ -75,12 +76,13 @@ void Pathfinder::walk_back(
             []( Location a,  Location b) { return a < b; }
         );
 
-        for (unsigned int i = 0; i < next_locations.size(); i++)
-        {
-            // todo: this is where we check to see if the monster can move here
-            location = next_locations[i];
-            break;
-        }
+        // for (unsigned int i = 0; i < next_locations.size(); i++)
+        // {
+        //     // todo: this is where we check to see if the monster can move here
+        //     location = next_locations[0];
+        //     break;
+        // }
+        location = next_locations[0];
         result.push_back(location);
         current_distance = distance[location.row()][location.cell()];
     }

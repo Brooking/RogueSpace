@@ -75,7 +75,7 @@ bool Tile::remove(std::shared_ptr<iThing> thing)
         if (this->things_[i] == thing) 
         {
             thing_found = true;
-            this->things_.erase(this->things_.begin()+i);
+            this->things_.erase(this->things_.begin()+(long)i);
             this->fullness_ = this->calculate_fullness();
             if (!this->floor_.expired())
             {

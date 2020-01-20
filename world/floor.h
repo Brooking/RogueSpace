@@ -38,7 +38,7 @@ public:
     virtual bool is_opaque(unsigned int row, unsigned int cell) const override;
 
     // iWallMap: we don't
-    virtual void set_opaque(uint, uint, bool) override
+    virtual void set_opaque(unsigned int, unsigned int, bool) override
     {
         throw std::invalid_argument("dont artificially make a wall...");
     }
@@ -77,7 +77,7 @@ private:
         {
             this->floor_->tile(Location(row,cell))->set_is_lit(true);
         }
-        unsigned int get_fov(unsigned int row, unsigned int cell)
+        unsigned int get_fov(unsigned int row, unsigned int cell) override
         {
             return this->floor_->tile(Location(row,cell))->is_lit();
         };

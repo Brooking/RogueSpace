@@ -20,6 +20,12 @@ public:
     {}
     virtual ~ActorBase() = default;
 
+    // iActor: null move (most actors ignore this)
+    virtual unsigned int move() override
+    {
+        throw std::invalid_argument("This type of actor can not be told not to move");
+    }
+
     // iActor: directed move (most actors ignore this)
     virtual unsigned int move(Direction) override
     {

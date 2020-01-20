@@ -1,5 +1,4 @@
 #include <iostream>
-#include <bits/stdc++.h>
 #include "catch.hpp"
 #include "../game/timeline.h"
 #include "iactor_mock.h"

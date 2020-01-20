@@ -4,18 +4,18 @@
 // From RogueBasin...
 std::vector<Location> Los::bresenham_los(
     unsigned int start_row,
-    unsigned  int start_cell,
+    unsigned int start_cell,
     unsigned int end_row,
     unsigned int end_cell)
 {
     std::vector<Location> result;
 
-    int delta_cell(end_cell - start_cell);
+    int delta_cell(static_cast<int>(end_cell - start_cell));
     // if start_cell == end_cell, then it does not matter what we set here
     signed char const i_cell(static_cast<signed char>((delta_cell > 0) - (delta_cell < 0)));
     delta_cell = std::abs(delta_cell) << 1;
 
-    int delta_row(end_row - start_row);
+    int delta_row(static_cast<int>(end_row - start_row));
     // if start_row == end_row, then it does not matter what we set here
     signed char const i_row(static_cast<signed char>((delta_row > 0) - (delta_row < 0)));
     delta_row = std::abs(delta_row) << 1;
@@ -34,12 +34,12 @@ std::vector<Location> Los::bresenham_los(
             if ((error > 0) || (!error && (i_cell > 0)))
             {
                 error -= delta_cell;
-                start_row += i_row;
+                start_row += static_cast<unsigned int>(i_row);
             }
             // else do nothing
 
             error += delta_row;
-            start_cell += i_cell;
+            start_cell += static_cast<unsigned int>(i_cell);
 
             result.push_back(Location(start_row, start_cell));
         }
@@ -55,12 +55,12 @@ std::vector<Location> Los::bresenham_los(
             if ((error > 0) || (!error && (i_row > 0)))
             {
                 error -= delta_row;
-                start_cell += i_cell;
+                start_cell += static_cast<unsigned int>(i_cell);
             }
             // else do nothing
 
             error += delta_cell;
-            start_row += i_row;
+            start_row += static_cast<unsigned int>(i_row);
 
             result.push_back(Location(start_row, start_cell));
         }

@@ -25,7 +25,7 @@ public:
 
 private:
     // ask the player about the hero's next move
-    int hero_move(bool& quit);
+    unsigned int hero_move(bool& quit);
 
 private:
     std::shared_ptr<iFloor> floor_;

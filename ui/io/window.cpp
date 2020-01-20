@@ -6,14 +6,14 @@ io::Window::Window(
     unsigned int screen_cell, 
     unsigned int num_rows, 
     unsigned int num_cells) :
-    screen_(screen), screen_row_(screen_row), screen_cell_(screen_cell), 
+    screen_(screen),
     height_(num_rows), width_(num_cells), curses_window_(nullptr)
 {
     this->curses_window_ = this->screen_->curses()->newwin(
-        num_rows,
-        num_cells,
-        screen_row,
-        screen_cell);
+        static_cast<int>(num_rows),
+        static_cast<int>(num_cells),
+        static_cast<int>(screen_row),
+        static_cast<int>(screen_cell));
 }
 
 io::Window::~Window()
@@ -29,11 +29,15 @@ void io::Window::place_character(
     io::Color foreground,
     io::Color background)
 {
-    unsigned int colored_character = this->screen_->get_color_character(
+    int colored_character = this->screen_->get_color_character(
         character, 
         foreground, 
         background);
-    this->screen_->curses()->mvwaddch_m(this->curses_window_, row, cell, colored_character);
+    this->screen_->curses()->mvwaddch_m(
+        this->curses_window_, 
+        static_cast<int>(row), 
+        static_cast<int>(cell), 
+        static_cast<unsigned long>(colored_character));
 }
 
 void io::Window::place_string(
@@ -45,7 +49,7 @@ void io::Window::place_string(
 {
     for (unsigned int i = 0; i < string.size(); i++)
     {
-        this->place_character(row, cell+i, string[i], foreground, background);
+        this->place_character(row, cell+i, static_cast<unsigned int>(string[i]), foreground, background);
     }
 }
 
